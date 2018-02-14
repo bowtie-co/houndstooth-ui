@@ -15,10 +15,10 @@ const loadingConditionFn = (props) => props.isLoading;
 
 
 export default compose(
-	withRouter,
-	withMaybe(nullConditionFn),
-	withEither(loadingConditionFn, Loading),
-	withHandlers({
-		mapFeatures: ({ featureList }) => () => featureList.map((feature, i) => <li className='list-item' key={`feature-${i}`}>{feature}</li>),
-	}),
+  withRouter,
+  withMaybe(nullConditionFn),
+  withEither(loadingConditionFn, Loading),
+  withHandlers({
+    mapFeatures: ({ featureList }) => () => featureList.map((feature, i) => <li className='list-item' key={`feature-${i}`}>{feature}</li>),
+  }),
 )(App);

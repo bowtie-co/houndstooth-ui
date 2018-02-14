@@ -9,9 +9,9 @@ import AppContainer from './Components/App/AppContainer';
 import registerServiceWorker from './registerServiceWorker';
 
 const routes = (
-	<BrowserRouter>
-		<Routes />
-	</BrowserRouter>
+  <BrowserRouter>
+    <Routes />
+  </BrowserRouter>
 )
 
 ReactDOM.render(routes, document.getElementById('root'));

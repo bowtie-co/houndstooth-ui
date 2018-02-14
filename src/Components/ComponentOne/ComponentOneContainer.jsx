@@ -16,7 +16,7 @@ const nullConditionFn = (props) => !props;
 const loadingConditionFn = (props) => props.isLoading;
 
 export default compose(
-	withRouter,
-	withMaybe(nullConditionFn),
-	withEither(loadingConditionFn, Loading),
+  withRouter,
+  withMaybe(nullConditionFn),
+  withEither(loadingConditionFn, Loading),
 )(ComponentOne);

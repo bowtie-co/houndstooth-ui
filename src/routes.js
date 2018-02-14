@@ -6,26 +6,26 @@ import { Route } from 'react-router-dom';
 //  This is an example of how to pass through props into a component.
 //  Once building a new React App, delete this array.
 const featureList = [
-	'react router',
-	'recompose',
-	'css modules',
-	'scss loaders',
-	'Bowtie React utilities',
-	'Bowtie Api helper',
-	'Bowtie React file structure',
-	'jest-enzyme library',
+  'react router',
+  'recompose',
+  'css modules',
+  'scss loaders',
+  'Bowtie React utilities',
+  'Bowtie Api helper',
+  'Bowtie React file structure',
+  'jest-enzyme library',
 ]
 
 //  Instead of rendering main component on home, render Login component and use the rest of the routes as PrivateRoutes.
 const Routes = () => {
-	return (
-		<div>
-			<Route
-				path="/"
-				render={props => <AppContainer featureList={featureList} isLoading={false} />} 
-			/>
-		</div>
-	)	
+  return (
+    <div>
+      <Route
+        path="/"
+        render={props => <AppContainer featureList={featureList} isLoading={false} />} 
+      />
+    </div>
+  )	
 }
 
 export default Routes
