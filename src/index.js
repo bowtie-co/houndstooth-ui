@@ -8,11 +8,6 @@ import Routes from './routes';
 import AppContainer from './Components/App/AppContainer';
 import registerServiceWorker from './registerServiceWorker';
 
-const routes = (
-  <BrowserRouter>
-    <Routes />
-  </BrowserRouter>
-)
 
-ReactDOM.render(routes, document.getElementById('root'));
+ReactDOM.render(<Routes />, document.getElementById('root'));
 registerServiceWorker();

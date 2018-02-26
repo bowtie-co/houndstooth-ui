@@ -13,12 +13,12 @@ import Loading from '../Loading/Loading';
 const nullConditionFn = (props) => !props;
 const loadingConditionFn = (props) => props.isLoading;
 
-
-export default compose(
+export const enhance = compose(
   withRouter,
   withMaybe(nullConditionFn),
   withEither(loadingConditionFn, Loading),
   withHandlers({
     mapFeatures: ({ featureList }) => () => featureList.map((feature, i) => <li className='list-item' key={`feature-${i}`}>{feature}</li>),
   }),
-)(App);
+)
+export default enhance(App);
