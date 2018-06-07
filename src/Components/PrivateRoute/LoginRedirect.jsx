@@ -11,7 +11,7 @@ const LoginRedirect = (props) => {
   if (!storage.get('current_user')) {
     storage.set('resumeRoute', props.location.pathname)
     redirectPage = '/login'
-  }  
+  }
   if (redirectPage === props.location.pathname) {
     redirectPage = '/dashboard'
   }

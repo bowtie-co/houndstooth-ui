@@ -8,7 +8,7 @@ import PrivateComponent from './PrivateComponent'
 import LoginRedirect from './LoginRedirect'
 import ResumeRouteRedirect from './ResumeRouteRedirect'
 import storage from '../../lib/storage'
-import api from '../../lib/api'
+// import api from '../../lib/api'
 
 /** *** conditional functions here: *****/
 
