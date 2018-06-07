@@ -3,21 +3,13 @@ import { Redirect } from 'react-router-dom'
 import storage from '../../lib/storage'
 
 const LoginRedirect = (props) => {
-  // Once a user is logged in, the redirectPage tells where to send the user.
-  // If a resumeRoute was set before user logged in, it will send them there
-  // else it will send them to the user dashbaord.
-  let redirectPage = storage.get('resumeRoute') ? storage.get('resumeRoute') : '/dashboard'
+  // If a user is not logged in, they will be sent to either /login with a resume route to send them where they came from
+  // or send them to the dashboard...
 
-  if (!storage.get('current_user')) {
-    storage.set('resumeRoute', props.location.pathname)
-    redirectPage = '/login'
-  }
-  if (redirectPage === props.location.pathname) {
-    redirectPage = '/dashboard'
-  }
+  storage.set('resumeRoute', props.location.pathname)
 
   return (
-    <Redirect to={redirectPage} />
+    <Redirect to={'/login'} />
   )
 }
 
