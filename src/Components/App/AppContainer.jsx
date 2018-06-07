@@ -6,7 +6,6 @@ import { withRouter } from 'react-router';
 import { compose, withHandlers } from 'recompose';
 import { withEither, withMaybe } from '../../helpers/HOC_helpers.jsx';
 import App from './App';
-import Api from '../Api/Api';
 import Loading from '../Loading/Loading';
 
 // conditional functions here:

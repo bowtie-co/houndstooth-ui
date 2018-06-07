@@ -165,8 +165,7 @@ module.exports = {
                 {
                   loader:'css-loader',
                   options: {
-                    modules: true,
-                    localIdentName: '[name]__[local]__[hash:base64:5]'
+                    importLoaders: 1,
                   }
                 },
                 'postcss-loader'
@@ -181,13 +180,13 @@ module.exports = {
                 {
                   loader: 'css-loader',
                   options: {
-                    modules: true,
+                    // modules: true,
                     sourceMap: true,
-                    importLoaders: 2,
-                    localIdentName: '[name]__[local]__[hash:base64:5]'
+                    importLoaders: 1,
+                    // localIdentName: '[name]__[local]__[hash:base64:5]'
                   }
                 },
-              // 'scss-loader'
+              'sass-loader'
               ]
             })
           },
