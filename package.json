@@ -30,6 +30,7 @@
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.29.0",
     "jest": "20.0.4",
+    "libphonenumber-js": "^1.2.15",
     "node-sass": "^4.7.2",
     "object-assign": "4.1.1",
     "parse-link-header": "^1.0.1",
