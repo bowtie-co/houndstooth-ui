@@ -2,15 +2,15 @@
 
 Welcome to Bowtie's React-Recompose Starter Kit. This starter kit is an ejected version of create-react-app and comes preloaded with the following libraries:
 
+```
 -react router
 -recompose
--css modules
 -scss loaders
 -Bowtie React utilities
 -Bowtie Api helper
 -Bowtie React file structure
 -jest-enzyme library
-
+```
 ## File structure
 
 The component file structure contains all components with their associated containers, tests, style modules, and jsx files. Everything relating to a specific component should be contained in it's own directory. Since this boilerplate uses recompose, the .jsx file should only contain the PureComponent with few, if any logic. The container should contain all logic and component enhancements. 

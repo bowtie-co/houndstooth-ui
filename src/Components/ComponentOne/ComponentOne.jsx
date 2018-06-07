@@ -1,6 +1,6 @@
 import React from 'react';
 // import logo from '../../logo.svg';
-import './ComponentOne.scss';
+import '../../scss/ComponentOne.scss';
 
 const ComponentOne = (props) => {
 

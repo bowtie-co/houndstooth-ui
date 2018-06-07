@@ -1,16 +1,13 @@
 import React from 'react';
 import loading from './loading.svg';
-import styles from './Loading.css'
-
-
+import '../../scss/Loading.css'
 
 const Loading = () => {
     return (
-        <div className={styles.loader}>
+        <div className='loader'>
             <img src={loading} alt="loading" />
         </div>
     );
-
 }
 
 export default Loading;

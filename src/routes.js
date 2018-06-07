@@ -9,7 +9,6 @@ import { Route, BrowserRouter } from 'react-router-dom'
 const featureList = [
   'react router',
   'recompose',
-  'css modules',
   'scss loaders',
   'Bowtie React utilities',
   'Bowtie Api helper',
