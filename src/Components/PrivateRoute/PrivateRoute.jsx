@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import React from 'react'
+import { Route, Redirect } from 'react-router-dom'
 
 // add a boolean for authenticated user
 const PrivateRoute = ({ auth, component: Component, ...rest }) => (
@@ -8,11 +8,11 @@ const PrivateRoute = ({ auth, component: Component, ...rest }) => (
       <Component {...props} />
     ) : (
       <Redirect to={{
-          pathname: '/login',
-          state: { from: props.location }
+        pathname: '/login',
+        state: { from: props.location }
       }} />
     )
   )} />
 )
 
-export default PrivateRoute;
+export default PrivateRoute

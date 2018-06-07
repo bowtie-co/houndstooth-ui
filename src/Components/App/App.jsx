@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import logo from '../../logo.svg';
-import '../../scss/App.scss';
+import React from 'react'
+import logo from '../../logo.svg'
+import '../../scss/App.scss'
 
 import ComponentOneContainer from '../ComponentOne/ComponentOneContainer'
 
@@ -8,7 +8,7 @@ const App = ({ mapFeatures, match, location, history }) => {
   return (
     <div className='app'>
       <header className='header'>
-        <img src={logo} className='logo' alt="logo" />
+        <img src={logo} className='logo' alt='logo' />
         <h1 className='title'>Welcome to Bowtie's React-Recompose Starter Kit</h1>
       </header>
       <p className='intro'>
@@ -17,9 +17,9 @@ const App = ({ mapFeatures, match, location, history }) => {
       <ul className='list'>
         { mapFeatures() }
       </ul>
-        <ComponentOneContainer />
+      <ComponentOneContainer />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

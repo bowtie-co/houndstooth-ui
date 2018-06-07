@@ -1,10 +1,10 @@
-import 'jest-enzyme';
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import 'jest-enzyme'
+import { configure } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 
-configure({ adapter: new Adapter() });
+configure({ adapter: new Adapter() })
 
-function storageMock() {
+function storageMock () {
   var storage = {}
 
   return {
@@ -17,7 +17,7 @@ function storageMock() {
     removeItem: function (key) {
       delete storage[key]
     },
-    get length() {
+    get length () {
       return Object.keys(storage).length
     },
     key: function (i) {

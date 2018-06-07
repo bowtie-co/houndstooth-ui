@@ -1,16 +1,14 @@
 
 /* eslint-env mocha */
-/* global expect sessionStorage */
-
-import React from 'react';
-import { MemoryRouter as Router } from 'react-router';
-import { mount, shallow } from 'enzyme';
+/* global expect */
+import React from 'react'
+import { MemoryRouter as Router } from 'react-router'
+import { mount } from 'enzyme'
 // import ReactDOM from 'react-dom';
 
-import AppContainer from './AppContainer';
-import ComponentOneContainer from '../ComponentOne/ComponentOneContainer';
-import Loading from '../Loading/Loading';
-
+import AppContainer from './AppContainer'
+import ComponentOneContainer from '../ComponentOne/ComponentOneContainer'
+import Loading from '../Loading/Loading'
 
 const featureList = [
   'recompose',
@@ -22,7 +20,6 @@ const featureList = [
 ]
 
 describe('Routes', () => {
-
   it('renders without crashing', () => {
     const wrapper = mount(
       <Router>
@@ -32,41 +29,37 @@ describe('Routes', () => {
 
     console.log(wrapper)
     expect(wrapper).toBePresent()
-  });
+  })
 
   it('App renders child components', () => {
-
     const wrapper = mount(
       <Router>
         <AppContainer featureList={featureList} />
       </Router>
     )
 
-    expect(wrapper).toContainReact(<ComponentOneContainer />);
-  });
+    expect(wrapper).toContainReact(<ComponentOneContainer />)
+  })
 
   it('App renders Loading component if isLoading is true', () => {
-
     const wrapper = mount(
       <Router>
-        <AppContainer featureList={featureList} isLoading={true} />
+        <AppContainer featureList={featureList} isLoading />
       </Router>
     )
-    console.log(wrapper);
-    
-    expect(wrapper.find(Loading)).toBePresent();
-  });
+    console.log(wrapper)
+
+    expect(wrapper.find(Loading)).toBePresent()
+  })
 
   it('App does not render Loading component if isLoading is false', () => {
-
     const wrapper = mount(
       <Router>
         <AppContainer featureList={featureList} isLoading={false} />
       </Router>
     )
-    console.log(wrapper);
-    
-    expect(wrapper.find(Loading)).toBeEmpty();
-  });
+    console.log(wrapper)
 
+    expect(wrapper.find(Loading)).toBeEmpty()
+  })
 })
