@@ -7,7 +7,7 @@ import RestrictedRedirect from './RestrictedRedirect'
 import PrivateComponent from './PrivateComponent'
 import LoginRedirect from './LoginRedirect'
 import ResumeRouteRedirect from './ResumeRouteRedirect'
-import HomepageRedirect from './HomepageRedirect'
+// import HomepageRedirect from './HomepageRedirect'
 import storage from '../../lib/storage'
 // import api from '../../lib/api'
 
@@ -25,9 +25,9 @@ const resumeRouteConditionFn = ({ currentUser, resumeRoute }) => {
 }
 
 // if storage.resumeRoute is set, user will be redirected to where they came from after login.
-const homepageConditionFn = ({ currentUser, resumeRoute }) => {
-  return currentUser && !resumeRoute
-}
+// const homepageConditionFn = ({ currentUser, resumeRoute }) => {
+//   return currentUser && !resumeRoute
+// }
 
 export const enhance = compose(
   withRouter,
@@ -47,7 +47,7 @@ export const enhance = compose(
     }
   }),
   withEither(resumeRouteConditionFn, ResumeRouteRedirect),
-  withEither(homepageConditionFn, HomepageRedirect)
+  // withEither(homepageConditionFn, HomepageRedirect)
 )
 
 export default enhance(PrivateComponent)
