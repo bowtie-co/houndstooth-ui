@@ -1,18 +1,9 @@
 import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import { Route } from 'react-router-dom'
+import PrivateComponentContainer from './PrivateComponentContainer'
 
-// add a boolean for authenticated user
-const PrivateRoute = ({ auth, component: Component, ...rest }) => (
-  <Route {...rest} render={props => (
-    auth.isAuthenticated() ? (
-      <Component {...props} />
-    ) : (
-      <Redirect to={{
-        pathname: '/login',
-        state: { from: props.location }
-      }} />
-    )
-  )} />
-)
-
-export default PrivateRoute
+export default ({ component, roles, ...rest }) => {
+  return <Route {...rest} render={(props) => {
+    return <PrivateComponentContainer component={component} roles={roles} {...props} />
+  }} />
+}
