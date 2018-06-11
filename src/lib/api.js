@@ -1,9 +1,6 @@
-/* global localStorage, sessionStorage */
-
 import Api from '@bowtie/api'
-// import parseLinkHeader from 'parse-link-header'  used for JSONApi
-
-// In order for API to work, you need to create a .env.development / test / staging / production file that defines these variables.
+import airbrake from './airbrake'
+import storage from './storage'
 
 const api = new Api({
   root: process.env.REACT_APP_API_ROOT_URL,
@@ -14,63 +11,32 @@ const api = new Api({
 })
 
 api.authorize({
-  token: () => {
-    if (localStorage.getItem('remember_me') === 'true') {
-      return localStorage.getItem('access_token')
-    } else {
-      return sessionStorage.getItem('access_token')
-    }
+  token: () => storage.get('access_token')
+})
+
+// Handler for all non 2xx code api responses
+const handleApiError = (resp) => {
+  console.warn('API Error', resp)
+
+  // Airbrake severity is warning unless response status was 5xx
+  const severity = /^5\d\d$/.test(resp.status) ? 'error' : 'warn'
+  let errorTitle = `${resp.status} ${resp.statusText}`
+
+  if (resp.data && resp.data.message && resp.data.message.trim() !== '') {
+    errorTitle = resp.data.message
   }
-})
 
-api.on('error', (resp) => {
-  console.error('API Error', resp)
-})
+  airbrake.notify({
+    error: new Error(`API ${severity}: ${errorTitle}`),
+    context: {
+      severity,
+      resp
+    }
+  })
+}
 
-// api.use((response) => {
-//     response.pages = {}
-
-//     if (response.headers.get('link')) {
-//         response.pages = Object.assign(response.pages, parseLinkHeader(response.headers.get('link')))
-//     }
-
-//     if (response.headers.get('total')) {
-//         response.pages.total = parseInt(response.headers.get('total'), 10)
-//     }
-
-//     if (response.headers.get('page')) {
-//         response.pages['page'] = parseInt(response.headers.get('page'), 10)
-//     }
-
-//     if (response.headers.get('per-page')) {
-//         response.pages['per-page'] = parseInt(response.headers.get('per-page'), 10)
-//     }
-
-//     return Promise.resolve(response)
-// })
-
-// api.on('success', (data, resp) => {
-//   if (data.message) {
-//     notifier.success(data.message)
-//   }
-// })
-
-// api.on('401', (resp) => {
-//   console.log('received 401', resp)
-
-//   notifier.error('unauthorized')
-// })
-
-// api.on('403', (resp) => {
-//   console.log('received 403', resp)
-
-//   notifier.warning('forbidden')
-// })
-
-// api.on('500', (resp) => {
-//   console.log('received 500', resp)
-
-//   notifier.error('Something Failed!')
-// })
+// Attach handlers to event emitter by string event name
+api.on('error', handleApiError)
+api.on('401', handleApiUnauthorized)
 
 export default api
