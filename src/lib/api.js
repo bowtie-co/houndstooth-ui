@@ -1,6 +1,8 @@
 import Api from '@bowtie/api'
 import airbrake from './airbrake'
 import storage from './storage'
+import notifier from './notifier'
+import parseLinkHeader from 'parse-link-header'
 
 const api = new Api({
   root: process.env.REACT_APP_API_ROOT_URL,
@@ -13,6 +15,12 @@ const api = new Api({
 api.authorize({
   token: () => storage.get('access_token')
 })
+
+const handleApiUnauthorized = (resp) => {
+  notifier.pubnub && notifier.pubnub.stop()
+  storage.clear()
+  window.location.reload()
+}
 
 // Handler for all non 2xx code api responses
 const handleApiError = (resp) => {
@@ -38,5 +46,34 @@ const handleApiError = (resp) => {
 // Attach handlers to event emitter by string event name
 api.on('error', handleApiError)
 api.on('401', handleApiUnauthorized)
+
+api.use(async (response) => {
+  try {
+    response.data = await response.json()
+  } catch (e) {
+    return Promise.resolve(response)
+  }
+
+  response.pages = {}
+
+  if (response.headers.get('link')) {
+    response.pages = Object.assign(response.pages, parseLinkHeader(response.headers.get('link')))
+  }
+
+  if (response.headers.get('total')) {
+    response.pages.total = parseInt(response.headers.get('total'), 10)
+  }
+
+  if (response.headers.get('page')) {
+    response.pages['page'] = parseInt(response.headers.get('page'), 10)
+    response.pages['page-count'] = parseInt((response.pages['last'] ? response.pages['last'].page : response.pages['page']), 10)
+  }
+
+  if (response.headers.get('per-page')) {
+    response.pages['per-page'] = parseInt(response.headers.get('per-page'), 10)
+  }
+
+  return Promise.resolve(response)
+})
 
 export default api

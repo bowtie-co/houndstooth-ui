@@ -18,10 +18,10 @@ const featureList = [
 const PublicRoutes = () => {
   return (
     <Switch>
-        <Route
-          path='/'
-          render={() => <AppContainer featureList={featureList} isLoading={false} />}
-        />
+      <Route
+        path='/'
+        render={() => <AppContainer featureList={featureList} isLoading={false} />}
+      />
     </Switch>
   )
 }

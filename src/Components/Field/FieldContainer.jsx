@@ -1,8 +1,7 @@
 // Containers should include all logic that enhances a component
 // this includes any reduce methods, recompose, or middleware.
 
-import React from 'react'
-import { compose, withProps } from 'recompose'
+import { compose } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
 import Input from './Input/Input'
 import Select from './Select/Select'
@@ -31,5 +30,5 @@ export default compose(
   withEither(timePickerCondition, TimePicker),
   withEither(multiSelectCondition, MultiSelect),
   withEither(radioCondition, Radio),
-  withEither(documentUploadCondition, DocumentContainer),
+  withEither(documentUploadCondition, DocumentContainer)
 )(Input)
