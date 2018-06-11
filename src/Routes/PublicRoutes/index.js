@@ -1,7 +1,7 @@
 // import PrivateRoute from './Components/PrivateRoute/PrivateRoute'
-import AppContainer from './Components/App/AppContainer'
+import AppContainer from '../Components/App/AppContainer'
 import React from 'react'
-import { Route, BrowserRouter } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
 //  This is an example of how to pass through props into a component.
 //  Once building a new React App, delete this array.
@@ -15,18 +15,15 @@ const featureList = [
   'jest-enzyme library'
 ]
 
-//  Instead of rendering main component on home, render Login component and use the rest of the routes as PrivateRoutes.
-const Routes = () => {
+const PublicRoutes = () => {
   return (
-    <BrowserRouter>
-      <div>
+    <Switch>
         <Route
           path='/'
-          render={props => <AppContainer featureList={featureList} isLoading={false} />}
+          render={() => <AppContainer featureList={featureList} isLoading={false} />}
         />
-      </div>
-    </BrowserRouter>
+    </Switch>
   )
 }
 
-export default Routes
+export default PublicRoutes
