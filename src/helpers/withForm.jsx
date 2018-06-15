@@ -30,6 +30,7 @@ export default compose(
       setFormData(newData)
     },
     getErrors: ({ errors }) => (key) => {
+      // Responsible for getting errors for a specific field and passing it down into FieldContainer.
       if (key) {
         return errors[key] || []
       } else {
