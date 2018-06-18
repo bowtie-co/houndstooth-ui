@@ -2,7 +2,7 @@ import React from 'react'
 import { Document, Page } from 'react-pdf/dist/entry.webpack'
 import { Card, CardText, CardBody, CardFooter, FormGroup, Button } from 'reactstrap'
 
-import Pagination from '../../Pagination/Pagination'
+import Pagination from '../../../molecules/Pagination/Pagination'
 
 const DocumentPreview = (props) => {
   const { value, onTextLoaded, handleDocumentLoad, handleTextLoaded, pageNumber, previewScale, helper, label, previewOnly, togglePreview } = props

@@ -4,9 +4,9 @@
 import React from 'react'
 import { withRouter } from 'react-router'
 import { compose, withHandlers } from 'recompose'
-import { withEither, withMaybe } from '../../helpers/HOC_helpers.jsx'
+import { withEither, withMaybe } from '@bowtie/react-utils'
 import App from './App'
-import Loading from '../Loading/Loading'
+import Loading from '../atoms/Loading/Loading'
 
 // conditional functions here:
 const nullConditionFn = (props) => !props

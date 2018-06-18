@@ -1,5 +1,4 @@
-// import PrivateRoute from './Components/PrivateRoute/PrivateRoute'
-import AppContainer from '../Components/App/AppContainer'
+import AppContainer from '../../components/App/AppContainer'
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 

@@ -5,7 +5,7 @@ import { compose, withHandlers, withState, withPropsOnChange } from 'recompose'
 import { withEither, withMaybe } from '@bowtie/react-utils'
 import DocumentPreview from './DocumentPreview'
 import DocumentUpload from './DocumentUpload'
-import notifier from '../../../lib/notifier'
+import notifier from '../../../../lib/notifier'
 
 // conditional functions here:
 const nullConditionFn = (props) => !props

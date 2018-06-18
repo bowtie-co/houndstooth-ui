@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './scss/index.scss'
-import Routes from './routes'
+import Routes from './Routes/routes'
 import registerServiceWorker from './registerServiceWorker'
 
 ReactDOM.render(<Routes />, document.getElementById('root'))

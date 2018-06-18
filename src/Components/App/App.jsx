@@ -1,19 +1,24 @@
 import React from 'react'
-import logo from '../../logo.svg'
 import '../../scss/App.scss'
-
+import { Input, Button, TimePicker } from '../atoms'
+import FieldContainer from '../atoms/Field/FieldContainer'
 import ComponentOneContainer from '../ComponentOne/ComponentOneContainer'
+import Header from '../molecules/Header/Header'
 
-const App = ({ mapFeatures, match, location, history }) => {
+
+const App = ({ mapFeatures }) => {
   return (
     <div className='app'>
-      <header className='header'>
-        <img src={logo} className='logo' alt='logo' />
-        <h1 className='title'>Welcome to Bowtie's React-Recompose Starter Kit</h1>
-      </header>
+      <Header title={'Welcome to Bowtie\'s React-Recompose Starter Kit'}/>
       <p className='intro'>
         This starter kit is preinstalled with:
       </p>
+      {/* <Input /> */}
+      <Button />
+      <TimePicker />
+      <FieldContainer 
+        type={'text'}
+      />
       <ul className='list'>
         { mapFeatures() }
       </ul>
