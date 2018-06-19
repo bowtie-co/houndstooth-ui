@@ -1,13 +1,13 @@
 import React from 'react'
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
-import { FormGroup, Label, FormText } from 'reactstrap'
+import { FormGroup } from '../../../atoms'
 
-const MultiSelect = ({ id, name, label, value, async, validate, helper, errorMessage, onChange, ...props }) => {
+const MultiSelect = ({ id, name, value, async, onChange, options, ...rest }) => {
   const SelectComponent = async ? Select.Async : Select
 
-  if (props.options && Array.isArray(props.options) && props.options.length > 0 && typeof props.options[0] !== 'object') {
-    props.options = props.options.reduce((arr, option, index) => {
+  if (options && Array.isArray(options) && options.length > 0 && typeof options[0] !== 'object') {
+    options = options.reduce((arr, option) => {
       const value = typeof option === 'object' ? (option.value || option.id) : option
       const text = typeof option === 'object' ? (option.text || option.name) : option
 
@@ -16,22 +16,16 @@ const MultiSelect = ({ id, name, label, value, async, validate, helper, errorMes
   }
 
   return (
-    <FormGroup>
-      {helper ? <p className='helpertext'>{helper}</p> : ''}
-      <Label for={id} className={`form-group has-float-label ${props.required ? 'required' : 'optional'}`}>
-        <SelectComponent
-          id={id}
-          multi
-          backspaceRemoves
-          value={value || []}
-          onChange={(value) => onChange({ target: { name, value } })}
-          {...props}
-        />
-        <span>{label}</span>
-      </Label>
-      <FormText className='error selectError'>
-        { errorMessage }
-      </FormText>
+    <FormGroup id={id} {...rest}>
+      <SelectComponent
+        id={id}
+        multi
+        backspaceRemoves
+        value={value || []}
+        onChange={(value) => onChange({ target: { name, value } })}
+        options={options}
+        {...rest}
+      />
     </FormGroup>
   )
 }

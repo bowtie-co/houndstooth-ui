@@ -46,7 +46,7 @@ export const enhance = compose(
       resumeRoute
     }
   }),
-  withEither(resumeRouteConditionFn, ResumeRouteRedirect),
+  withEither(resumeRouteConditionFn, ResumeRouteRedirect)
   // withEither(homepageConditionFn, HomepageRedirect)
 )
 

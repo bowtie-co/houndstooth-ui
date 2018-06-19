@@ -1,21 +1,11 @@
 import React from 'react'
-import { FormGroup, Label, Input, FormText } from 'reactstrap'
+import { Input } from 'reactstrap'
+import { FormGroup } from '../../../atoms'
 
-const Checkbox = ({ id, label, validate, helper, errorMessage, ...props }) => {
+const Checkbox = ({ id, ...rest }) => {
   return (
-    <FormGroup className='marLeft'>
-      {helper ? <p className='helpertext'>{helper}</p> : ''}
-      <Label check>
-        <Input
-          id={id}
-          type='checkbox'
-          {...props}
-        />
-        {label}
-      </Label>
-      <FormText>
-        {errorMessage}
-      </FormText>
+    <FormGroup className='marLeft' {...rest}>
+      <Input id={id} type='checkbox' {...rest} />
     </FormGroup>
   )
 }

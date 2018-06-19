@@ -1,22 +1,13 @@
 import React from 'react'
-import { 
-  FormGroup, 
-  Label, 
-  Input as InputRS, 
-  FormText 
-} from 'reactstrap'
+import { Input as InputRS } from 'reactstrap'
+import {
+  FormGroup
+} from '../../../atoms'
 
-const Input = ({ id, label, validate, errorMessage, helper, ...props }) => {
+const Input = ({ id, ...rest }) => {
   return (
-    <FormGroup>
-      {helper ? <p className='helpertext'>{helper}</p> : ''}
-      <Label for={id} className={`${props.required ? 'required' : 'optional'}`}>
-        <InputRS className='form-control' id={id} {...props} />
-        <span>{label}</span>
-      </Label>
-      <FormText>
-        { errorMessage }
-      </FormText>
+    <FormGroup {...rest}>
+      <InputRS className='form-control' id={id} {...rest} />
     </FormGroup>
   )
 }

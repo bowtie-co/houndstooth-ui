@@ -1,54 +1,52 @@
 import React from 'react'
 
-import { 
+import {
   Header,
   Search,
   FieldContainer
 } from '../molecules'
 import ComponentOneContainer from '../ComponentOne/ComponentOneContainer'
 
-
-
 const App = ({ mapFeatures, formOnChange }) => {
   return (
     <div className='app'>
-      <Header title={'Welcome to Bowtie\'s React-Recompose Starter Kit'}/>
+      <Header title={'Welcome to Bowtie\'s React-Recompose Starter Kit'} />
       <p className='intro'>
         This starter kit is preinstalled with:
       </p>
       <Search />
-      <FieldContainer 
+      <FieldContainer
         label={'text input'}
         type={'text'}
         onChange={formOnChange}
       />
-      <FieldContainer 
+      <FieldContainer
         label={'radio'}
         type={'radio'}
         onChange={formOnChange}
         options={[{ label: 'this', value: 1 }, { label: 'that', value: 2 }, { label: 'shit', value: 3 }]}
       />
-      <FieldContainer 
+      <FieldContainer
         label={'select'}
         type={'select'}
         onChange={formOnChange}
       />
-      <FieldContainer 
+      <FieldContainer
         label={'checkbox'}
         type={'checkbox'}
         onChange={formOnChange}
       />
-      <FieldContainer 
+      <FieldContainer
         label={'datepicker'}
         type={'datepicker'}
         onChange={formOnChange}
       />
-      <FieldContainer 
+      <FieldContainer
         label={'timepicker'}
         type={'timepicker'}
         onChange={formOnChange}
       />
-      <FieldContainer 
+      <FieldContainer
         label={'multiselect'}
         type={'multiselect'}
         onChange={formOnChange}

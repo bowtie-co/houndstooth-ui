@@ -1,7 +1,8 @@
 import React from 'react'
-import { FormGroup, Label, Input, FormText } from 'reactstrap'
+import { Input } from 'reactstrap'
+import { FormGroup } from '../../../atoms'
 
-const Select = ({ id, label, col, validate, helper, errorMessage, options, ...props }) => {
+const Select = ({ id, col, options, ...rest }) => {
   const optionElements = options && options.map((option, index) => {
     const value = typeof option === 'object' ? (option.value || option.id) : option
     const text = typeof option === 'object' ? (option.text || option.name) : option
@@ -10,22 +11,15 @@ const Select = ({ id, label, col, validate, helper, errorMessage, options, ...pr
   })
 
   return (
-    <FormGroup>
-      {helper ? <p className='helpertext'>{helper}</p> : ''}
-      <Label for={id} className={`form-group has-float-label ${props.required ? 'required' : 'optional'}`}>
-        <Input
-          id={id}
-          className='form-control'
-          {...props}
-        >
-          <option value=''>- Select -</option>
-          {optionElements}
-        </Input>
-        <span>{label}</span>
-      </Label>
-      <FormText className='error selectError'>
-        { errorMessage }
-      </FormText>
+    <FormGroup id={id} {...rest}>
+      <Input
+        id={id}
+        className='form-control'
+        {...rest}
+      >
+        <option value=''>- Select -</option>
+        {optionElements}
+      </Input>
     </FormGroup>
   )
 }

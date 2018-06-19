@@ -2,18 +2,17 @@ import React from 'react'
 import {
   FieldContainer
 } from '../'
+import { Button } from '../../atoms'
 
 const Search = () => {
   return (
     <div className='search-mol'>
-      <FieldContainer 
+      <FieldContainer
         type={'text'}
         placeholder={'Enter a Keyword...'}
       />
-      <FieldContainer 
-        type={'button'}
-        label={'Search'}
-      />
+      <Button label={'Search'} />
+
     </div>
   )
 }
