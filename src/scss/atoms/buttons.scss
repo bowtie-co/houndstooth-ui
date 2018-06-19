@@ -1,0 +1,151 @@
+//--------------------------
+// BUTTONS
+//--------------------------
+
+// Font
+$btn-font-weight: 600 !default;
+
+// Border radius
+$btn-border-radius-base: $border-radius-base !default;
+$btn-border-radius-large: $border-radius-large !default;
+$btn-border-radius-small: $border-radius-small !default;
+
+// GENERAL BUTTONS
+
+$btn-default-color: #333 !default;
+$btn-default-bg: #fff !default;
+$btn-default-border: #ccc !default;
+
+$btn-success-color: #fff !default;
+$btn-success-bg: $theme-success-color !default;
+$btn-success-border: darken($btn-success-bg, 5%) !default;
+
+$btn-info-color: #fff !default;
+$btn-info-bg: $theme-info-color !default;
+$btn-info-border: darken($btn-info-bg, 5%) !default;
+
+$btn-warning-color: #fff !default;
+$btn-warning-bg: $theme-warning-color !default;
+$btn-warning-border: darken($btn-warning-bg, 5%) !default;
+
+$btn-danger-color: #fff !default;
+$btn-danger-bg: $theme-danger-color !default;
+$btn-danger-border: darken($btn-danger-bg, 5%) !default;
+
+$btn-link-disabled-color: $theme-gray-color !default;
+
+// THEME STYLED BUTTONS
+
+// Orange button
+$btn-primary-text: #fff !default;
+$btn-primary-bg: $theme-primary-color !default;
+$btn-primary-border: solid 2px $theme-primary-color !default;
+
+// Inverted orange button
+$btn-primary-inverted-text: $theme-primary-color !default;
+$btn-primary-inverted-bg: #fff !default;
+$btn-primary-inverted-border: solid 2px $theme-primary-color !default;
+
+$theme-secondary-border: solid 2px $theme-secondary-color !default;
+
+// Brown button
+$btn-brown-text: #fff !default;
+$btn-brown-bg: $theme-brown-color !default;
+$btn-brown-border: solid 2px $theme-brown-color !default;
+
+// Inverted brown button
+$btn-brown-inverted-text: $theme-brown-color !default;
+$btn-brown-inverted-bg: #fff !default;
+$btn-brown-inverted-border: solid 2px $theme-brown-color !default;
+
+// Blue button
+$btn-blue-text: #fff !default;
+$btn-blue-bg: $theme-blue-color !default;
+$btn-blue-border: solid 2px $theme-blue-color !default;
+
+// Inverted blue button
+$btn-blue-inverted-text: $theme-blue-color !default;
+$btn-blue-inverted-bg: #fff !default;
+$btn-blue-inverted-border: solid 2px $theme-blue-color !default;
+
+// Light gray button
+$btn-lightgray-text: #fff !default;
+$btn-lightgray-bg: $theme-gray-color !default;
+$btn-lightgray-border: solid 2px $theme-gray-color !default;
+
+// Dark gray button
+$btn-darkgray-text: #fff !default;
+$btn-darkgray-bg: $theme-dark-gray-color !default;
+$btn-darkgray-border: solid 2px $theme-dark-gray-color !default;
+
+// Red button
+$btn-red-text: #fff !default;
+$btn-red-bg: $theme-danger-color !default;
+$btn-red-border: solid 2px $theme-danger-color !default;
+
+// Inverted red button
+$btn-red-inverted-text: $theme-danger-color !default;
+$btn-red-inverted-bg: #fff !default;
+$btn-red-inverted-border: solid 2px $theme-danger-color !default;
+
+button:focus {
+  outline: 0;
+  outline: none;
+}
+
+.btn {
+    font-weight: $btn-font-weight;
+    text-transform: uppercase;
+    padding: 0.8em 3em;
+    margin: 10px 2px;
+    border-radius: $btn-border-radius-large;
+    min-height: 44px;
+}
+
+
+// Position
+.btn-right {
+    float: right;
+}
+
+// Sizes
+.btn-sm {
+    padding: .4rem .75rem;
+    min-width: 90px;
+    min-height: 36px;
+    @media (max-width: $small-width-max) {
+      min-width: unset;
+    }
+}
+
+.profilebtn {
+  .btn{
+    min-width: 120px;
+  }
+}
+.btn-block {
+  @media (max-width: $small-width-max) {
+    padding: 0.8em .5em;
+  }
+}
+.toggle-advanced-search-btn, .clear-search-btn {
+    i.fa {
+      color: #fff;
+    }
+  }
+
+.toggle-advanced-search-btn i.fa {
+    margin-left: 10px;
+}
+
+.clear-search-btn {
+    margin: -10px 0 10px;
+
+    @media (min-width: $narrow-width-max) {
+        margin: 30px 0 0;
+    }
+
+    i.fa {
+        margin-left: 5px;
+    }
+}

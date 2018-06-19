@@ -4,7 +4,7 @@ export default compose(
   withState('formData', 'setFormData', {}),
   withState('errors', 'handleErrors', {}),
   withHandlers({
-    onChange: ({ formData, setFormData, handleChange }) => (e) => {
+    formOnChange: ({ formData, setFormData, handleChange }) => (e) => {
       const key = e.target.name
       let value = e.target.value
 

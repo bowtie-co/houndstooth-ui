@@ -1,8 +1,7 @@
-body {
-  // background-color:lighten(red, 20%);
-  font-family: sans-serif;
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
+@import './reset.scss';
+@import './variables.scss';
+@import './organisms/App.scss';
+@import './organisms/ComponentOne.scss';
+@import './atoms/buttons.scss';
+@import './molecules/search.scss';
+

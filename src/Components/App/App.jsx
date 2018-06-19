@@ -1,37 +1,58 @@
 import React from 'react'
-import '../../scss/App.scss'
 import { 
-  Input, 
-  Button, 
-  TimePicker,
+  FieldContainer
 } from '../atoms'
-import FieldContainer from '../atoms/Field/FieldContainer'
+import { 
+  Header,
+  Search
+} from '../molecules'
 import ComponentOneContainer from '../ComponentOne/ComponentOneContainer'
-import Header from '../molecules/Header/Header'
 
 
-const App = ({ mapFeatures }) => {
+
+const App = ({ mapFeatures, formOnChange }) => {
   return (
     <div className='app'>
       <Header title={'Welcome to Bowtie\'s React-Recompose Starter Kit'}/>
       <p className='intro'>
         This starter kit is preinstalled with:
       </p>
+      <Search />
       <FieldContainer 
         label={'text input'}
         type={'text'}
+        onChange={formOnChange}
+      />
+      <FieldContainer 
+        label={'radio'}
+        type={'radio'}
+        onChange={formOnChange}
+        options={[{ label: 'this', value: 1 }, { label: 'that', value: 2 }, { label: 'shit', value: 3 }]}
       />
       <FieldContainer 
         label={'select'}
         type={'select'}
+        onChange={formOnChange}
       />
       <FieldContainer 
         label={'checkbox'}
         type={'checkbox'}
+        onChange={formOnChange}
       />
       <FieldContainer 
         label={'datepicker'}
         type={'datepicker'}
+        onChange={formOnChange}
+      />
+      <FieldContainer 
+        label={'timepicker'}
+        type={'timepicker'}
+        onChange={formOnChange}
+      />
+      <FieldContainer 
+        label={'multiselect'}
+        type={'multiselect'}
+        onChange={formOnChange}
       />
       <ul className='list'>
         { mapFeatures() }

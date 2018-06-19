@@ -10,7 +10,7 @@ const Input = ({ id, label, validate, errorMessage, helper, ...props }) => {
   return (
     <FormGroup>
       {helper ? <p className='helpertext'>{helper}</p> : ''}
-      <Label for={id} className={`form-group has-float-label ${props.required ? 'required' : 'optional'}`}>
+      <Label for={id} className={`${props.required ? 'required' : 'optional'}`}>
         <InputRS className='form-control' id={id} {...props} />
         <span>{label}</span>
       </Label>

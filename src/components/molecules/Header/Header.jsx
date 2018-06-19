@@ -1,11 +1,14 @@
 import React from 'react'
-import Logo from '../../atoms/Logo/Logo'
+import {
+  Logo,
+  Title
+} from '../../atoms'
 
 const Header = ({ title }) => {
   return (
     <header className='header'>
       <Logo />
-      <h1 className='title'>{ title }</h1>
+      <Title title={title} />
     </header>
   )
 }

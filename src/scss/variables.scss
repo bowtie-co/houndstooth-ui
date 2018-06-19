@@ -1,0 +1,78 @@
+//--------------------------
+// VARIABLES
+//--------------------------
+
+
+/* GENERAL */
+
+// breakpoints
+$base-width-max: 1200px;
+$narrow-width-max: 768px;
+$small-width-max: 480px;
+$xl-width-min: 1600px;
+$base-spacing: 0px;
+$narrow-spacing: 0px;
+$xl-spacing: 0px;
+$base-padding: 15px 30px;
+$narrow-padding: 10px 20px;
+$xl-padding: 20px 40px;
+
+// Border radius
+$border-radius-base:        3px !default;
+$border-radius-large:       6px !default;
+$border-radius-small:       2px !default;
+
+// Padding
+$padding-large-vertical: 10px !default;
+$padding-large-horizontal: 16px !default;
+
+$padding-base-vertical: 12px !default;
+$padding-base-horizontal: 24px !default;
+
+$padding-small-vertical: 5px !default;
+$padding-small-horizontal: 10px !default;
+
+$padding-xs-vertical: 1px !default;
+$padding-xs-horizontal: 5px !default;
+
+// Line height
+$line-height-large: 2.5 !default; // extra decimals for Win 8.1 Chrome
+$line-height-small: 1.5 !default;
+
+// Font sizes
+$font-size-base:          14px !default;
+$font-size-large:         ceil(($font-size-base * 1.25)) !default;
+$font-size-small:         ceil(($font-size-base * 0.85)) !default;
+
+/* COLORS */
+
+// Main theme colors
+$theme-primary-color:#FBA819 !default;
+$theme-secondary-color: #C67E00 !default;
+$theme-brown-color: #a06227 !default;
+$theme-success-color: #2FAB4A !default;
+$theme-danger-color: #C02103 !default;
+$theme-info-color: #1075EA !default;
+$theme-warning-color: #FFD400 !default;
+$theme-blue-color: #2583c5 !default;
+$theme-gray-color: #BBB8B3 !default;
+$theme-dark-gray-color: #3b3b3a !default;
+
+// Text
+$theme-text-color: #000 !default;
+$theme-off-white-color: #F3F4F4 !default;
+
+// Banners
+$theme-dark-banner-color: #3B3B3A !default;
+
+// Backgrounds
+$theme-gray-gradient: linear-gradient(to bottom, #fff, #eee) !default;
+$theme-dark-bg: #3B3B3A !default;
+$theme-nav-toggler-icon-svg: "data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(251, 168, 25, 1)' stroke-width='4' stroke-linecap='square' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E";
+
+/* INPUTS */
+
+$input-border-radius: 3px !default;
+$input-drop-shadow: inset 0.5px 0.5px 2px 0 rgba(0, 0, 0, 0.5) !default;
+$input-border: solid 1px #dddddd !default;
+$input-placeholder-color: rgba(0, 0, 0, 0.5) !default;

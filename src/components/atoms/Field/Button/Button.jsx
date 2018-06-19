@@ -4,14 +4,14 @@ import { Button as ButtonRS } from 'reactstrap'
 
 // import styles from './Button.scss'
 
-const Button = ({ id, value, children, href, ...props }) => {
+const Button = ({ id, value, label, href, ...props }) => {
   const withLink = <Link to={href || ''}>
     <ButtonRS
       id={id}
       value={value}
       {...props}
     >
-      {children}
+      {label}
     </ButtonRS>
   </Link>
 
@@ -20,7 +20,7 @@ const Button = ({ id, value, children, href, ...props }) => {
     value={value}
     {...props}
   >
-    {children}
+    {label}
   </ButtonRS>
 
   return href ? withLink : button
