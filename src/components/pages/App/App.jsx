@@ -4,14 +4,7 @@ import {
   Search,
   FieldContainer
 } from '../../molecules'
-import {
-  MultiColumn
-} from '../../templates'
 import ComponentOneContainer from '..//ComponentOne/ComponentOneContainer'
-
-const Fuck = () => <h1>Fuck</h1>
-const Shit = () => <h1>Shit</h1>
-const Butts = () => <h1>Butts</h1>
 
 const App = ({ mapFeatures, formOnChange, ...rest }) => {
   return (
@@ -62,10 +55,6 @@ const App = ({ mapFeatures, formOnChange, ...rest }) => {
         { mapFeatures() }
       </ul>
       <ComponentOneContainer />
-      <MultiColumn
-        columns={[Fuck, Shit, Butts]}
-        {...rest}
-      />
     </div>
   )
 }
