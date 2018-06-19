@@ -3,26 +3,17 @@
 
 import { compose } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
-// import { 
-//   Input,
-//   Select,
-//   Button,
-//   Checkbox,
-//   DatePicker,
-//   TimePicker,
-//   MultiSelect,
-//   Radio,
-//   DocumentContainer 
-// } from './index'
-import Input from './Input'
-import Select from './Select'
-import Button from './Button'
-import Checkbox from './Checkbox'
-import DatePicker from './DatePicker'
-import TimePicker from './TimePicker'
-import MultiSelect from './MultiSelect'
-import Radio from './Radio'
-import DocumentContainer from './Document/DocumentContainer'
+import { 
+  Input,
+  Select,
+  Button,
+  Checkbox,
+  DatePicker,
+  TimePicker,
+  MultiSelect,
+  Radio,
+  DocumentContainer 
+} from './index'
 
 const selectCondition = ({ type }) => type === 'select'
 const buttonCondition = ({ type }) => type === 'button' || type === 'submit'

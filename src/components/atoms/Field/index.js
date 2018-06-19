@@ -1,6 +1,5 @@
-// export { FieldContainer } from './FieldContainer'
 export { Input } from './Input'
-export { Select } from './Select/Select'
+export { Select } from './Select'
 export { Button } from './Button'
 export { Checkbox } from './Checkbox'
 export { DatePicker } from './DatePicker'

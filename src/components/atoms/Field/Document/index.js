@@ -1,1 +1,1 @@
-export { default as DocumentContianer } from './Document/DocumentContainer' 
+export { default as DocumentContainer } from './DocumentContainer'

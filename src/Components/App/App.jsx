@@ -2,10 +2,10 @@ import React from 'react'
 import '../../scss/App.scss'
 import { 
   Input, 
-  // Button, 
-  // TimePicker 
+  Button, 
+  TimePicker,
 } from '../atoms'
-// import FieldContainer from '../atoms/Field/FieldContainer'
+import FieldContainer from '../atoms/Field/FieldContainer'
 import ComponentOneContainer from '../ComponentOne/ComponentOneContainer'
 import Header from '../molecules/Header/Header'
 
@@ -17,12 +17,22 @@ const App = ({ mapFeatures }) => {
       <p className='intro'>
         This starter kit is preinstalled with:
       </p>
-      <Input />
-      {/* <Button /> */}
-      {/* <TimePicker /> */}
-      {/* <FieldContainer 
+      <FieldContainer 
+        label={'text input'}
         type={'text'}
-      /> */}
+      />
+      <FieldContainer 
+        label={'select'}
+        type={'select'}
+      />
+      <FieldContainer 
+        label={'checkbox'}
+        type={'checkbox'}
+      />
+      <FieldContainer 
+        label={'datepicker'}
+        type={'datepicker'}
+      />
       <ul className='list'>
         { mapFeatures() }
       </ul>

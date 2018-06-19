@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormGroup, Label, Input, FormText } from 'reactstrap'
 
-const SelectField = ({ id, label, col, validate, helper, errorMessage, options, ...props }) => {
-  const optionElements = options.map((option, index) => {
+const Select = ({ id, label, col, validate, helper, errorMessage, options, ...props }) => {
+  const optionElements = options && options.map((option, index) => {
     const value = typeof option === 'object' ? (option.value || option.id) : option
     const text = typeof option === 'object' ? (option.text || option.name) : option
 
@@ -30,4 +30,4 @@ const SelectField = ({ id, label, col, validate, helper, errorMessage, options, 
   )
 }
 
-export default SelectField
+export default Select
