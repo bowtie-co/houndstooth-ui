@@ -1,3 +1,3 @@
 export * from './Field'
-export { Loading } from './Loading/Loading'
-export { Logo } from './Logo/Logo'
+export { Loading } from './Loading'
+export { Logo } from './Logo'

@@ -1,29 +1,29 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Button } from 'reactstrap'
+import { Button as ButtonRS } from 'reactstrap'
 
 // import styles from './Button.scss'
 
-const Btn = ({ id, value, children, href, ...props }) => {
+const Button = ({ id, value, children, href, ...props }) => {
   const withLink = <Link to={href || ''}>
-    <Button
+    <ButtonRS
       id={id}
       value={value}
       {...props}
     >
       {children}
-    </Button>
+    </ButtonRS>
   </Link>
 
-  const button = <Button
+  const button = <ButtonRS
     id={id}
     value={value}
     {...props}
   >
     {children}
-  </Button>
+  </ButtonRS>
 
   return href ? withLink : button
 }
 
-export default Btn
+export default Button

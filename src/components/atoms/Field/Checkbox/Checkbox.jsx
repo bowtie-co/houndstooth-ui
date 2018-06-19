@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormGroup, Label, Input, FormText } from 'reactstrap'
 
-const CheckboxField = ({ id, label, validate, helper, errorMessage, ...props }) => {
+const Checkbox = ({ id, label, validate, helper, errorMessage, ...props }) => {
   return (
     <FormGroup className='marLeft'>
       {helper ? <p className='helpertext'>{helper}</p> : ''}
@@ -20,4 +20,4 @@ const CheckboxField = ({ id, label, validate, helper, errorMessage, ...props }) 
   )
 }
 
-export default CheckboxField
+export default Checkbox
