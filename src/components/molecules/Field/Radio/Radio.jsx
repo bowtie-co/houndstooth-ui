@@ -2,9 +2,9 @@ import React from 'react'
 import { Label, Input } from 'reactstrap'
 import { FormGroup } from '../../../atoms'
 
-const RadioField = ({ id, options, name, onChange, checked, ...rest }) => {
+const RadioField = ({ id, options, name, onChange, checked, label, ...rest }) => {
   return (
-    <FormGroup className='customRadio' {...rest}>
+    <FormGroup className='customRadio' title={label} {...rest}>
       {options.map(option =>
         <Label check key={option.label}>
           <Input

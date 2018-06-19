@@ -1,4 +1,4 @@
-import AppContainer from '../../components/App/AppContainer'
+import AppContainer from '../../components/pages/App/AppContainer'
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 

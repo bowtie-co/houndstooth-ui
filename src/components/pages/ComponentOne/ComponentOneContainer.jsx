@@ -5,7 +5,7 @@ import { compose } from 'recompose'
 import { withRouter } from 'react-router'
 import { withEither, withMaybe } from '@bowtie/react-utils'
 import ComponentOne from './ComponentOne'
-import Loading from '../atoms/Loading/Loading'
+import { Loading } from '../../atoms'
 
 // conditional functions here:
 const nullConditionFn = (props) => !props

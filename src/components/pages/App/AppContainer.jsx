@@ -5,9 +5,9 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import { compose, withHandlers } from 'recompose'
 import { withEither, withMaybe } from '@bowtie/react-utils'
-import withForm from '../../helpers/withForm'
+import withForm from '../../../helpers/withForm'
 import App from './App'
-import Loading from '../atoms/Loading/Loading'
+import { Loading } from '../../atoms'
 
 // conditional functions here:
 const nullConditionFn = (props) => !props

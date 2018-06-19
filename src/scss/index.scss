@@ -5,3 +5,10 @@
 @import './atoms/buttons.scss';
 @import './molecules/search.scss';
 
+.twoColumn{
+  display: flex;
+  .column{
+    width: 50%;
+  }
+}
+
