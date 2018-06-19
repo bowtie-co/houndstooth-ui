@@ -1,6 +1,9 @@
 import React from 'react'
 import { Document, Page } from 'react-pdf/dist/entry.webpack'
-import { Card, CardText, CardBody, CardFooter, FormGroup, Button } from 'reactstrap'
+import { Card, CardText, CardBody, CardFooter, FormGroup } from 'reactstrap'
+import {
+  Button
+} from '../../../atoms'
 
 import Pagination from '../../../molecules/Pagination/Pagination'
 

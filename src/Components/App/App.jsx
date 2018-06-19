@@ -1,10 +1,9 @@
 import React from 'react'
-import { 
-  FieldContainer
-} from '../atoms'
+
 import { 
   Header,
-  Search
+  Search,
+  FieldContainer
 } from '../molecules'
 import ComponentOneContainer from '../ComponentOne/ComponentOneContainer'
 
