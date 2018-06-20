@@ -3,6 +3,19 @@
 @import './pages/App.scss';
 @import './templates/Home.scss';
 @import './organisms/TopNav.scss';
+@import './organisms/Footer.scss';
 @import './molecules/search.scss';
 @import './atoms/buttons.scss';
 
+#root{
+  height: 100%;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .body-template {
+    flex-grow: 1
+  }
+}

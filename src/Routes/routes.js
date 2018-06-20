@@ -5,9 +5,9 @@ import { BrowserRouter } from 'react-router-dom'
 const Routes = () => {
   return (
     <BrowserRouter>
-      <div>
-        <PublicRoutes />
-      </div>
+      {/* <div> */}
+      <PublicRoutes />
+      {/* </div> */}
     </BrowserRouter>
   )
 }

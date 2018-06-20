@@ -1,4 +1,5 @@
 
 import TopNav from './TopNav'
+import Footer from './Footer'
 
-export { TopNav }
+export { TopNav, Footer }
