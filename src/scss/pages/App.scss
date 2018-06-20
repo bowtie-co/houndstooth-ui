@@ -2,12 +2,21 @@
   .list {
     text-align: left;
   }
+
+  .logo-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   
-  .logo {
+  .logo{
+    height: 80px;
+    margin: 0 20px;
+  }
+  .react-logo {
     animation: logo-spin infinite 20s linear;
     height: 80px;
   }
-  
   .header {
     background-color: black;
     height: 150px;

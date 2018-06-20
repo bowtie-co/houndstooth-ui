@@ -1,24 +1,22 @@
 import React from 'react'
 import { Switch } from 'react-router-dom'
 import { PublicRoute } from '../../atoms'
-import { Home, Demo } from '../../templates'
-import { TopNav, Footer } from '../../organisms'
+import { Description, Demo } from '../../ecosystems'
+import { Header, Footer } from '../../organisms'
 
 const App = (props) => {
   const { mapFeatures, ...rest } = props
   return (
     <section className='app'>
-      <TopNav />
-
+      <Header />
       <div className='body-template'>
         <Switch>
           <PublicRoute
             props={props}
             path='/home'
-            component={Home}
+            component={Description}
           />
           <PublicRoute
-            props={{ mapFeatures, ...rest }}
             path='/demo'
             component={Demo}
           />

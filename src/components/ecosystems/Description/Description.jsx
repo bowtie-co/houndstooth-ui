@@ -3,7 +3,7 @@ import {
   Subtitle
 } from '../../atoms'
 
-const Home = ({ featureList, formOnChange, ...rest }) => {
+const Description = ({ featureList, formOnChange, ...rest }) => {
   return (
     <div className='home-template'>
       <p className='intro'>
@@ -38,4 +38,4 @@ const Home = ({ featureList, formOnChange, ...rest }) => {
   )
 }
 
-export default Home
+export default Description

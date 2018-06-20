@@ -1,10 +1,11 @@
 @import './reset.scss';
 @import './variables.scss';
 @import './pages/App.scss';
-@import './templates/Home.scss';
-@import './organisms/TopNav.scss';
+@import './ecosystems/Description.scss';
+@import './organisms/Header.scss';
 @import './organisms/Footer.scss';
 @import './molecules/search.scss';
+@import './molecules/todo.scss';
 @import './atoms/buttons.scss';
 
 #root{
