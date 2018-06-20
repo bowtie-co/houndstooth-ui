@@ -4,5 +4,7 @@ import Title from './Title'
 import Button from './Button'
 import FormGroup from './FormGroup'
 import NavLink from './NavLink'
+import Subtitle from './Subtitle'
+import PublicRoute from './PublicRoute'
 
-export { Loading, Logo, Title, Button, FormGroup, NavLink }
+export { Loading, Logo, Title, Button, FormGroup, NavLink, Subtitle, PublicRoute }
