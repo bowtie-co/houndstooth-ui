@@ -5,7 +5,6 @@ import { Description, Demo } from '../../ecosystems'
 import { Header, Footer } from '../../organisms'
 
 const App = (props) => {
-  const { mapFeatures, ...rest } = props
   return (
     <section className='app'>
       <Header />

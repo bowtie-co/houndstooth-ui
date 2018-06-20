@@ -2,8 +2,11 @@
 @import './variables.scss';
 @import './pages/App.scss';
 @import './ecosystems/Description.scss';
+@import './ecosystems/Demo.scss';
 @import './organisms/Header.scss';
 @import './organisms/Footer.scss';
+@import './organisms/TodoList.scss';
+@import './organisms/TodoDetail.scss';
 @import './molecules/search.scss';
 @import './molecules/todo.scss';
 @import './atoms/buttons.scss';

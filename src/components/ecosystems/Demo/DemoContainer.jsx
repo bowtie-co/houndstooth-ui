@@ -26,6 +26,7 @@ export const enhance = compose(
   withProps((props) => {
     return { todoList }
   })
+
 )
 
 export default enhance(Demo)

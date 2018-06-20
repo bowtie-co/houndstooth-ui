@@ -5,9 +5,9 @@ import {
   Favorite
 } from '../../atoms'
 
-const Todo = ({ title, content, favorite = false }) => {
+const Todo = ({ title, content, favorite = false, handler }) => {
   return (
-    <section className='todo-section'>
+    <section className='todo-section' onClick={handler}>
       <Favorite className='todo-item' favorite={favorite} />
       <Subtitle title={title} />
       <Summary content={content} />
