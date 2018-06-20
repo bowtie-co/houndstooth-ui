@@ -1,0 +1,19 @@
+.top-nav-section {
+  display: flex;
+  flex-direction: column;
+  .nav-bar{
+    padding: 10px;
+    border-bottom: 2px grey solid;
+    height: 100%;
+    .nav-link{
+      padding: 10px 45px;
+      width: 100px;
+      text-decoration: none;
+      cursor: pointer;
+      color: grey;
+      &:hover {
+        background-color: lightgrey;
+      }
+    }
+  }
+}

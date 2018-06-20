@@ -1,16 +1,16 @@
 import React from 'react'
 import {
-  Header,
   Search,
   FieldContainer
 } from '../../molecules'
+import { TopNav } from '../../organisms'
 import ComponentOneContainer from '..//ComponentOne/ComponentOneContainer'
 
 const App = ({ mapFeatures, formOnChange, ...rest }) => {
   return (
     <div className='app'>
 
-      <Header title={'Welcome to Bowtie\'s React-Recompose Starter Kit'} />
+      <TopNav />
       <p className='intro'>
         This starter kit is preinstalled with:
       </p>

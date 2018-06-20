@@ -1,4 +1,4 @@
 import AppContainer from './App/AppContainer'
-import ComponentOne from './ComponentOne'
+import ComponentOneContainer from './ComponentOne/ComponentOneContainer'
 
-export { AppContainer, ComponentOne }
+export { AppContainer, ComponentOneContainer }

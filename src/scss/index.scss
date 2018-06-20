@@ -1,14 +1,8 @@
 @import './reset.scss';
 @import './variables.scss';
-@import './organisms/App.scss';
-@import './organisms/ComponentOne.scss';
-@import './atoms/buttons.scss';
+@import './pages/App.scss';
+@import './pages/ComponentOne.scss';
+@import './organisms/TopNav.scss';
 @import './molecules/search.scss';
-
-.twoColumn{
-  display: flex;
-  .column{
-    width: 50%;
-  }
-}
+@import './atoms/buttons.scss';
 
