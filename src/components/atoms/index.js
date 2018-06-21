@@ -9,6 +9,7 @@ import Favorite from './Favorite'
 import Summary from './Summary'
 import ReactLogo from './ReactLogo'
 import BowtieLogo from './BowtieLogo'
+import Body from './Body'
 
 export {
   Loading,
@@ -21,5 +22,6 @@ export {
   Favorite,
   Summary,
   ReactLogo,
-  BowtieLogo
+  BowtieLogo,
+  Body
 }

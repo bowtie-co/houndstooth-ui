@@ -1,6 +1,6 @@
 import React from 'react'
 import { Switch } from 'react-router-dom'
-import { PublicRoute } from '../../atoms'
+import { PublicRoute, Body } from '../../atoms'
 import { Description, Demo } from '../../ecosystems'
 import { Header, Footer } from '../../organisms'
 
@@ -8,7 +8,7 @@ const App = (props) => {
   return (
     <section className='app'>
       <Header />
-      <div className='body-template'>
+      <Body>
         <Switch>
           <PublicRoute
             props={props}
@@ -16,11 +16,11 @@ const App = (props) => {
             component={Description}
           />
           <PublicRoute
-            path='/demo'
+            path='/todos/'
             component={Demo}
           />
         </Switch>
-      </div>
+      </Body>
       <Footer />
     </section>
   )
