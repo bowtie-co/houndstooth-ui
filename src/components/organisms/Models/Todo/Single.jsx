@@ -1,11 +1,11 @@
 import React from 'react'
 import { compose } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
-import { Title, Subtitle } from '../../atoms'
+import { Title, Subtitle } from '../../../atoms'
 
 /** ********** BASE COMPONENT **********/
 
-const TodoDetail = ({ todo }) => {
+const TodoSingle = ({ todo }) => {
   return (
     <section className='todo-detail-section' id={`todo-${todo.id}`}>
       <p>{todo.title}</p>
@@ -21,4 +21,4 @@ const EmptyState = () => <section className='todo-detail-section'><Subtitle titl
 
 export default compose(
   withEither(emptyConditionFn, EmptyState)
-)(TodoDetail)
+)(TodoSingle)

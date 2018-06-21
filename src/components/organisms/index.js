@@ -1,7 +1,6 @@
 
 import Header from './Header'
 import Footer from './Footer'
-import TodoList from './TodoList'
-import TodoDetail from './TodoDetail'
+import { Todo } from './Models'
 
-export { Header, Footer, TodoList, TodoDetail }
+export { Header, Footer, Todo }

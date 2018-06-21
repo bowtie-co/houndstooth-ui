@@ -8,7 +8,7 @@ const Header = (props) => {
       <Brand title={'Welcome to Bowtie\'s React-Recompose Starter Kit'} />
       <div className='nav-bar'>
         <NavLink path={'/home'} title={'Description'} />
-        <NavLink path={'/todos/'} title={'Demo - todo app'} />
+        <NavLink path={'/view/todos/'} title={'Demo - todo app'} />
       </div>
     </section>
   )

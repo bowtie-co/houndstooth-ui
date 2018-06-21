@@ -10,6 +10,7 @@ import Summary from './Summary'
 import ReactLogo from './ReactLogo'
 import BowtieLogo from './BowtieLogo'
 import Body from './Body'
+import Switch from './Switch'
 
 export {
   Loading,
@@ -23,5 +24,6 @@ export {
   Summary,
   ReactLogo,
   BowtieLogo,
-  Body
+  Body,
+  Switch
 }

@@ -1,23 +1,37 @@
 import React from 'react'
 import {
-  TodoList,
-  TodoDetail
+  Todo
 } from '../../organisms'
-import { PublicRoute } from '../../atoms'
+import { PublicRoute, Switch } from '../../atoms'
+
+console.log("Todo: ", Todo)
 
 const Demo = ({ todoList, todo, setTodo }) => {
+  console.log("rendering Demo")
   return (
     <div className='demo-template'>
       <PublicRoute
         props={{ todoList, setTodo }}
-        path={'/todos'}
-        component={TodoList}
+        path={'/view/todos'}
+        component={Todo.List}
       />
-      <PublicRoute
-        props={{ todo }}
-        path={'/todos/(:id)?'}
-        component={TodoDetail}
-      />
+      <Switch>
+        <PublicRoute
+          props={{ todo }}
+          path={'/view/todos/:model_id'}
+          component={Todo.Single}
+        />
+        <PublicRoute
+          props={{ todo }}
+          path={'/edit/todos/:model_id'}
+          component={Todo.Form}
+        />
+        <PublicRoute
+          props={{ todo }}
+          path={'/create/todos/'}
+          component={Todo.Form}
+        />
+      </Switch>
     </div>
   )
 }

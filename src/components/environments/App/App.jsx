@@ -16,7 +16,8 @@ const App = (props) => {
             component={Description}
           />
           <PublicRoute
-            path='/todos/'
+            path='/:action(view|edit|create)/:model(todos)/:model_id?/'
+            // path={'/todos/'}
             component={Demo}
           />
         </Switch>
