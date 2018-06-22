@@ -3,8 +3,10 @@ import React from 'react'
 import { compose, withHandlers, withState, withProps } from 'recompose'
 import Form from './Form'
 
+const isObject = (item) => item instanceof Object && !Array.isArray(item)
+
 export default compose(
-  withState('formData', 'setFormData', {}),
+  withState('formData', 'setFormData', ({ model }) => isObject(model) ? model : {}),
   withState('errors', 'handleErrors', {}),
   withHandlers({
     formOnChange: ({ formData, setFormData, handleChange }) => (e) => {
@@ -41,10 +43,13 @@ export default compose(
       }
     }
   }),
-  withProps(({ children, ...rest }) => {
+  withProps(({ children, formOnChange, formData, ...rest }) => {
     const childrenWithExtraProp = React.Children.map(children, child => {
-      return React.cloneElement(child, rest);
-    });
+      return React.cloneElement(child, {
+        value: formData[child.name],
+        onChange: formOnChange
+      })
+    })
 
     return { childrenWithExtraProp }
   })

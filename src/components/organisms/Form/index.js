@@ -1,4 +1,4 @@
 
-import Form  from './FormContainer'
+import Form from './FormContainer'
 
 export default Form

@@ -4,10 +4,8 @@ import {
 } from '../../organisms'
 import { PublicRoute, Switch } from '../../atoms'
 
-console.log("Todo: ", Todo)
-
-const Demo = ({ todoList, todo, setTodo }) => {
-  console.log("rendering Demo")
+const Demo = ({ todoList, todo, setTodo, formSubmit }) => {
+  console.log('rendering Demo')
   return (
     <div className='demo-template'>
       <PublicRoute
@@ -22,12 +20,12 @@ const Demo = ({ todoList, todo, setTodo }) => {
           component={Todo.Single}
         />
         <PublicRoute
-          props={{ todo }}
+          props={{ todo, formSubmit }}
           path={'/edit/todos/:model_id'}
           component={Todo.Form}
         />
         <PublicRoute
-          props={{ todo }}
+          props={{ todo, formSubmit }}
           path={'/create/todos/'}
           component={Todo.Form}
         />

@@ -18,12 +18,11 @@ const todoList = [
   { id: 3, title: 'title 3', content: 'content 3', favorite: false }
 ]
 
-const methods = {
-  create: 'post',
-  edit: 'put',
-  view: 'get'
-}
-
+// const methods = {
+//   create: 'post',
+//   edit: 'put',
+//   view: 'get'
+// }
 
 export const enhance = compose(
   // withForm,
@@ -35,13 +34,13 @@ export const enhance = compose(
     return { todoList }
   }),
   withHandlers({
-    formSubmit: ({ match, isComponentLoading }) => (formData) => {
-      const { action, model_name, model_id } = match.params
+    formSubmit: ({ match, isComponentLoading, history }) => (formData) => {
+      console.log('formData', formData)
+      // history.goBack()
+      // const { action, model_name, model_id } = match.params
 
-
-
-      const method = methods[action]
-      const route = model_id ? `${model_name}/${model_id}` : `${model_name}`
+      // const method = methods[action]
+      // const route = model_id ? `${model_name}/${model_id}` : `${model_name}`
       // isComponentLoading(true)
 
       // api[method](route, { [model_name]: formData })
@@ -62,5 +61,3 @@ export const enhance = compose(
 )
 
 export default enhance(Demo)
-
-

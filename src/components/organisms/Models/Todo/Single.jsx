@@ -1,7 +1,8 @@
 import React from 'react'
 import { compose } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
-import { Title, Subtitle } from '../../../atoms'
+import { Subtitle } from '../../../atoms'
+import { EditModelButton } from '../../../molecules'
 
 /** ********** BASE COMPONENT **********/
 
@@ -10,6 +11,12 @@ const TodoSingle = ({ todo }) => {
     <section className='todo-detail-section' id={`todo-${todo.id}`}>
       <p>{todo.title}</p>
       <p>{todo.content}</p>
+      <EditModelButton
+        modelName={'todos'}
+        modelId={todo.id}
+        label={'Edit Todo'}
+      />
+
     </section>
   )
 }

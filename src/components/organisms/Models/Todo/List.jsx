@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { withEither } from '@bowtie/react-utils'
-import { Favorite, Subtitle, Summary, } from '../../../atoms'
+import { Subtitle } from '../../../atoms'
 import { Todo } from '../../../molecules'
 
 /** ********** BASE COMPONENT **********/

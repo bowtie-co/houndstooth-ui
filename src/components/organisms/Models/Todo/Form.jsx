@@ -1,26 +1,29 @@
 import React from 'react'
-import { compose } from 'recompose'
-import { withEither } from '@bowtie/react-utils'
 import { Form } from '../../'
 import { FieldContainer } from '../../../molecules'
-import { Title, Subtitle } from '../../../atoms'
+import { Title } from '../../../atoms'
 
 /** ********** BASE COMPONENT **********/
 
-const TodoForm = ({ todo }) => {
+const TodoForm = ({ todo, formSubmit }) => {
   return (
-    <Form>
-      <Title title={'Title with extra props'}/>
-      <FieldContainer
-        type={'text'}
-        label={'Driver Name'}
-        placeholder={'John Smith'}
-        name={'name'}
-        // value={formData['name'] || ''}
-        // onChange={onChange}
-        // required
-      />
-    </Form>
+    <section>
+      <Title title={'Title with extra props'} />
+      <Form onSubmit={formSubmit}>
+        <FieldContainer
+          type={'text'}
+          label={'Todo'}
+          placeholder={'todo title here'}
+          name={'title'}
+        />
+        <FieldContainer
+          type={'text'}
+          label={'Description'}
+          placeholder={'description here'}
+          name={'description'}
+        />
+      </Form>
+    </section>
   )
 }
 
