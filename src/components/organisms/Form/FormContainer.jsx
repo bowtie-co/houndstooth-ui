@@ -10,6 +10,7 @@ export default compose(
   withState('errors', 'handleErrors', {}),
   withHandlers({
     formOnChange: ({ formData, setFormData, handleChange }) => (e) => {
+      
       const key = e.target.name
       let value = e.target.value
 
@@ -31,7 +32,6 @@ export default compose(
       if (typeof handleChange === 'function') {
         handleChange(e, newData)
       }
-
       setFormData(newData)
     },
     getErrors: ({ errors }) => (key) => {
@@ -46,7 +46,7 @@ export default compose(
   withProps(({ children, formOnChange, formData, ...rest }) => {
     const childrenWithExtraProp = React.Children.map(children, child => {
       return React.cloneElement(child, {
-        value: formData[child.name],
+        value: formData[child.props.name],
         onChange: formOnChange
       })
     })

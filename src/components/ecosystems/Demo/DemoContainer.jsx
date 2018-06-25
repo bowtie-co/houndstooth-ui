@@ -26,13 +26,10 @@ const todoList = [
 
 export const enhance = compose(
   // withForm,
-  withState('todoList', 'setTodoList', []),
+  withState('todoList', 'setTodoList', todoList),
   withState('todo', 'setTodo', {}),
   withState('isComponentLoading', 'setIsComponentLoading', false),
   withEither(loadingConditionFn, Loading),
-  withProps((props) => {
-    return { todoList }
-  }),
   withHandlers({
     formSubmit: ({ match, isComponentLoading, history }) => (formData) => {
       console.log('formData', formData)
