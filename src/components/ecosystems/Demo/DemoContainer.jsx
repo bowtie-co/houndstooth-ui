@@ -1,9 +1,8 @@
 // Containers should include all logic that enhances a component
 // this includes any reduce methods, recompose, or middleware.
 
-import { compose, withProps, withState, withHandlers } from 'recompose'
+import { compose, withState, withHandlers } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
-// import withForm from '../../../helpers/withForm'
 import Demo from './Demo'
 import { Loading } from '../../atoms'
 // import api from '../../../lib/api'
