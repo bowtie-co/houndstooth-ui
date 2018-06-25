@@ -1,7 +1,6 @@
 // Containers should include all logic that enhances a component
 // this includes any reduce methods, recompose, or middleware.
 
-import React from 'react'
 import { withRouter } from 'react-router'
 import { compose, withHandlers } from 'recompose'
 import { withEither, withMaybe } from '@bowtie/react-utils'

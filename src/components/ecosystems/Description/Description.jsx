@@ -9,9 +9,7 @@ const Description = ({ ...rest }) => {
       <p className='intro'>
         This starter kit is an ejected version of create-react-app and comes preloaded with the following libraries:
       </p>
-      <div className='list-section'>
-
-      </div>
+      <div className='list-section' />
       <Subtitle title={'File structure'} />
       <p>
         The component file structure contains all components with their associated containers, tests, style modules, and jsx files. Everything relating to a specific component should be contained in it's own directory. Since this boilerplate uses recompose, the .jsx file should only contain the PureComponent with few, if any logic. The container should contain all logic and component enhancements.

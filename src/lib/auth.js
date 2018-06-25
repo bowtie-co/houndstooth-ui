@@ -1,67 +1,64 @@
-import auth0 from 'auth0-js';
-import { AUTH_CONFIG } from './auth0-variables';
+import auth0 from 'auth0-js'
+import { AUTH_CONFIG } from './auth0-variables'
 import storage from './storage'
 
- class Auth {
-  auth0 = new auth0.WebAuth({
-    domain: AUTH_CONFIG.domain,
-    clientID: AUTH_CONFIG.clientId,
-    redirectUri: AUTH_CONFIG.callbackUrl,
-    audience: `https://${AUTH_CONFIG.domain}/userinfo`,
-    responseType: 'token id_token',
-    scope: 'openid'
-  });
-
-  constructor() {
-    this.login = this.login.bind(this);
-    this.logout = this.logout.bind(this);
-    this.handleAuthentication = this.handleAuthentication.bind(this);
-    this.isAuthenticated = this.isAuthenticated.bind(this);
+class Auth {
+  constructor () {
+    this.auth0 = new auth0.WebAuth({
+      domain: AUTH_CONFIG.domain,
+      clientID: AUTH_CONFIG.clientId,
+      redirectUri: AUTH_CONFIG.callbackUrl,
+      audience: `https://${AUTH_CONFIG.domain}/userinfo`,
+      responseType: 'token id_token',
+      scope: 'openid'
+    })
+    this.login = this.login.bind(this)
+    this.logout = this.logout.bind(this)
+    this.handleAuthentication = this.handleAuthentication.bind(this)
+    this.isAuthenticated = this.isAuthenticated.bind(this)
   }
 
-  login() {
-    console.log("inside login");
-    this.auth0.authorize();
+  login () {
+    this.auth0.authorize()
   }
 
-  async handleAuthentication() {
+  async handleAuthentication () {
     const resp = await this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult);
-        console.log("handleAuth");
+        this.setSession(authResult)
+        console.log('handleAuth')
         return true
       } else if (err) {
-        console.log(err);
-        alert(`Error: ${err.error}. Check the console for further details.`);
+        console.log(err)
         return false
-      } 
-    });
-    console.log("resp", resp);
+      }
+    })
+    console.log('resp', resp)
     return resp
   }
 
-  setSession(authResult) {
+  setSession (authResult) {
     // Set the time that the access token will expire at
-    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-    storage.set('access_token', authResult.accessToken);
-    storage.set('id_token', authResult.idToken);
-    storage.set('expires_at', expiresAt);
+    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime())
+    storage.set('access_token', authResult.accessToken)
+    storage.set('id_token', authResult.idToken)
+    storage.set('expires_at', expiresAt)
   }
 
-  logout() {
+  logout () {
     // Clear access token and ID token from local storage
-    storage.remove('access_token');
-    storage.remove('id_token');
-    storage.remove('expires_at');
+    storage.remove('access_token')
+    storage.remove('id_token')
+    storage.remove('expires_at')
   }
 
-  isAuthenticated() {
-    // Check whether the current time is past the 
+  isAuthenticated () {
+    // Check whether the current time is past the
     // access token's expiry time
-    let expiresAt = JSON.parse(storage.getItem('expires_at'));
-    return new Date().getTime() < expiresAt;
+    let expiresAt = JSON.parse(storage.getItem('expires_at'))
+    return new Date().getTime() < expiresAt
   }
 }
- const auth = new Auth()
+const auth = new Auth()
 
 export default auth

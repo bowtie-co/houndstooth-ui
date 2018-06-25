@@ -5,8 +5,6 @@ import {
   Favorite
 } from '../../atoms'
 
-
-
 const TodoItem = ({ title, content, favorite = false, handler }) => {
   return (
     <section className='todo-section' onClick={handler}>
