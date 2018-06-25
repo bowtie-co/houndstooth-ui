@@ -1,8 +1,8 @@
 import React from 'react'
 import { compose } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
-import { Subtitle } from '../../../atoms'
-import { EditModelButton } from '../../../molecules'
+import { Subtitle } from '../../atoms'
+import { EditModelButton } from '../../molecules'
 
 /** ********** BASE COMPONENT **********/
 

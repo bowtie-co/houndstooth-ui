@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { withEither } from '@bowtie/react-utils'
-import { Subtitle } from '../../../atoms'
-import { Todo } from '../../../molecules'
+import { Subtitle } from '../../atoms'
+import { Item } from './'
 
 /** ********** BASE COMPONENT **********/
 
@@ -19,7 +19,7 @@ const TodoList = ({ todoList = [], setTodo }) => {
                 <Subtitle title={title} />
                 <Summary content={content} />
               </section> */}
-              <Todo key={`todo-${i}`} title={title} content={content} favorite={favorite} handler={() => setTodo(todo)} />
+              <Item key={`todo-${i}`} title={title} content={content} favorite={favorite} handler={() => setTodo(todo)} />
             </Link>
           )
         })

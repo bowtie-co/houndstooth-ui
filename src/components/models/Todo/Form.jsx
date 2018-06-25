@@ -1,12 +1,11 @@
 import React from 'react'
-import { Form } from '../../'
-import { FieldContainer } from '../../../molecules'
-import { Title } from '../../../atoms'
+import { Form } from '../../organisms'
+import { FieldContainer } from '../../molecules'
+import { Title } from '../../atoms'
 
 /** ********** BASE COMPONENT **********/
 
 const TodoForm = ({ todo, formSubmit, modelName }) => {
-  const form = { title: 'this is a title', description: 'description', importance: 'not very important' }
   return (
     <section>
       <Title title={`Your ${modelName}`} />

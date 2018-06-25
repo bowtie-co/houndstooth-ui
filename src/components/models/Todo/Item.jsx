@@ -7,7 +7,7 @@ import {
 
 
 
-const Todo = ({ title, content, favorite = false, handler }) => {
+const TodoItem = ({ title, content, favorite = false, handler }) => {
   return (
     <section className='todo-section' onClick={handler}>
       <Favorite className='todo-item' favorite={favorite} />
@@ -17,4 +17,4 @@ const Todo = ({ title, content, favorite = false, handler }) => {
   )
 }
 
-export default Todo
+export default TodoItem
