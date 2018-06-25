@@ -2,7 +2,7 @@ import React from 'react'
 import { Todo } from '../../organisms'
 import { PublicRoute, Switch } from '../../atoms'
 
-const Demo = ({ todoList, todo, setTodo, formSubmit, model_name }) => {
+const Demo = ({ todoList, todo, setTodo, formSubmit, modelName }) => {
   console.log('rendering Demo')
   return (
     <div className='demo-template'>
@@ -14,12 +14,12 @@ const Demo = ({ todoList, todo, setTodo, formSubmit, model_name }) => {
       <Switch>
         <PublicRoute
           props={{ todo }}
-          path={'/view/todos/:model_id'}
+          path={'/view/todos/:modelId'}
           component={Todo.Single}
         />
         <PublicRoute
-          props={{ todo, formSubmit, model_name }}
-          path={'/edit/todos/:model_id'}
+          props={{ todo, formSubmit, modelName }}
+          path={'/edit/todos/:modelId'}
           component={Todo.Form}
         />
         <PublicRoute

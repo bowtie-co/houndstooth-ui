@@ -10,7 +10,6 @@ export default compose(
   withState('errors', 'handleErrors', {}),
   withHandlers({
     formOnChange: ({ formData, setFormData, handleChange }) => (e) => {
-      
       const key = e.target.name
       let value = e.target.value
 

@@ -33,13 +33,13 @@ export const enhance = compose(
     formSubmit: ({ match, isComponentLoading, history }) => (formData) => {
       console.log('formData', formData)
       // history.goBack()
-      // const { action, model_name, model_id } = match.params
+      // const { action, modelName, modelId } = match.params
 
       // const method = methods[action]
-      // const route = model_id ? `${model_name}/${model_id}` : `${model_name}`
+      // const route = modelId ? `${modelName}/${modelId}` : `${modelName}`
       // isComponentLoading(true)
 
-      // api[method](route, { [model_name]: formData })
+      // api[method](route, { [modelName]: formData })
       //   .then(notifier.ok.bind(notifier))
       //   .then(({ data }) => {
       //     isComponentLoading(false)

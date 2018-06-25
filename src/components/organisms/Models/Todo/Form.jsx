@@ -5,11 +5,11 @@ import { Title } from '../../../atoms'
 
 /** ********** BASE COMPONENT **********/
 
-const TodoForm = ({ todo, formSubmit, model_name }) => {
-  const form = { title: "this is a title", description: "description", importance: "not very important" }
+const TodoForm = ({ todo, formSubmit, modelName }) => {
+  const form = { title: 'this is a title', description: 'description', importance: 'not very important' }
   return (
     <section>
-      <Title title={`Your ${model_name}`} />
+      <Title title={`Your ${modelName}`} />
       <Form model={form} onSubmit={formSubmit}>
         <FieldContainer
           type={'text'}
