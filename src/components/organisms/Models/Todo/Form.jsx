@@ -10,7 +10,7 @@ const TodoForm = ({ todo, formSubmit, modelName }) => {
   return (
     <section>
       <Title title={`Your ${modelName}`} />
-      <Form model={form} onSubmit={formSubmit}>
+      <Form model={todo} onSubmit={formSubmit}>
         <FieldContainer
           type={'text'}
           label={'Todo'}
