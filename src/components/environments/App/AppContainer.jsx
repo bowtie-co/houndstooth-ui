@@ -19,7 +19,7 @@ export const enhance = compose(
   withMaybe(nullConditionFn),
   withEither(loadingConditionFn, Loading),
   withHandlers({
-    mapFeatures: ({ featureList }) => () => featureList.map((feature, i) => <li className='list-item' key={`feature-${i}`}>{feature}</li>)
+    // mapFeatures: ({ featureList }) => () => featureList.map((feature, i) => <li className='list-item' key={`feature-${i}`}>{feature}</li>)
   })
 )
 export default enhance(App)

@@ -1,4 +1,5 @@
 import Loading from './Loading'
+import Login from './Login'
 import Title from './Title'
 import Button from './Button'
 import FormGroup from './FormGroup'
@@ -25,5 +26,6 @@ export {
   ReactLogo,
   BowtieLogo,
   Body,
-  Switch
+  Switch,
+  Login
 }

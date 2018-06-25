@@ -5,9 +5,10 @@ import { Description, Demo } from '../../ecosystems'
 import { Header, Footer } from '../../organisms'
 
 const App = (props) => {
+  const { auth } = props
   return (
     <section className='app'>
-      <Header />
+      <Header auth={auth} />
       <Body>
         <Switch>
           <PublicRoute

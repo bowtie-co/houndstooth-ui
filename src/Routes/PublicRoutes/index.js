@@ -1,25 +1,21 @@
-import { AppContainer } from '../../components/environments'
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
-
-//  This is an example of how to pass through props into a component.
-//  Once building a new React App, delete this array.
-const featureList = [
-  'react router',
-  'recompose',
-  'scss loaders',
-  'Bowtie React utilities',
-  'Bowtie Api helper',
-  'Bowtie React file structure',
-  'jest-enzyme library'
-]
+import auth from '../../lib/auth'
+import { AppContainer, AuthContainer } from '../../components/environments'
+import { PublicRoute } from '../../components/atoms'
+import { Switch } from 'react-router-dom'
 
 const PublicRoutes = () => {
   return (
     <Switch>
-      <Route
+      <PublicRoute
+        props={{ auth }}
+        path='/callback'
+        component={AuthContainer}
+      />
+      <PublicRoute
+        props={{ auth }}
         path='/'
-        render={() => <AppContainer featureList={featureList} isLoading={false} />}
+        component={AppContainer}
       />
     </Switch>
   )

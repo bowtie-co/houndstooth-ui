@@ -1,14 +1,16 @@
 import React from 'react'
 import { Brand } from '../../molecules'
-import { NavLink } from '../../atoms'
+import { NavLink, Login } from '../../atoms'
 
-const Header = (props) => {
+const Header = ({ auth }) => {
+  console.log("auth in Header", auth);
   return (
     <section className='top-nav-section' >
-      <Brand title={'Welcome to Bowtie\'s React-Recompose Starter Kit'} />
+      <Brand title={'Houndstooth'} />
       <div className='nav-bar'>
         <NavLink path={'/home'} title={'Description'} />
         <NavLink path={'/view/todos/'} title={'Demo - todo app'} />
+        <Login auth={auth}/>
       </div>
     </section>
   )

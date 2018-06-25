@@ -3,18 +3,13 @@ import {
   Subtitle
 } from '../../atoms'
 
-const Description = ({ featureList, formOnChange, ...rest }) => {
+const Description = ({ ...rest }) => {
   return (
     <div className='home-template'>
       <p className='intro'>
         This starter kit is an ejected version of create-react-app and comes preloaded with the following libraries:
       </p>
       <div className='list-section'>
-        <ul className='list'>
-          {
-            featureList.length && featureList.map((feature, i) => <li className='list-item' key={`feature-${i}`}>{feature}</li>)
-          }
-        </ul>
 
       </div>
       <Subtitle title={'File structure'} />
