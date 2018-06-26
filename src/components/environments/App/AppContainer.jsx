@@ -1,7 +1,6 @@
 // Containers should include all logic that enhances a component
 // this includes any reduce methods, recompose, or middleware.
 
-import React from 'react'
 import { withRouter } from 'react-router'
 import { compose, withHandlers } from 'recompose'
 import { withEither, withMaybe } from '@bowtie/react-utils'
@@ -19,7 +18,7 @@ export const enhance = compose(
   withMaybe(nullConditionFn),
   withEither(loadingConditionFn, Loading),
   withHandlers({
-    mapFeatures: ({ featureList }) => () => featureList.map((feature, i) => <li className='list-item' key={`feature-${i}`}>{feature}</li>)
+    // mapFeatures: ({ featureList }) => () => featureList.map((feature, i) => <li className='list-item' key={`feature-${i}`}>{feature}</li>)
   })
 )
 export default enhance(App)

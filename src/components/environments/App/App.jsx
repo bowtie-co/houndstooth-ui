@@ -1,8 +1,9 @@
 import React from 'react'
 import { Switch } from 'react-router-dom'
 import { PublicRoute, Body } from '../../atoms'
-import { Description, Demo } from '../../ecosystems'
+import { Description, Repo } from '../../ecosystems'
 import { Header, Footer } from '../../organisms'
+import PrivateRoute from '../../../Routes/PrivateRoutes/PrivateComponentContainer'
 
 const App = (props) => {
   return (
@@ -15,10 +16,9 @@ const App = (props) => {
             path='/home'
             component={Description}
           />
-          <PublicRoute
-            path='/:action(view|edit|create)/:model(todos)/:modelId?/'
-            // path={'/todos/'}
-            component={Demo}
+          <PrivateRoute
+            path='/:action(view|edit|create)/:model(repos)/:modelId?/'
+            component={Repo}
           />
         </Switch>
       </Body>

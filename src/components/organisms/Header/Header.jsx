@@ -1,14 +1,15 @@
 import React from 'react'
 import { Brand } from '../../molecules'
-import { NavLink } from '../../atoms'
+import { NavLink, Login } from '../../atoms'
 
-const Header = (props) => {
+const Header = () => {
   return (
     <section className='top-nav-section' >
-      <Brand title={'Welcome to Bowtie\'s React-Recompose Starter Kit'} />
+      <Brand title={'Houndstooth'} />
       <div className='nav-bar'>
         <NavLink path={'/home'} title={'Description'} />
-        <NavLink path={'/view/todos/'} title={'Demo - todo app'} />
+        <NavLink path={'/view/repos/'} title={'Repo - todo app'} />
+        <Login />
       </div>
     </section>
   )

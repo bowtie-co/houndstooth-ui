@@ -1,4 +1,5 @@
 import Loading from './Loading'
+import Login from './Login'
 import Title from './Title'
 import Button from './Button'
 import FormGroup from './FormGroup'
@@ -7,10 +8,11 @@ import Subtitle from './Subtitle'
 import PublicRoute from './PublicRoute'
 import Favorite from './Favorite'
 import Summary from './Summary'
-import ReactLogo from './ReactLogo'
 import BowtieLogo from './BowtieLogo'
 import Body from './Body'
+import Avatar from './Avatar'
 import Switch from './Switch'
+import TimeFromNow from './TimeFromNow'
 
 export {
   Loading,
@@ -22,8 +24,10 @@ export {
   PublicRoute,
   Favorite,
   Summary,
-  ReactLogo,
   BowtieLogo,
   Body,
-  Switch
+  Switch,
+  Login,
+  Avatar,
+  TimeFromNow
 }
