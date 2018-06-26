@@ -19,7 +19,7 @@ const RepoItem = ({ repo }) => {
         <Subtitle title={repo.owner.login} />
       </div>
       <p>last updated: <TimeFromNow time={repo.updated_at} /> </p>
-      <p>Description: <Summary content={repo.description || 'N/A'} /></p>
+      <Summary content={`Description: ${repo.description || 'N/A'}`} />
     </Link >
   )
 }
