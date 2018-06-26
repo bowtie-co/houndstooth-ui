@@ -1,10 +1,10 @@
 import { lifecycle } from 'recompose'
+import auth from '../../../lib/auth'
 
 export default lifecycle({
   componentWillMount () {
-    const { location, auth, history } = this.props
+    const { location, history } = this.props
     if (/access_token|id_token|error/.test(location.hash)) {
-      // auth.handleAuthentication() ? history.push('/home') : history.push('/login')
       auth.handleAuthentication((err) => {
         if (err) {
           history.push('/login')

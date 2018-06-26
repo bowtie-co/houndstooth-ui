@@ -2,8 +2,7 @@ import React from 'react'
 import { Todo } from '../../models'
 import { PublicRoute, Switch } from '../../atoms'
 
-const Demo = ({ todoList, todo, setTodo, formSubmit, modelName }) => {
-  console.log('rendering Demo')
+const Repo = ({ todoList, todo, setTodo, formSubmit, modelName }) => {
   return (
     <div className='demo-template'>
       <PublicRoute
@@ -32,4 +31,4 @@ const Demo = ({ todoList, todo, setTodo, formSubmit, modelName }) => {
   )
 }
 
-export default Demo
+export default Repo

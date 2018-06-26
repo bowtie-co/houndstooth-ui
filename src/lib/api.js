@@ -6,6 +6,8 @@ import parseLinkHeader from 'parse-link-header'
 
 const api = new Api({
   root: process.env.REACT_APP_API_ROOT_URL,
+  stage: process.env.REACT_APP_API_STAGE,
+  prefix: process.env.REACT_APP_API_PREFIX,
   version: process.env.REACT_APP_API_VERSION,
   secureOnly: process.env.NODE_ENV !== 'development',
   verbose: process.NODE_ENV !== 'production',
@@ -13,7 +15,7 @@ const api = new Api({
 })
 
 api.authorize({
-  token: () => storage.get('access_token')
+  token: () => storage.get('id_token')
 })
 
 const handleApiUnauthorized = (resp) => {

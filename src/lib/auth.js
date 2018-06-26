@@ -54,7 +54,7 @@ class Auth {
   isAuthenticated () {
     // Check whether the current time is past the
     // access token's expiry time
-    let expiresAt = JSON.parse(storage.getItem('expires_at'))
+    let expiresAt = JSON.parse(storage.get('expires_at'))
     return new Date().getTime() < expiresAt
   }
 }

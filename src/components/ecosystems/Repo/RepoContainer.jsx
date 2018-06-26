@@ -1,11 +1,11 @@
 // Containers should include all logic that enhances a component
 // this includes any reduce methods, recompose, or middleware.
 
-import { compose, withState, withHandlers } from 'recompose'
+import { compose, withState, withHandlers, lifecycle } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
-import Demo from './Demo'
+import Repo from './Repo'
 import { Loading } from '../../atoms'
-// import api from '../../../lib/api'
+import api from '../../../lib/api'
 // import notifier from '../../../lib/notifier'
 
 // conditional functions here:
@@ -24,11 +24,15 @@ const todoList = [
 // }
 
 export const enhance = compose(
-  // withForm,
   withState('todoList', 'setTodoList', todoList),
   withState('todo', 'setTodo', {}),
   withState('isComponentLoading', 'setIsComponentLoading', false),
   withEither(loadingConditionFn, Loading),
+  lifecycle({
+    componentWillMount(){
+      api.get('repos?sort=updated&per_page=12&affiliation=owner')
+    }
+  }),
   withHandlers({
     formSubmit: ({ match, isComponentLoading, history }) => (formData) => {
       console.log('formData', formData)
@@ -56,4 +60,4 @@ export const enhance = compose(
 
 )
 
-export default enhance(Demo)
+export default enhance(Repo)

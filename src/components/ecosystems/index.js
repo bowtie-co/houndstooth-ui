@@ -10,6 +10,6 @@
  */
 
 import Description from './Description'
-import Demo from './Demo'
+import Repo from './Repo'
 
-export { Description, Demo }
+export { Description, Repo }

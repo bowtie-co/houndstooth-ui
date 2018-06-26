@@ -11,7 +11,9 @@ import Summary from './Summary'
 import ReactLogo from './ReactLogo'
 import BowtieLogo from './BowtieLogo'
 import Body from './Body'
+import Avatar from './Avatar'
 import Switch from './Switch'
+import TimeFromNow from './TimeFromNow'
 
 export {
   Loading,
@@ -27,5 +29,7 @@ export {
   BowtieLogo,
   Body,
   Switch,
-  Login
+  Login,
+  Avatar,
+  TimeFromNow
 }
