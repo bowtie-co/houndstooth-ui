@@ -6,13 +6,13 @@ import { EditModelButton } from '../../molecules'
 
 /** ********** BASE COMPONENT **********/
 
-const TodoSingle = ({ todo }) => {
+const CollectionSingle = ({ todo }) => {
   return (
     <section className='todo-detail-section' id={`todo-${todo.id}`}>
       <p>{todo.title}</p>
       <p>{todo.content}</p>
       <EditModelButton
-        modelName={'todos'}
+        modelName={'repos'}
         modelId={todo.id}
         label={'Edit Todo'}
       />
@@ -28,4 +28,4 @@ const EmptyState = () => <section className='todo-detail-section'><Subtitle titl
 
 export default compose(
   withEither(emptyConditionFn, EmptyState)
-)(TodoSingle)
+)(CollectionSingle)

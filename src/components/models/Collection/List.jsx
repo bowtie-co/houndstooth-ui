@@ -6,7 +6,7 @@ import { Item } from './'
 
 /** ********** BASE COMPONENT **********/
 
-const TodoList = ({ todoList = [], setTodo }) => {
+const CollectionList = ({ todoList = [], setTodo }) => {
   return (
     <section className='todo-list-section' >
       {
@@ -31,6 +31,6 @@ const TodoList = ({ todoList = [], setTodo }) => {
 /** ********** EMPTY STATE **********/
 
 const emptyConditionFn = ({ todoList }) => !todoList.length
-const EmptyState = () => <section className='todo-detail-section'><Subtitle title={'You have no todos'} /></section>
+const EmptyState = () => <section className='todo-detail-section'><Subtitle title={'You have no repos'} /></section>
 
-export default withEither(emptyConditionFn, EmptyState)(TodoList)
+export default withEither(emptyConditionFn, EmptyState)(CollectionList)

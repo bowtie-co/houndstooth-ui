@@ -8,7 +8,6 @@ import Subtitle from './Subtitle'
 import PublicRoute from './PublicRoute'
 import Favorite from './Favorite'
 import Summary from './Summary'
-import ReactLogo from './ReactLogo'
 import BowtieLogo from './BowtieLogo'
 import Body from './Body'
 import Avatar from './Avatar'
@@ -25,7 +24,6 @@ export {
   PublicRoute,
   Favorite,
   Summary,
-  ReactLogo,
   BowtieLogo,
   Body,
   Switch,

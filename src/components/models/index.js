@@ -1,4 +1,4 @@
 
-import * as Todo from './Todo'
+import * as Collection from './Collection'
 
-export { Todo }
+export { Collection }

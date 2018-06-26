@@ -17,7 +17,7 @@ const App = (props) => {
             component={Description}
           />
           <PrivateRoute
-            path='/:action(view|edit|create)/:model(todos)/:modelId?/'
+            path='/:action(view|edit|create)/:model(repos)/:modelId?/'
             component={Repo}
           />
         </Switch>

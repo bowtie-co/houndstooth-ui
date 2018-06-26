@@ -5,7 +5,7 @@ import { Title } from '../../atoms'
 
 /** ********** BASE COMPONENT **********/
 
-const TodoForm = ({ todo, formSubmit, modelName }) => {
+const CollectionForm = ({ todo, formSubmit, modelName }) => {
   return (
     <section>
       <Title title={`Your ${modelName}`} />
@@ -33,4 +33,4 @@ const TodoForm = ({ todo, formSubmit, modelName }) => {
   )
 }
 
-export default TodoForm
+export default CollectionForm
