@@ -3,7 +3,7 @@ import moment from 'moment'
 
 const TimeFromNow = ({ time }) => {
   return (
-    <span>{moment(time, "YYYYMMDD").fromNow()}</span>
+    <span>{moment(time, 'YYYYMMDD').fromNow()}</span>
   )
 }
 

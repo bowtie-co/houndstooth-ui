@@ -29,7 +29,7 @@ export const enhance = compose(
   withState('isComponentLoading', 'setIsComponentLoading', false),
   withEither(loadingConditionFn, Loading),
   lifecycle({
-    componentWillMount(){
+    componentWillMount () {
       api.get('repos?sort=updated&per_page=12&affiliation=owner')
     }
   }),

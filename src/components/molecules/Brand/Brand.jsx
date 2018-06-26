@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   BowtieLogo,
-  ReactLogo,
   Title
 } from '../../atoms'
 

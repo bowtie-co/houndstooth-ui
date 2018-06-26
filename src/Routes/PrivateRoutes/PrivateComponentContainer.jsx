@@ -30,7 +30,7 @@ export const enhance = compose(
     return {
       resumeRoute
     }
-  }),
+  })
   // withEither(homepageConditionFn, HomepageRedirect)
 )
 
