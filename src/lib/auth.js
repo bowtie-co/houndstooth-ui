@@ -22,19 +22,18 @@ class Auth {
     this.auth0.authorize()
   }
 
-  async handleAuthentication () {
-    const resp = await this.auth0.parseHash((err, authResult) => {
+  handleAuthentication (callback) {
+    this.auth0.parseHash((err, authResult) => {
+      if (err) return callback(err)
+
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult)
         console.log('handleAuth')
-        return true
-      } else if (err) {
-        console.log(err)
-        return false
+        callback()
+      } else {
+        callback(new Error('Bad auth result'))
       }
     })
-    console.log('resp', resp)
-    return resp
   }
 
   setSession (authResult) {
