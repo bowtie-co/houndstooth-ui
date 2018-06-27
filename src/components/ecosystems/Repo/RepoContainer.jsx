@@ -19,7 +19,7 @@ const loadingConditionFn = ({ isComponentLoading }) => isComponentLoading
 
 export const enhance = compose(
   withState('repoList', 'setRepoList', []),
-  withState('todo', 'setTodo', {}),
+  withState('repo', 'setRepo', {}),
   withState('isComponentLoading', 'setIsComponentLoading', false),
   withEither(loadingConditionFn, Loading),
   lifecycle({

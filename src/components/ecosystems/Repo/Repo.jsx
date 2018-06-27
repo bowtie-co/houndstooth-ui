@@ -1,32 +1,27 @@
 import React from 'react'
-import { PublicRoute } from '../../atoms'
-import { RepoItem } from '../../molecules'
+import { 
+  PublicRoute, 
+  Switch 
+} from '../../atoms'
+import { RepoList } from '../../organisms'
+import { FileTree } from '..';
 
-const Repo = ({ repoList, setRepoList }) => {
+const Repo = ({ repoList }) => {
   return (
     <div className='demo-template'>
-      <PublicRoute
-        props={{ repoList, setRepoList }}
-        path={'/:action(view)/repos'}
-        component={RepoItem}
-      />
-      {/* <Switch>
+      <Switch>
         <PublicRoute
-          props={{ todo }}
-          path={'/view/repos/:modelId'}
-          component={Todo.Single}
+          exact
+          props={{ repoList }}
+          path={'/:action(view)/repos'}
+          component={RepoList}
         />
         <PublicRoute
-          props={{ todo, formSubmit, modelName }}
-          path={'/edit/repos/:modelId'}
-          component={Todo.Form}
+          props={{ repoList }}
+          path={'/:action(view)/repos/:username/:repo'}
+          component={FileTree}
         />
-        <PublicRoute
-          props={{ todo, formSubmit }}
-          path={'/create/repos/'}
-          component={Todo.Form}
-        />
-      </Switch> */}
+      </Switch>
     </div>
   )
 }

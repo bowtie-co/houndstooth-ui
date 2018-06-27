@@ -12,7 +12,7 @@ import BowtieLogo from './BowtieLogo'
 import Body from './Body'
 import Avatar from './Avatar'
 import Switch from './Switch'
-import TimeFromNow from './TimeFromNow'
+import Card from './Card'
 
 export {
   Loading,
@@ -29,5 +29,5 @@ export {
   Switch,
   Login,
   Avatar,
-  TimeFromNow
+  Card
 }

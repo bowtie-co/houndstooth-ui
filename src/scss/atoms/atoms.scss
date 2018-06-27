@@ -5,3 +5,16 @@
 	margin: 6px 25px;
 	margin-left: 0;
 } 
+
+.card {
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+  .list-item{
+    padding: 26px;
+    border: 1px lightgrey solid;
+    height: 400px;
+    width: 30%;
+		margin: 10px;
+	}		
+}

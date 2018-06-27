@@ -1,9 +1,26 @@
 import React from 'react'
-// import {} from '../../atoms'
+import { Link } from 'react-router-dom'
+import {
+  Avatar,
+  Subtitle,
+  Summary
+} from '../../atoms'
+import { LastUpdated } from '../../molecules'
 
-const RepoItem = ({ repoList }) => {
+const RepoItem = ({ repo }) => {
   return (
-    <section>This is a repo item</section>
+    <Link to={`${repo.owner.login}/${repo.name}/dir`} className='list-item' >
+      <div className='repoNameWrapper'>
+        <Subtitle title={repo.name} />
+        <Subtitle title={repo.private ? 'private' : 'public'} />
+      </div>
+      <div className='ownerWrapper'>
+        <Avatar img={repo.owner.avatar_url} />
+        <Subtitle title={repo.owner.login} />
+      </div>
+      <LastUpdated time={repo.updated_at} />
+      <Summary content={`Description: ${repo.description || 'N/A'}`} />
+    </Link >
   )
 }
 
