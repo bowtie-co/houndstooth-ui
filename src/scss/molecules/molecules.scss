@@ -1,0 +1,34 @@
+.search-mol {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+  // &input[text]{
+  //   background-color: magenta;
+  // }
+
+}
+
+.todo-section {
+  display: flex;
+  border: 2px solid grey;
+  padding: 10px;
+  .favorite, .subtitle, .summary {
+    width: 100px
+  }
+}
+
+
+.repoDir {
+  width: 177px;
+  margin: 18px;
+  border: 2px lightgrey solid;
+  padding: 39px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .fileIcon {
+      width: 80px;
+  }
+}

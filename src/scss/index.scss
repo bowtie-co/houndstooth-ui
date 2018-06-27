@@ -7,8 +7,7 @@
 @import './organisms/Footer.scss';
 @import './organisms/TodoList.scss';
 @import './organisms/TodoDetail.scss';
-@import './molecules/search.scss';
-@import './molecules/todo.scss';
+@import './molecules/molecules';
 @import './atoms/buttons.scss';
 @import './atoms/atoms.scss';
 
@@ -19,8 +18,8 @@
 .app {
   display: flex;
   flex-direction: column;
-  height: 100%;
   .body-template {
-    flex-grow: 1
+    flex-grow: 1;
+    min-height: 70vh;
   }
 }

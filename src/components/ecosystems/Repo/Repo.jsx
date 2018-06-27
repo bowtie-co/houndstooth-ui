@@ -1,10 +1,10 @@
 import React from 'react'
-import { 
-  PublicRoute, 
-  Switch 
+import {
+  PublicRoute,
+  Switch
 } from '../../atoms'
 import { RepoList } from '../../organisms'
-import { FileTree } from '..';
+import { FileTree } from '..'
 
 const Repo = ({ repoList }) => {
   return (
@@ -18,7 +18,7 @@ const Repo = ({ repoList }) => {
         />
         <PublicRoute
           props={{ repoList }}
-          path={'/:action(view)/repos/:username/:repo'}
+          path={'/:action(view)/repos/:username/:repo/'}
           component={FileTree}
         />
       </Switch>

@@ -4,21 +4,28 @@
 import { compose, withState, withHandlers, lifecycle, withPropsOnChange } from 'recompose'
 import { buildUrlParamObj } from '@bowtie/utils'
 import FileTree from './FileTree'
+import qs from 'qs'
 import { Loading } from '../../atoms'
 import api from '../../../lib/api'
 import notifier from '../../../lib/notifier'
 
 // conditional functions here:
+const loadingConditionFn = ({ isComponentLoading }) => isComponentLoading
 
 export const enhance = compose(
-  withState('dir', 'setDir', {}),
+  withState('isComponentLoading', 'setIsComponentLoading', false),
+  withState('dirList', 'setDirList', []),
   withState('file', 'setFile', {}),
-  withState('path', 'setPath', '')
+  withState('paramsObj', 'setParamsObj', ({ location }) => qs.parse(location.search, { ignoreQueryPrefix: true })),
   lifecycle({
     componentWillMount () {
-      const { repo, username } = this.props.match.params
-
-      const route = `repos/${username}/${repo}/files?path=vendor/removeMe&ref=master`
+      const { match, location, paramsObj, setDirList, setFile } = this.props
+      const { repo, username } = match.params
+      const stringifiedParams = qs.stringify(paramsObj)
+      const route = `repos/${username}/${repo}/files?${stringifiedParams}`
+      console.log('route', route)
+      api.get(route)
+        .then(({ data }) => data['files'] ? setDirList(data['files']) : setFile(data['file']))
 
       //   const { path, branch } = params
       //   const queryParams = `path=${path || ''}&ref=${branch || 'master'}`
@@ -44,14 +51,14 @@ export const enhance = compose(
       //       })
       //       .catch(next);
       //   };
-      // };
-    }
-  }),
-  withPropsOnChange(['location'], ({ location }, { location: nextLocation }) => {
-    if(nextLocation.search !== location.search){
-      console.log("a new search param", nextLocation.search);
+      // };,
     }
   })
+  // withPropsOnChange(['location'], ({ location }, { location: nextLocation }) => {
+  //   if(nextLocation.search !== location.search){
+  //     console.log("a new search param", nextLocation.search);
+  //   }
+  // })
 )
 
 export default enhance(FileTree)
