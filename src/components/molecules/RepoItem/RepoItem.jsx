@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom'
 import {
   Avatar,
   Subtitle,
-  TimeFromNow,
   Summary
 } from '../../atoms'
+import { LastUpdated } from '../../molecules'
 
 const RepoItem = ({ repo }) => {
   return (
-    <Link to={`/repos/${repo.owner.login}/${repo.name}/dir`} className='list-item' >
+    <Link to={`${repo.owner.login}/${repo.name}/dir`} className='list-item' >
       <div className='repoNameWrapper'>
         <Subtitle title={repo.name} />
         <Subtitle title={repo.private ? 'private' : 'public'} />
@@ -18,7 +18,7 @@ const RepoItem = ({ repo }) => {
         <Avatar img={repo.owner.avatar_url} />
         <Subtitle title={repo.owner.login} />
       </div>
-      <p>last updated: <TimeFromNow time={repo.updated_at} /> </p>
+      <LastUpdated time={repo.updated_at} />
       <Summary content={`Description: ${repo.description || 'N/A'}`} />
     </Link >
   )

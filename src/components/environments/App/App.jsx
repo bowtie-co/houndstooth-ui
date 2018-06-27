@@ -3,7 +3,7 @@ import { Switch } from 'react-router-dom'
 import { PublicRoute, Body } from '../../atoms'
 import { Description, Repo } from '../../ecosystems'
 import { Header, Footer } from '../../organisms'
-import PrivateRoute from '../../../Routes/PrivateRoutes/PrivateComponentContainer'
+import PrivateRoute from '../../../Routes/PrivateRoutes/PrivateRoute'
 
 const App = (props) => {
   return (
@@ -17,7 +17,7 @@ const App = (props) => {
             component={Description}
           />
           <PrivateRoute
-            path='/:action(view|edit|create)/:model(repos)/:modelId?/'
+            path='/:action(view|edit|create)/:model(repos)/:username?/:repo?'
             component={Repo}
           />
         </Switch>
