@@ -7,7 +7,7 @@ import {
 } from '../../atoms'
 import { LastUpdated } from '../../molecules'
 
-const RepoItem = ({ repo }) => {
+const RepoCard = ({ repo }) => {
   return (
     <Link to={`${repo.owner.login}/${repo.name}/dir`} className='list-item' >
       <div className='repoNameWrapper'>
@@ -24,4 +24,4 @@ const RepoItem = ({ repo }) => {
   )
 }
 
-export default RepoItem
+export default RepoCard

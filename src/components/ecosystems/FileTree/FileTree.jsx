@@ -1,16 +1,23 @@
 import React from 'react'
-// import { PublicRoute } from '../../atoms'
-// import { RepoList } from '../../organisms'
+import { PublicRoute, Switch } from '../../atoms'
+import { DirList, FileSingle } from '../../organisms'
 
-const FileTree = ({ repoList }) => {
+const FileTree = ({ dirList, match, file }) => {
+  console.log('FileTree dirList', dirList)
   return (
     <div className='demo-template'>
-    This is the File Tree Ecosystem
-      {/* <PublicRoute
-        props={{ repoList }}
-        path={'/:action(view)/repos'}
-        component={RepoList}
-      /> */}
+      <Switch>
+        <PublicRoute
+          path={`${match.url}/dir`}
+          props={{ dirList }}
+          component={DirList}
+        />
+        <PublicRoute
+          path={`${match.url}/file`}
+          props={{ file }}
+          component={FileSingle}
+        />
+      </Switch>
     </div>
   )
 }
