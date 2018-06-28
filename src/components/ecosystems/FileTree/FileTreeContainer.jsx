@@ -19,12 +19,12 @@ export const enhance = compose(
     file: {},
     branchList: [],
     branch: queryParams['ref'] || 'master',
-    isComponentLoading: false,
+    isComponentLoading: false
   }), {
     setDirList: ({ dirList }) => (payload) => ({ dirList: payload }),
     setFile: ({ file }) => (payload) => ({ file: payload }),
     setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
-    setBranch: ({ branch }, { history }) => (payload) => ({ branch: payload }),
+    setBranch: ({ branch }, { history }) => (payload) => ({ branch: payload })
   }),
   withHandlers({
     changeBranch: ({ history }) => (e) => {
@@ -32,9 +32,9 @@ export const enhance = compose(
     }
   }),
   lifecycle({
-    componentWillMount(){
+    componentWillMount () {
       const { match, setBranchList } = this.props
-      const { model, username, repo } = match.params
+      const { username, repo } = match.params
 
       api.get(`repos/${username}/${repo}/branches`)
         .then(({ data }) => setBranchList(data.branches))

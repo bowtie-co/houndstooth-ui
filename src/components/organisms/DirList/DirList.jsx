@@ -3,7 +3,7 @@ import { Card } from '../../atoms'
 import { DirCard } from '../../molecules'
 
 const DirList = ({ dirList, branch }) => {
-  console.log("dirList branch :", branch)
+  console.log('dirList branch :', branch)
   return (
     <Card>
       {

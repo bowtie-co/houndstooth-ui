@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   PublicRoute,
-  Switch,
+  Switch
 } from '../../atoms'
 import { RepoList } from '../../organisms'
 import { FileTree } from '..'
