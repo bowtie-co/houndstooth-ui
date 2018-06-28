@@ -4,7 +4,7 @@ import {
   Subtitle
 } from '../../atoms'
 
-const DirCard = ({ dir }) => {
+const DirCard = ({ dir, branch }) => {
   const supportedIcons = ['css', 'html', 'js', 'json']
 
   const { type, path, name } = dir
@@ -12,7 +12,7 @@ const DirCard = ({ dir }) => {
   const ext = nameArray.length > 1 ? nameArray[nameArray.length - 1] : null
   return (
     <Link
-      to={{ pathname: `${type}`, search: `?path=${path}` }}
+      to={{ pathname: `${type}`, search: `?path=${path}&branch=${branch}` }}
       className='repoDir'>
       <img className='fileIcon' src={require(`../../../images/${supportedIcons.includes(ext) ? ext : type}.svg`)} alt='' />
       <Subtitle title={name} />

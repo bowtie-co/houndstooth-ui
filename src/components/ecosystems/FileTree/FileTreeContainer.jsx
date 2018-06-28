@@ -13,6 +13,7 @@ export const enhance = compose(
   withState('isComponentLoading', 'setIsComponentLoading', false),
   withState('dirList', 'setDirList', []),
   withState('file', 'setFile', {}),
+  // withState('branch', 'setBranch', 'master'),
   withState('paramsObj', 'setParamsObj', ({ location }) => qs.parse(location.search, { ignoreQueryPrefix: true })),
   withPropsOnChange(
     ({ location }, { location: nextLocation }) => nextLocation.search !== location.search,

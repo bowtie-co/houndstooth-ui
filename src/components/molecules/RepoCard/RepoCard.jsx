@@ -7,9 +7,9 @@ import {
 } from '../../atoms'
 import { LastUpdated } from '../../molecules'
 
-const RepoCard = ({ repo }) => {
+const RepoCard = ({ repo, branch  }) => {
   return (
-    <Link to={`${repo.owner.login}/${repo.name}/dir`} className='list-item' >
+    <Link to={{ pathname: `${repo.owner.login}/${repo.name}/dir`, search: `?branch=${branch}`}} className='list-item' >
       <div className='repoNameWrapper'>
         <Subtitle title={repo.name} />
         <Subtitle title={repo.private ? 'private' : 'public'} />
