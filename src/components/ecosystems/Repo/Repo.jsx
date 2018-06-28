@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   PublicRoute,
-  Switch
+  Switch,
 } from '../../atoms'
 import { RepoList } from '../../organisms'
 import { FileTree } from '..'
@@ -17,7 +17,7 @@ const Repo = ({ repoList, branch, setBranch }) => {
           component={RepoList}
         />
         <PublicRoute
-          props={{ repoList, branch, setBranch }}
+          props={{ repoList }}
           path={'/:action(view)/repos/:username/:repo/'}
           component={FileTree}
         />

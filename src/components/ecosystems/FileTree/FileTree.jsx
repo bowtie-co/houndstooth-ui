@@ -3,18 +3,18 @@ import { PublicRoute, Switch } from '../../atoms'
 import { DirList, FileSingle } from '../../organisms'
 
 const FileTree = ({ dirList, match, file, branch }) => {
-  console.log('FileTree dirList', dirList)
+  console.log('FileTree branch', branch)
   return (
     <div className='demo-template'>
       <Switch>
         <PublicRoute
-          path={`${match.url}/dir`}
           props={{ dirList, branch }}
+          path={`${match.url}/dir`}
           component={DirList}
         />
         <PublicRoute
-          path={`${match.url}/file`}
           props={{ file }}
+          path={`${match.url}/file`}
           component={FileSingle}
         />
       </Switch>

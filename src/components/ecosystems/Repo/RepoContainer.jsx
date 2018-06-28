@@ -1,7 +1,7 @@
 // Containers should include all logic that enhances a component
 // this includes any reduce methods, recompose, or middleware.
 
-import { compose, withState, withHandlers, lifecycle } from 'recompose'
+import { compose, withState, withPropsOnChange, lifecycle, withStateHandlers } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
 import Repo from './Repo'
 import { Loading } from '../../atoms'
@@ -18,22 +18,24 @@ const loadingConditionFn = ({ isComponentLoading }) => isComponentLoading
 // }
 
 export const enhance = compose(
-  withState('repoList', 'setRepoList', []),
-  withState('repo', 'setRepo', {}),
-  withState('branchList', 'setBranchList', []),
-  withState('branch', 'setBranch', 'master'),
-  withState('isComponentLoading', 'setIsComponentLoading', false),
+  withStateHandlers({
+    repoList: [],
+    repo: {},
+    isComponentLoading: false
+  }, {
+    setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
+    setRepo: ({ repo }) => (payload) => ({ repo: payload }),
+    setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
+  }),
   withEither(loadingConditionFn, Loading),
   lifecycle({
     componentWillMount () {
+      console.log("COMPONENT WILL MOUNT REPO");
+
       const { setRepoList, setBranchList, match } = this.props
       const { model, username, repo } = match.params
       api.get(`${model}?sort=updated&per_page=12&affiliation=owner`)
         .then(({ data }) => setRepoList(data.repos))
-        .catch(notifier.bad.bind(notifier))
-
-      api.get(`${model}/${username}/${repo}/branches`)
-        .then(({ data }) => setBranchList(data.branches))
         .catch(notifier.bad.bind(notifier))
     }
   }),

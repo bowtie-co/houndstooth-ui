@@ -5,6 +5,8 @@ import {
 } from '../../atoms'
 
 const DirCard = ({ dir, branch }) => {
+  console.log("DirCard branch :", branch)
+
   const supportedIcons = ['css', 'html', 'js', 'json']
 
   const { type, path, name } = dir

@@ -1,20 +1,42 @@
 // Containers should include all logic that enhances a component
 // this includes any reduce methods, recompose, or middleware.
 
-import { compose, withState, withPropsOnChange } from 'recompose'
+import { compose, withStateHandlers, withPropsOnChange, lifecycle } from 'recompose'
 import FileTree from './FileTree'
 import qs from 'qs'
 import api from '../../../lib/api'
-// import notifier from '../../../lib/notifier'
+import notifier from '../../../lib/notifier'
 
 // conditional functions here:
 
 export const enhance = compose(
-  withState('isComponentLoading', 'setIsComponentLoading', false),
-  withState('dirList', 'setDirList', []),
-  withState('file', 'setFile', {}),
-  // withState('branch', 'setBranch', 'master'),
-  withState('paramsObj', 'setParamsObj', ({ location }) => qs.parse(location.search, { ignoreQueryPrefix: true })),
+  withStateHandlers(({ location }) => ({
+    dirList: [],
+    file: {},
+    branchList: [],
+    branch: 'master',
+    isComponentLoading: false,
+    paramsObj: qs.parse(location.search, { ignoreQueryPrefix: true })
+  }), {
+    setDirList: ({ dirList }) => (payload) => ({ dirList: payload }),
+    setFile: ({ file }) => (payload) => ({ file: payload }),
+    setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
+    setBranch: ({ branch }, { history }) => (payload) => {
+      history.push(`?branch=${payload}`)
+      return { branch: payload }
+    },
+    setParamsObj: ({ paramsObj }) => (payload) => ({ paramsObj: payload }),
+  }),
+  lifecycle({
+    componentWillMount(){
+      const { match, setBranchList } = this.props
+      const { model, username, repo } = match.params
+
+      api.get(`repos/${username}/${repo}/branches`)
+        .then(({ data }) => setBranchList(data.branches))
+        .catch(notifier.bad.bind(notifier))
+    }
+  }),
   withPropsOnChange(
     ({ location }, { location: nextLocation }) => nextLocation.search !== location.search,
     ({ location, match, setParamsObj, setDirList, setFile }) => {
@@ -35,6 +57,7 @@ export const enhance = compose(
             setFile(data['file'])
           }
         })
+        .catch(notifier.bad.bind(notifier))
     }
   )
 )
