@@ -6,6 +6,7 @@ import FormGroup from './FormGroup'
 import NavLink from './NavLink'
 import Subtitle from './Subtitle'
 import PublicRoute from './PublicRoute'
+import PrivateRoute from './PrivateRoute'
 import Favorite from './Favorite'
 import Summary from './Summary'
 import BowtieLogo from './BowtieLogo'
@@ -22,6 +23,7 @@ export {
   NavLink,
   Subtitle,
   PublicRoute,
+  PrivateRoute,
   Favorite,
   Summary,
   BowtieLogo,

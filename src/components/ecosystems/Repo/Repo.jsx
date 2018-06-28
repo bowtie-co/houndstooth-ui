@@ -1,23 +1,24 @@
 import React from 'react'
 import {
-  PublicRoute,
+  PrivateRoute,
   Switch
 } from '../../atoms'
 import { RepoList } from '../../organisms'
 import { FileTree } from '..'
 
-const Repo = ({ repoList, branch, setBranch }) => {
+const Repo = (props) => {
   return (
     <div className='demo-template'>
       <Switch>
-        <PublicRoute
+        <PrivateRoute
           exact
-          props={{ repoList, branch }}
+          props={props}
           path={'/:action(view)/repos'}
           component={RepoList}
         />
-        <PublicRoute
-          props={{ repoList }}
+        <PrivateRoute
+          exact
+          props={props}
           path={'/:action(view)/repos/:username/:repo/'}
           component={FileTree}
         />

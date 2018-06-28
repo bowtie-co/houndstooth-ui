@@ -67,7 +67,14 @@
     "jest-enzyme": "^6.0.2",
     "babel-jest": "^22.4.0",
     "react-test-renderer": "^16.2.0",
-    "standard": "^11.0.1"
+    "standard": "^11.0.1",
+    "eslint": "4.10.0",
+    "eslint-config-react-app": "^2.1.0",
+    "eslint-loader": "1.9.0",
+    "eslint-plugin-flowtype": "2.39.1",
+    "eslint-plugin-import": "2.8.0",
+    "eslint-plugin-jsx-a11y": "5.1.1",
+    "eslint-plugin-react": "7.4.0"
   },
   "scripts": {
     "preinstall": "node -e \"if (process.env.npm_execpath.indexOf('yarn') === -1) { console.log('\u001b[31mPlease use yarn for installing\u001b[0m'); process.exit(1); }\"",

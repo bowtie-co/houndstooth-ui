@@ -7,8 +7,8 @@ const Header = () => {
     <section className='top-nav-section' >
       <Brand title={'Houndstooth'} />
       <div className='nav-bar'>
-        <NavLink path={'/home'} title={'Description'} />
-        <NavLink path={'/view/repos/'} title={'Repo - todo app'} />
+        <NavLink to={'/home'}>Description</NavLink>
+        <NavLink to={'/view/repos/'}>Repo - todo app</NavLink>
         <Login />
       </div>
     </section>

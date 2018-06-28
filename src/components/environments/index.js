@@ -1,4 +1,4 @@
 import AppContainer from './App/AppContainer'
-import AuthContainer from './Auth/AuthContainer'
+import Auth from './Auth/Auth'
 
-export { AppContainer, AuthContainer }
+export { AppContainer, Auth }

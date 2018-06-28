@@ -7,8 +7,8 @@ import PrivateComponent from './PrivateComponent'
 import LoginRedirect from './LoginRedirect'
 // import HomepageRedirect from './HomepageRedirect'
 // import RestrictedRedirect from './RestrictedRedirect'
-import storage from '../../lib/storage'
-import auth from '../../lib/auth'
+import storage from '../../../lib/storage'
+import auth from '../../../lib/auth'
 
 /** *** conditional functions here: *****/
 
