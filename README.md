@@ -1,28 +1,60 @@
-## Bowtie's React-Recompose Starter Kit
+Houndstooth
+---
 
-Welcome to Bowtie's React-Recompose Starter Kit. This starter kit is an ejected version of create-react-app and comes preloaded with the following libraries:
+- [Getting Started](#getting-started)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+  - [Usage](#usage)
+- [Testing](#testing)
+  - [Linting](#linting)
+  - [Unit Tests](#unit-tests)
 
+## Getting Started
+
+#### Requirements
+- Install [Yarn](https://yarnpkg.com/en/docs/install#mac-stable) `>= 1.5.0`
+
+- API must be be running at http://localhost:4000
+  - [See the API README.md](https://github.com/bowtie-co/sls-houndstooth-api/blob/master/README.md) for more info
+
+#### Installation
+- Install git `pre-push` hook
+```bash
+ln -s ../../bin/pre-push .git/hooks
 ```
--react router
--recompose
--scss loaders
--Bowtie React utilities
--Bowtie Api helper
--Bowtie React file structure
--jest-enzyme library
+
+- Install node_modules (using yarn)
+```bash
+yarn install
 ```
-## File structure
 
-The component file structure contains all components with their associated containers, tests, style modules, and jsx files. Everything relating to a specific component should be contained in it's own directory. Since this boilerplate uses recompose, the .jsx file should only contain the PureComponent with few, if any logic. The container should contain all logic and component enhancements. 
+#### Usage
 
-## Configuration
+- Start the React App
+```bash
+yarn start
+```
 
-Api - this component is a base Api to handle all logic for fetch calls. It contains a base URL, user tokens, and stores user token. Set up a .env file with appropriate variable names.
+## Testing
 
-PrivateRoute Component - when using this component, you need to pass in what ever boolean method yuo are using to authorize the user.
+#### Linting
 
-git clone
-npm install
-npm start
+- Just lint the code and show warnings
+```bash
+yarn lint
+```
+- Lint code and attempt to fix simple issues
+```bash
+yarn lint:fix
+```
 
-testing:  npm test
+#### Unit Tests
+
+- Run ReactJS test suite (interactive)
+```bash
+yarn test
+```
+- Run ReactJS test suite (CI mode - not interactive)
+```bash
+CI=true app yarn test
+```
