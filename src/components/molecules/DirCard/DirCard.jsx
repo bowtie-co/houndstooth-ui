@@ -1,9 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import {
-  Avatar,
-  Subtitle,
-  Summary
+  Subtitle
 } from '../../atoms'
 
 const DirCard = ({ dir }) => {
