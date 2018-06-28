@@ -45,6 +45,47 @@ const extractTextPluginOptions = shouldUseRelativeAssetPaths
   ? { publicPath: Array(cssFilename.split('/').length).join('../') } // Making sure that the publicPath goes back to to build folder.
   : {}
 
+// Generate style loader config info based on loader prefix
+const buildStyleLoader = (loaderName, modules = false) => {
+  const config = {
+    loader: require.resolve(`${loaderName}-loader`),
+    options: {
+      modules
+    }
+  }
+
+  switch (loaderName) {
+    case 'css':
+    case 'sass':
+      config.options['importLoaders'] = 1
+      config.options['minimize'] = true
+      config.options['sourceMap'] = shouldUseSourceMap
+      break
+
+    case 'postcss':
+      config.options['ident'] = 'postcss'
+      config.options['plugins'] = () => [
+        require('postcss-flexbugs-fixes'),
+        autoprefixer({
+          browsers: [
+            '>1%',
+            'last 4 versions',
+            'Firefox ESR',
+            'not ie < 9' // React doesn't support IE8 anyway
+          ],
+          flexbox: 'no-2009'
+        })
+      ]
+      break
+
+    default:
+      config.options['hmr'] = false
+      break
+  }
+
+  return config
+}
+
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
@@ -165,45 +206,15 @@ module.exports = {
           // use the "style" loader inside the async code so CSS from them won't be
           // in the main CSS file.
           {
-            test: /\.css$/,
+            test: /node_modules\/.*\.(s?)css$/,
             loader: ExtractTextPlugin.extract(
               Object.assign(
                 {
-                  fallback: {
-                    loader: require.resolve('style-loader'),
-                    options: {
-                      hmr: false
-                    }
-                  },
+                  fallback: buildStyleLoader('style'),
                   use: [
-                    {
-                      loader: require.resolve('css-loader'),
-                      options: {
-                        importLoaders: 1,
-                        minimize: true,
-                        sourceMap: shouldUseSourceMap
-                      }
-                    },
-                    {
-                      loader: require.resolve('postcss-loader'),
-                      options: {
-                        // Necessary for external CSS imports to work
-                        // https://github.com/facebookincubator/create-react-app/issues/2677
-                        ident: 'postcss',
-                        plugins: () => [
-                          require('postcss-flexbugs-fixes'),
-                          autoprefixer({
-                            browsers: [
-                              '>1%',
-                              'last 4 versions',
-                              'Firefox ESR',
-                              'not ie < 9' // React doesn't support IE8 anyway
-                            ],
-                            flexbox: 'no-2009'
-                          })
-                        ]
-                      }
-                    }
+                    buildStyleLoader('css'),
+                    buildStyleLoader('sass'),
+                    buildStyleLoader('postcss')
                   ]
                 },
                 extractTextPluginOptions
@@ -211,6 +222,43 @@ module.exports = {
             )
             // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
           },
+          {
+            test: /src\/scss\/.*\.(s?)css$/,
+            loader: ExtractTextPlugin.extract(
+              Object.assign(
+                {
+                  fallback: buildStyleLoader('style'),
+                  use: [
+                    buildStyleLoader('css'),
+                    buildStyleLoader('sass'),
+                    buildStyleLoader('postcss')
+                  ]
+                },
+                extractTextPluginOptions
+              )
+            )
+            // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+          },
+          //
+          // DISABLE CSS MODULES (uncomment to re-enable)
+          //
+          // {
+          //   test: /src\/Components\/.*\.(s?)css$/,
+          //   loader: ExtractTextPlugin.extract(
+          //     Object.assign(
+          //       {
+          //         fallback: buildStyleLoader('style'),
+          //         use: [
+          //           buildStyleLoader('css', true),
+          //           buildStyleLoader('sass', true),
+          //           buildStyleLoader('postcss', true)
+          //         ]
+          //       },
+          //       extractTextPluginOptions
+          //     )
+          //   )
+          //   // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+          // },
           // "file" loader makes sure assets end up in the `build` folder.
           // When you `import` an asset, you get its filename.
           // This loader doesn't use a "test" so it will catch all modules
