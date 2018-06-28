@@ -25,15 +25,14 @@ export const enhance = compose(
   }, {
     setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
     setRepo: ({ repo }) => (payload) => ({ repo: payload }),
-    setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
   }),
   withEither(loadingConditionFn, Loading),
   lifecycle({
     componentWillMount () {
       console.log("COMPONENT WILL MOUNT REPO");
 
-      const { setRepoList, setBranchList, match } = this.props
-      const { model, username, repo } = match.params
+      const { setRepoList, match } = this.props
+      const { model } = match.params
       api.get(`${model}?sort=updated&per_page=12&affiliation=owner`)
         .then(({ data }) => setRepoList(data.repos))
         .catch(notifier.bad.bind(notifier))
