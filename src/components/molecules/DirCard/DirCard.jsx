@@ -14,7 +14,7 @@ const DirCard = ({ dir, branch }) => {
   const ext = nameArray.length > 1 ? nameArray[nameArray.length - 1] : null
   return (
     <Link
-      to={{ pathname: `${type}`, search: `?path=${path}&branch=${branch}` }}
+      to={{ pathname: `${type}`, search: `?path=${path}&ref=${branch}` }}
       className='repoDir'>
       <img className='fileIcon' src={require(`../../../images/${supportedIcons.includes(ext) ? ext : type}.svg`)} alt='' />
       <Subtitle title={name} />

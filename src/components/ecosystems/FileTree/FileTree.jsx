@@ -1,11 +1,19 @@
 import React from 'react'
 import { PublicRoute, Switch } from '../../atoms'
+import { FieldContainer } from '../../molecules'
 import { DirList, FileSingle } from '../../organisms'
 
-const FileTree = ({ dirList, match, file, branch }) => {
+const FileTree = ({ dirList, match, file, branch, branchList, changeBranch }) => {
   console.log('FileTree branch', branch)
   return (
     <div className='demo-template'>
+      <FieldContainer
+        type={'select'}
+        label={'Select a Branch'}
+        value={branch}
+        options={branchList.map(branch => branch.name)}
+        onChange={changeBranch}
+      />
       <Switch>
         <PublicRoute
           props={{ dirList, branch }}
