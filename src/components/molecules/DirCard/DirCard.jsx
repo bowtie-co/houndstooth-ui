@@ -5,16 +5,16 @@ import {
 } from '../../atoms'
 
 const DirCard = ({ dir }) => {
-  const supportedIcons = ['css', 'html', 'js', 'json', 'folder']
+  const supportedIcons = ['css', 'html', 'js', 'json']
 
   const { type, path, name } = dir
   const nameArray = name.split('.')
-  const ext = nameArray.length > 1 ? nameArray[nameArray.length - 1] : 'folder'
+  const ext = nameArray.length > 1 ? nameArray[nameArray.length - 1] : null
   return (
     <Link
       to={{ pathname: `${type}`, search: `?path=${path}` }}
       className='repoDir'>
-      <img className='fileIcon' src={require(`../../../images/${supportedIcons.includes(ext) ? ext : 'file'}.svg`)} alt='' />
+      <img className='fileIcon' src={require(`../../../images/${supportedIcons.includes(ext) ? ext : type}.svg`)} alt='' />
       <Subtitle title={name} />
     </Link>
   )

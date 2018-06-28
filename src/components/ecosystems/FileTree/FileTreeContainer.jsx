@@ -26,7 +26,7 @@ export const enhance = compose(
           if (data['files']) {
             // sorts the directory to include folders before files.
             data['files'].sort((a, b) => {
-              return a.name.includes('.') ? 1 : -1
+              return a.type === 'file' ? 1 : -1
             })
             setDirList(data['files'])
           } else if (data['file']) {
