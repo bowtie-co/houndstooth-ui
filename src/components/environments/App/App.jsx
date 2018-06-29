@@ -1,7 +1,7 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { Switch, PublicRoute, PrivateRoute, Body } from '../../atoms'
-import { Description, Repo } from '../../ecosystems'
+import { Description, Main } from '../../ecosystems'
 import { Header, Footer } from '../../organisms'
 
 const App = (props) => {
@@ -19,7 +19,7 @@ const App = (props) => {
           <PrivateRoute
             props={props}
             path='/:action(view|edit|create)/:model(repos)/:username?/:repo?'
-            component={Repo}
+            component={Main}
           />
           <PublicRoute
             props={{ to: '/home' }}

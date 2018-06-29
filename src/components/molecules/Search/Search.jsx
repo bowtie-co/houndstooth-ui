@@ -11,7 +11,7 @@ const Search = () => {
         type={'text'}
         placeholder={'Enter a Keyword...'}
       />
-      <Button label={'Search'} />
+      <Button> Search </Button>
 
     </div>
   )
