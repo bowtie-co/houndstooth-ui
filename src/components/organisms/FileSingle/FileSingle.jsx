@@ -9,7 +9,6 @@ const FileSingle = ({ file }) => {
 
   return (
     <Card>
-      this is a single file comp
       <TextEditor file={file} />
     </Card>
   )
