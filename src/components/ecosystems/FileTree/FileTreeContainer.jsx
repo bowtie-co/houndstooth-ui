@@ -1,45 +1,66 @@
 // Containers should include all logic that enhances a component
 // this includes any reduce methods, recompose, or middleware.
 
-import { compose, withState, lifecycle } from 'recompose'
+import { compose, withStateHandlers, withHandlers, withPropsOnChange, lifecycle } from 'recompose'
 import FileTree from './FileTree'
 import qs from 'qs'
 import api from '../../../lib/api'
-// import notifier from '../../../lib/notifier'
+import notifier from '../../../lib/notifier'
 
 // conditional functions here:
 
 export const enhance = compose(
-  withState('isComponentLoading', 'setIsComponentLoading', false),
-  withState('dirList', 'setDirList', []),
-  withState('file', 'setFile', {}),
-  withState('paramsObj', 'setParamsObj', ({ location }) => qs.parse(location.search, { ignoreQueryPrefix: true })),
+  // withPropsOnChange(
+  //   ({ location }, { location: nextLocation }) => nextLocation.search !== location.search,
+  //   ({ location }) => ({ queryParams: qs.parse(location.search, { ignoreQueryPrefix: true }) })
+  // ),
+  withStateHandlers(({ location, queryParams }) => ({
+    dirList: [],
+    file: {},
+    branchList: [],
+    branch: queryParams['ref'] || 'master',
+    isComponentLoading: false
+  }), {
+    setDirList: ({ dirList }) => (payload) => ({ dirList: payload }),
+    setFile: ({ file }) => (payload) => ({ file: payload }),
+    setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
+    setBranch: ({ branch }, { history }) => (payload) => ({ branch: payload })
+  }),
+  withHandlers({
+    changeBranch: ({ history }) => (e) => {
+      history.push(`?ref=${e.target.value}`)
+    }
+  }),
   lifecycle({
     componentWillMount () {
-      const { match, paramsObj, setDirList, setFile } = this.props
-      const { repo, username } = match.params
-      const stringifiedParams = qs.stringify(paramsObj)
-      const route = `repos/${username}/${repo}/files?${stringifiedParams}`
-      console.log('route', route)
-      api.get(route)
-        .then(({ data }) => {
-          if (data['files']) {
-            // sorts the directory to include folders before files.
-            data['files'].sort((a, b) => {
-              return a.type === 'file' ? 1 : -1
-            })
-            setDirList(data['files'])
-          } else if (data['file']) {
-            setFile(data['file'])
-          }
-        })
+      const { match, setBranchList } = this.props
+      const { username, repo } = match.params
+
+      api.get(`repos/${username}/${repo}/branches`)
+        .then(({ data }) => setBranchList(data.branches))
+        .catch(notifier.bad.bind(notifier))
     }
+  }),
+  withPropsOnChange([ 'queryParams' ], ({ match, queryParams, setDirList, setFile, setBranch }) => {
+    setBranch(queryParams['ref'] || 'master')
+
+    const stringifiedParams = qs.stringify(queryParams)
+
+    const { repo, username } = match.params
+    const route = `repos/${username}/${repo}/files?${stringifiedParams}`
+
+    api.get(route)
+      .then(({ data }) => {
+        if (data['files']) {
+          // sorts the directory to include folders before files.
+          data['files'].sort(a => a.type === 'file' ? 1 : -1)
+          setDirList(data['files'])
+        } else if (data['file']) {
+          setFile(data['file'])
+        }
+      })
+      .catch(notifier.bad.bind(notifier))
   })
-  // withPropsOnChange(['location'], ({ location }, { location: nextLocation }) => {
-  //   if(nextLocation.search !== location.search){
-  //     console.log("a new search param", nextLocation.search);
-  //   }
-  // })
 )
 
 export default enhance(FileTree)

@@ -2,7 +2,7 @@ import React from 'react'
 import { Route } from 'react-router'
 
 const PublicRoute = ({ props: passedProps, path, component: Component, ...rest }) => {
-  console.log('Route props: ', passedProps)
+  console.log('PublicRoute props: ', passedProps)
   return (
     <Route
       {...rest}

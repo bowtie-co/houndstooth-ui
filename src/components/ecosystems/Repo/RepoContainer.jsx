@@ -1,7 +1,7 @@
 // Containers should include all logic that enhances a component
 // this includes any reduce methods, recompose, or middleware.
 
-import { compose, withState, withHandlers, lifecycle } from 'recompose'
+import { compose, lifecycle, withStateHandlers } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
 import Repo from './Repo'
 import { Loading } from '../../atoms'
@@ -18,42 +18,50 @@ const loadingConditionFn = ({ isComponentLoading }) => isComponentLoading
 // }
 
 export const enhance = compose(
-  withState('repoList', 'setRepoList', []),
-  withState('repo', 'setRepo', {}),
-  withState('isComponentLoading', 'setIsComponentLoading', false),
+  withStateHandlers({
+    repoList: [],
+    repo: {},
+    isComponentLoading: false
+  }, {
+    setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
+    setRepo: ({ repo }) => (payload) => ({ repo: payload })
+  }),
   withEither(loadingConditionFn, Loading),
   lifecycle({
     componentWillMount () {
-      const { setRepoList } = this.props
-      api.get('repos?sort=updated&per_page=12&affiliation=owner')
+      console.log('COMPONENT WILL MOUNT REPO')
+
+      const { setRepoList, match } = this.props
+      const { model } = match.params
+      api.get(`${model}?sort=updated&per_page=12&affiliation=owner`)
         .then(({ data }) => setRepoList(data.repos))
         .catch(notifier.bad.bind(notifier))
     }
-  }),
-  withHandlers({
-    formSubmit: ({ match, isComponentLoading, history }) => (formData) => {
-      console.log('formData', formData)
-      // history.goBack()
-      // const { action, modelName, modelId } = match.params
-
-      // const method = methods[action]
-      // const route = modelId ? `${modelName}/${modelId}` : `${modelName}`
-      // isComponentLoading(true)
-
-      // api[method](route, { [modelName]: formData })
-      //   .then(notifier.ok.bind(notifier))
-      //   .then(({ data }) => {
-      //     isComponentLoading(false)
-      //   })
-      //   .catch(resp => {
-      //     notifier.apiErrors(resp, handleErrors)
-      //     isComponentLoading(false)
-      //   })
-    },
-    delete: () => () => {
-
-    }
   })
+  // withHandlers({
+  //   formSubmit: ({ match, isComponentLoading, history }) => (formData) => {
+  //     console.log('formData', formData)
+  //     // history.goBack()
+  //     // const { action, modelName, modelId } = match.params
+
+  //     // const method = methods[action]
+  //     // const route = modelId ? `${modelName}/${modelId}` : `${modelName}`
+  //     // isComponentLoading(true)
+
+  //     // api[method](route, { [modelName]: formData })
+  //     //   .then(notifier.ok.bind(notifier))
+  //     //   .then(({ data }) => {
+  //     //     isComponentLoading(false)
+  //     //   })
+  //     //   .catch(resp => {
+  //     //     notifier.apiErrors(resp, handleErrors)
+  //     //     isComponentLoading(false)
+  //     //   })
+  //   },
+  //   delete: () => () => {
+
+  //   }
+  // })
 
 )
 

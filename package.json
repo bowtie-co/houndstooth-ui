@@ -1,5 +1,5 @@
 {
-  "name": "react-recompose-starter",
+  "name": "houndstooth",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -11,7 +11,6 @@
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
     "babel-eslint": "7.2.3",
-    "babel-jest": "20.0.3",
     "babel-loader": "7.1.2",
     "babel-preset-react-app": "^3.1.1",
     "babel-runtime": "6.26.0",
@@ -20,19 +19,11 @@
     "css-loader": "0.28.7",
     "dotenv": "4.0.0",
     "dotenv-expand": "4.0.1",
-    "eslint": "4.10.0",
-    "eslint-config-react-app": "^2.1.0",
-    "eslint-loader": "1.9.0",
-    "eslint-plugin-flowtype": "2.39.1",
-    "eslint-plugin-import": "2.8.0",
-    "eslint-plugin-jsx-a11y": "5.1.1",
-    "eslint-plugin-react": "7.4.0",
     "eventemitter2": "^5.0.1",
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.5",
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.29.0",
-    "jest": "20.0.4",
     "libphonenumber-js": "^1.2.15",
     "moment": "^2.22.2",
     "node-sass": "^4.7.2",
@@ -70,15 +61,27 @@
   "devDependencies": {
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "jest-cli": "20.0.3",
-    "jest-enzyme": "^4.2.0",
+    "nsp": "^3.2.1",
+    "jest": "^22.4.0",
+    "jest-cli": "^22.4.0",
+    "jest-enzyme": "^6.0.2",
+    "babel-jest": "^22.4.0",
     "react-test-renderer": "^16.2.0",
-    "standard": "^11.0.1"
+    "standard": "^11.0.1",
+    "eslint": "4.10.0",
+    "eslint-config-react-app": "^2.1.0",
+    "eslint-loader": "1.9.0",
+    "eslint-plugin-flowtype": "2.39.1",
+    "eslint-plugin-import": "2.8.0",
+    "eslint-plugin-jsx-a11y": "5.1.1",
+    "eslint-plugin-react": "7.4.0"
   },
   "scripts": {
+    "preinstall": "node -e \"if (process.env.npm_execpath.indexOf('yarn') === -1) { console.log('\u001b[31mPlease use yarn for installing\u001b[0m'); process.exit(1); }\"",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom",
+    "test": "npm run lint && node scripts/test.js --env=jsdom",
+    "scan": "nsp check",
     "lint": "standard",
     "lint:fix": "standard --fix"
   },
@@ -94,7 +97,7 @@
       "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
       "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
     ],
-    "testEnvironment": "node",
+    "testEnvironment": "jsdom",
     "testURL": "http://localhost",
     "transform": {
       "^.+\\.(js|jsx|mjs)$": "<rootDir>/node_modules/babel-jest",
@@ -105,7 +108,8 @@
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
     ],
     "moduleNameMapper": {
-      "^react-native$": "react-native-web"
+      "^react-native$": "react-native-web",
+      "\\.worker.js": "<rootDir>/__mocks__/workerMock.js"
     },
     "moduleFileExtensions": [
       "web.js",

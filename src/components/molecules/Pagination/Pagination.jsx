@@ -1,9 +1,8 @@
 import React from 'react'
-import styles from './Pagination.scss'
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 
 const GeneralPagination = (props) => {
-  const { children, pageNumber, numPages, handlePage, justify, size, maxItems = 6 } = props
+  const { children, pageNumber, numPages, handlePage, size, maxItems = 6 } = props
   const pageNumberItems = []
 
   if (numPages === 1) {
@@ -36,7 +35,7 @@ const GeneralPagination = (props) => {
     }
 
     return (
-      <Pagination size={size || 'sm'} className={justify && styles[justify] ? styles[justify] : styles['center']}>
+      <Pagination size={size || 'sm'}>
         <PaginationItem disabled={pageNumber <= 1}>
           <PaginationLink previous onClick={(e) => handlePage(pageNumber - 1)} />
         </PaginationItem>

@@ -1,11 +1,9 @@
 import React from 'react'
-import auth from '../../../lib/auth'
+import { NavLink } from '../'
 
 const Login = () => {
   return (
-    <div className='nav-link' onClick={auth.login}>
-      Login
-    </div>
+    <NavLink to='/login'>Login</NavLink>
   )
 }
 

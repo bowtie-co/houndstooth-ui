@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const NavLink = ({ path, title }) => {
+const NavLink = ({ to, children, ...rest }) => {
   return (
-    <Link className='nav-link' to={path}>
-      { title }
+    <Link className='nav-link' to={to} {...rest}>
+      { children }
     </Link>
   )
 }
