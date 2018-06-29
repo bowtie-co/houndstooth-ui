@@ -15,6 +15,7 @@ import Body from './Body'
 import Avatar from './Avatar'
 import Switch from './Switch'
 import Card from './Card'
+import TextEditor from './TextEditor'
 
 export {
   Loading,
@@ -33,5 +34,6 @@ export {
   Login,
   Logout,
   Avatar,
-  Card
+  Card,
+  TextEditor
 }
