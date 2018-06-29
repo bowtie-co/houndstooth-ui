@@ -10,7 +10,7 @@
  */
 
 import Description from './Description'
+import Main from './Main'
 import Repo from './Repo'
-import FileTree from './FileTree'
 
-export { Description, Repo, FileTree }
+export { Description, Main, Repo }

@@ -4,6 +4,7 @@ import RepoCard from './RepoCard'
 import FieldContainer from './Field'
 import LastUpdated from './LastUpdated'
 import DirCard from './DirCard'
+import RepoNav from './RepoNav'
 
 export {
   Search,
@@ -11,5 +12,6 @@ export {
   FieldContainer,
   RepoCard,
   LastUpdated,
-  DirCard
+  DirCard,
+  RepoNav
 }

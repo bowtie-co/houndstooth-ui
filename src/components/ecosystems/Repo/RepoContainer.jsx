@@ -1,68 +1,66 @@
 // Containers should include all logic that enhances a component
 // this includes any reduce methods, recompose, or middleware.
 
-import { compose, lifecycle, withStateHandlers } from 'recompose'
-import { withEither } from '@bowtie/react-utils'
+import { compose, withStateHandlers, withHandlers, withPropsOnChange, lifecycle } from 'recompose'
 import Repo from './Repo'
-import { Loading } from '../../atoms'
+import qs from 'qs'
 import api from '../../../lib/api'
 import notifier from '../../../lib/notifier'
 
 // conditional functions here:
-const loadingConditionFn = ({ isComponentLoading }) => isComponentLoading
-
-// const methods = {
-//   create: 'post',
-//   edit: 'put',
-//   view: 'get'
-// }
 
 export const enhance = compose(
-  withStateHandlers({
-    repoList: [],
-    repo: {},
+  // withPropsOnChange(
+  //   ({ location }, { location: nextLocation }) => nextLocation.search !== location.search,
+  //   ({ location }) => ({ queryParams: qs.parse(location.search, { ignoreQueryPrefix: true }) })
+  // ),
+  withStateHandlers(({ location, queryParams }) => ({
+    dirList: [],
+    file: {},
+    branchList: [],
+    branch: queryParams['ref'] || 'master',
     isComponentLoading: false
-  }, {
-    setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
-    setRepo: ({ repo }) => (payload) => ({ repo: payload })
+  }), {
+    setDirList: ({ dirList }) => (payload) => ({ dirList: payload }),
+    setFile: ({ file }) => (payload) => ({ file: payload }),
+    setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
+    setBranch: ({ branch }, { history }) => (payload) => ({ branch: payload })
   }),
-  withEither(loadingConditionFn, Loading),
+  withHandlers({
+    changeBranch: ({ history }) => (e) => {
+      history.push(`?ref=${e.target.value}`)
+    }
+  }),
   lifecycle({
     componentWillMount () {
-      console.log('COMPONENT WILL MOUNT REPO')
+      const { match, setBranchList } = this.props
+      const { username, repo } = match.params
 
-      const { setRepoList, match } = this.props
-      const { model } = match.params
-      api.get(`${model}?sort=updated&per_page=12&affiliation=owner`)
-        .then(({ data }) => setRepoList(data.repos))
+      api.get(`repos/${username}/${repo}/branches`)
+        .then(({ data }) => setBranchList(data.branches))
         .catch(notifier.bad.bind(notifier))
     }
+  }),
+  withPropsOnChange([ 'queryParams' ], ({ match, queryParams, setDirList, setFile, setBranch }) => {
+    setBranch(queryParams['ref'] || 'master')
+
+    const stringifiedParams = qs.stringify(queryParams)
+
+    const { repo, username } = match.params
+    const route = `repos/${username}/${repo}/files?${stringifiedParams}`
+
+    api.get(route)
+      .then(({ data }) => {
+        if (data['files']) {
+          // sorts the directory to include folders before files.
+          data['files'].sort(a => a.type === 'file' ? 1 : -1)
+          setDirList(data['files'])
+        } else if (data['file']) {
+          setFile(data['file'])
+        }
+      })
+      .catch(notifier.bad.bind(notifier))
   })
-  // withHandlers({
-  //   formSubmit: ({ match, isComponentLoading, history }) => (formData) => {
-  //     console.log('formData', formData)
-  //     // history.goBack()
-  //     // const { action, modelName, modelId } = match.params
-
-  //     // const method = methods[action]
-  //     // const route = modelId ? `${modelName}/${modelId}` : `${modelName}`
-  //     // isComponentLoading(true)
-
-  //     // api[method](route, { [modelName]: formData })
-  //     //   .then(notifier.ok.bind(notifier))
-  //     //   .then(({ data }) => {
-  //     //     isComponentLoading(false)
-  //     //   })
-  //     //   .catch(resp => {
-  //     //     notifier.apiErrors(resp, handleErrors)
-  //     //     isComponentLoading(false)
-  //     //   })
-  //   },
-  //   delete: () => () => {
-
-  //   }
-  // })
-
 )
 
 export default enhance(Repo)
