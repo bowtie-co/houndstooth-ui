@@ -23,3 +23,9 @@
     min-height: 70vh;
   }
 }
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

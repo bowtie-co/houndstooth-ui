@@ -18,11 +18,9 @@ const DocumentUpload = (props) => {
         accept='application/pdf'
         maxSize={5 * 1024 * 1024}
       >
-        <Button
-          color='info'
-          label={'Upload Document'}
-          onClick={(e) => handleButtonClick(e, dropzoneRef)}
-        />
+        <Button color='info' onClick={(e) => handleButtonClick(e, dropzoneRef)}>
+          Upload Document
+        </Button>
         <p>Drag and drop PDF file here.</p>
 
         {value && <Button className='btn-sm' color='primary' label={'Cancel'} onClick={togglePreview} />}
