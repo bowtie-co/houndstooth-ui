@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import { AppContainer, Auth } from '../components/environments'
+import { AppContainer, AuthContainer } from '../components/environments'
 import { Switch, PublicRoute } from '../components/atoms'
 
 const Routes = () => {
@@ -8,8 +8,8 @@ const Routes = () => {
     <BrowserRouter>
       <Switch>
         <PublicRoute
-          path='/(callback|login)'
-          component={Auth}
+          path='/(callback|login|logout)'
+          component={AuthContainer}
         />
         <PublicRoute
           path='/'

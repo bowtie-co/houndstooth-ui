@@ -17,7 +17,6 @@ const Repo = (props) => {
           component={RepoList}
         />
         <PrivateRoute
-          exact
           props={props}
           path={'/:action(view)/repos/:username/:repo/'}
           component={FileTree}

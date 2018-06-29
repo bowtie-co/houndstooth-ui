@@ -1,15 +1,16 @@
 import React from 'react'
 import { Brand } from '../../molecules'
-import { NavLink, Login } from '../../atoms'
+import { NavLink, Login, Logout } from '../../atoms'
 
 const Header = () => {
   return (
     <section className='top-nav-section' >
       <Brand title={'Houndstooth'} />
       <div className='nav-bar'>
-        <NavLink to={'/home'}>Description</NavLink>
-        <NavLink to={'/view/repos/'}>Repo - todo app</NavLink>
+        <NavLink to={'/home'}>Home</NavLink>
+        <NavLink to={'/view/repos/'}>Repos</NavLink>
         <Login />
+        <Logout />
       </div>
     </section>
   )

@@ -1,5 +1,6 @@
 import Loading from './Loading'
 import Login from './Login'
+import Logout from './Logout'
 import Title from './Title'
 import Button from './Button'
 import FormGroup from './FormGroup'
@@ -30,6 +31,7 @@ export {
   Body,
   Switch,
   Login,
+  Logout,
   Avatar,
   Card
 }

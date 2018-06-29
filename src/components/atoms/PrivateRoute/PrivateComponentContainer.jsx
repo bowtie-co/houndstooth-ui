@@ -1,12 +1,10 @@
 /* eslint-disable camelcase */
 
 import { withRouter } from 'react-router'
-import { compose, withState, withProps } from 'recompose'
+import { compose, withState, withProps, lifecycle } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
 import PrivateComponent from './PrivateComponent'
 import LoginRedirect from './LoginRedirect'
-// import HomepageRedirect from './HomepageRedirect'
-// import RestrictedRedirect from './RestrictedRedirect'
 import storage from '../../../lib/storage'
 import auth from '../../../lib/auth'
 
@@ -19,19 +17,17 @@ export const enhance = compose(
   withProps(({ roles }) => ({ roles: roles || [] })),
   withState('currentUser', 'setCurrentUser', () => storage.get('current_user')),
   withEither(unauthenticatedConditionFn, LoginRedirect),
-  // withEither(restrictedConditionFn, RestrictedRedirect),
-  withProps(({ location }) => {
-    let resumeRoute = storage.get('resumeRoute')
+  lifecycle({
+    componentDidMount () {
+      const { location } = this.props
+      const resumeRoute = storage.get('resumeRoute')
 
-    if (resumeRoute === location.pathname) {
-      resumeRoute = false
-    }
-
-    return {
-      resumeRoute
+      if (resumeRoute && resumeRoute === location.pathname) {
+        console.log('route has been resumed!', resumeRoute)
+        storage.remove('resumeRoute')
+      }
     }
   })
-  // withEither(homepageConditionFn, HomepageRedirect)
 )
 
 export default enhance(PrivateComponent)

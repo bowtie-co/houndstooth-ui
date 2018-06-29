@@ -2,7 +2,7 @@ import React from 'react'
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 
 const GeneralPagination = (props) => {
-  const { children, pageNumber, numPages, handlePage, justify, size, maxItems = 6 } = props
+  const { children, pageNumber, numPages, handlePage, size, maxItems = 6 } = props
   const pageNumberItems = []
 
   if (numPages === 1) {

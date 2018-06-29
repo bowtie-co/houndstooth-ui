@@ -1,6 +1,6 @@
 import React from 'react'
-import { Switch } from 'react-router-dom'
-import { PublicRoute, PrivateRoute, Body } from '../../atoms'
+import { Redirect } from 'react-router-dom'
+import { Switch, PublicRoute, PrivateRoute, Body } from '../../atoms'
 import { Description, Repo } from '../../ecosystems'
 import { Header, Footer } from '../../organisms'
 
@@ -20,6 +20,11 @@ const App = (props) => {
             props={props}
             path='/:action(view|edit|create)/:model(repos)/:username?/:repo?'
             component={Repo}
+          />
+          <PublicRoute
+            props={{ to: '/home' }}
+            path='/'
+            component={Redirect}
           />
         </Switch>
       </Body>

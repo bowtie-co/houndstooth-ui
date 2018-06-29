@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom'
 
 const HomepageRedirect = () => {
   return (
-    <Redirect to={'/dashboard'} />
+    <Redirect to={'/home'} />
   )
 }
 
