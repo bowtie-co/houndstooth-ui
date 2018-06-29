@@ -15,6 +15,9 @@ import Body from './Body'
 import Avatar from './Avatar'
 import Switch from './Switch'
 import Card from './Card'
+import Col from './Col'
+import Row from './Row'
+import BackButton from './BackButton'
 
 export {
   Loading,
@@ -33,5 +36,8 @@ export {
   Login,
   Logout,
   Avatar,
-  Card
+  Card,
+  Col,
+  Row,
+  BackButton
 }

@@ -1,27 +1,34 @@
 import React from 'react'
 import {
-  PrivateRoute,
-  Switch
+  PublicRoute,
+  Switch,
+  Col
 } from '../../atoms'
-import { RepoList } from '../../organisms'
-import { FileTree } from '..'
+import { RepoNav } from '../../molecules'
+import { DirList, FileSingle } from '../../organisms'
 
-const Repo = (props) => {
+const Repo = ({ dirList, match, file, branch, branchList, changeBranch }) => {
   return (
     <div className='demo-template'>
-      <Switch>
-        <PrivateRoute
-          exact
-          props={props}
-          path={'/:action(view)/repos'}
-          component={RepoList}
+      <Col>
+        <RepoNav
+          branch={branch}
+          branchList={branchList}
+          changeBranch={changeBranch}
         />
-        <PrivateRoute
-          props={props}
-          path={'/:action(view)/repos/:username/:repo/'}
-          component={FileTree}
-        />
-      </Switch>
+        <Switch>
+          <PublicRoute
+            props={{ dirList, branch }}
+            path={`${match.url}/dir`}
+            component={DirList}
+          />
+          <PublicRoute
+            props={{ file }}
+            path={`${match.url}/file`}
+            component={FileSingle}
+          />
+        </Switch>
+      </Col>
     </div>
   )
 }
