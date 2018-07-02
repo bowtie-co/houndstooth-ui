@@ -8,7 +8,7 @@ import { RepoNav } from '../../molecules'
 import { DirList, FileSingle } from '../../organisms'
 
 const Repo = (props) => {
-  const { dirList, match, file, setStagedFiles, branch, branchList, changeBranch } = props
+  const { dirList, match, file, setFile, setStagedFiles, branch, branchList, changeBranch } = props
   // const { action, repo, username } = match.params
   return (
     <div className='demo-template'>
@@ -25,7 +25,7 @@ const Repo = (props) => {
             component={DirList}
           />
           <PublicRoute
-            props={{ file, setStagedFiles }}
+            props={{ file, setFile, setStagedFiles }}
             path={`${match['url']}/file`}
             component={FileSingle}
           />
