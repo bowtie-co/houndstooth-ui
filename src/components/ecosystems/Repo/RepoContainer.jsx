@@ -9,11 +9,7 @@ import notifier from '../../../lib/notifier'
 // conditional functions here:
 
 export const enhance = compose(
-  // withPropsOnChange(
-  //   ({ location }, { location: nextLocation }) => nextLocation.search !== location.search,
-  //   ({ location }) => ({ queryParams: qs.parse(location.search, { ignoreQueryPrefix: true }) })
-  // ),
-  withStateHandlers(({ location, queryParams }) => ({
+  withStateHandlers(({ queryParams }) => ({
     dirList: [],
     file: {},
     stagedFiles: [],
