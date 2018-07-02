@@ -1,61 +1,53 @@
-import auth0 from 'auth0-js'
-import { AUTH_CONFIG } from './auth0-variables'
 import storage from './storage'
+import qs from 'qs'
+import uuid from 'uuid/v1'
 
 class Auth {
-  constructor () {
-    this.auth0 = new auth0.WebAuth({
-      domain: AUTH_CONFIG.domain,
-      clientID: AUTH_CONFIG.clientId,
-      redirectUri: AUTH_CONFIG.callbackUrl,
-      audience: `https://${AUTH_CONFIG.domain}/userinfo`,
-      responseType: 'token id_token',
-      scope: 'openid'
-    })
-    this.login = this.login.bind(this)
-    this.logout = this.logout.bind(this)
-    this.handleAuthentication = this.handleAuthentication.bind(this)
-    this.isAuthenticated = this.isAuthenticated.bind(this)
-  }
-
   login () {
-    this.auth0.authorize()
+    const authState = uuid()
+    storage.set('authState', authState)
+
+    console.log('redirecting for login with state', authState)
+    window.location = process.env.REACT_APP_AUTHORIZE_URL + '?state=' + authState
   }
 
-  handleAuthentication (callback) {
-    this.auth0.parseHash((err, authResult) => {
-      if (err) return callback(err)
+  handleRedirect () {
+    const authState = storage.get('authState')
+    const params = qs.parse(window.location.search, { ignoreQueryPrefix: true })
+    console.log('handling auth redirect!', authState, window.location, params)
 
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult)
-        console.log('handleAuth')
-        callback()
-      } else {
-        callback(new Error('Bad auth result'))
-      }
+    if (params.state !== authState) {
+      throw new Error('BAD AUTH STATE')
+    }
+
+    window.location = process.env.REACT_APP_CALLBACK_URL + '?' + qs.stringify({
+      state: authState,
+      code: params.code
     })
+  }
+
+  handleCallback (callback) {
+    const params = qs.parse(window.location.search, { ignoreQueryPrefix: true })
+    console.log('handling auth callback!', window.location, params)
+
+    if (params.access_token) {
+      this.setSession(params)
+      callback()
+    } else {
+      callback(new Error('MISSING AUTH TOKEN'))
+    }
   }
 
   setSession (authResult) {
-    // Set the time that the access token will expire at
-    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime())
-    storage.set('access_token', authResult.accessToken)
-    storage.set('id_token', authResult.idToken)
-    storage.set('expires_at', expiresAt)
+    storage.set('access_token', authResult.access_token)
   }
 
   logout () {
-    // Clear access token and ID token from local storage
-    storage.remove('access_token')
-    storage.remove('id_token')
-    storage.remove('expires_at')
+    storage.clear()
   }
 
   isAuthenticated () {
-    // Check whether the current time is past the
-    // access token's expiry time
-    let expiresAt = JSON.parse(storage.get('expires_at'))
-    return new Date().getTime() < expiresAt
+    return !!storage.get('access_token')
   }
 }
 const auth = new Auth()

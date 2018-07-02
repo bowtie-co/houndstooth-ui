@@ -8,7 +8,7 @@ const Routes = () => {
     <BrowserRouter>
       <Switch>
         <PublicRoute
-          path='/(callback|login|logout)'
+          path='/(callback|redirect|login|logout)'
           component={AuthContainer}
         />
         <PublicRoute
