@@ -5,10 +5,10 @@ import {
   Col
 } from '../../atoms'
 import { RepoNav } from '../../molecules'
-import { DirList, FileSingle } from '../../organisms'
+import { DirList, FileSingle, CommitChanges } from '../../organisms'
 
 const Repo = (props) => {
-  const { dirList, match, file, setFile, setStagedFiles, branch, branchList, changeBranch } = props
+  const { dirList, match, file, setFile, stagedFiles, saveFile, branch, branchList, changeBranch, pushToGithub } = props
   return (
     <div className='demo-template'>
       <Col>
@@ -24,9 +24,14 @@ const Repo = (props) => {
             component={DirList}
           />
           <PublicRoute
-            props={{ file, setFile, setStagedFiles }}
+            props={{ file, setFile, saveFile }}
             path={`${match['url']}/file`}
             component={FileSingle}
+          />
+          <PublicRoute
+            props={{ stagedFiles, pushToGithub, repo: match.params['repo'] }}
+            path={`${match['url']}/commit`}
+            component={CommitChanges}
           />
         </Switch>
       </Col>
