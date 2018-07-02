@@ -1,4 +1,4 @@
-import React from 'react'
+/* global btoa */
 
 import { compose, withStateHandlers } from 'recompose'
 import { withMaybe } from '@bowtie/react-utils'
@@ -8,9 +8,9 @@ const nullConditionFn = ({ file }) => Object.keys(file).length === 0
 
 export default compose(
   withMaybe(nullConditionFn),
-  withStateHandlers( ({ file }) => ({
+  withStateHandlers(({ file }) => ({
     content: file['content']
-  }),{
+  }), {
     setContent: ({ content }) => (payload) => ({ content: btoa(payload) })
   })
 )(FileSingle)

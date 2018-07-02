@@ -1,13 +1,13 @@
 /*  global atob  */
 import React from 'react'
 import AceEditor from 'react-ace'
-import 'brace/mode/markdown';
-import 'brace/mode/javascript';
-import 'brace/mode/html';
-import 'brace/mode/css';
-import 'brace/mode/ruby';
+import 'brace/mode/markdown'
+import 'brace/mode/javascript'
+import 'brace/mode/html'
+import 'brace/mode/css'
+import 'brace/mode/ruby'
 
-import 'brace/theme/monokai';
+import 'brace/theme/monokai'
 
 const languages = {
   js: 'javascript',

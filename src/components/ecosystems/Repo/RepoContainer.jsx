@@ -1,5 +1,4 @@
-// Containers should include all logic that enhances a component
-// this includes any reduce methods, recompose, or middleware.
+/* global alert atob */
 
 import { compose, withStateHandlers, withHandlers, withPropsOnChange, lifecycle } from 'recompose'
 import Repo from './Repo'
@@ -34,7 +33,7 @@ export const enhance = compose(
         ? stagedFiles.map(file => file.name === newFile.name ? newFile : file)
         : [...stagedFiles, newFile]
 
-      alert("Your file has been successfully staged.")
+      alert('Your file has been successfully staged.')
       return { stagedFiles: newState, file: newFile }
     },
     setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
@@ -60,23 +59,23 @@ export const enhance = compose(
     const stringifiedParams = qs.stringify(queryParams)
     const { repo, username } = match.params
     const route = `repos/${username}/${repo}/files?${stringifiedParams}`
-    const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'] )
+    const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
 
     if (stagedFile) {
-      console.log("staged file content: ", atob(stagedFile.content));
+      console.log('staged file content: ', atob(stagedFile.content))
       setFile(stagedFile)
     } else {
       api.get(route)
-      .then(({ data }) => {
-        if (data['files']) {
+        .then(({ data }) => {
+          if (data['files']) {
           // sorts the directory to include folders before files.
-          data['files'].sort(a => a.type === 'file' ? 1 : -1)
-          setDirList(data['files'])
-        } else if (data['file']) {
-          setFile(data['file'])
-        }
-      })
-      .catch(notifier.bad.bind(notifier))
+            data['files'].sort(a => a.type === 'file' ? 1 : -1)
+            setDirList(data['files'])
+          } else if (data['file']) {
+            setFile(data['file'])
+          }
+        })
+        .catch(notifier.bad.bind(notifier))
     }
   })
 )
