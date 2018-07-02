@@ -9,7 +9,6 @@ import { DirList, FileSingle } from '../../organisms'
 
 const Repo = (props) => {
   const { dirList, match, file, setFile, setStagedFiles, branch, branchList, changeBranch } = props
-  // const { action, repo, username } = match.params
   return (
     <div className='demo-template'>
       <Col>

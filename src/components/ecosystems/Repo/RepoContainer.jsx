@@ -62,7 +62,6 @@ export const enhance = compose(
     const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
 
     if (stagedFile) {
-      console.log('staged file content: ', atob(stagedFile.content))
       setFile(stagedFile)
     } else {
       api.get(route)
