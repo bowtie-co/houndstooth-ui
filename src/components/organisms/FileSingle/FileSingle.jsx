@@ -1,17 +1,19 @@
 import React from 'react'
-import { Card, TextEditor } from '../../atoms'
-import { withMaybe } from '@bowtie/react-utils'
+import { Card, TextEditor, Button } from '../../atoms'
 
-const nullConditionFn = ({ file }) => Object.keys(file).length === 0
 
-const FileSingle = ({ file }) => {
-  console.log('this is file', file)
-
+const FileSingle = ({ file, content, setContent, setStagedFiles }) => {
+  console.log('file content: ', atob(content))
   return (
     <Card>
-      <TextEditor file={file} />
+      <TextEditor
+        content={content} 
+        name={file.name} 
+        onChange={setContent} 
+      />
+      <Button onClick={() => setStagedFiles(content)} >Save</Button>
     </Card>
   )
 }
 
-export default withMaybe(nullConditionFn)(FileSingle)
+export default FileSingle

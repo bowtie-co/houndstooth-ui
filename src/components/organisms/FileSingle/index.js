@@ -1,1 +1,1 @@
-export { default } from './FileSingle'
+export { default } from './FileSingleContainer'

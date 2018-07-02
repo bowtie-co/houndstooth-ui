@@ -18,7 +18,7 @@ const Main = (props) => {
         />
         <PrivateRoute
           props={props}
-          path={'/:action(view)/repos/:username/:repo/'}
+          path={'/:action(view)/repos/:username/:repo'}
           component={Repo}
         />
       </Switch>

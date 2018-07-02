@@ -7,7 +7,9 @@ import {
 import { RepoNav } from '../../molecules'
 import { DirList, FileSingle } from '../../organisms'
 
-const Repo = ({ dirList, match, file, branch, branchList, changeBranch }) => {
+const Repo = (props) => {
+  const { dirList, match, file, setStagedFiles, branch, branchList, changeBranch } = props
+  // const { action, repo, username } = match.params
   return (
     <div className='demo-template'>
       <Col>
@@ -19,12 +21,12 @@ const Repo = ({ dirList, match, file, branch, branchList, changeBranch }) => {
         <Switch>
           <PublicRoute
             props={{ dirList, branch }}
-            path={`${match.url}/dir`}
+            path={`${match['url']}/dir`}
             component={DirList}
           />
           <PublicRoute
-            props={{ file }}
-            path={`${match.url}/file`}
+            props={{ file, setStagedFiles }}
+            path={`${match['url']}/file`}
             component={FileSingle}
           />
         </Switch>
@@ -34,3 +36,4 @@ const Repo = ({ dirList, match, file, branch, branchList, changeBranch }) => {
 }
 
 export default Repo
+

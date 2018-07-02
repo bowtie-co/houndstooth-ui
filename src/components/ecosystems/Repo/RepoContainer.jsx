@@ -17,14 +17,28 @@ export const enhance = compose(
   withStateHandlers(({ location, queryParams }) => ({
     dirList: [],
     file: {},
+    stagedFiles: [],
     branchList: [],
     branch: queryParams['ref'] || 'master',
     isComponentLoading: false
   }), {
     setDirList: ({ dirList }) => (payload) => ({ dirList: payload }),
     setFile: ({ file }) => (payload) => ({ file: payload }),
+    setStagedFiles: ({ stagedFiles, file }, { queryParams }) => (content) => {
+      const newFile = Object.assign({}, file, { content })
+      const filePath = queryParams['path']
+
+      const shouldUpdateStaged = stagedFiles.some(file => file.name === filePath)
+
+      const newState = shouldUpdateStaged
+        ? stagedFiles.map(file => file.name === newFile.name ? newFile : file)
+        : [...stagedFiles, newFile]
+
+      alert("Your file has been successfully staged.")
+      return { stagedFiles: newState, file: newFile }
+    },
     setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
-    setBranch: ({ branch }, { history }) => (payload) => ({ branch: payload })
+    setBranch: ({ branch }) => (payload) => ({ branch: payload })
   }),
   withHandlers({
     changeBranch: ({ history }) => (e) => {
@@ -41,15 +55,18 @@ export const enhance = compose(
         .catch(notifier.bad.bind(notifier))
     }
   }),
-  withPropsOnChange([ 'queryParams' ], ({ match, queryParams, setDirList, setFile, setBranch }) => {
+  withPropsOnChange(['queryParams'], ({ match, queryParams, setDirList, setFile, setBranch, stagedFiles }) => {
     setBranch(queryParams['ref'] || 'master')
-
     const stringifiedParams = qs.stringify(queryParams)
-
     const { repo, username } = match.params
     const route = `repos/${username}/${repo}/files?${stringifiedParams}`
+    const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'] )
 
-    api.get(route)
+    if (stagedFile) {
+      console.log("staged file content: ", atob(stagedFile.content));
+      setFile(stagedFile)
+    } else {
+      api.get(route)
       .then(({ data }) => {
         if (data['files']) {
           // sorts the directory to include folders before files.
@@ -60,6 +77,7 @@ export const enhance = compose(
         }
       })
       .catch(notifier.bad.bind(notifier))
+    }
   })
 )
 

@@ -18,23 +18,23 @@ const languages = {
   py: 'python'
 }
 
-const TextEditor = ({ file }) => {
-  const ext = file.name.match(/.*\.([^.]+)/)[1]
+const TextEditor = ({ content, name, onChange }) => {
+  const ext = name.match(/.*\.([^.]+)/)[1]
   const lang = languages[ext] || ext
 
   return (
     <AceEditor
       mode={lang}
       theme='monokai'
-      name={`file-editor-${file.name}`}
+      name={`file-editor-${name}`}
       // onLoad={this.onLoad}
-      onChange={(newValue) => console.log('newValue', newValue)}
+      onChange={(newValue) => onChange(newValue)}
       fontSize={14}
       showPrintMargin
       // style={{ width: '100%', height: '100%' }}
       showGutter
       highlightActiveLine
-      value={atob(file.content)}
+      value={atob(content)}
       setOptions={{
         enableBasicAutocompletion: false,
         enableLiveAutocompletion: false,
