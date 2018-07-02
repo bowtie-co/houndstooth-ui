@@ -1,11 +1,17 @@
-import React from 'react'
-import { Card } from '../../atoms'
+/* global atob */
 
-const FileSingle = ({ file }) => {
-  console.log('this is file', file)
+import React from 'react'
+import { Card, TextEditor, Button } from '../../atoms'
+
+const FileSingle = ({ file, content, setContent, setStagedFiles }) => {
   return (
     <Card>
-      This is a file
+      <TextEditor
+        content={content}
+        name={file.name}
+        onChange={setContent}
+      />
+      <Button onClick={() => setStagedFiles(content)} >Save</Button>
     </Card>
   )
 }
