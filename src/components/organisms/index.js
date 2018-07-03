@@ -5,6 +5,7 @@ import Form from './Form'
 import RepoList from './RepoList'
 import DirList from './DirList'
 import FileSingle from './FileSingle'
+import CommitChanges from './CommitChanges'
 
 export {
   Header,
@@ -12,5 +13,6 @@ export {
   Form,
   RepoList,
   DirList,
-  FileSingle
+  FileSingle,
+  CommitChanges
 }

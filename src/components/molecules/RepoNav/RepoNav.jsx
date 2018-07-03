@@ -1,5 +1,5 @@
 import React from 'react'
-import { BackButton, Row } from '../../atoms'
+import { BackButton, Row, Button } from '../../atoms'
 import { FieldContainer } from '../../molecules'
 
 const RepoNav = (props) => {
@@ -7,6 +7,7 @@ const RepoNav = (props) => {
   return (
     <Row className='space-between file-tree-navigation'>
       <BackButton> back </BackButton>
+      <Button href={'commit'}>Commit Changes</Button>
       <FieldContainer
         type={'select'}
         label={'Select a Branch'}
