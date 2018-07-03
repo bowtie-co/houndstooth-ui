@@ -4,7 +4,7 @@ import {
   Switch
 } from '../../atoms'
 import { RepoList } from '../../organisms'
-import { Repo } from '..'
+import { Repo, Collections } from '..'
 
 const Main = (props) => {
   return (
@@ -18,8 +18,13 @@ const Main = (props) => {
         />
         <PrivateRoute
           props={props}
-          path={'/:action(view)/repos/:username/:repo'}
+          path={'/:action(view)/:model(repos)/:username/:repo'}
           component={Repo}
+        />
+        <PrivateRoute
+          props={props}
+          path={`/:action(view|edit|create)/:model(collections)/:username/:repo`}
+          component={Collections}
         />
       </Switch>
     </div>

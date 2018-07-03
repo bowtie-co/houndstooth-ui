@@ -18,19 +18,25 @@ const loadingConditionFn = ({ isComponentLoading }) => isComponentLoading
 // }
 
 export const enhance = compose(
-  withStateHandlers({
+  withStateHandlers(({ queryParams }) => ({
     repoList: [],
     repo: {},
+    collections: [],
+    stagedFiles: [],
+    branchList: [],
+    branch: queryParams['ref'] || 'master',
     isComponentLoading: false
-  }, {
+  }), {
     setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
-    setRepo: ({ repo }) => (payload) => ({ repo: payload })
+    setRepo: ({ repo }) => (payload) => ({ repo: payload }),
+    setCollections: ({ collections }) => (payload) => ({ collections: payload }),
+    setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
+    setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
+    setBranch: ({ branch }) => (payload) => ({ branch: payload })
   }),
   withEither(loadingConditionFn, Loading),
   lifecycle({
     componentWillMount () {
-      console.log('COMPONENT WILL MOUNT REPO')
-
       const { setRepoList, match } = this.props
       const { model } = match.params
       api.get(`${model}?sort=updated&per_page=12&affiliation=owner`)

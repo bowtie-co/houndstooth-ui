@@ -5,7 +5,11 @@ import {
   Col
 } from '../../atoms'
 import { RepoNav } from '../../molecules'
-import { DirList, FileSingle, CommitChanges } from '../../organisms'
+import {
+  DirList,
+  FileSingle,
+  CommitChanges
+} from '../../organisms'
 
 const Repo = (props) => {
   const { dirList, match, file, setFile, stagedFiles, saveFile, branch, branchList, changeBranch, pushToGithub, collections } = props
@@ -16,6 +20,7 @@ const Repo = (props) => {
           branch={branch}
           branchList={branchList}
           changeBranch={changeBranch}
+          isCommitable={stagedFiles.length > 0}
           isCollectionable={collections.length > 0}
         />
         <Switch>
