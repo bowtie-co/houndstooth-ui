@@ -4,7 +4,9 @@ import {
   Switch,
   Col
 } from '../../atoms'
-import { RepoNav } from '../../molecules'
+import { 
+  RepoNav
+} from '../../molecules'
 import {
   DirList,
   FileSingle,
