@@ -33,7 +33,7 @@ export const enhance = compose(
 
       const { setRepoList, match } = this.props
       const { model } = match.params
-      api.get(`${model}?sort=updated&per_page=12&affiliation=owner`)
+      api.get(`${model}?sort=updated`)
         .then(({ data }) => setRepoList(data.repos))
         .catch(notifier.bad.bind(notifier))
     }
