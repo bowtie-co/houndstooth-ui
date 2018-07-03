@@ -12,6 +12,7 @@ export const enhance = compose(
   withStateHandlers(({ queryParams }) => ({
     dirList: [],
     file: {},
+    collections: [],
     stagedFiles: [],
     branchList: [],
     branch: queryParams['ref'] || 'master',
@@ -19,6 +20,7 @@ export const enhance = compose(
   }), {
     setDirList: ({ dirList }) => (payload) => ({ dirList: payload }),
     setFile: ({ file }) => (payload) => ({ file: payload }),
+    setCollections: ({ collections }) => (payload) => ({ collections: payload }),
     setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
     setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
     setBranch: ({ branch }) => (payload) => ({ branch: payload })
@@ -60,10 +62,14 @@ export const enhance = compose(
   }),
   lifecycle({
     componentWillMount () {
-      const { match, setBranchList } = this.props
+      const { match, setBranchList, setCollections } = this.props
       const { username, repo } = match.params
+      const baseRoute = `repos/${username}/${repo}`
 
-      api.get(`repos/${username}/${repo}/branches`)
+      api.get(`${baseRoute}/collections`)
+        .then(({ data }) => setCollections(Object.keys(data['collections'])))
+
+      api.get(`${baseRoute}/branches`)
         .then(({ data }) => setBranchList(data.branches))
         .catch(notifier.bad.bind(notifier))
     }
