@@ -1,4 +1,4 @@
-/* global alert atob */
+/* global alert  */
 
 import { compose, withStateHandlers, withHandlers, withPropsOnChange, lifecycle } from 'recompose'
 import Repo from './Repo'
@@ -19,7 +19,12 @@ export const enhance = compose(
   }), {
     setDirList: ({ dirList }) => (payload) => ({ dirList: payload }),
     setFile: ({ file }) => (payload) => ({ file: payload }),
-    setStagedFiles: ({ stagedFiles, file }, { queryParams }) => (content) => {
+    setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
+    setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
+    setBranch: ({ branch }) => (payload) => ({ branch: payload })
+  }),
+  withHandlers({
+    saveFile: ({ setFile, file, stagedFiles, setStagedFiles, queryParams }) => (content) => {
       const newFile = Object.assign({}, file, { content })
       const filePath = queryParams['path']
 
@@ -30,14 +35,27 @@ export const enhance = compose(
         : [...stagedFiles, newFile]
 
       alert('Your file has been successfully staged.')
-      return { stagedFiles: newState, file: newFile }
+      setFile(newFile)
+      setStagedFiles(newState)
     },
-    setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
-    setBranch: ({ branch }) => (payload) => ({ branch: payload })
-  }),
-  withHandlers({
     changeBranch: ({ history }) => (e) => {
       history.push(`?ref=${e.target.value}`)
+    },
+    pushToGithub: ({ branch, match, stagedFiles, setStagedFiles }) => (message) => {
+      const { username, repo } = match.params
+      const requestPath = `repos/${username}/${repo}/files/upsert?ref=${branch}`
+
+      const body = {
+        message,
+        files: stagedFiles.map(file => ({ path: file.path, content: file.content, encoding: file.encoding }))
+      }
+
+      api.post(requestPath, body)
+        .then(response => {
+          console.log('response: ', response)
+        })
+
+      setStagedFiles([])
     }
   }),
   lifecycle({

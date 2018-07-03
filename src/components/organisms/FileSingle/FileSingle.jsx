@@ -1,9 +1,8 @@
-/* global atob */
 
 import React from 'react'
 import { Card, TextEditor, Button } from '../../atoms'
 
-const FileSingle = ({ file, content, setContent, setStagedFiles }) => {
+const FileSingle = ({ file, content, setContent, saveFile }) => {
   return (
     <Card>
       <TextEditor
@@ -11,7 +10,7 @@ const FileSingle = ({ file, content, setContent, setStagedFiles }) => {
         name={file.name}
         onChange={setContent}
       />
-      <Button onClick={() => setStagedFiles(content)} >Save</Button>
+      <Button onClick={() => saveFile(content)} >Save</Button>
     </Card>
   )
 }
