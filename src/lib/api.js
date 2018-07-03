@@ -15,7 +15,8 @@ const api = new Api({
 })
 
 api.authorize({
-  token: () => storage.get('id_token')
+  // token: () => storage.get('id_token')
+  token: () => storage.get('access_token')
 })
 
 const handleApiUnauthorized = (resp) => {

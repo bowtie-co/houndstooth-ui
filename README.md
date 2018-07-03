@@ -8,14 +8,12 @@ Houndstooth
 - [Testing](#testing)
   - [Linting](#linting)
   - [Unit Tests](#unit-tests)
-
+- [Advanced](#advanced)
+  - [Local Services](#local-services)
 ## Getting Started
 
 #### Requirements
 - Install [Yarn](https://yarnpkg.com/en/docs/install#mac-stable) `>= 1.5.0`
-
-- API must be be running at http://localhost:4000
-  - [See the API README.md](https://github.com/bowtie-co/sls-houndstooth-api/blob/master/README.md) for more info
 
 #### Installation
 - Install git `pre-push` hook
@@ -34,6 +32,8 @@ yarn install
 ```bash
 yarn start
 ```
+
+- [Visit local instance](http://localhost:3000)
 
 ## Testing
 
@@ -58,3 +58,14 @@ yarn test
 ```bash
 CI=true app yarn test
 ```
+
+## Advanced
+
+#### Local Services
+
+- Create file `.env.development.local`, add entries to customize local dev
+  - To run against local api:
+    - `REACT_APP_API_ROOT_URL=http://localhost:4000`
+  - To run against local oauth:
+    - `REACT_APP_AUTHORIZE_URL=http://localhost:5000/dev/oauth/authorize`
+    - `REACT_APP_CALLBACK_URL=http://localhost:5000/dev/oauth/callback`
