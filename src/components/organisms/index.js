@@ -6,8 +6,9 @@ import RepoList from './RepoList'
 import DirList from './DirList'
 import FileSingle from './FileSingle'
 import CommitChanges from './CommitChanges'
-import CollectionsList from './CollectionsList'
+import CollectionList from './CollectionList'
 import ItemList from './ItemList'
+import ItemForm from './ItemForm'
 
 export {
   Header,
@@ -17,6 +18,7 @@ export {
   DirList,
   FileSingle,
   CommitChanges,
-  CollectionsList,
-  ItemList
+  CollectionList,
+  ItemList,
+  ItemForm
 }

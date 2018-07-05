@@ -1,15 +1,15 @@
 import React from 'react'
 import { Col, Button } from '../../atoms'
 
-const CollectionsList = (props) => {
-  const { collections, url } = props
+const CollectionList = (props) => {
+  const { collections } = props
   return (
     <Col>
       {
         collections.map((col, i) => {
           return (
             <Button
-              href={`${url}/${col}`}
+              href={`${col}`}
               key={i}>
               {col}
             </Button>
@@ -20,4 +20,4 @@ const CollectionsList = (props) => {
   )
 }
 
-export default CollectionsList
+export default CollectionList

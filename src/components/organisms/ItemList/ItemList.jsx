@@ -1,13 +1,29 @@
 import React from 'react'
-import { Card } from '../../atoms'
-import { DirCard } from '../../molecules'
+import {
+  Col,
+  Row,
+  Subtitle,
+  Button
+} from '../../atoms'
 
 const ItemList = (props) => {
+  const { items, setActiveItem } = props
   return (
-    <Card>
-      This is an item list
-    </Card>
+    <Col>
+      <Row>
+        <Button onClick={() => setActiveItem({})} >New Item</Button>
+        {
+          items.map((item, i) => <Button onClick={() => setActiveItem(item)}>{item.name}</Button>)
+        }
+      </Row>
+    </Col>
   )
 }
+
+/**********************************
+EMPTY STATE
+**********************************/
+
+export const EmptyState = () => <Subtitle title={'You must select a collection'} />
 
 export default ItemList

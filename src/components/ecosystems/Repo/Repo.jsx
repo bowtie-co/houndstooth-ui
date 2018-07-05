@@ -34,8 +34,8 @@ const Repo = (props) => {
             component={CommitChanges}
           />
           <PrivateRoute
-            props={props}
-            path={`${match['url']}/collections`}
+            props={{ collections }}
+            path={`/repos/:username/:repo/collections/:collection?/`}
             component={Collections}
           />
           <PrivateRoute
