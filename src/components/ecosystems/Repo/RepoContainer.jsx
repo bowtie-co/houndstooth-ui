@@ -12,10 +12,18 @@ export const enhance = compose(
   withStateHandlers(({ queryParams }) => ({
     dirList: [],
     file: {},
+    collections: [],
+    stagedFiles: [],
+    branchList: [],
+    branch: queryParams['ref'] || 'master',
     isComponentLoading: false
   }), {
     setDirList: ({ dirList }) => (payload) => ({ dirList: payload }),
-    setFile: ({ file }) => (payload) => ({ file: payload })
+    setFile: ({ file }) => (payload) => ({ file: payload }),
+    setCollections: ({ collections }) => (payload) => ({ collections: payload }),
+    setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
+    setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
+    setBranch: ({ branch }) => (payload) => ({ branch: payload })
   }),
   withHandlers({
     saveFile: ({ setFile, file, stagedFiles, setStagedFiles, queryParams }) => (content) => {

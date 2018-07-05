@@ -1,20 +1,22 @@
 import React from 'react'
 import {
-  PublicRoute,
+  PrivateRoute,
   Switch,
   Col
 } from '../../atoms'
-import { 
+import {
   RepoNav
 } from '../../molecules'
 import {
-  DirList,
-  FileSingle,
   CommitChanges
 } from '../../organisms'
+import {
+  FileTree,
+  Collections
+} from '..'
 
 const Repo = (props) => {
-  const { dirList, match, file, setFile, stagedFiles, saveFile, branch, branchList, changeBranch, pushToGithub, collections } = props
+  const { match, stagedFiles, branch, branchList, changeBranch, pushToGithub, collections } = props
   return (
     <div className='demo-template'>
       <Col>
@@ -26,20 +28,20 @@ const Repo = (props) => {
           isCollectionable={collections.length > 0}
         />
         <Switch>
-          <PublicRoute
-            props={{ dirList, branch }}
-            path={`${match['url']}/dir`}
-            component={DirList}
-          />
-          <PublicRoute
-            props={{ file, setFile, saveFile }}
-            path={`${match['url']}/file`}
-            component={FileSingle}
-          />
-          <PublicRoute
+          <PrivateRoute
             props={{ stagedFiles, pushToGithub, repo: match.params['repo'] }}
             path={`${match['url']}/commit`}
             component={CommitChanges}
+          />
+          <PrivateRoute
+            props={props}
+            path={`${match['url']}/collections`}
+            component={Collections}
+          />
+          <PrivateRoute
+            props={props}
+            path={`${match['url']}`}
+            component={FileTree}
           />
         </Switch>
       </Col>
