@@ -11,12 +11,6 @@ import notifier from '../../../lib/notifier'
 // conditional functions here:
 const loadingConditionFn = ({ isComponentLoading }) => isComponentLoading
 
-// const methods = {
-//   create: 'post',
-//   edit: 'put',
-//   view: 'get'
-// }
-
 export const enhance = compose(
   withStateHandlers(({ queryParams }) => ({
     repoList: [],
@@ -44,31 +38,6 @@ export const enhance = compose(
         .catch(notifier.bad.bind(notifier))
     }
   })
-  // withHandlers({
-  //   formSubmit: ({ match, isComponentLoading, history }) => (formData) => {
-  //     console.log('formData', formData)
-  //     // history.goBack()
-  //     // const { action, modelName, modelId } = match.params
-
-  //     // const method = methods[action]
-  //     // const route = modelId ? `${modelName}/${modelId}` : `${modelName}`
-  //     // isComponentLoading(true)
-
-  //     // api[method](route, { [modelName]: formData })
-  //     //   .then(notifier.ok.bind(notifier))
-  //     //   .then(({ data }) => {
-  //     //     isComponentLoading(false)
-  //     //   })
-  //     //   .catch(resp => {
-  //     //     notifier.apiErrors(resp, handleErrors)
-  //     //     isComponentLoading(false)
-  //     //   })
-  //   },
-  //   delete: () => () => {
-
-  //   }
-  // })
-
 )
 
 export default enhance(Main)

@@ -1,5 +1,5 @@
 
-import { compose, withStateHandlers, withPropsOnChange } from 'recompose'
+import { compose, withStateHandlers, withPropsOnChange, withHandlers } from 'recompose'
 import { withMaybe } from '@bowtie/react-utils'
 import Collections from './Collections'
 import api from '../../../lib/api'
@@ -30,5 +30,29 @@ export default compose(
           })
       }
       console.log('Collection ', collection)
-    })
+    }),
+  withHandlers({
+    formSubmit: ({ match, isComponentLoading, history }) => (formData) => {
+      console.log('formData', formData)
+      // history.goBack()
+      // const { action, modelName, modelId } = match.params
+
+      // const method = methods[action]
+      // const route = modelId ? `${modelName}/${modelId}` : `${modelName}`
+      // isComponentLoading(true)
+
+      // api[method](route, { [modelName]: formData })
+      //   .then(notifier.ok.bind(notifier))
+      //   .then(({ data }) => {
+      //     isComponentLoading(false)
+      //   })
+      //   .catch(resp => {
+      //     notifier.apiErrors(resp, handleErrors)
+      //     isComponentLoading(false)
+      //   })
+    },
+    delete: () => () => {
+
+    }
+  })
 )(Collections)

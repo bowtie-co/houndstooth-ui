@@ -9,7 +9,7 @@ const Collections = (props) => {
     <Col>
       <p>These are your collections:</p>
       <CollectionList collections={collections} />
-      <ItemList items={items} setActiveItem={setActiveItem} />
+      <ItemList items={items} setActiveItem={setActiveItem} fields={fields} />
       <ItemForm activeItem={activeItem} fields={fields} />
     </Col>
   )

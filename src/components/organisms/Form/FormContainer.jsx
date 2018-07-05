@@ -45,7 +45,7 @@ export default compose(
   withProps(({ children, formOnChange, formData, ...rest }) => {
     const childrenWithExtraProp = React.Children.map(children, child => {
       return React.cloneElement(child, {
-        value: formData[child.props.name],
+        value: formData[child.props.name] !== null ? formData[child.props.name] : '',
         onChange: formOnChange
       })
     })

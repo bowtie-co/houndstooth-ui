@@ -7,11 +7,11 @@ import {
 } from '../../atoms'
 
 const ItemList = (props) => {
-  const { items, setActiveItem } = props
+  const { items, setActiveItem, fields } = props
   return (
     <Col>
       <Row>
-        <Button onClick={() => setActiveItem({})} >New Item</Button>
+        <Button onClick={() => setActiveItem(fields)} >New Item</Button>
         {
           items.map((item, i) => <Button onClick={() => setActiveItem(item)}>{item.name}</Button>)
         }
