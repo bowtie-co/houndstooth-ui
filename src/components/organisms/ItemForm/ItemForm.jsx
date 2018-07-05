@@ -1,4 +1,5 @@
 import React from 'react'
+import { titleize } from '@bowtie/utils'
 import {
   Row,
   Subtitle,
@@ -13,15 +14,15 @@ const ItemList = (props) => {
     <section>
       <Title title={`Your New Item`} />
       <Row>
-        <Form model={activeItem ? activeItem['fields'] : null}>
+        <Form model={activeItem['fields'] ? activeItem['fields'] : fields}>
           {
             Object.keys(fields).map((field, i) => {
               return (
                 <FieldContainer
-                  type={'text'}
-                  label={'Todo'}
+                  // type={'text'}
+                  label={titleize(field, '_')}
                   placeholder={'todo title here'}
-                  name={'title'}
+                  name={field}
                 />
               )
             })
