@@ -1,23 +1,19 @@
 
 import React from 'react'
-import { Button, Col } from '../../atoms'
+import { Col, PrivateRoute } from '../../atoms'
+import { CollectionsList, ItemList } from '../../organisms'
 
 const Collections = (props) => {
-  const { collections } = props
+  const { collections, match } = props
   return (
     <Col>
-     These are your collections:
-      {
-        collections.map((col, i) => {
-          return (
-            <Button
-              href={`${col}`}
-              key={i}>
-              {col}
-            </Button>
-          )
-        })
-      }
+     <p>These are your collections:</p>
+      <CollectionsList collections={collections} url={match['url']} />
+      <PrivateRoute
+        props={props}
+        path={`${match['url']}/:collection`}
+        component={ItemList}
+      />
     </Col>
   )
 }
