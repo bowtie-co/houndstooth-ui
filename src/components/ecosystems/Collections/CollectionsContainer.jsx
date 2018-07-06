@@ -45,7 +45,8 @@ export default compose(
         api.get(route)
           .then(({ data }) => {
             setItems(data['collection']['items'])
-            setDefaultFields({ fields: data['collection']['fields'] })
+            // TODO: Enable markdown content editing via wysiwyg
+            setDefaultFields({ fields: data['collection']['fields'], markdown: "\nmarkdown\n" })
           })
       }
     },
