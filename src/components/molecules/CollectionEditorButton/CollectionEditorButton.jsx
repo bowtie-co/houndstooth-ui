@@ -7,7 +7,7 @@ const CollectionEditorButton = ({ location, match }) => {
   const onCollectionEditor = pathname.includes('/collection')
   return (
     <Button
-      href={onCollectionEditor ? `/repos/${username}/${repo}/dir` : `/repos/${username}/${repo}/collections/`}>
+      href={onCollectionEditor ? `/repos/${username}/${repo}/dir` : `/repos/${username}/${repo}/collections`}>
       { onCollectionEditor ? 'View File Editor' : 'View Collection Editor' }
     </Button>
   )

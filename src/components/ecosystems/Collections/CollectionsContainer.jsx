@@ -16,16 +16,20 @@ export default compose(
   }, {
     setItems: ({ items }) => (payload) => ({ items: payload }),
     setDefaultFields: ({ defaultFields }) => (payload) => ({ defaultFields: payload }),
-    setActiveItem: ({ activeItem }, { history }) => (payload) => {
-      const searchParam = payload.name ? `?file=${payload.name}` : `?file=new_item&create=true`
-      history.push({ search: searchParam })
-      return { activeItem: payload }
-    }
+    setActiveItem: ({ activeItem }, { history }) => (payload) => ({ activeItem: payload })
   }),
-  withPropsOnChange(
-    ({ match }, { match: nextMatch }) => match.params.collection !== nextMatch.params.collection,
-    ({ match, setItems, setDefaultFields }) => {
-      const { collection, username, repo } = match.params
+  withHandlers({
+    selectItem: ({ setActiveItem, history, match }) => (item) => {
+      if (item) {
+        setActiveItem(item)
+        history.push(`${match['url']}/${item.name}`)
+      } else {
+        setActiveItem({})
+        history.push(`${match['url']}/new`)
+      }
+    },
+    getItems: ({ match, setItems, setDefaultFields }) => () => {
+      const { username, repo, collection } = match.params
       if (collection) {
         const route = `/repos/${username}/${repo}/collections/${collection}`
         api.get(route)
@@ -34,9 +38,7 @@ export default compose(
             setDefaultFields(data['collection']['fields'])
           })
       }
-      console.log('Collection ', collection)
-    }),
-  withHandlers({
+    },
     editItem: ({ branch, activeItem, match, queryParams }) => (formData) => {
       const { username, repo, collection } = match.params
 
@@ -44,25 +46,36 @@ export default compose(
       const route = `/repos/${username}/${repo}/collections/${collection}/items/${queryParams['file']}?ref=${branch || 'master'}&sha=${activeItem['sha']}&message=${message}`
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
 
-      api.put(route, updatedItem)
-        .then(notifier.ok.bind(notifier))
-        .catch(notifier.bad.bind(notifier))
+      return api.put(route, updatedItem)
     },
     createItem: ({ branch, match }) => (formData) => {
       const { username, repo, collection } = match.params
 
       const message = 'Create file'
       const route = `/repos/${username}/${repo}/collections/${collection}/items/?ref=${branch || 'master'}&message=${message}`
-      api.post(route, formData)
-        .then(notifier.ok.bind(notifier))
-        .catch(notifier.bad.bind(notifier))
+      return api.post(route, formData)
     }
   }),
+  withPropsOnChange(
+    ({ match }, { match: nextMatch }) => match.params.collection !== nextMatch.params.collection,
+    ({ getItems, setActiveItem }) => {
+      setActiveItem({})
+      getItems()
+    }
+  ),
   withHandlers({
-    formSubmit: ({ queryParams, createItem, editItem }) => (formData) => {
-      queryParams['create']
-        ? createItem(formData)
-        : editItem(formData)
+    formSubmit: ({ activeItem, createItem, editItem, getItems }) => (formData) => {
+      if (activeItem['fields']) {
+        editItem(formData)
+          .then(notifier.ok.bind(notifier))
+          .then(() => getItems())
+          .catch(notifier.bad.bind(notifier))
+      } else {
+        createItem(formData)
+          .then(notifier.ok.bind(notifier))
+          .then(() => getItems())
+          .catch(notifier.bad.bind(notifier))
+      }
     }
   })
 )(Collections)

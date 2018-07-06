@@ -35,7 +35,7 @@ const Repo = (props) => {
           />
           <PrivateRoute
             props={{ collections, queryParams, branch }}
-            path={`/repos/:username/:repo/collections/:collection?/`}
+            path={`/repos/:username/:repo/collections/:collection?`}
             component={Collections}
           />
           <PrivateRoute

@@ -7,13 +7,13 @@ import {
 } from '../../atoms'
 
 const ItemList = (props) => {
-  const { items, setActiveItem, defaultFields } = props
+  const { items, selectItem } = props
   return (
     <Col>
       <Row>
-        <Button onClick={() => setActiveItem(defaultFields)} >New Item</Button>
+        <Button onClick={() => selectItem()} >New Item</Button>
         {
-          items.map((item, i) => <Button key={i} onClick={() => setActiveItem(item)}>{item.name}</Button>)
+          items.map((item, i) => <Button key={i} onClick={() => selectItem(item)}>{item.name}</Button>)
         }
       </Row>
     </Col>
