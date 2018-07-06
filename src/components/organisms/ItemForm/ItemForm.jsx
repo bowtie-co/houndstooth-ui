@@ -8,8 +8,9 @@ import {
 import { FieldContainer } from '../../molecules'
 import { Form } from '../../organisms'
 
-const ItemList = (props) => {
+const ItemForm = (props) => {
   const { activeItem, defaultFields, formSubmit } = props
+  console.log("default Fields", defaultFields);
   return (
     <section>
       <Title title={activeItem['name'] ? activeItem['name'] : `Your New Item`} />
@@ -31,10 +32,4 @@ const ItemList = (props) => {
   )
 }
 
-/**********************************
-EMPTY STATE
-**********************************/
-
-export const EmptyState = () => <Subtitle title={'You must select a collection'} />
-
-export default ItemList
+export default ItemForm
