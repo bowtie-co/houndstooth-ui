@@ -36,6 +36,7 @@ export default compose(
   withEither(multiSelectCondition, MultiSelect),
   withEither(radioCondition, Radio),
   withEither(isColorConditionFn, ColorPicker),
+  // withEither(isFileConditionFn, FileUpload),
   withEither(documentUploadCondition, DocumentContainer)
 )(Input)
 

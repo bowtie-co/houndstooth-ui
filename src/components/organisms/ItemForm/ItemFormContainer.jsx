@@ -3,7 +3,7 @@ import { compose } from 'recompose'
 import { withMaybe } from '@bowtie/react-utils'
 import ItemForm from './ItemForm'
 
-const nullConditionFn = ({ defaultFields }) => Object.keys(defaultFields).length === 0
+const nullConditionFn = ({ match, activeItem }) => !match.params.item || !activeItem['fields']
 
 export default compose(
   withMaybe(nullConditionFn)

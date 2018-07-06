@@ -8,15 +8,25 @@ import { FieldContainer } from '../../molecules'
 import { Form } from '../../organisms'
 
 const ItemForm = (props) => {
-  const { activeItem, defaultFields, formSubmit } = props
-  console.log('default Fields', defaultFields)
+  const { activeItem, formSubmit, editFileName, match } = props
+  const { item } = match.params
   return (
     <section>
-      <Title title={activeItem['name'] ? activeItem['name'] : `Your New Item`} />
       <Row>
-        <Form model={activeItem['fields'] ? activeItem['fields'] : defaultFields} onSubmit={formSubmit}>
+        {
+          item === 'new'
+            ? <FieldContainer
+              type='text'
+              label={'File name'}
+              name={'file_name'}
+              onChange={editFileName}
+              value={activeItem['name']}
+            />
+            : <Title title={item} />
+        }
+        <Form model={activeItem['fields']} onSubmit={formSubmit}>
           {
-            Object.keys(defaultFields).map((field, i) => {
+            Object.keys(activeItem['fields']).map((field, i) => {
               return (
                 <FieldContainer
                   key={i}

@@ -4,7 +4,7 @@ import { Col } from '../../atoms'
 import { CollectionList, ItemList, ItemForm } from '../../organisms'
 
 const Collections = (props) => {
-  const { collections, items, defaultFields, activeItem, formSubmit, selectItem, match } = props
+  const { collections, items, activeItem, formSubmit, selectItem, match, editFileName } = props
   return (
     <Col>
       <p>These are your collections:</p>
@@ -17,8 +17,9 @@ const Collections = (props) => {
         selectItem={selectItem}
       />
       <ItemForm
+        match={match}
         activeItem={activeItem}
-        defaultFields={defaultFields}
+        editFileName={editFileName}
         formSubmit={formSubmit}
       />
     </Col>
