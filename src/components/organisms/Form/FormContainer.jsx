@@ -42,6 +42,13 @@ export default compose(
       }
     }
   }),
+  withPropsOnChange(['model'], ({ setFormData, model, formData }) => {
+    if (isObject(model)) {
+      setFormData(model)
+    } else {
+      console.error('model passed into Form component must be an object')
+    }
+  }),
   withProps(({ children, formOnChange, formData, ...rest }) => {
     const childrenWithExtraProp = React.Children.map(children, child => {
       return React.cloneElement(child, {
@@ -51,12 +58,5 @@ export default compose(
     })
 
     return { childrenWithExtraProp }
-  }),
-  withPropsOnChange(['model'], ({ setFormData, model, formData }) => {
-    if (isObject(model)) {
-      setFormData(model)
-    } else {
-      console.error('model passed into Form component must be an object')
-    }
   })
 )(Form)

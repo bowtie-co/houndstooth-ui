@@ -15,10 +15,6 @@ export const enhance = compose(
   withStateHandlers(({ queryParams }) => ({
     repoList: [],
     repo: {},
-    collections: [],
-    stagedFiles: [],
-    branchList: [],
-    branch: queryParams['ref'] || 'master',
     isComponentLoading: false
   }), {
     setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
