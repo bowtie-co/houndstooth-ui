@@ -5,7 +5,7 @@ const Form = ({ childrenWithExtraProp, onSubmit, formData }) => {
   return (
     <section>
       { childrenWithExtraProp }
-      <Button label={'Submit'} onClick={() => onSubmit(formData)} />
+      <Button onClick={() => onSubmit(formData)}> Save </Button>
     </section>
   )
 }

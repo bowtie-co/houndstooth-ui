@@ -9,7 +9,7 @@ const CollectionList = (props) => {
         collections.map((col, i) => {
           return (
             <Button
-              href={`${col}`}
+              href={`${col}?file=new_item&create=true`}
               key={i}>
               {col}
             </Button>
