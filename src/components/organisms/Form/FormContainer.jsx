@@ -53,10 +53,10 @@ export default compose(
     return { childrenWithExtraProp }
   }),
   withPropsOnChange(['model'], ({ setFormData, model, formData }) => {
-    if(isObject(model)){
+    if (isObject(model)) {
       setFormData(model)
     } else {
       console.error('model passed into Form component must be an object')
-    } 
+    }
   })
 )(Form)

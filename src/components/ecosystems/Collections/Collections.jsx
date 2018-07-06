@@ -9,15 +9,15 @@ const Collections = (props) => {
     <Col>
       <p>These are your collections:</p>
       <CollectionList collections={collections} />
-      <ItemList 
-        items={items} 
-        setActiveItem={setActiveItem} 
-        defaultFields={defaultFields} 
+      <ItemList
+        items={items}
+        setActiveItem={setActiveItem}
+        defaultFields={defaultFields}
       />
-      <ItemForm 
-        activeItem={activeItem} 
-        defaultFields={defaultFields} 
-        formSubmit={formSubmit} 
+      <ItemForm
+        activeItem={activeItem}
+        defaultFields={defaultFields}
+        formSubmit={formSubmit}
       />
     </Col>
   )

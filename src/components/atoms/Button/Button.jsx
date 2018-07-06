@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Button as ButtonRS } from 'reactstrap'
 
-const Button = ({ id, value, children, href, ...rest }) => {
+const Button = ({ id, value, children, href, staticContext, ...rest }) => {
   const withLink = <Link to={href || ''}>
     <ButtonRS
       id={id}

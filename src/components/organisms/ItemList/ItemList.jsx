@@ -13,7 +13,7 @@ const ItemList = (props) => {
       <Row>
         <Button onClick={() => setActiveItem(defaultFields)} >New Item</Button>
         {
-          items.map((item, i) => <Button onClick={() => setActiveItem(item)}>{item.name}</Button>)
+          items.map((item, i) => <Button key={i} onClick={() => setActiveItem(item)}>{item.name}</Button>)
         }
       </Row>
     </Col>

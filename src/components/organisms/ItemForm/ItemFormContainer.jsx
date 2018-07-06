@@ -6,5 +6,5 @@ import ItemForm from './ItemForm'
 const nullConditionFn = ({ defaultFields }) => Object.keys(defaultFields).length === 0
 
 export default compose(
-  withMaybe(nullConditionFn),
+  withMaybe(nullConditionFn)
 )(ItemForm)
