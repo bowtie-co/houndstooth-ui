@@ -8,7 +8,7 @@ const Header = () => {
       <Brand title={'Houndstooth'} />
       <div className='nav-bar'>
         <NavLink to={'/home'}>Home</NavLink>
-        <NavLink to={'/view/repos/'}>Repos</NavLink>
+        <NavLink to={'/repos/'}>Repos</NavLink>
         <Login />
         <Logout />
       </div>

@@ -11,26 +11,22 @@ import notifier from '../../../lib/notifier'
 // conditional functions here:
 const loadingConditionFn = ({ isComponentLoading }) => isComponentLoading
 
-// const methods = {
-//   create: 'post',
-//   edit: 'put',
-//   view: 'get'
-// }
-
 export const enhance = compose(
-  withStateHandlers({
+  withStateHandlers(({ queryParams }) => ({
     repoList: [],
     repo: {},
     isComponentLoading: false
-  }, {
+  }), {
     setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
-    setRepo: ({ repo }) => (payload) => ({ repo: payload })
+    setRepo: ({ repo }) => (payload) => ({ repo: payload }),
+    setCollections: ({ collections }) => (payload) => ({ collections: payload }),
+    setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
+    setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
+    setBranch: ({ branch }) => (payload) => ({ branch: payload })
   }),
   withEither(loadingConditionFn, Loading),
   lifecycle({
     componentWillMount () {
-      console.log('COMPONENT WILL MOUNT REPO')
-
       const { setRepoList, match } = this.props
       const { model } = match.params
       api.get(`${model}?sort=updated`)
@@ -38,31 +34,6 @@ export const enhance = compose(
         .catch(notifier.bad.bind(notifier))
     }
   })
-  // withHandlers({
-  //   formSubmit: ({ match, isComponentLoading, history }) => (formData) => {
-  //     console.log('formData', formData)
-  //     // history.goBack()
-  //     // const { action, modelName, modelId } = match.params
-
-  //     // const method = methods[action]
-  //     // const route = modelId ? `${modelName}/${modelId}` : `${modelName}`
-  //     // isComponentLoading(true)
-
-  //     // api[method](route, { [modelName]: formData })
-  //     //   .then(notifier.ok.bind(notifier))
-  //     //   .then(({ data }) => {
-  //     //     isComponentLoading(false)
-  //     //   })
-  //     //   .catch(resp => {
-  //     //     notifier.apiErrors(resp, handleErrors)
-  //     //     isComponentLoading(false)
-  //     //   })
-  //   },
-  //   delete: () => () => {
-
-  //   }
-  // })
-
 )
 
 export default enhance(Main)

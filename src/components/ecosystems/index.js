@@ -12,5 +12,13 @@
 import Description from './Description'
 import Main from './Main'
 import Repo from './Repo'
+import Collections from './Collections'
+import FileTree from './FileTree'
 
-export { Description, Main, Repo }
+export {
+  Description,
+  Main,
+  Repo,
+  Collections,
+  FileTree
+}

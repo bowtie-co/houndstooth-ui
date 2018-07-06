@@ -4,10 +4,10 @@ import {
   FormGroup
 } from '../../../atoms'
 
-const Input = ({ id, ...rest }) => {
+const Input = ({ id, value, ...rest }) => {
   return (
     <FormGroup {...rest}>
-      <InputRS className='form-control' id={id} {...rest} />
+      <InputRS className='form-control' value={value || ''} id={id} {...rest} />
     </FormGroup>
   )
 }

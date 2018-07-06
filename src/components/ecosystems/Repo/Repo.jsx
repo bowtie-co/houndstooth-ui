@@ -1,14 +1,22 @@
 import React from 'react'
 import {
-  PublicRoute,
+  PrivateRoute,
   Switch,
   Col
 } from '../../atoms'
-import { RepoNav } from '../../molecules'
-import { DirList, FileSingle, CommitChanges } from '../../organisms'
+import {
+  RepoNav
+} from '../../molecules'
+import {
+  CommitChanges
+} from '../../organisms'
+import {
+  FileTree,
+  Collections
+} from '..'
 
 const Repo = (props) => {
-  const { dirList, match, file, setFile, stagedFiles, saveFile, branch, branchList, changeBranch, pushToGithub } = props
+  const { match, stagedFiles, branch, branchList, changeBranch, pushToGithub, collections, queryParams } = props
   return (
     <div className='demo-template'>
       <Col>
@@ -16,22 +24,24 @@ const Repo = (props) => {
           branch={branch}
           branchList={branchList}
           changeBranch={changeBranch}
+          isCommitable={stagedFiles.length > 0}
+          isCollectionable={collections.length > 0}
         />
         <Switch>
-          <PublicRoute
-            props={{ dirList, branch }}
-            path={`${match['url']}/dir`}
-            component={DirList}
-          />
-          <PublicRoute
-            props={{ file, setFile, saveFile }}
-            path={`${match['url']}/file`}
-            component={FileSingle}
-          />
-          <PublicRoute
+          <PrivateRoute
             props={{ stagedFiles, pushToGithub, repo: match.params['repo'] }}
             path={`${match['url']}/commit`}
             component={CommitChanges}
+          />
+          <PrivateRoute
+            props={{ collections, queryParams, branch }}
+            path={`/repos/:username/:repo/collections/:collection?/:item?`}
+            component={Collections}
+          />
+          <PrivateRoute
+            props={props}
+            path={`${match['url']}`}
+            component={FileTree}
           />
         </Switch>
       </Col>

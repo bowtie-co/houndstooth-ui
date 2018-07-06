@@ -13,14 +13,15 @@ const Main = (props) => {
         <PrivateRoute
           exact
           props={props}
-          path={'/:action(view)/repos'}
+          path={'/repos'}
           component={RepoList}
         />
         <PrivateRoute
           props={props}
-          path={'/:action(view)/repos/:username/:repo'}
+          path={'/repos/:username/:repo'}
           component={Repo}
         />
+
       </Switch>
     </div>
   )

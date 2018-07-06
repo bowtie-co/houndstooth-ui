@@ -5,6 +5,7 @@ import FieldContainer from './Field'
 import LastUpdated from './LastUpdated'
 import DirCard from './DirCard'
 import RepoNav from './RepoNav'
+import CollectionEditorButton from './CollectionEditorButton'
 
 export {
   Search,
@@ -13,5 +14,6 @@ export {
   RepoCard,
   LastUpdated,
   DirCard,
-  RepoNav
+  RepoNav,
+  CollectionEditorButton
 }

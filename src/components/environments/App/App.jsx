@@ -18,7 +18,7 @@ const App = (props) => {
           />
           <PrivateRoute
             props={props}
-            path='/:action(view|edit|create)/:model(repos)/:username?/:repo?/:type?'
+            path='/:model(repos)/:username?/:repo?'
             component={Main}
           />
           <PublicRoute
