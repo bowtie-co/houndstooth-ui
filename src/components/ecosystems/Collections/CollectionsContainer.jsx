@@ -12,29 +12,23 @@ export default compose(
   withStateHandlers(({ match }) => ({
     items: [],
     defaultFields: {},
-    activeItem: {},
-    create: match['params']['item'] === 'new'
+    activeItem: {}
   }), {
     setItems: ({ items }) => (payload) => ({ items: payload }),
     setDefaultFields: ({ defaultFields }) => (payload) => ({ defaultFields: payload }),
-    setActiveItem: ({ activeItem }) => (payload) => ({ activeItem: payload }),
-    toggleCreate: ({ create }) => (payload) => ({ create: payload })
+    setActiveItem: ({ activeItem }) => (payload) => ({ activeItem: payload })
   }),
   withHandlers({
     editFileName: ({ setActiveItem, activeItem }) => (e) => {
       const editedItem = Object.assign({}, activeItem, { name: e.target.value })
       setActiveItem(editedItem)
     },
-    selectItem: ({ setActiveItem, history, match, toggleCreate, defaultFields }) => (item) => {
+    selectItem: ({ history, match }) => (item) => {
       const { username, repo, collection } = match.params
       const baseRoute = `/repos/${username}/${repo}/collections/${collection}`
       if (item) {
-        setActiveItem(item)
-        toggleCreate(false)
         history.push(`${baseRoute}/${item.name}`)
       } else {
-        setActiveItem(defaultFields)
-        toggleCreate(true)
         history.push(`${baseRoute}/new`)
       }
     },
@@ -46,11 +40,11 @@ export default compose(
           .then(({ data }) => {
             setItems(data['collection']['items'])
             // TODO: Enable markdown content editing via wysiwyg
-            setDefaultFields({ fields: data['collection']['fields'], markdown: "\nmarkdown\n" })
+            setDefaultFields({ fields: data['collection']['fields'], markdown: '\nmarkdown\n' })
           })
       }
     },
-    editItem: ({ branch, activeItem, match, queryParams }) => (formData) => {
+    editItem: ({ branch, activeItem, match }) => (formData) => {
       const { username, repo, collection, item } = match.params
       const message = 'Edit file'
       const route = `/repos/${username}/${repo}/collections/${collection}/items/${item}?ref=${branch || 'master'}&sha=${activeItem['sha']}&message=${message}`
@@ -72,9 +66,25 @@ export default compose(
       getItems()
     }
   ),
+  withPropsOnChange([ 'match', 'items', 'defaultFields' ], ({ match, items, setActiveItem, defaultFields }) => {
+    if (match['params']['item'] === 'new') {
+      setActiveItem(defaultFields)
+    } else {
+      console.log('finding item', match['params']['item'], items)
+      const currentItem = items.find(i => i.name === match['params']['item'])
+
+      if (currentItem) {
+        setActiveItem(currentItem)
+      } else {
+        setActiveItem({})
+        console.log(`Unable to load item: ${match['params']['item']}`)
+      }
+    }
+  }
+  ),
   withHandlers({
-    formSubmit: ({ activeItem, createItem, editItem, getItems, create }) => (formData) => {
-      if (create) {
+    formSubmit: ({ createItem, editItem, getItems, match }) => (formData) => {
+      if (match['params']['item'] === 'new') {
         createItem(formData)
           .then(notifier.ok.bind(notifier))
           .then(() => getItems())
