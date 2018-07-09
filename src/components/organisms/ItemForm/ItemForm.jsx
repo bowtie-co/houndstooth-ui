@@ -1,15 +1,15 @@
 import React from 'react'
-import { titleize } from '@bowtie/utils'
 import {
   Row,
   Title
 } from '../../atoms'
 import { FieldContainer } from '../../molecules'
-import { Form, RecursiveFields } from '..'
+import { RecursiveFields } from '..'
 
 const ItemForm = (props) => {
-  const { activeItem, formSubmit, editFileName, match } = props
+  const { activeItem, handleFormSubmit, editFileName, match } = props
   const { item } = match.params
+  console.log('Item form props: ', activeItem.fields)
   return (
     <section>
       <Row>
@@ -24,23 +24,11 @@ const ItemForm = (props) => {
             />
             : <Title title={item} />
         }
-        <Form model={activeItem['fields']} onSubmit={formSubmit}>
-          <RecursiveFields 
-            fields={activeItem['fields']}
-            match={match}
-          />
-          {/* {
-            Object.keys(activeItem['fields']).map((field, i) => {
-              return (
-                <FieldContainer
-                  key={i}
-                  label={titleize(field, '_')}
-                  name={field}
-                />
-              )
-            })
-          } */}
-        </Form>
+        <RecursiveFields
+          fields={activeItem['fields']}
+          match={match}
+          onSubmit={handleFormSubmit}
+        />
       </Row>
     </section>
   )
