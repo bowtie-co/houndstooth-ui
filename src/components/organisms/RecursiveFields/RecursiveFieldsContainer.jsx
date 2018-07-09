@@ -9,7 +9,6 @@ import { FieldContainer } from '../../molecules'
 
 const buildFields = (fields, handleChange, location = '') => {
   const fieldKeys = Object.keys(fields)
-
   return fieldKeys.map((key, index) => {
     const field = fields[key]
     return buildField(key, index, field, handleChange, location)
@@ -31,7 +30,7 @@ const buildField = (key, index, field, handleChange, location = '') => {
       <div key={input_id}>
         <p>{key}</p>
         {
-          buildFields(field, current_location)
+          buildFields(field, handleChange, current_location)
         }
       </div>
     )
