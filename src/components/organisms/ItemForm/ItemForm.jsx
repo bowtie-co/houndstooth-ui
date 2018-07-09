@@ -5,7 +5,7 @@ import {
   Title
 } from '../../atoms'
 import { FieldContainer } from '../../molecules'
-import { Form } from '../../organisms'
+import { Form, RecursiveFields } from '..'
 
 const ItemForm = (props) => {
   const { activeItem, formSubmit, editFileName, match } = props
@@ -25,7 +25,11 @@ const ItemForm = (props) => {
             : <Title title={item} />
         }
         <Form model={activeItem['fields']} onSubmit={formSubmit}>
-          {
+          <RecursiveFields 
+            fields={activeItem['fields']}
+            match={match}
+          />
+          {/* {
             Object.keys(activeItem['fields']).map((field, i) => {
               return (
                 <FieldContainer
@@ -35,7 +39,7 @@ const ItemForm = (props) => {
                 />
               )
             })
-          }
+          } */}
         </Form>
       </Row>
     </section>
