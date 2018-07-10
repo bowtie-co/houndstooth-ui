@@ -83,7 +83,7 @@ export default compose(
   }
   ),
   withHandlers({
-    formSubmit: ({ createItem, editItem, getItems, match }) => (formData) => {
+    handleFormSubmit: ({ createItem, editItem, getItems, match }) => (formData) => {
       if (match['params']['item'] === 'new') {
         createItem(formData)
           .then(notifier.ok.bind(notifier))

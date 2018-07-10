@@ -39,10 +39,3 @@ export default compose(
   // withEither(isFileConditionFn, FileUpload),
   withEither(documentUploadCondition, DocumentContainer)
 )(Input)
-
-// withState('type', 'changeType', ({ fieldKey }) => {
-//   if (endsWith(fieldKey, ['_date', '_on'])) return 'date';
-//   if (endsWith(fieldKey, ['_time', '_at'])) return 'time';
-
-//   return 'datetime';
-// }),

@@ -9,6 +9,7 @@ import CommitChanges from './CommitChanges'
 import CollectionList from './CollectionList'
 import ItemList from './ItemList'
 import ItemForm from './ItemForm'
+import RecursiveFields from './RecursiveFields'
 
 export {
   Header,
@@ -20,5 +21,6 @@ export {
   CommitChanges,
   CollectionList,
   ItemList,
-  ItemForm
+  ItemForm,
+  RecursiveFields
 }
