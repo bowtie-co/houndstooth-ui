@@ -5,7 +5,7 @@ import { FormGroup } from '../../../atoms'
 const Checkbox = ({ id, value, onChange, ...rest }) => {
   return (
     <FormGroup className='marLeft' {...rest}>
-      <Input id={id} type='checkbox' defaultChecked={value} onClick={() => onChange({ target: { value: !value } })} {...rest} />
+      <Input id={id} type='checkbox' checked={!!value} onChange={() => onChange({ target: { value: !value } })} {...rest} />
     </FormGroup>
   )
 }
