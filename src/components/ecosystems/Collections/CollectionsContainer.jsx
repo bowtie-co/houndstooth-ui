@@ -64,7 +64,7 @@ export default compose(
     handleMarkdownChange: ({ activeItem, setActiveItem }) => (content) => {
       // if(content){
       console.log('original content: ', content)
-      const updated = Object.assign({}, activeItem, { content })
+      const updated = Object.assign({}, activeItem, { markdown: content })
       setActiveItem(updated)
       // }
     }
