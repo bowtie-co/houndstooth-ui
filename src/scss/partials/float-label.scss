@@ -1,0 +1,114 @@
+.has-float-label {
+  display: block;
+  position: relative;
+  margin-top: 1.65rem;
+}
+.has-float-label label, .has-float-label > span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  cursor: text;
+  font-size: 75%;
+  opacity: 1;
+  -webkit-transition: all .2s;
+          transition: all .2s;
+  top: -1.25rem;
+  left: 0.25rem;
+  z-index: 3;
+  line-height: 1;
+  padding: 0 1px;
+}
+.has-float-label label::after, .has-float-label > span::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  height: 2px;
+  top: 50%;
+  left: -.2em;
+  right: -.2em;
+  z-index: -1;
+}
+.has-float-label.required > span::after {
+  content: "*";
+  opacity: 1;
+  top: 0;
+  left: 100%;
+  padding-left: 2px;
+  font-weight: bold;
+  font-style: italic;
+}
+.has-float-label .form-control::-webkit-input-placeholder {
+  opacity: 1;
+  -webkit-transition: all .2s;
+          transition: all .2s;
+}
+.has-float-label .form-control::-moz-placeholder {
+  opacity: 1;
+  transition: all .2s;
+}
+.has-float-label .form-control:-ms-input-placeholder {
+  opacity: 1;
+  transition: all .2s;
+}
+.has-float-label .form-control::placeholder {
+  opacity: 1;
+  -webkit-transition: all .2s;
+          transition: all .2s;
+}
+.has-float-label .form-control:not(.agent-filter):placeholder-shown:not(:focus)::-webkit-input-placeholder {
+  opacity: 0;
+}
+.has-float-label .form-control:not(.agent-filter):placeholder-shown:not(:focus)::-moz-placeholder {
+  opacity: 0;
+}
+.has-float-label .form-control:not(.agent-filter):placeholder-shown:not(:focus):-ms-input-placeholder {
+  opacity: 0;
+}
+.has-float-label .form-control:not(.agent-filter):placeholder-shown:not(:focus)::placeholder {
+  opacity: 0;
+}
+.has-float-label .form-control:not(.agent-filter):placeholder-shown:not(:focus) + * {
+  font-size: 100%;
+  opacity: .5;
+  top: .25rem;
+  // text-align: center;
+  // width: 96%;
+}
+
+.has-float-label.required .form-control:not(.agent-filter):placeholder-shown:not(:focus) + span::after {
+  opacity: 0;
+}
+
+.input-group .has-float-label {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  margin-bottom: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+// .input-group .has-float-label .form-control {
+//   width: 100%;
+//   border-radius: 0.25rem;
+// }
+// .input-group .has-float-label:not(:last-child), .input-group .has-float-label:not(:last-child) .form-control {
+//   border-bottom-right-radius: 0;
+//   border-top-right-radius: 0;
+//   border-right: 0;
+// }
+// .input-group .has-float-label:not(:first-child), .input-group .has-float-label:not(:first-child) .form-control {
+//   border-bottom-left-radius: 0;
+//   border-top-left-radius: 0;
+// }

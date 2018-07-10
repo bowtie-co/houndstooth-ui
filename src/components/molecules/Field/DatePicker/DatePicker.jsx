@@ -23,7 +23,6 @@ const DatePickerField = ({ id, col, selected, onChange, name, value, onDateBlur,
     <FormGroup id={id} {...rest}>
       <DatePicker
         id={id}
-        className='form-control'
         selected={selectedValue}
         onChange={(date) => {
           name && onChange({ target: { name, value: date } })
