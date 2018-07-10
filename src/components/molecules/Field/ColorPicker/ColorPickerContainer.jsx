@@ -4,16 +4,17 @@ import ColorPicker from './ColorPicker'
 export default compose(
   withState('open', 'handleToggle', false),
   withHandlers({
-    toggleState: ({ handleToggle, open }) => handleToggle(!open),
-    handleClose: ({ handleToggle, open }) => handleToggle(false),
-    handleColorChange: ({ fieldKey, field, handleChange }) => (color) => {
+    toggleState: ({ handleToggle, open }) => () => handleToggle(!open),
+    handleClose: ({ handleToggle }) => () => handleToggle(false),
+    handleColorChange: ({ value, onChange }) => (color) => {
       if (color.rgb.a !== 1) {
-        handleChange(fieldKey, `rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a})`)
+        onChange({ target: { value: `rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a})` } })
       } else {
-        if (field && field.includes('#')) {
-          handleChange(fieldKey, `#${color.hex}`)
+        if (value && value.includes('#')) {
+          onChange({ target: { value: `#${color.hex}` } })
         } else {
-          handleChange(fieldKey, `rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b})`)
+          console.log("color value ", color);
+          onChange({ target: { value: `rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b})` } })
         }
       }
     }
