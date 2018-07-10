@@ -13,12 +13,13 @@ const allowedDateInputFormats = [
   'DDMMY'
 ]
 
-const DatePickerField = ({ id, col, selected, onChange, name, value, onDateBlur, min = 90, max = 30, ...rest }) => {
-  let selectedValue = typeof selected === 'string' ? moment(selected) : (selected || null)
+const DatePickerField = ({ id, col, value, onChange, name, onDateBlur, min = 90, max = 30, ...rest }) => {
+  let selectedValue = typeof value === 'string' ? moment(value) : (value || null)
 
   if (selectedValue !== null && (!selectedValue._isAMomentObject || !selectedValue._isValid)) {
     selectedValue = null
   }
+  console.log("selectedValue", selectedValue)
   return (
     <FormGroup id={id} {...rest}>
       <DatePicker
