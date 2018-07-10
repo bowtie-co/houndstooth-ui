@@ -57,6 +57,11 @@ export default compose(
       const message = 'Create file'
       const route = `/repos/${username}/${repo}/collections/${collection}/items?ref=${branch || 'master'}&message=${message}`
       return api.post(route, updatedItem)
+    },
+    handleMarkdownChange: ({ activeFile, setActiveItem }) => (markdown) => {
+      console.log('markdown:', markdown)
+      const updated = Object.assign({}, activeFile, { markdown })
+      setActiveItem(updated)
     }
   }),
   withPropsOnChange(
