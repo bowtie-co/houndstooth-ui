@@ -18,26 +18,28 @@ import TextEditor from './TextEditor'
 import Col from './Col'
 import Row from './Row'
 import BackButton from './BackButton'
+import WysiwygEditor from './WysiwygEditor'
 
 export {
-  Loading,
-  Title,
-  Button,
-  FormGroup,
-  NavLink,
-  Subtitle,
-  PublicRoute,
-  PrivateRoute,
-  Summary,
-  BowtieLogo,
+  Avatar,
+  BackButton,
   Body,
-  Switch,
+  BowtieLogo,
+  Button,
+  Card,
+  Col,
+  FormGroup,
+  Loading,
   Login,
   Logout,
-  Avatar,
-  Card,
-  TextEditor,
-  Col,
+  NavLink,
+  PrivateRoute,
+  PublicRoute,
   Row,
-  BackButton
+  Subtitle,
+  Summary,
+  Switch,
+  Title,
+  TextEditor,
+  WysiwygEditor
 }

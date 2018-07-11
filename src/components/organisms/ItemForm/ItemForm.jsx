@@ -1,18 +1,19 @@
 import React from 'react'
 import {
-  Row,
-  Title
+  Col,
+  Title,
+  WysiwygEditor
 } from '../../atoms'
 import { FieldContainer } from '../../molecules'
 import { RecursiveFields } from '..'
 
 const ItemForm = (props) => {
-  const { activeItem, handleFormSubmit, editFileName, match } = props
+  const { activeItem, handleFormSubmit, editFileName, match, handleMarkdownChange } = props
   const { item } = match.params
   console.log('Item form props: ', activeItem.fields)
   return (
     <section>
-      <Row>
+      <Col>
         {
           item === 'new'
             ? <FieldContainer
@@ -29,7 +30,11 @@ const ItemForm = (props) => {
           match={match}
           onSubmit={handleFormSubmit}
         />
-      </Row>
+        <WysiwygEditor
+          content={activeItem['markdown']}
+          handleMarkdownChange={handleMarkdownChange}
+        />
+      </Col>
     </section>
   )
 }

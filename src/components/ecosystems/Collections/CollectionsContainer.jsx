@@ -4,6 +4,9 @@ import { withMaybe } from '@bowtie/react-utils'
 import Collections from './Collections'
 import api from '../../../lib/api'
 import notifier from '../../../lib/notifier'
+import TurndownService from 'turndown'
+
+const turndownService = new TurndownService()
 
 const nullConditionFn = ({ collections }) => collections.length === 0
 
@@ -48,7 +51,7 @@ export default compose(
       const { username, repo, collection, item } = match.params
       const message = 'Edit file'
       const route = `/repos/${username}/${repo}/collections/${collection}/items/${item}?ref=${branch || 'master'}&sha=${activeItem['sha']}&message=${message}`
-      const updatedItem = Object.assign({}, activeItem, { fields: formData })
+      const updatedItem = Object.assign({}, activeItem, { fields: formData, markdown: turndownService.turndown(activeItem['markdown']) })
       return api.put(route, updatedItem)
     },
     createItem: ({ branch, match, activeItem }) => (formData) => {
@@ -57,6 +60,13 @@ export default compose(
       const message = 'Create file'
       const route = `/repos/${username}/${repo}/collections/${collection}/items?ref=${branch || 'master'}&message=${message}`
       return api.post(route, updatedItem)
+    },
+    handleMarkdownChange: ({ activeItem, setActiveItem }) => (content) => {
+      // if(content){
+      console.log('original content: ', content)
+      const updated = Object.assign({}, activeItem, { markdown: content })
+      setActiveItem(updated)
+      // }
     }
   }),
   withPropsOnChange(
