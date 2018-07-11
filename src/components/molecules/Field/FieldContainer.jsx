@@ -7,7 +7,7 @@ import { endsWith } from '@bowtie/utils'
 import Input from './Input'
 import Select from './Select'
 import Checkbox from './Checkbox'
-import DatePicker from './DatePicker'
+import DateTimeContainer from './DateTime'
 import ColorPicker from './ColorPicker'
 import TimePicker from './TimePicker'
 import MultiSelect from './MultiSelect'
@@ -31,7 +31,7 @@ const documentUploadCondition = ({ type }) => type === 'document'
 export default compose(
   withEither(selectCondition, Select),
   withEither(checkboxCondition, Checkbox),
-  withEither(datePickerCondition, DatePicker),
+  withEither(datePickerCondition, DateTimeContainer),
   withEither(timePickerCondition, TimePicker),
   withEither(multiSelectCondition, MultiSelect),
   withEither(radioCondition, Radio),
