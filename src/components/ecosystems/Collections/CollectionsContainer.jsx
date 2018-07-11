@@ -12,61 +12,60 @@ const nullConditionFn = ({ collections }) => collections.length === 0
 
 export default compose(
   withMaybe(nullConditionFn),
-  withStateHandlers(({ match }) => ({
+  withStateHandlers(({ match:{ params: { username, repo, collection } } }) => ({
+    baseRoute: `/repos/${username}/${repo}/collections/${collection ? collection : ''}`,
     items: [],
     defaultFields: {},
-    activeItem: {}
+    activeItem: {},
+    stagedFileUploads: [],
+    fileUploads: {}
   }), {
     setItems: ({ items }) => (payload) => ({ items: payload }),
     setDefaultFields: ({ defaultFields }) => (payload) => ({ defaultFields: payload }),
-    setActiveItem: ({ activeItem }) => (payload) => ({ activeItem: payload })
+    setActiveItem: ({ activeItem }) => (payload) => ({ activeItem: payload }),
+    setStagedFileUploads: ({ stagedFileUploads }) => (payload) => ({ stagedFileUploads: payload }),
+    setFileUploads: ({ setFileUploads }) => (payload) => ({ setFileUploads: payload })
   }),
   withHandlers({
     editFileName: ({ setActiveItem, activeItem }) => (e) => {
       const editedItem = Object.assign({}, activeItem, { name: e.target.value })
       setActiveItem(editedItem)
     },
-    selectItem: ({ history, match }) => (item) => {
-      const { username, repo, collection } = match.params
-      const baseRoute = `/repos/${username}/${repo}/collections/${collection}`
+    selectItem: ({ history, match, baseRoute }) => (item) => {
       if (item) {
-        history.push(`${baseRoute}/${item.name}`)
+        history.push(`${baseRoute}/${item['name']}`)
       } else {
         history.push(`${baseRoute}/new`)
       }
     },
-    getItems: ({ match, setItems, setDefaultFields }) => () => {
-      const { username, repo, collection } = match.params
-      if (collection) {
-        const route = `/repos/${username}/${repo}/collections/${collection}`
-        api.get(route)
-          .then(({ data }) => {
-            setItems(data['collection']['items'])
-            // TODO: Enable markdown content editing via wysiwyg
-            setDefaultFields({ fields: data['collection']['fields'], markdown: '\nmarkdown\n' })
-          })
-      }
+    // getFileUpload: ({ baseRoute }) => () => {
+    //   const baseRoute = `/repos/${username}/${repo}/collections/${collection}`
+    //   api.get(route)
+    // },
+    getItems: ({ baseRoute, setItems, setDefaultFields }) => () => {
+      api.get(baseRoute)
+        .then(({ data }) => {
+          setItems(data['collection']['items'])
+          setDefaultFields({ fields: data['collection']['fields'] })
+        })
     },
-    editItem: ({ branch, activeItem, match }) => (formData) => {
-      const { username, repo, collection, item } = match.params
+    editItem: ({ baseRoute, branch, activeItem, match }) => (formData) => {
+      const { item } = match.params
       const message = 'Edit file'
-      const route = `/repos/${username}/${repo}/collections/${collection}/items/${item}?ref=${branch || 'master'}&sha=${activeItem['sha']}&message=${message}`
-      const updatedItem = Object.assign({}, activeItem, { fields: formData, markdown: turndownService.turndown(activeItem['markdown']) })
+      const route = `${baseRoute}/items/${item}?ref=${branch || 'master'}&sha=${activeItem['sha']}&message=${message}`
+      const updatedItem = Object.assign({}, activeItem, { fields: formData, markdown: activeItem['markdown'] })
       return api.put(route, updatedItem)
     },
-    createItem: ({ branch, match, activeItem }) => (formData) => {
-      const { username, repo, collection } = match.params
+    createItem: ({ baseRoute, branch, match, activeItem }) => (formData) => {
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       const message = 'Create file'
-      const route = `/repos/${username}/${repo}/collections/${collection}/items?ref=${branch || 'master'}&message=${message}`
+      const route = `${baseRoute}/items?ref=${branch || 'master'}&message=${message}`
       return api.post(route, updatedItem)
     },
     handleMarkdownChange: ({ activeItem, setActiveItem }) => (content) => {
-      // if(content){
       console.log('original content: ', content)
       const updated = Object.assign({}, activeItem, { markdown: content })
       setActiveItem(updated)
-      // }
     }
   }),
   withPropsOnChange(
@@ -84,6 +83,8 @@ export default compose(
       const currentItem = items.find(i => i.name === match['params']['item'])
 
       if (currentItem) {
+        // TODO: api call to grab file uploads
+        api.get()
         setActiveItem(currentItem)
       } else {
         setActiveItem({})
