@@ -3,11 +3,12 @@ import { Button, Col } from '../../atoms'
 import FieldGroup from './FieldGroup'
 
 const RecursiveFields = (props) => {
-  const { handleChange, onSubmit, formData } = props
+  console.log('recursive props: ', props)
+  const { onSubmit, formData, ...rest } = props
   return (
     <div>
       <Col>
-        <FieldGroup fields={formData} handleChange={handleChange} />
+        <FieldGroup fields={formData} {...rest} />
       </Col>
       <Button onClick={() => onSubmit(formData)}>
         Submit

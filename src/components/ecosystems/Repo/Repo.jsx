@@ -16,7 +16,7 @@ import {
 } from '..'
 
 const Repo = (props) => {
-  const { match, stagedFiles, branch, branchList, changeBranch, pushToGithub, collections, queryParams } = props
+  const { match, stagedFiles, branch, branchList, changeBranch, pushToGithub, collections, queryParams, stagedFileUploads, setStagedFileUploads, fileUploads } = props
   return (
     <div className='demo-template'>
       <Col>
@@ -34,7 +34,7 @@ const Repo = (props) => {
             component={CommitChanges}
           />
           <PrivateRoute
-            props={{ collections, queryParams, branch }}
+            props={{ collections, queryParams, branch, setStagedFileUploads, stagedFileUploads, fileUploads }}
             path={`/repos/:username/:repo/collections/:collection?/:item?`}
             component={Collections}
           />

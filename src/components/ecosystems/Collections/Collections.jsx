@@ -10,7 +10,7 @@ import {
 } from '../../organisms'
 
 const Collections = (props) => {
-  const { collections, items, activeItem, handleFormSubmit, selectItem, match, editFileName, handleMarkdownChange } = props
+  const { collections, match, items, selectItem, ...rest } = props
   return (
     <Col>
       <p>These are your collections:</p>
@@ -24,10 +24,7 @@ const Collections = (props) => {
       />
       <ItemForm
         match={match}
-        activeItem={activeItem}
-        editFileName={editFileName}
-        handleFormSubmit={handleFormSubmit}
-        handleMarkdownChange={handleMarkdownChange}
+        {...rest}
       />
     </Col>
   )

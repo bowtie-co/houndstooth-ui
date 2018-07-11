@@ -9,19 +9,16 @@ const nullConditionFn = ({ collections }) => collections.length === 0
 
 export default compose(
   withMaybe(nullConditionFn),
-  withStateHandlers(({ match:{ params: { username, repo, collection } } }) => ({
-    baseRoute: `/repos/${username}/${repo}/collections/${collection ? collection : ''}`,
+  withStateHandlers(({ match: { params: { username, repo, collection } } }) => ({
+    baseRoute: `/repos/${username}/${repo}/collections/${collection || ''}`,
     items: [],
     defaultFields: {},
-    activeItem: {},
-    stagedFileUploads: [],
-    fileUploads: {}
+    activeItem: {}
   }), {
+    setBaseRoute: ({ baseRoute }) => (payload) => ({ baseRoute: payload }),
     setItems: ({ items }) => (payload) => ({ items: payload }),
     setDefaultFields: ({ defaultFields }) => (payload) => ({ defaultFields: payload }),
-    setActiveItem: ({ activeItem }) => (payload) => ({ activeItem: payload }),
-    setStagedFileUploads: ({ stagedFileUploads }) => (payload) => ({ stagedFileUploads: payload }),
-    setFileUploads: ({ setFileUploads }) => (payload) => ({ setFileUploads: payload })
+    setActiveItem: ({ activeItem }) => (payload) => ({ activeItem: payload })
   }),
   withHandlers({
     editFileName: ({ setActiveItem, activeItem }) => (e) => {
@@ -35,16 +32,20 @@ export default compose(
         history.push(`${baseRoute}/new`)
       }
     },
-    // getFileUpload: ({ baseRoute }) => () => {
-    //   const baseRoute = `/repos/${username}/${repo}/collections/${collection}`
-    //   api.get(route)
-    // },
-    getItems: ({ baseRoute, setItems, setDefaultFields }) => () => {
+    getFileUpload: ({ baseRoute }) => () => {
       api.get(baseRoute)
-        .then(({ data }) => {
-          setItems(data['collection']['items'])
-          setDefaultFields({ fields: data['collection']['fields'] })
-        })
+    },
+    getItems: ({ baseRoute, match, setItems, setDefaultFields }) => (newCollectionRoute) => {
+      const { collection } = match.params
+      const route = newCollectionRoute || baseRoute
+      if (collection) {
+        api.get(route)
+          .then(({ data }) => {
+            console.log('data in collections: ', data)
+            setItems(data['collection']['items'])
+            setDefaultFields({ fields: data['collection']['fields'] })
+          })
+      }
     },
     editItem: ({ baseRoute, branch, activeItem, match }) => (formData) => {
       const { item } = match.params
@@ -67,9 +68,12 @@ export default compose(
   }),
   withPropsOnChange(
     ({ match }, { match: nextMatch }) => match.params.collection !== nextMatch.params.collection,
-    ({ getItems, setActiveItem }) => {
+    ({ match, setBaseRoute, getItems, setActiveItem }) => {
+      const { username, repo, collection } = match.params
+      const newBaseRoute = `/repos/${username}/${repo}/collections/${collection || ''}`
+      setBaseRoute(newBaseRoute)
       setActiveItem({})
-      getItems()
+      getItems(newBaseRoute)
     }
   ),
   withPropsOnChange([ 'match', 'items', 'defaultFields' ], ({ match, items, setActiveItem, defaultFields }) => {

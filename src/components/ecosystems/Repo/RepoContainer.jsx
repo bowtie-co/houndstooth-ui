@@ -9,19 +9,25 @@ import notifier from '../../../lib/notifier'
 // conditional functions here:
 
 export const enhance = compose(
-  withStateHandlers(({ queryParams }) => ({
+  withStateHandlers(({ queryParams, match: { params: { username, repo } } }) => ({
+    baseRoute: `repos/${username}/${repo}`,
+    branchList: [],
+    branch: queryParams['ref'] || 'master',
+    stagedFiles: [],
     dirList: [],
     file: {},
     collections: [],
-    stagedFiles: [],
-    branchList: [],
-    branch: queryParams['ref'] || 'master',
+    fileUploads: {},
+    stagedFileUploads: [],
     isComponentLoading: false
   }), {
+    setBaseRoute: ({ baseRoute }) => (payload) => ({ baseRoute: payload }),
     setDirList: ({ dirList }) => (payload) => ({ dirList: payload }),
     setFile: ({ file }) => (payload) => ({ file: payload }),
     setCollections: ({ collections }) => (payload) => ({ collections: payload }),
     setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
+    setStagedFileUploads: ({ stagedFileUploads }) => (payload) => ({ stagedFileUploads: payload }),
+    setFileUploads: ({ fileUploads }) => (payload) => ({ fileUploads: payload }),
     setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
     setBranch: ({ branch }) => (payload) => ({ branch: payload })
   }),
@@ -43,9 +49,8 @@ export const enhance = compose(
     changeBranch: ({ history }) => (e) => {
       history.push(`?ref=${e.target.value}`)
     },
-    pushToGithub: ({ branch, match, stagedFiles, setStagedFiles }) => (message) => {
-      const { username, repo } = match.params
-      const requestPath = `repos/${username}/${repo}/files/upsert?ref=${branch}`
+    pushToGithub: ({ branch, baseRoute, stagedFiles, setStagedFiles }) => (message) => {
+      const requestPath = `${baseRoute}/files/upsert?ref=${branch}`
 
       const body = {
         message,
@@ -62,23 +67,23 @@ export const enhance = compose(
   }),
   lifecycle({
     componentWillMount () {
-      const { match, setBranchList, setCollections } = this.props
-      const { username, repo } = match.params
-      const baseRoute = `repos/${username}/${repo}`
-
+      const { setBranchList, setCollections, setFileUploads, branch, baseRoute } = this.props
       api.get(`${baseRoute}/collections`)
         .then(({ data }) => setCollections(Object.keys(data['collections'])))
 
       api.get(`${baseRoute}/branches`)
         .then(({ data }) => setBranchList(data.branches))
         .catch(notifier.bad.bind(notifier))
+
+      api.get(`${baseRoute}/files?path=upload&ref=${branch || 'master'}&recursive=true&flatten=true`)
+        .then(({ data: fileUploads }) => setFileUploads(fileUploads))
+        .catch(notifier.bad.bind(notifier))
     }
   }),
-  withPropsOnChange(['queryParams'], ({ match, queryParams, setDirList, setFile, setBranch, stagedFiles }) => {
+  withPropsOnChange(['queryParams'], ({ baseRoute, queryParams, setDirList, setFile, setBranch, stagedFiles }) => {
     setBranch(queryParams['ref'] || 'master')
     const stringifiedParams = qs.stringify(queryParams)
-    const { repo, username } = match.params
-    const route = `repos/${username}/${repo}/files?${stringifiedParams}`
+    const route = `${baseRoute}/files?${stringifiedParams}`
     const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
 
     if (stagedFile) {
