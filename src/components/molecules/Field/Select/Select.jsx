@@ -14,7 +14,6 @@ const Select = ({ id, col, options, ...rest }) => {
     <FormGroup id={id} {...rest}>
       <Input
         id={id}
-        className='form-control'
         {...rest}
       >
         <option value=''>- Select -</option>

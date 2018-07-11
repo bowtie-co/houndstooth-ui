@@ -6,8 +6,8 @@ import {
 
 const Input = ({ id, value, ...rest }) => {
   return (
-    <FormGroup {...rest}>
-      <InputRS className='form-control' value={value || ''} id={id} {...rest} />
+    <FormGroup floatLabel {...rest}>
+      <InputRS value={value || ''} id={id} {...rest} />
     </FormGroup>
   )
 }
