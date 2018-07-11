@@ -4,9 +4,6 @@ import { withMaybe } from '@bowtie/react-utils'
 import Collections from './Collections'
 import api from '../../../lib/api'
 import notifier from '../../../lib/notifier'
-import TurndownService from 'turndown'
-
-const turndownService = new TurndownService()
 
 const nullConditionFn = ({ collections }) => collections.length === 0
 
@@ -31,7 +28,7 @@ export default compose(
       const editedItem = Object.assign({}, activeItem, { name: e.target.value })
       setActiveItem(editedItem)
     },
-    selectItem: ({ history, match, baseRoute }) => (item) => {
+    selectItem: ({ history, baseRoute }) => (item) => {
       if (item) {
         history.push(`${baseRoute}/${item['name']}`)
       } else {
@@ -84,7 +81,7 @@ export default compose(
 
       if (currentItem) {
         // TODO: api call to grab file uploads
-        api.get()
+        // api.get()
         setActiveItem(currentItem)
       } else {
         setActiveItem({})
