@@ -4,8 +4,6 @@ import { compose, withHandlers, withPropsOnChange } from 'recompose'
 
 export default compose(
   withPropsOnChange([ 'fileUploads' ], ({ fileUploads, name, value }) => {
-    console.log('value', value)
-    console.log('the upload', fileUploads[value])
     const fileUrl = fileUploads[value] ? fileUploads[value].download_url : ''
     return { fileUrl }
   }),
@@ -24,11 +22,3 @@ export default compose(
     }
   })
 )(FileUpload)
-
-// const newState = shouldUpdateStaged
-//   ? stagedFiles.map(file => file.name === newFile.name ? newFile : file)
-//   : [...stagedFiles, newFile]
-
-// alert('Your file has been successfully staged.')
-// setFile(newFile)
-// setStagedFiles(newState)

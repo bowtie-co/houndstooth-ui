@@ -3,8 +3,7 @@ import { Button, Col } from '../../atoms'
 import FieldGroup from './FieldGroup'
 
 const RecursiveFields = (props) => {
-  console.log('recursive props: ', props)
-  const { onSubmit, formData, ...rest } = props
+  const { onSubmit, formData, fields, ...rest } = props
   return (
     <div>
       <Col>

@@ -5,8 +5,6 @@ import FieldGroup from './FieldGroup'
 const FieldSingle = (props) => {
   const { name, field, handleChange, location = '', ...rest } = props
   const currentLocation = location === '' ? name : `${location}.${name}`
-  console.log('set')
-
   if (Array.isArray(field)) {
     return (
       <FieldGroup

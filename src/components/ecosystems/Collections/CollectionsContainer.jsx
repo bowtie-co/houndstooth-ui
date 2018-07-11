@@ -51,13 +51,15 @@ export default compose(
       const { item } = match.params
       const message = 'Edit file'
       const route = `${baseRoute}/items/${item}?ref=${branch || 'master'}&sha=${activeItem['sha']}&message=${message}`
-      const updatedItem = Object.assign({}, activeItem, { fields: formData, markdown: activeItem['markdown'] })
+      const updatedItem = Object.assign({}, activeItem, { fields: formData })
       return api.put(route, updatedItem)
     },
     createItem: ({ baseRoute, branch, match, activeItem }) => (formData) => {
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       const message = 'Create file'
       const route = `${baseRoute}/items?ref=${branch || 'master'}&message=${message}`
+      console.log("updated item: ", updatedItem);
+      console.log("route: ", route);
       return api.post(route, updatedItem)
     },
     handleMarkdownChange: ({ activeItem, setActiveItem }) => (content) => {
@@ -84,8 +86,6 @@ export default compose(
       const currentItem = items.find(i => i.name === match['params']['item'])
 
       if (currentItem) {
-        // TODO: api call to grab file uploads
-        // api.get()
         setActiveItem(currentItem)
       } else {
         setActiveItem({})
