@@ -8,9 +8,23 @@ const FieldSingle = (props) => {
   const currentLocation = location === '' ? name : `${location}.${name}`
 
   if (Array.isArray(field)) {
-    return <FieldGroup title={titleize(name, '_')} fields={{}} location={currentLocation} handleChange={handleChange} />
+    return (
+      <FieldGroup
+        title={titleize(name, '_')}
+        fields={{}}
+        location={currentLocation}
+        handleChange={handleChange}
+      />
+    )
   } else if (field && typeof field === 'object') {
-    return <FieldGroup title={titleize(name, '_')} fields={field} location={currentLocation} handleChange={handleChange} />
+    return (
+      <FieldGroup
+        title={titleize(name, '_')}
+        fields={field}
+        location={currentLocation}
+        handleChange={handleChange}
+      />
+    )
   } else {
     return (
       <FieldContainer
