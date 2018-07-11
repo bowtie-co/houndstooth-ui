@@ -19,7 +19,7 @@ const DatePickerField = ({ id, col, value, onChange, name, onDateBlur, min = 90,
   if (selectedValue !== null && (!selectedValue._isAMomentObject || !selectedValue._isValid)) {
     selectedValue = null
   }
-  console.log("selectedValue", selectedValue)
+  console.log('selectedValue', selectedValue)
   return (
     <FormGroup id={id} {...rest}>
       <DatePicker

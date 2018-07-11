@@ -13,7 +13,7 @@ export default compose(
         if (value && value.includes('#')) {
           onChange({ target: { value: `#${color.hex}` } })
         } else {
-          console.log("color value ", color);
+          console.log('color value ', color)
           onChange({ target: { value: `rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b})` } })
         }
       }

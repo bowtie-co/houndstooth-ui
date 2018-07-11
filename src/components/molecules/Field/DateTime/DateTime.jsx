@@ -1,16 +1,15 @@
 import React from 'react'
-import { compose } from 'recompose';
-import Datetime from 'react-datetime';
-import 'react-datetime/css/react-datetime.css';
+import { compose } from 'recompose'
+import Datetime from 'react-datetime'
+import 'react-datetime/css/react-datetime.css'
 import { withEither } from '@bowtie/react-utils'
-
 
 const DateTimeInput = ({ field, fieldKey, onDateTimeChange }) =>
   <Datetime
     defaultValue={field || ''}
     inputProps={{ placeholder: fieldKey }}
-    timeFormat={true}
-    dateFormat={true}
+    timeFormat
+    dateFormat
     onChange={onDateTimeChange}
   />
 
@@ -19,7 +18,7 @@ const DateInput = ({ field, fieldKey, onDateChange }) =>
     defaultValue={field || ''}
     inputProps={{ placeholder: fieldKey }}
     timeFormat={false}
-    dateFormat={true}
+    dateFormat
     onChange={onDateChange}
   />
 
@@ -27,16 +26,15 @@ const TimeInput = ({ field, fieldKey, onTimeChange }) =>
   <Datetime
     defaultValue={field || ''}
     inputProps={{ placeholder: fieldKey }}
-    timeFormat={true}
+    timeFormat
     dateFormat={false}
     onChange={onTimeChange}
-  /> 
+  />
 
 const isTimeConditionFn = (props) => props.type === 'time'
 const isDateConditionFn = (props) => props.type === 'date'
 
-
 export default compose(
   withEither(isTimeConditionFn, TimeInput),
-  withEither(isDateConditionFn, DateInput),
-)(DateTimeInput);
+  withEither(isDateConditionFn, DateInput)
+)(DateTimeInput)
