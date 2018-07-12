@@ -9,31 +9,36 @@ import api from '../../../lib/api'
 import notifier from '../../../lib/notifier'
 
 // conditional functions here:
-const loadingConditionFn = ({ isComponentLoading }) => isComponentLoading
+const loadingConditionFn = ({ isMainLoading }) => isMainLoading
 
 export const enhance = compose(
   withStateHandlers(({ queryParams }) => ({
     repoList: [],
     repo: {},
-    isComponentLoading: false
+    isMainLoading: false
   }), {
     setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
     setRepo: ({ repo }) => (payload) => ({ repo: payload }),
     setCollections: ({ collections }) => (payload) => ({ collections: payload }),
     setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
     setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
-    setBranch: ({ branch }) => (payload) => ({ branch: payload })
+    setBranch: ({ branch }) => (payload) => ({ branch: payload }),
+    setMainLoading: ({ isMainLoading }) => (payload) => ({ isMainLoading: payload })
   }),
-  withEither(loadingConditionFn, Loading),
   lifecycle({
     componentWillMount () {
-      const { setRepoList, match } = this.props
+      const { setRepoList, match, setMainLoading } = this.props
       const { model } = match.params
+      setMainLoading(true)
       api.get(`${model}?sort=updated`)
-        .then(({ data }) => setRepoList(data.repos))
+        .then(({ data }) => {
+          setRepoList(data.repos)
+          setMainLoading(false)
+        })
         .catch(notifier.bad.bind(notifier))
     }
-  })
+  }),
+  withEither(loadingConditionFn, Loading)
 )
 
 export default enhance(Main)
