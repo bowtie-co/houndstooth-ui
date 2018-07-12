@@ -1,11 +1,13 @@
 
 import { compose, withStateHandlers, withPropsOnChange, withHandlers } from 'recompose'
-import { withMaybe } from '@bowtie/react-utils'
+import { withMaybe, withEither } from '@bowtie/react-utils'
 import Collections from './Collections'
 import api from '../../../lib/api'
 import notifier from '../../../lib/notifier'
+import { Loading } from '../../atoms'
 
 const nullConditionFn = ({ collections }) => collections.length === 0
+const loadingConditionFn = ({ isCollectionLoading }) => isCollectionLoading
 
 export default compose(
   withMaybe(nullConditionFn),
@@ -13,12 +15,14 @@ export default compose(
     baseRoute: `/repos/${username}/${repo}/collections/${collection || ''}`,
     items: [],
     defaultFields: {},
-    activeItem: {}
+    activeItem: {},
+    isCollectionLoading: false
   }), {
     setBaseRoute: ({ baseRoute }) => (payload) => ({ baseRoute: payload }),
     setItems: ({ items }) => (payload) => ({ items: payload }),
     setDefaultFields: ({ defaultFields }) => (payload) => ({ defaultFields: payload }),
-    setActiveItem: ({ activeItem }) => (payload) => ({ activeItem: payload })
+    setActiveItem: ({ activeItem }) => (payload) => ({ activeItem: payload }),
+    setCollectionLoading: ({ isCollectionLoading }) => (payload) => ({ isCollectionLoading: payload })
   }),
   withHandlers({
     editFileName: ({ setActiveItem, activeItem }) => (e) => {
@@ -32,6 +36,7 @@ export default compose(
         history.push(`${baseRoute}/new`)
       }
     },
+
     getFileUpload: ({ baseRoute }) => () => {
       api.get(baseRoute)
     },
@@ -39,11 +44,13 @@ export default compose(
       const { collection } = match.params
       const route = newCollectionRoute || baseRoute
       if (collection) {
+        setCollectionLoading(true)
         api.get(route)
           .then(({ data }) => {
             console.log('data in collections: ', data)
             setItems(data['collection']['items'])
             setDefaultFields({ fields: data['collection']['fields'] })
+            setCollectionLoading(false)
           })
       }
     },
@@ -95,7 +102,8 @@ export default compose(
   }
   ),
   withHandlers({
-    handleFormSubmit: ({ createItem, editItem, getItems, match }) => (formData) => {
+    handleFormSubmit: ({ createItem, editItem, getItems, match, setCollectionLoading }) => (formData) => {
+      setCollectionLoading(true)
       if (match['params']['item'] === 'new') {
         createItem(formData)
           .then(notifier.ok.bind(notifier))
@@ -108,5 +116,6 @@ export default compose(
           .catch(notifier.bad.bind(notifier))
       }
     }
-  })
+  }),
+  withEither(loadingConditionFn, Loading)
 )(Collections)

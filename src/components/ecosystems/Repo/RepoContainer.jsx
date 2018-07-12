@@ -1,12 +1,16 @@
 /* global alert  */
 
 import { compose, withStateHandlers, withHandlers, withPropsOnChange, lifecycle } from 'recompose'
+import { withEither } from '@bowtie/react-utils'
 import Repo from './Repo'
+import { Loading } from '../../atoms'
+
 import qs from 'qs'
 import api from '../../../lib/api'
 import notifier from '../../../lib/notifier'
 
 // conditional functions here:
+const loadingConditionalFn = ({ isRepoLoading }) => isRepoLoading
 
 export const enhance = compose(
   withStateHandlers(({ queryParams, match: { params: { username, repo } } }) => ({
@@ -19,7 +23,7 @@ export const enhance = compose(
     collections: [],
     fileUploads: {},
     stagedFileUploads: [],
-    isComponentLoading: false
+    isRepoLoading: false
   }), {
     setBaseRoute: ({ baseRoute }) => (payload) => ({ baseRoute: payload }),
     setDirList: ({ dirList }) => (payload) => ({ dirList: payload }),
@@ -29,7 +33,8 @@ export const enhance = compose(
     setStagedFileUploads: ({ stagedFileUploads }) => (payload) => ({ stagedFileUploads: payload }),
     setFileUploads: ({ fileUploads }) => (payload) => ({ fileUploads: payload }),
     setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
-    setBranch: ({ branch }) => (payload) => ({ branch: payload })
+    setBranch: ({ branch }) => (payload) => ({ branch: payload }),
+    setRepoLoading: ({ isRepoLoading }) => (payload) => ({ isRepoLoading: payload })
   }),
   withHandlers({
     saveFile: ({ setFile, file, stagedFiles, setStagedFiles, queryParams }) => (content) => {
@@ -49,16 +54,16 @@ export const enhance = compose(
     changeBranch: ({ history }) => (e) => {
       history.push(`?ref=${e.target.value}`)
     },
-    pushToGithub: ({ branch, baseRoute, stagedFiles, setStagedFiles }) => (message) => {
+    pushToGithub: ({ branch, baseRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
       const requestPath = `${baseRoute}/files/upsert?ref=${branch}`
-
       const body = {
         message,
         files: stagedFiles.map(file => ({ path: file.path, content: file.content, encoding: file.encoding }))
       }
-
+      setRepoLoading(true)
       api.post(requestPath, body)
         .then(response => {
+          setRepoLoading(false)
           console.log('response: ', response)
         })
 
@@ -68,11 +73,18 @@ export const enhance = compose(
   lifecycle({
     componentWillMount () {
       const { setBranchList, setCollections, setFileUploads, branch, baseRoute } = this.props
+      setRepoLoading(true)
       api.get(`${baseRoute}/collections`)
-        .then(({ data }) => setCollections(Object.keys(data['collections'])))
-
+        .then(({ data }) => {
+          setCollections(Object.keys(data['collections']))
+          setRepoLoading(false)
+        })
+      
       api.get(`${baseRoute}/branches`)
-        .then(({ data }) => setBranchList(data.branches))
+        .then(({ data }) => {
+          setBranchList(data.branches)
+          setRepoLoading(false)
+        })
         .catch(notifier.bad.bind(notifier))
 
       api.get(`${baseRoute}/files?path=upload&ref=${branch || 'master'}&recursive=true&flatten=true`)
@@ -80,7 +92,7 @@ export const enhance = compose(
         .catch(notifier.bad.bind(notifier))
     }
   }),
-  withPropsOnChange(['queryParams'], ({ baseRoute, queryParams, setDirList, setFile, setBranch, stagedFiles }) => {
+  withPropsOnChange(['queryParams'], ({ baseRoute, queryParams, setDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
     setBranch(queryParams['ref'] || 'master')
     const stringifiedParams = qs.stringify(queryParams)
     const route = `${baseRoute}/files?${stringifiedParams}`
@@ -89,6 +101,7 @@ export const enhance = compose(
     if (stagedFile) {
       setFile(stagedFile)
     } else {
+      setRepoLoading(true)
       api.get(route)
         .then(({ data }) => {
           if (data['files']) {
@@ -98,10 +111,12 @@ export const enhance = compose(
           } else if (data['file']) {
             setFile(data['file'])
           }
+          setRepoLoading(false)
         })
         .catch(notifier.bad.bind(notifier))
     }
-  })
+  }),
+  withEither(loadingConditionalFn, Loading)
 )
 
 export default enhance(Repo)
