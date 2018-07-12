@@ -1,5 +1,6 @@
 import React from 'react'
 import { FieldContainer } from '../../molecules'
+import { titleize } from '@bowtie/utils'
 import FieldGroup from './FieldGroup'
 
 const FieldSingle = (props) => {
@@ -30,7 +31,7 @@ const FieldSingle = (props) => {
       <FieldContainer
         key={name}
         name={name}
-        label={name}
+        label={titleize(name, '_')}
         placeholder={name}
         value={field}
         onChange={(e) => handleChange(currentLocation, e.target.value)}

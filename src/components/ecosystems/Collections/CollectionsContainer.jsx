@@ -58,8 +58,8 @@ export default compose(
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       const message = 'Create file'
       const route = `${baseRoute}/items?ref=${branch || 'master'}&message=${message}`
-      console.log("updated item: ", updatedItem);
-      console.log("route: ", route);
+      console.log('updated item: ', updatedItem)
+      console.log('route: ', route)
       return api.post(route, updatedItem)
     },
     handleMarkdownChange: ({ activeItem, setActiveItem }) => (content) => {
