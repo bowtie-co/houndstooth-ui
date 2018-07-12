@@ -21,8 +21,7 @@ export const enhance = compose(
     setCollections: ({ collections }) => (payload) => ({ collections: payload }),
     setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
     setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
-    setBranch: ({ branch }) => (payload) => ({ branch: payload }),
-    setLoading: ({ isComponentLoading }) => (payload) => ({ isComponentLoading: payload })
+    setBranch: ({ branch }) => (payload) => ({ branch: payload })
   }),
   withHandlers({
     saveFile: ({ setFile, file, stagedFiles, setStagedFiles, queryParams }) => (content) => {
