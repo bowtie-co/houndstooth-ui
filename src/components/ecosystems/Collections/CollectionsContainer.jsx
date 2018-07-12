@@ -1,25 +1,30 @@
 
 import { compose, withStateHandlers, withPropsOnChange, withHandlers } from 'recompose'
-import { withMaybe } from '@bowtie/react-utils'
+import { withMaybe, withEither } from '@bowtie/react-utils'
 import Collections from './Collections'
 import api from '../../../lib/api'
 import notifier from '../../../lib/notifier'
+import { Loading } from '../../atoms'
+
 import TurndownService from 'turndown'
 
 const turndownService = new TurndownService()
 
 const nullConditionFn = ({ collections }) => collections.length === 0
+const loadingConditionFn = ({ isCollectionLoading }) => isCollectionLoading
 
 export default compose(
   withMaybe(nullConditionFn),
   withStateHandlers(({ match }) => ({
     items: [],
     defaultFields: {},
-    activeItem: {}
+    activeItem: {},
+    isCollectionLoading: false
   }), {
     setItems: ({ items }) => (payload) => ({ items: payload }),
     setDefaultFields: ({ defaultFields }) => (payload) => ({ defaultFields: payload }),
-    setActiveItem: ({ activeItem }) => (payload) => ({ activeItem: payload })
+    setActiveItem: ({ activeItem }) => (payload) => ({ activeItem: payload }),
+    setCollectionLoading: ({ isCollectionLoading }) => (payload) => ({ isCollectionLoading: payload })
   }),
   withHandlers({
     editFileName: ({ setActiveItem, activeItem }) => (e) => {
@@ -35,15 +40,17 @@ export default compose(
         history.push(`${baseRoute}/new`)
       }
     },
-    getItems: ({ match, setItems, setDefaultFields }) => () => {
+    getItems: ({ match, setItems, setDefaultFields, setCollectionLoading }) => () => {
       const { username, repo, collection } = match.params
       if (collection) {
         const route = `/repos/${username}/${repo}/collections/${collection}`
+        setCollectionLoading(true)
         api.get(route)
           .then(({ data }) => {
             setItems(data['collection']['items'])
             // TODO: Enable markdown content editing via wysiwyg
             setDefaultFields({ fields: data['collection']['fields'], markdown: '\nmarkdown\n' })
+            setCollectionLoading(false)
           })
       }
     },
@@ -93,7 +100,8 @@ export default compose(
   }
   ),
   withHandlers({
-    handleFormSubmit: ({ createItem, editItem, getItems, match }) => (formData) => {
+    handleFormSubmit: ({ createItem, editItem, getItems, match, setCollectionLoading }) => (formData) => {
+      setCollectionLoading(true)
       if (match['params']['item'] === 'new') {
         createItem(formData)
           .then(notifier.ok.bind(notifier))
@@ -106,5 +114,6 @@ export default compose(
           .catch(notifier.bad.bind(notifier))
       }
     }
-  })
+  }),
+  withEither(loadingConditionFn, Loading)
 )(Collections)
