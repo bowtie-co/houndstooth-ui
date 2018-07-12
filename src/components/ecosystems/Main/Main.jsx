@@ -20,6 +20,7 @@ const Main = (props) => {
         <PrivateRoute
           props={rest}
           path={'/repos/:username/:repo'}
+          onLeave={() => console.log('***************leaving this route***************')}
           component={Repo}
         />
 

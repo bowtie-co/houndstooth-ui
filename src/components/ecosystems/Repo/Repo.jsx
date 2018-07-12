@@ -1,4 +1,5 @@
 import React from 'react'
+import { Prompt } from 'react-router-dom'
 import {
   PrivateRoute,
   Switch,
@@ -17,6 +18,7 @@ import {
 
 const Repo = (props) => {
   const { match, stagedFiles, branch, branchList, changeBranch, pushToGithub, collections, queryParams } = props
+  const { username } = match.params
   return (
     <div className='demo-template'>
       <Col>
@@ -44,6 +46,10 @@ const Repo = (props) => {
             component={FileTree}
           />
         </Switch>
+        <Prompt
+          when={stagedFiles.length > 0}
+          message={location => location.pathname.startsWith(`/repos/${username}`) ? true : `You will lose uncommitted changes if you leave.`}
+        />
       </Col>
     </div>
   )
