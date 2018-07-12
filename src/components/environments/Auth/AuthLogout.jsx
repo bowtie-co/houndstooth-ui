@@ -7,4 +7,4 @@ export default lifecycle({
   componentWillMount () {
     auth.logout()
   }
-})(() => <Redirect to='/home' />)
+})(() => <Redirect to='/welcome' />)

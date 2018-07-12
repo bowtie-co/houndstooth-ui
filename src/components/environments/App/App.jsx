@@ -13,7 +13,7 @@ const App = (props) => {
         <Switch>
           <PublicRoute
             props={props}
-            path='/home'
+            path='/welcome'
             component={Welcome}
           />
           <PrivateRoute
@@ -22,7 +22,7 @@ const App = (props) => {
             component={Main}
           />
           <PublicRoute
-            props={{ to: '/home' }}
+            props={{ to: '/welcome' }}
             path='/'
             component={Redirect}
           />

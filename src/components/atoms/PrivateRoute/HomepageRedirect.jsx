@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 const HomepageRedirect = () => {
   console.log('Home redirect')
   return (
-    <Redirect to={'/home'} />
+    <Redirect to={'/welcome'} />
   )
 }
 
