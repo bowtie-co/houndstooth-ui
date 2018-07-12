@@ -6,8 +6,6 @@ import qs from 'qs'
 import api from '../../../lib/api'
 import notifier from '../../../lib/notifier'
 
-// conditional functions here:
-
 export const enhance = compose(
   withStateHandlers(({ queryParams }) => ({
     dirList: [],
