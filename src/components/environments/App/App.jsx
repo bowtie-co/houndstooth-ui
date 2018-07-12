@@ -1,8 +1,9 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { Switch, PublicRoute, PrivateRoute, Body } from '../../atoms'
-import { Description, Main } from '../../ecosystems'
+import { Main } from '../../ecosystems'
 import { Header, Footer } from '../../organisms'
+import { Welcome } from '../../molecules'
 
 const App = (props) => {
   return (
@@ -12,8 +13,8 @@ const App = (props) => {
         <Switch>
           <PublicRoute
             props={props}
-            path='/home'
-            component={Description}
+            path='/welcome'
+            component={Welcome}
           />
           <PrivateRoute
             props={props}
@@ -21,7 +22,7 @@ const App = (props) => {
             component={Main}
           />
           <PublicRoute
-            props={{ to: '/home' }}
+            props={{ to: '/welcome' }}
             path='/'
             component={Redirect}
           />
