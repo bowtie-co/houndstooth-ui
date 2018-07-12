@@ -3,7 +3,6 @@ import { Brand } from '../../molecules'
 import { NavLink, Login, Logout } from '../../atoms'
 import auth from '../../../lib/auth'
 
-
 const Header = () => {
   return (
     <section className='top-nav-section' >
