@@ -40,7 +40,7 @@ export default compose(
     getFileUpload: ({ baseRoute }) => () => {
       api.get(baseRoute)
     },
-    getItems: ({ baseRoute, match, setItems, setDefaultFields }) => (newCollectionRoute) => {
+    getItems: ({ baseRoute, match, setItems, setDefaultFields, setCollectionLoading }) => (newCollectionRoute) => {
       const { collection } = match.params
       const route = newCollectionRoute || baseRoute
       if (collection) {

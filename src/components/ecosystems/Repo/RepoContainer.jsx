@@ -72,7 +72,7 @@ export const enhance = compose(
   }),
   lifecycle({
     componentWillMount () {
-      const { setBranchList, setCollections, setFileUploads, branch, baseRoute } = this.props
+      const { setBranchList, setCollections, setFileUploads, branch, baseRoute, setRepoLoading } = this.props
       setRepoLoading(true)
       api.get(`${baseRoute}/collections`)
         .then(({ data }) => {
