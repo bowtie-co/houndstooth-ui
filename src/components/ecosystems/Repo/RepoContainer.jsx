@@ -6,8 +6,6 @@ import qs from 'qs'
 import api from '../../../lib/api'
 import notifier from '../../../lib/notifier'
 
-// conditional functions here:
-
 export const enhance = compose(
   withStateHandlers(({ queryParams }) => ({
     dirList: [],
@@ -23,7 +21,8 @@ export const enhance = compose(
     setCollections: ({ collections }) => (payload) => ({ collections: payload }),
     setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
     setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
-    setBranch: ({ branch }) => (payload) => ({ branch: payload })
+    setBranch: ({ branch }) => (payload) => ({ branch: payload }),
+    setLoading: ({ isComponentLoading }) => (payload) => ({ isComponentLoading: payload })
   }),
   withHandlers({
     saveFile: ({ setFile, file, stagedFiles, setStagedFiles, queryParams }) => (content) => {
