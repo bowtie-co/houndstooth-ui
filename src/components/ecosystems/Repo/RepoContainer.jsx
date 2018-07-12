@@ -21,8 +21,6 @@ export const enhance = compose(
     dirList: [],
     file: {},
     collections: [],
-    fileUploads: {},
-    stagedFileUploads: [],
     isRepoLoading: false
   }), {
     setBaseRoute: ({ baseRoute }) => (payload) => ({ baseRoute: payload }),
@@ -30,8 +28,6 @@ export const enhance = compose(
     setFile: ({ file }) => (payload) => ({ file: payload }),
     setCollections: ({ collections }) => (payload) => ({ collections: payload }),
     setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
-    setStagedFileUploads: ({ stagedFileUploads }) => (payload) => ({ stagedFileUploads: payload }),
-    setFileUploads: ({ fileUploads }) => (payload) => ({ fileUploads: payload }),
     setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
     setBranch: ({ branch }) => (payload) => ({ branch: payload }),
     setRepoLoading: ({ isRepoLoading }) => (payload) => ({ isRepoLoading: payload })
@@ -72,23 +68,19 @@ export const enhance = compose(
   }),
   lifecycle({
     componentWillMount () {
-      const { setBranchList, setCollections, setFileUploads, branch, baseRoute, setRepoLoading } = this.props
+      const { setBranchList, setCollections, baseRoute, setRepoLoading } = this.props
       setRepoLoading(true)
       api.get(`${baseRoute}/collections`)
         .then(({ data }) => {
           setCollections(Object.keys(data['collections']))
           setRepoLoading(false)
         })
-      
+
       api.get(`${baseRoute}/branches`)
         .then(({ data }) => {
           setBranchList(data.branches)
           setRepoLoading(false)
         })
-        .catch(notifier.bad.bind(notifier))
-
-      api.get(`${baseRoute}/files?path=upload&ref=${branch || 'master'}&recursive=true&flatten=true`)
-        .then(({ data: fileUploads }) => setFileUploads(fileUploads))
         .catch(notifier.bad.bind(notifier))
     }
   }),

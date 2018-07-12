@@ -1,5 +1,5 @@
 
-import { compose, withStateHandlers, withPropsOnChange, withHandlers } from 'recompose'
+import { compose, withStateHandlers, withPropsOnChange, withHandlers, lifecycle } from 'recompose'
 import { withMaybe, withEither } from '@bowtie/react-utils'
 import Collections from './Collections'
 import api from '../../../lib/api'
@@ -16,13 +16,17 @@ export default compose(
     items: [],
     defaultFields: {},
     activeItem: {},
-    isCollectionLoading: false
+    isCollectionLoading: false,
+    fileUploads: {},
+    stagedFileUploads: []
   }), {
     setBaseRoute: ({ baseRoute }) => (payload) => ({ baseRoute: payload }),
     setItems: ({ items }) => (payload) => ({ items: payload }),
     setDefaultFields: ({ defaultFields }) => (payload) => ({ defaultFields: payload }),
     setActiveItem: ({ activeItem }) => (payload) => ({ activeItem: payload }),
-    setCollectionLoading: ({ isCollectionLoading }) => (payload) => ({ isCollectionLoading: payload })
+    setCollectionLoading: ({ isCollectionLoading }) => (payload) => ({ isCollectionLoading: payload }),
+    setFileUploads: ({ fileUploads }) => (payload) => ({ fileUploads: payload }),
+    setStagedFileUploads: ({ stagedFileUploads }) => (payload) => ({ stagedFileUploads: payload })
   }),
   withHandlers({
     editFileName: ({ setActiveItem, activeItem }) => (e) => {
@@ -36,9 +40,11 @@ export default compose(
         history.push(`${baseRoute}/new`)
       }
     },
-
-    getFileUpload: ({ baseRoute }) => () => {
-      api.get(baseRoute)
+    getFileUploads: ({ match, setFileUploads, branch }) => () => {
+      const { username, repo } = match.params
+      api.get(`/repos/${username}/${repo}/files?path=upload&ref=${branch || 'master'}&recursive=true&flatten=true`)
+        .then(({ data: fileUploads }) => setFileUploads(fileUploads))
+        .catch(notifier.bad.bind(notifier))
     },
     getItems: ({ baseRoute, match, setItems, setDefaultFields, setCollectionLoading }) => (newCollectionRoute) => {
       const { collection } = match.params
@@ -68,6 +74,23 @@ export default compose(
       console.log('updated item: ', updatedItem)
       console.log('route: ', route)
       return api.post(route, updatedItem)
+    },
+    createFileUpload: ({ stagedFileUploads, match }) => () => {
+      const { username, repo } = match.params
+      const newFiles = stagedFileUploads.map(file => {
+        const updatedFile = {
+          path: file.name,
+          content: file.base64.split('base64,')[1],
+          encoding: 'base64'
+        }
+        return updatedFile
+      })
+
+      const body = {
+        files: newFiles,
+        message: 'File Upload'
+      }
+      return api.post(`/repos/${username}/${repo}/files/upsert`, body)
     },
     handleMarkdownChange: ({ activeItem, setActiveItem }) => (content) => {
       console.log('original content: ', content)
@@ -102,7 +125,7 @@ export default compose(
   }
   ),
   withHandlers({
-    handleFormSubmit: ({ createItem, editItem, getItems, match, setCollectionLoading }) => (formData) => {
+    handleFormSubmit: ({ createItem, editItem, createFileUpload, getItems, getFileUploads, match, setCollectionLoading, setStagedFileUploads }) => (formData) => {
       setCollectionLoading(true)
       if (match['params']['item'] === 'new') {
         createItem(formData)
@@ -115,6 +138,19 @@ export default compose(
           .then(() => getItems())
           .catch(notifier.bad.bind(notifier))
       }
+      createFileUpload()
+        .then(notifier.ok.bind(notifier))
+        .then(() => {
+          getFileUploads()
+          setStagedFileUploads([])
+        })
+        .catch(notifier.bad.bind(notifier))
+    }
+  }),
+  lifecycle({
+    componentWillMount () {
+      const { getFileUploads } = this.props
+      getFileUploads()
     }
   }),
   withEither(loadingConditionFn, Loading)
