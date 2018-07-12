@@ -1,8 +1,9 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { Switch, PublicRoute, PrivateRoute, Body } from '../../atoms'
-import { Description, Main } from '../../ecosystems'
+import { Main } from '../../ecosystems'
 import { Header, Footer } from '../../organisms'
+import { Welcome } from '../../molecules'
 
 const App = (props) => {
   return (
@@ -13,7 +14,7 @@ const App = (props) => {
           <PublicRoute
             props={props}
             path='/home'
-            component={Description}
+            component={Welcome}
           />
           <PrivateRoute
             props={props}
