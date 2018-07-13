@@ -8,7 +8,7 @@ import { FieldContainer } from '../../molecules'
 import { RecursiveFields } from '..'
 
 const ItemForm = (props) => {
-  const { activeItem, handleFormSubmit, editFileName, match, handleMarkdownChange } = props
+  const { activeItem, handleFormSubmit, editFileName, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads } = props
   const { item } = match.params
   console.log('Item form props: ', activeItem.fields)
   return (
@@ -29,6 +29,9 @@ const ItemForm = (props) => {
           fields={activeItem['fields']}
           match={match}
           onSubmit={handleFormSubmit}
+          fileUploads={fileUploads}
+          stagedFileUploads={stagedFileUploads}
+          setStagedFileUploads={setStagedFileUploads}
         />
         <WysiwygEditor
           content={activeItem['markdown']}

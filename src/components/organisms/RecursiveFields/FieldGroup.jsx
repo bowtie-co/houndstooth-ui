@@ -2,7 +2,7 @@ import React from 'react'
 import FieldSingle from './FieldSingle'
 
 const FieldGroup = (props) => {
-  const { title, fields, handleChange, location = '' } = props
+  const { title, fields, handleChange, location = '', ...rest } = props
   const fieldKeys = Object.keys(fields)
 
   return (
@@ -15,6 +15,7 @@ const FieldGroup = (props) => {
           field={fields[key]}
           handleChange={handleChange}
           location={location}
+          {...rest}
         />
       )}
     </div>
