@@ -1,20 +1,20 @@
 import React from 'react'
 import SketchPicker from 'react-color'
 
-const ColorPicker = ({ open, toggleState, handleColorChange, handleClose, field }) => {
+const ColorPicker = ({ open, toggleState, handleColorChange, handleClose, value }) => {
   return (
     <div className='inner-group'>
 
       <div>
         <div className='input-group'>
           <span className='input-group-addon'
-            style={({ backgroundColor: field, width: '30px' })} />
+            style={({ backgroundColor: value, width: '30px' })} />
 
           <input
             type='text'
             className='form-control'
             onClick={toggleState}
-            value={field || ''}
+            value={value || ''}
             readOnly />
 
         </div>
@@ -24,7 +24,7 @@ const ColorPicker = ({ open, toggleState, handleColorChange, handleClose, field 
           onClick={handleClose}>
 
           <SketchPicker
-            color={field || '#000'}
+            color={value || '#000'}
             type='chrome'
             display={open}
             position='below'

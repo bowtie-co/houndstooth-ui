@@ -7,8 +7,7 @@ export default lifecycle({
   componentWillMount () {
     const { history } = this.props
 
-    const resumeRoute = storage.get('resumeRoute') || '/'
-
+    const resumeRoute = storage.get('resumeRoute') || '/repos'
     auth.handleCallback((err) => {
       if (err) {
         console.error(err)
