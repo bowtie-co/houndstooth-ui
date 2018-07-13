@@ -1,11 +1,10 @@
 import React from 'react'
 import {
   Col,
-  Title,
-  WysiwygEditor
+  Title
 } from '../../atoms'
 import { FieldContainer } from '../../molecules'
-import { RecursiveFields } from '..'
+import { RecursiveFields, WysiwygEditor } from '..'
 
 const ItemForm = (props) => {
   const { activeItem, handleFormSubmit, editFileName, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads } = props
@@ -34,8 +33,9 @@ const ItemForm = (props) => {
           setStagedFileUploads={setStagedFileUploads}
         />
         <WysiwygEditor
+          item={item}
           content={activeItem['markdown']}
-          handleMarkdownChange={handleMarkdownChange}
+          handleEditorChange={handleMarkdownChange}
         />
       </Col>
     </section>

@@ -93,7 +93,6 @@ export default compose(
       return api.post(`/repos/${username}/${repo}/files/upsert`, body)
     },
     handleMarkdownChange: ({ activeItem, setActiveItem }) => (content) => {
-      console.log('original content: ', content)
       const updated = Object.assign({}, activeItem, { markdown: content })
       setActiveItem(updated)
     }
