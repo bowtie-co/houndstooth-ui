@@ -1,14 +1,22 @@
 import React from 'react'
-import 'react-quill/dist/quill.snow.css'
-import ReactQuill from 'react-quill'
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 
 const WysiwygEditor = (props) => {
   const { content, handleMarkdownChange } = props
   return (
-    <ReactQuill
-      value={content || ''}
-      onChange={handleMarkdownChange}
-    />
+      <Editor
+        // editorState={content}
+        // toolbarClassName="toolbarClassName"
+        // wrapperClassName="wrapperClassName"
+        // editorClassName="editorClassName"
+        // onEditorStateChange={handleMarkdownChange}
+      />
+    // <RichTextEditor
+    //   value={content || ''}
+    //   // onChange={handleMarkdownChange}
+    // />
   )
 }
 
