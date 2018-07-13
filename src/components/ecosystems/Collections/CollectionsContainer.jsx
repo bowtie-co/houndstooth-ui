@@ -41,10 +41,10 @@ export default compose(
       }
     },
     getFileUploads: ({ match, setFileUploads, branch }) => () => {
-      const { username, repo } = match.params
-      api.get(`/repos/${username}/${repo}/files?path=upload&ref=${branch || 'master'}&recursive=true&flatten=true`)
-        .then(({ data: fileUploads }) => setFileUploads(fileUploads))
-        .catch(notifier.bad.bind(notifier))
+      // const { username, repo } = match.params
+      // api.get(`/repos/${username}/${repo}/files?path=upload&ref=${branch || 'master'}&recursive=true&flatten=true`)
+      //   .then(({ data: fileUploads }) => setFileUploads(fileUploads))
+      //   .catch(notifier.bad.bind(notifier))
     },
     getItems: ({ baseRoute, match, setItems, setDefaultFields, setCollectionLoading }) => (newCollectionRoute) => {
       const { collection } = match.params
@@ -138,6 +138,8 @@ export default compose(
           .then(() => getItems())
           .catch(notifier.bad.bind(notifier))
       }
+
+      // TODO: Improve order of executing upload route & item create to ensure both work?
       createFileUpload()
         .then(notifier.ok.bind(notifier))
         .then(() => {
