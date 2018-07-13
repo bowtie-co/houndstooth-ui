@@ -17,12 +17,12 @@ const ItemForm = (props) => {
         {
           item === 'new'
             ? <FieldContainer
-              type='text'
-              label={'File name'}
-              name={'file_name'}
-              onChange={editFileName}
-              value={activeItem['name']}
-            />
+                type='text'
+                label={'File name'}
+                name={'file_name'}
+                onChange={editFileName}
+                value={activeItem['name']}
+              />
             : <Title title={item} />
         }
         <RecursiveFields

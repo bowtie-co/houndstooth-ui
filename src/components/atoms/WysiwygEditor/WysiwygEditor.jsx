@@ -1,14 +1,28 @@
 import React from 'react'
-import 'react-quill/dist/quill.snow.css'
-import ReactQuill from 'react-quill'
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
+
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 
 const WysiwygEditor = (props) => {
-  const { content, handleMarkdownChange } = props
+  const { editorContent, content, setEditorContent } = props
+  console.log("editorContent ",editorContent);
   return (
-    <ReactQuill
-      value={content || ''}
-      onChange={handleMarkdownChange}
-    />
+    <div>
+      <Editor
+        editorState={editorContent}
+        // defaultEditorState={content}
+        wrapperClassName="demo-wrapper"
+        editorClassName="demo-editor"
+        onEditorStateChange={setEditorContent}
+      />
+      <textarea
+        disabled
+        value={draftToHtml(convertToRaw(editorContent.getCurrentContent()))}
+      />
+    </div>
   )
 }
 

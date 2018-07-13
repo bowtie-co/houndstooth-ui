@@ -1,1 +1,1 @@
-export { default } from './WysiwygEditor'
+export { default } from './WysiwygEditorContainer'
