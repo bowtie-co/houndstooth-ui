@@ -69,11 +69,8 @@ export default compose(
       return api.post(route, updatedItem)
     },
     handleMarkdownChange: ({ activeItem, setActiveItem }) => (content) => {
-      // if(content){
-      console.log('original content: ', content)
       const updated = Object.assign({}, activeItem, { markdown: content })
       setActiveItem(updated)
-      // }
     }
   }),
   withPropsOnChange(
