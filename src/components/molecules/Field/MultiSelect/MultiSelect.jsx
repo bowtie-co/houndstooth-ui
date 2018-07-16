@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
 import { FormGroup } from '../../../atoms'
@@ -28,6 +29,15 @@ const MultiSelect = ({ id, name, value, async, onChange, options, ...rest }) => 
       />
     </FormGroup>
   )
+}
+
+MultiSelect.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.string,
+  async: PropTypes.bool,
+  onChange: PropTypes.func,
+  options: PropTypes.array
 }
 
 export default MultiSelect

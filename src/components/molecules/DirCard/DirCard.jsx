@@ -1,14 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import {
   Subtitle
 } from '../../atoms'
 
 const DirCard = ({ dir, branch }) => {
-  console.log('DirCard branch :', branch)
-
   const supportedIcons = ['css', 'html', 'js', 'json']
-
   const { type, path, name } = dir
   const nameArray = name.split('.')
   const ext = nameArray.length > 1 ? nameArray[nameArray.length - 1] : null
@@ -20,6 +18,11 @@ const DirCard = ({ dir, branch }) => {
       <Subtitle title={name} />
     </Link>
   )
+}
+
+DirCard.propTypes = {
+  branch: PropTypes.string,
+  dir: PropTypes.object
 }
 
 export default DirCard

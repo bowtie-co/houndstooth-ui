@@ -31,8 +31,7 @@ const Main = (props) => {
 
 Main.propTypes = {
   isMainLoading: PropTypes.bool,
-  setMainLoading: PropTypes.func,
-  selectItem: PropTypes.func.isRequired
+  setMainLoading: PropTypes.func
 }
 
 export default Main

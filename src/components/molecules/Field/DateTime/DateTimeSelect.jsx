@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import 'react-datetime/css/react-datetime.css'
 import Select from 'react-select'
 
@@ -19,6 +20,12 @@ const DateTimeSelect = (props) => {
       <Component {...rest} />
     </div >
   )
+}
+
+DateTimeSelect.propTypes = {
+  type: PropTypes.string,
+  onTypeChange: PropTypes.func,
+  component: PropTypes.func
 }
 
 export default DateTimeSelect

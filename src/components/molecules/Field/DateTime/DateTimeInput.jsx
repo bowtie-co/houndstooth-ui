@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Datetime from 'react-datetime'
 import 'react-datetime/css/react-datetime.css'
 import { FormGroup } from '../../../atoms'
@@ -17,4 +18,11 @@ const DateTimeInput = (props) => {
     </FormGroup>
   )
 }
+
+DateTimeInput.propTypes = {
+  value: PropTypes.string,
+  name: PropTypes.string,
+  onDateTimeChange: PropTypes.func
+}
+
 export default DateTimeInput
