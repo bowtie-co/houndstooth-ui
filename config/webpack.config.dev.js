@@ -13,8 +13,6 @@ const getClientEnvironment = require('./env')
 const paths = require('./paths')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-console.log('hi')
-
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
 const publicPath = '/'
