@@ -1,5 +1,6 @@
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   Col
 } from '../../atoms'
@@ -28,6 +29,12 @@ const Collections = (props) => {
       />
     </Col>
   )
+}
+
+Collections.propTypes = {
+  collections: PropTypes.arrayOf(PropTypes.string),
+  items: PropTypes.array,
+  selectItem: PropTypes.func.isRequired
 }
 
 export default Collections

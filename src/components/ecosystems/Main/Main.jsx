@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   PrivateRoute,
   Switch
@@ -26,6 +27,12 @@ const Main = (props) => {
       </Switch>
     </div>
   )
+}
+
+Main.propTypes = {
+  isMainLoading: PropTypes.bool,
+  setMainLoading: PropTypes.func,
+  selectItem: PropTypes.func.isRequired
 }
 
 export default Main
