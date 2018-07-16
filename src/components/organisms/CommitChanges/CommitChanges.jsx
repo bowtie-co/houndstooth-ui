@@ -1,5 +1,5 @@
-
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import {
   Col,
@@ -24,6 +24,14 @@ const CommitChanges = (props) => {
       <Button onClick={() => pushToGithub(message)}>Commit Staged Files to GitHub</Button>
     </Col>
   )
+}
+
+CommitChanges.propTypes = {
+  stagedFiles: PropTypes.array,
+  repo: PropTypes.object,
+  message: PropTypes.string,
+  setMessage: PropTypes.func,
+  pushToGithub: PropTypes.func
 }
 
 export default CommitChanges

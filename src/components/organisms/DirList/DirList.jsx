@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Card } from '../../atoms'
 import { DirCard } from '../../molecules'
 
@@ -11,6 +12,11 @@ const DirList = ({ dirList, branch }) => {
       }
     </Card>
   )
+}
+
+DirList.propTypes = {
+  branch: PropTypes.string,
+  dirList: PropTypes.array
 }
 
 export default DirList

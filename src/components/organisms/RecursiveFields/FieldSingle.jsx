@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { FieldContainer } from '../../molecules'
 import { titleize } from '@bowtie/utils'
 import FieldGroup from './FieldGroup'
@@ -39,6 +40,13 @@ const FieldSingle = (props) => {
       />
     )
   }
+}
+
+FieldSingle.propTypes = {
+  name: PropTypes.string,
+  location: PropTypes.string,
+  fields: PropTypes.object,
+  handleChange: PropTypes.func
 }
 
 export default FieldSingle
