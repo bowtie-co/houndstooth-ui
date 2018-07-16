@@ -45,7 +45,7 @@ const ItemForm = (props) => {
 
 ItemForm.propTypes = {
   activeItem: PropTypes.object,
-  fileUploads: PropTypes.array,
+  fileUploads: PropTypes.object,
   stagedFileUploads: PropTypes.array,
   handleFormSubmit: PropTypes.func,
   editFileName: PropTypes.func,
