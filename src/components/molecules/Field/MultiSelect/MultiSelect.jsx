@@ -1,7 +1,7 @@
 import React from 'react'
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
-import { FormGroup } from '../../../atoms'
+import { FormGroup } from 'atoms'
 
 const MultiSelect = ({ id, name, value, async, onChange, options, ...rest }) => {
   const SelectComponent = async ? Select.Async : Select

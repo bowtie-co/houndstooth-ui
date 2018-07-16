@@ -5,8 +5,7 @@ import { compose, withState, withProps, lifecycle } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
 import PrivateComponent from './PrivateComponent'
 import LoginRedirect from './LoginRedirect'
-import storage from '../../../lib/storage'
-import auth from '../../../lib/auth'
+import { auth, storage } from 'lib'
 
 /** *** conditional functions here: *****/
 

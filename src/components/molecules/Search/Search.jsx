@@ -2,7 +2,7 @@ import React from 'react'
 import {
   FieldContainer
 } from '../'
-import { Button } from '../../atoms'
+import { Button } from 'atoms'
 
 const Search = () => {
   return (

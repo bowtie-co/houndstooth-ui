@@ -13,6 +13,8 @@ const getClientEnvironment = require('./env')
 const paths = require('./paths')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
+console.log('hi')
+
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
 const publicPath = '/'
@@ -88,7 +90,13 @@ module.exports = {
 
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-      'react-native': 'react-native-web'
+      'react-native': 'react-native-web',
+      'atoms': path.resolve(__dirname, '../src/components/atoms'),
+      'ecosystems': path.resolve(__dirname, '../src/components/ecosystems'),
+      'environments': path.resolve(__dirname, '../src/components/environments'),
+      'molecules': path.resolve(__dirname, '../src/components/molecules'),
+      'organisms': path.resolve(__dirname, '../src/components/organisms/index.js'),
+      'lib': path.resolve(__dirname, '../src/lib')
     },
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/).

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { withEither } from '@bowtie/react-utils'
-import { Subtitle } from '../../atoms'
+import { Subtitle } from 'atoms'
 import { Item } from './'
 
 /** ********** BASE COMPONENT **********/

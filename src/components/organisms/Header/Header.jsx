@@ -1,7 +1,7 @@
 import React from 'react'
-import { Brand } from '../../molecules'
-import { NavLink, Login, Logout } from '../../atoms'
-import auth from '../../../lib/auth'
+import { Brand } from 'molecules'
+import { NavLink, Login, Logout } from 'atoms'
+import { auth } from 'lib'
 
 const Header = () => {
   return (

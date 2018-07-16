@@ -2,7 +2,7 @@ import React from 'react'
 import {
   BowtieLogo,
   Title
-} from '../../atoms'
+} from 'atoms'
 
 const Brand = ({ title }) => {
   return (

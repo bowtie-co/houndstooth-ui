@@ -1,6 +1,6 @@
 import React from 'react'
-import { Card } from '../../atoms'
-import { RepoCard } from '../../molecules'
+import { Card } from 'atoms'
+import { RepoCard } from 'molecules'
 
 const RepoList = ({ repoList, branch }) => {
   return (

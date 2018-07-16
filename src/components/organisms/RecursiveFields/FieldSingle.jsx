@@ -1,5 +1,5 @@
 import React from 'react'
-import { FieldContainer } from '../../molecules'
+import { FieldContainer } from 'molecules'
 import { titleize } from '@bowtie/utils'
 import FieldGroup from './FieldGroup'
 

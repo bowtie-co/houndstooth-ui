@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import {
   Subtitle
-} from '../../atoms'
+} from 'atoms'
 
 const DirCard = ({ dir, branch }) => {
   console.log('DirCard branch :', branch)
