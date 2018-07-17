@@ -3,10 +3,9 @@ import FileUpload from './FileUpload'
 import { compose, withHandlers, withPropsOnChange } from 'recompose'
 
 export default compose(
-  withPropsOnChange(['items'], ({ fileUploads, name, value, branch, match }) => {
+  withPropsOnChange(['items'], ({ name, value, branch, match }) => {
     const { username, repo } = match.params
     if (value) {
-      console.log('file from fileUploads: ', fileUploads[value])
       const sanitizedVal = value.replace(/ /g, '%20')
       const fileUrl = `https://raw.githubusercontent.com/${username}/${repo}/master/${sanitizedVal}`
       return { fileUrl }
