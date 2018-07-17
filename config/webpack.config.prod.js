@@ -138,7 +138,7 @@ module.exports = {
       'ecosystems': path.resolve(__dirname, '../src/components/ecosystems'),
       'environments': path.resolve(__dirname, '../src/components/environments'),
       'molecules': path.resolve(__dirname, '../src/components/molecules'),
-      'organisms': path.resolve(__dirname, '../src/components/organisms/index.js'),
+      'organisms': path.resolve(__dirname, '../src/components/organisms'),
       'lib': path.resolve(__dirname, '../src/lib')
     },
     plugins: [
