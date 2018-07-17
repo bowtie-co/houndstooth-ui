@@ -3,18 +3,17 @@ import PropTypes from 'prop-types'
 import { Card } from 'atoms'
 import { RepoCard } from 'molecules'
 
-const RepoList = ({ repoList, branch }) => {
+const RepoList = ({ repoList }) => {
   return (
     <Card>
       {
-        repoList.map((repo, i) => <RepoCard repo={repo} key={i} branch={branch} />)
+        repoList.map((repo, i) => <RepoCard repo={repo} key={i} />)
       }
     </Card>
   )
 }
 
 RepoList.propTypes = {
-  branch: PropTypes.string,
   repoList: PropTypes.array
 }
 

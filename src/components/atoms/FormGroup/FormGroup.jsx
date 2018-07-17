@@ -20,10 +20,7 @@ const FormGroup = ({ id, label, title, errorMessage, helper, children, floatLabe
 }
 
 FormGroup.propTypes = {
-  id: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
+  id: PropTypes.string,
   label: PropTypes.string,
   title: PropTypes.string,
   helper: PropTypes.string,

@@ -26,10 +26,7 @@ const Button = ({ id, value, children, href, staticContext, ...rest }) => {
 }
 
 Button.propTypes = {
-  id: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
+  id: PropTypes.string,
   href: PropTypes.string
 }
 

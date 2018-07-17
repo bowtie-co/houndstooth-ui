@@ -30,7 +30,7 @@ const FileTree = (props) => {
 
 FileTree.propTypes = {
   dirList: PropTypes.arrayOf(PropTypes.object),
-  branch: PropTypes.string,
+  branch: PropTypes.string.isRequired,
   file: PropTypes.object,
   setFile: PropTypes.func,
   saveFile: PropTypes.func

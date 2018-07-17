@@ -8,13 +8,13 @@ import { RepoList } from 'organisms'
 import { Repo } from '..'
 
 const Main = (props) => {
-  const { isMainLoading, setMainLoading, ...rest } = props
+  const { isMainLoading, setMainLoading, repoList, ...rest } = props
   return (
     <div className='demo-template'>
       <Switch>
         <PrivateRoute
           exact
-          props={rest}
+          props={{ repoList }}
           path={'/repos'}
           component={RepoList}
         />

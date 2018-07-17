@@ -18,9 +18,9 @@ const RecursiveFields = (props) => {
 }
 
 RecursiveFields.propTypes = {
-  formData: PropTypes.object,
+  formData: PropTypes.object.isRequired,
   fields: PropTypes.object,
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func.isRequired
 }
 
 export default RecursiveFields
