@@ -40,10 +40,10 @@ export default compose(
       }
     },
     getFileUploads: ({ match, setFileUploads, branch }) => () => {
-      // const { username, repo } = match.params
-      // api.get(`/repos/${username}/${repo}/files?path=upload&ref=${branch || 'master'}&recursive=true&flatten=true`)
-      //   .then(({ data: fileUploads }) => setFileUploads(fileUploads))
-      //   .catch(notifier.bad.bind(notifier))
+      const { username, repo } = match.params
+      api.get(`/repos/${username}/${repo}/files?path=upload&ref=${branch || 'master'}&recursive=true&flatten=true`)
+        .then(({ data: fileUploads }) => setFileUploads(fileUploads))
+        .catch(notifier.bad.bind(notifier))
     },
     getItems: ({ baseRoute, match, setItems, setDefaultFields, setCollectionLoading }) => (newCollectionRoute) => {
       const { collection } = match.params

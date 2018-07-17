@@ -5,12 +5,13 @@ import { titleize } from '@bowtie/utils'
 const FileUpload = ({ value, handleFileUpload, fileUrl, name }) => {
   return (
     <div>
-      <img style={{ maxWidth: '300px' }} src={fileUrl} alt='' />
+      <img style={{ maxWidth: '300px' }} id='output' src={fileUrl} alt='' />
       <p>{titleize(name, '_')}</p>
       <p>{value}</p>
       <FileBase64
         multiple={false}
-        onDone={handleFileUpload} />
+        onDone={handleFileUpload}
+      />
     </div>
   )
 }
