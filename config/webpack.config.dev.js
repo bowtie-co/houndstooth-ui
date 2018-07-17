@@ -94,7 +94,8 @@ module.exports = {
       'environments': path.resolve(__dirname, '../src/components/environments'),
       'molecules': path.resolve(__dirname, '../src/components/molecules'),
       'organisms': path.resolve(__dirname, '../src/components/organisms'),
-      'lib': path.resolve(__dirname, '../src/lib')
+      'lib': path.resolve(__dirname, '../src/lib'),
+      'root': path.resolve(__dirname, '../src')
     },
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/).

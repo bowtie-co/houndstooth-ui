@@ -5,8 +5,6 @@ import {
   Button
 } from 'atoms'
 
-// import Pagination from '../../molecules/Pagination/Pagination'
-
 const DocumentPreview = (props) => {
   const { value, onTextLoaded, handleDocumentLoad, handleTextLoaded, pageNumber, previewScale, helper, label, previewOnly, togglePreview } = props
 
