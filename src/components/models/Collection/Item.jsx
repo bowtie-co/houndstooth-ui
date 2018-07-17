@@ -3,7 +3,7 @@ import {
   Subtitle,
   Summary,
   Favorite
-} from '../../atoms'
+} from 'atoms'
 
 const CollectionItem = ({ title, content, favorite = false, handler }) => {
   return (

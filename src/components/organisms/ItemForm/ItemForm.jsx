@@ -2,8 +2,8 @@ import React from 'react'
 import {
   Col,
   Title
-} from '../../atoms'
-import { FieldContainer } from '../../molecules'
+} from 'atoms'
+import { FieldContainer } from 'molecules'
 import { RecursiveFields, WysiwygEditor } from '..'
 
 const ItemForm = (props) => {

@@ -2,7 +2,7 @@
 import React from 'react'
 import { compose, withStateHandlers } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
-import { Title } from '../../atoms'
+import { Title } from 'atoms'
 import CommitChanges from './CommitChanges'
 
 const nullConditionFn = ({ stagedFiles }) => stagedFiles.length === 0

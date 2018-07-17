@@ -5,7 +5,7 @@ import {
   Subtitle,
   Col,
   Button
-} from '../../atoms'
+} from 'atoms'
 
 const Welcome = () => {
   return (

@@ -3,11 +3,11 @@ import React from 'react'
 import {
   PrivateRoute,
   Switch
-} from '../../atoms'
+} from 'atoms'
 import {
   DirList,
   FileSingle
-} from '../../organisms'
+} from 'organisms'
 
 const FileTree = (props) => {
   const { dirList, match, file, setFile, saveFile, branch } = props

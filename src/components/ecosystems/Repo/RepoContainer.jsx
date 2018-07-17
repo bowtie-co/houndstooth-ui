@@ -3,11 +3,10 @@
 import { compose, withStateHandlers, withHandlers, withPropsOnChange, lifecycle } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
 import Repo from './Repo'
-import { Loading } from '../../atoms'
+import { Loading } from 'atoms'
 
 import qs from 'qs'
-import api from '../../../lib/api'
-import notifier from '../../../lib/notifier'
+import { api, notifier } from 'lib'
 
 // conditional functions here:
 const loadingConditionalFn = ({ isRepoLoading }) => isRepoLoading
