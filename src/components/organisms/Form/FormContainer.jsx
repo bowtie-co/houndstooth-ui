@@ -1,12 +1,12 @@
 import React from 'react'
 
-import { compose, withHandlers, withState, withProps } from 'recompose'
+import { compose, withHandlers, withState, withProps, withPropsOnChange } from 'recompose'
 import Form from './Form'
 
 const isObject = (item) => item instanceof Object && !Array.isArray(item)
 
 export default compose(
-  withState('formData', 'setFormData', ({ model }) => isObject(model) ? model : {}),
+  withState('formData', 'setFormData', {}),
   withState('errors', 'handleErrors', {}),
   withHandlers({
     formOnChange: ({ formData, setFormData, handleChange }) => (e) => {
@@ -42,10 +42,17 @@ export default compose(
       }
     }
   }),
+  withPropsOnChange(['model'], ({ setFormData, model, formData }) => {
+    if (isObject(model)) {
+      setFormData(model)
+    } else {
+      console.error('model passed into Form component must be an object')
+    }
+  }),
   withProps(({ children, formOnChange, formData, ...rest }) => {
     const childrenWithExtraProp = React.Children.map(children, child => {
       return React.cloneElement(child, {
-        value: formData[child.props.name],
+        value: formData[child.props.name] !== null ? formData[child.props.name] : '',
         onChange: formOnChange
       })
     })

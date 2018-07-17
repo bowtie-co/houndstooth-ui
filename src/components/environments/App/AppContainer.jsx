@@ -5,7 +5,7 @@ import { withRouter } from 'react-router'
 import { compose, withPropsOnChange } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
 import App from './App'
-import { Loading } from '../../atoms'
+import { Loading } from 'atoms'
 import qs from 'qs'
 
 // conditional functions here:

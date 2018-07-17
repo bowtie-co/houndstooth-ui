@@ -1,11 +1,11 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import { Switch, PublicRoute, PrivateRoute, Body } from '../../atoms'
-import { Description, Main } from '../../ecosystems'
-import { Header, Footer } from '../../organisms'
+import { Switch, PublicRoute, PrivateRoute, Body } from 'atoms'
+import { Main } from 'ecosystems'
+import { Header, Footer } from 'organisms'
+import { Welcome } from 'molecules'
 
 const App = (props) => {
-  console.log('app props', props)
   return (
     <section className='app'>
       <Header />
@@ -13,16 +13,16 @@ const App = (props) => {
         <Switch>
           <PublicRoute
             props={props}
-            path='/home'
-            component={Description}
+            path='/welcome'
+            component={Welcome}
           />
           <PrivateRoute
             props={props}
-            path='/:action(view|edit|create)/:model(repos)/:username?/:repo?/:type?'
+            path='/:model(repos)/:username?/:repo?'
             component={Main}
           />
           <PublicRoute
-            props={{ to: '/home' }}
+            props={{ to: '/welcome' }}
             path='/'
             component={Redirect}
           />

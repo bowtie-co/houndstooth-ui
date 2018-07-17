@@ -1,6 +1,6 @@
 import React from 'react'
 import { Input } from 'reactstrap'
-import { FormGroup } from '../../../atoms'
+import { FormGroup } from 'atoms'
 
 const Select = ({ id, col, options, ...rest }) => {
   const optionElements = options && options.map((option, index) => {
@@ -14,7 +14,6 @@ const Select = ({ id, col, options, ...rest }) => {
     <FormGroup id={id} {...rest}>
       <Input
         id={id}
-        className='form-control'
         {...rest}
       >
         <option value=''>- Select -</option>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { BowtieLogo } from '../../atoms'
+import { BowtieLogo } from 'atoms'
 
 const Footer = (props) => {
   return (

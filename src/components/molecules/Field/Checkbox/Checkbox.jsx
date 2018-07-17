@@ -1,11 +1,11 @@
 import React from 'react'
 import { Input } from 'reactstrap'
-import { FormGroup } from '../../../atoms'
+import { FormGroup } from 'atoms'
 
-const Checkbox = ({ id, ...rest }) => {
+const Checkbox = ({ id, value, onChange, ...rest }) => {
   return (
     <FormGroup className='marLeft' {...rest}>
-      <Input id={id} type='checkbox' {...rest} />
+      <Input id={id} type='checkbox' checked={!!value} onChange={() => onChange({ target: { value: !value } })} {...rest} />
     </FormGroup>
   )
 }

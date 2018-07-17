@@ -4,65 +4,40 @@
 import { compose, lifecycle, withStateHandlers } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
 import Main from './Main'
-import { Loading } from '../../atoms'
-import api from '../../../lib/api'
-import notifier from '../../../lib/notifier'
+import { Loading } from 'atoms'
+import { api, notifier } from 'lib'
 
 // conditional functions here:
-const loadingConditionFn = ({ isComponentLoading }) => isComponentLoading
-
-// const methods = {
-//   create: 'post',
-//   edit: 'put',
-//   view: 'get'
-// }
+const loadingConditionFn = ({ isMainLoading }) => isMainLoading
 
 export const enhance = compose(
-  withStateHandlers({
+  withStateHandlers(({ queryParams }) => ({
     repoList: [],
     repo: {},
-    isComponentLoading: false
-  }, {
+    isMainLoading: false
+  }), {
     setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
-    setRepo: ({ repo }) => (payload) => ({ repo: payload })
+    setRepo: ({ repo }) => (payload) => ({ repo: payload }),
+    setCollections: ({ collections }) => (payload) => ({ collections: payload }),
+    setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
+    setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
+    setBranch: ({ branch }) => (payload) => ({ branch: payload }),
+    setMainLoading: ({ isMainLoading }) => (payload) => ({ isMainLoading: payload })
   }),
-  withEither(loadingConditionFn, Loading),
   lifecycle({
     componentWillMount () {
-      console.log('COMPONENT WILL MOUNT REPO')
-
-      const { setRepoList, match } = this.props
+      const { setRepoList, match, setMainLoading } = this.props
       const { model } = match.params
+      setMainLoading(true)
       api.get(`${model}?sort=updated`)
-        .then(({ data }) => setRepoList(data.repos))
+        .then(({ data }) => {
+          setRepoList(data.repos)
+          setMainLoading(false)
+        })
         .catch(notifier.bad.bind(notifier))
     }
-  })
-  // withHandlers({
-  //   formSubmit: ({ match, isComponentLoading, history }) => (formData) => {
-  //     console.log('formData', formData)
-  //     // history.goBack()
-  //     // const { action, modelName, modelId } = match.params
-
-  //     // const method = methods[action]
-  //     // const route = modelId ? `${modelName}/${modelId}` : `${modelName}`
-  //     // isComponentLoading(true)
-
-  //     // api[method](route, { [modelName]: formData })
-  //     //   .then(notifier.ok.bind(notifier))
-  //     //   .then(({ data }) => {
-  //     //     isComponentLoading(false)
-  //     //   })
-  //     //   .catch(resp => {
-  //     //     notifier.apiErrors(resp, handleErrors)
-  //     //     isComponentLoading(false)
-  //     //   })
-  //   },
-  //   delete: () => () => {
-
-  //   }
-  // })
-
+  }),
+  withEither(loadingConditionFn, Loading)
 )
 
 export default enhance(Main)

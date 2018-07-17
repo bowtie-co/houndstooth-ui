@@ -1,6 +1,6 @@
 import React from 'react'
 import Dropzone from 'react-dropzone'
-import { Button, FormGroup } from '../../../atoms'
+import { Button, FormGroup } from 'atoms'
 
 const DocumentUpload = (props) => {
   const { handleButtonClick, handleFileDrop, value, name, togglePreview } = props

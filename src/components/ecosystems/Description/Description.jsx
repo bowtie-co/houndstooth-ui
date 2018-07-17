@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   Subtitle
-} from '../../atoms'
+} from 'atoms'
 
 const Description = ({ ...rest }) => {
   return (

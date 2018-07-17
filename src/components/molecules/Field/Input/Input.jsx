@@ -2,12 +2,12 @@ import React from 'react'
 import { Input as InputRS } from 'reactstrap'
 import {
   FormGroup
-} from '../../../atoms'
+} from 'atoms'
 
-const Input = ({ id, ...rest }) => {
+const Input = ({ id, value, ...rest }) => {
   return (
-    <FormGroup {...rest}>
-      <InputRS className='form-control' id={id} {...rest} />
+    <FormGroup floatLabel {...rest}>
+      <InputRS value={value || ''} id={id} {...rest} />
     </FormGroup>
   )
 }

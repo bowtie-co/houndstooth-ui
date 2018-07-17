@@ -6,6 +6,11 @@ import RepoList from './RepoList'
 import DirList from './DirList'
 import FileSingle from './FileSingle'
 import CommitChanges from './CommitChanges'
+import CollectionList from './CollectionList'
+import ItemList from './ItemList'
+import ItemForm from './ItemForm'
+import RecursiveFields from './RecursiveFields'
+import WysiwygEditor from './WysiwygEditor'
 
 export {
   Header,
@@ -14,5 +19,10 @@ export {
   RepoList,
   DirList,
   FileSingle,
-  CommitChanges
+  CommitChanges,
+  CollectionList,
+  ItemList,
+  ItemForm,
+  RecursiveFields,
+  WysiwygEditor
 }

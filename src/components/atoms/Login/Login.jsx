@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from '../'
+import { NavLink } from '..'
 
 const Login = () => {
   return (

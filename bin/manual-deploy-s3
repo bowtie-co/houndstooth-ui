@@ -1,0 +1,77 @@
+#!/bin/bash
+
+set -e
+
+BUILD_DIR=${1:-build}
+BUILD_BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null)
+BUILD_COMMIT=$(git rev-parse --verify HEAD)
+
+AWS_PROFILE="bowtie_agency"
+AWS_REGION="us-east-1"
+AWS_SITE_BUCKET_NAME="sls-cf-houndstooth-ui-us-east-1-dev-site"
+DISTRIBUTION_ID="E1HRLVPUXS38W2"
+BRANCH_TARGETS=("master")
+
+should_deploy_branch() {
+  # TODO: Add check for codebuild status when automating deployments
+  # if [[ "$CODEBUILD_BUILD_SUCCEEDING" != "1" ]]; then
+  #   return 1
+  # fi
+
+  for i in "${BRANCH_TARGETS[@]}"; do
+    if [[ "$1" == "$i" ]]; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+s3_sync() {
+  echo "Sync build with s3 for build #$1"
+
+  # Sync the build directory with the S3 bucket
+  aws s3 sync \
+    build \
+    s3://$AWS_SITE_BUCKET_NAME \
+      --profile $AWS_PROFILE \
+      --region $AWS_REGION \
+      --delete \
+      --cache-control max-age=31536000,public
+
+  # Tell S3 not to cache the service-worker.js file
+  aws s3 cp \
+    s3://$AWS_SITE_BUCKET_NAME/service-worker.js \
+    s3://$AWS_SITE_BUCKET_NAME/service-worker.js \
+      --profile $AWS_PROFILE \
+      --region $AWS_REGION \
+      --metadata-directive REPLACE \
+      --cache-control max-age=0,no-cache,no-store,must-revalidate \
+      --content-type application/javascript \
+      --acl public-read
+
+  # Tell S3 not to cache the index.html file
+  aws s3 cp \
+    s3://$AWS_SITE_BUCKET_NAME/index.html \
+    s3://$AWS_SITE_BUCKET_NAME/index.html \
+      --profile $AWS_PROFILE \
+      --region $AWS_REGION \
+      --metadata-directive REPLACE \
+      --cache-control max-age=0,no-cache,no-store,must-revalidate \
+      --content-type text/html \
+      --acl public-read
+}
+
+if [ ! -d $BUILD_DIR ]; then
+  echo "Missing or invalid build directory! Cannot deploy from: $BUILD_DIR"
+elif should_deploy_branch $BUILD_BRANCH; then
+  s3_sync $BUILD_COMMIT
+
+  # Invalidate cache on CloudFront distribution
+  echo "Create invalidation for CloudFront dist: '$DISTRIBUTION_ID'"
+  aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
+else
+  echo "Not deploying branch: $BUILD_BRANCH"
+fi
+
+echo "Finished!"

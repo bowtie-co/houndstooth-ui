@@ -8,7 +8,6 @@ import NavLink from './NavLink'
 import Subtitle from './Subtitle'
 import PublicRoute from './PublicRoute'
 import PrivateRoute from './PrivateRoute'
-import Favorite from './Favorite'
 import Summary from './Summary'
 import BowtieLogo from './BowtieLogo'
 import Body from './Body'
@@ -21,25 +20,24 @@ import Row from './Row'
 import BackButton from './BackButton'
 
 export {
-  Loading,
-  Title,
-  Button,
-  FormGroup,
-  NavLink,
-  Subtitle,
-  PublicRoute,
-  PrivateRoute,
-  Favorite,
-  Summary,
-  BowtieLogo,
+  Avatar,
+  BackButton,
   Body,
-  Switch,
+  BowtieLogo,
+  Button,
+  Card,
+  Col,
+  FormGroup,
+  Loading,
   Login,
   Logout,
-  Avatar,
-  Card,
-  TextEditor,
-  Col,
+  NavLink,
+  PrivateRoute,
+  PublicRoute,
   Row,
-  BackButton
+  Subtitle,
+  Summary,
+  Switch,
+  Title,
+  TextEditor
 }
