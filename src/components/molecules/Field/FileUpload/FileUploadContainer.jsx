@@ -3,7 +3,7 @@ import FileUpload from './FileUpload'
 import { compose, withHandlers, withPropsOnChange, withState } from 'recompose'
 
 export default compose(
-  withState('identifier', 'setIdentifier', ({ name }) => `upload_${name}_${Date.now()}`),
+  withState('previewId', 'setPreviewId', ({ name }) => `upload_${name}_${Date.now()}`),
   withPropsOnChange(['items'], ({ name, value, branch, match }) => {
     const { username, repo } = match.params
     if (value) {
@@ -14,10 +14,10 @@ export default compose(
     }
   }),
   withHandlers({
-    imagePreview: ({ identifier }) => (file) => {
+    imagePreview: ({ previewId }) => (file) => {
       const reader = new FileReader()
       reader.onload = () => {
-        var output = document.getElementById(identifier)
+        var output = document.getElementById(previewId)
         output.src = reader.result
       }
       reader.readAsDataURL(file['file'])
