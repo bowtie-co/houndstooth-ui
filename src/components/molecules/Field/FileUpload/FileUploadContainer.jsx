@@ -1,8 +1,9 @@
 /* global FileReader encodeURI */
 import FileUpload from './FileUpload'
-import { compose, withHandlers, withPropsOnChange } from 'recompose'
+import { compose, withHandlers, withPropsOnChange, withState } from 'recompose'
 
 export default compose(
+  withState('identifier', 'setIdentifier', ({ name }) => `upload_${name}_${Date.now()}`),
   withPropsOnChange(['items'], ({ name, value, branch, match }) => {
     const { username, repo } = match.params
     if (value) {
@@ -13,18 +14,18 @@ export default compose(
     }
   }),
   withHandlers({
-    imagePreview: () => (file) => {
+    imagePreview: ({ identifier }) => (file) => {
       const reader = new FileReader()
       reader.onload = () => {
-        var output = document.getElementById('output')
+        var output = document.getElementById(identifier)
         output.src = reader.result
       }
-      reader.readAsDataURL(file)
+      reader.readAsDataURL(file['file'])
     }
   }),
   withHandlers({
     handleFileUpload: ({ onChange, name: fieldKey, setStagedFileUploads, stagedFileUploads, imagePreview }) => (file) => {
-      imagePreview(file['file'])
+      imagePreview(file)
 
       const shouldUpdateStaged = stagedFileUploads.some(stagedFile => stagedFile['fieldKey'] === fieldKey)
       const filePath = `upload/${file['type']}/${Date.now()}_${fieldKey}_${file['name']}`

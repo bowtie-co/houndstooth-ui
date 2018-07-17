@@ -19,7 +19,7 @@ export default compose(
   }),
   withPropsOnChange(
     ({ item, content }, { item: nextItem, content: nextContent }) => item !== nextItem && content !== nextContent,
-    ({ item, content, setEditorState }) => {
+    ({ item, content = '', setEditorState }) => {
       const converter = new showdown.Converter()
       const html = converter.makeHtml(content)
       const contentBlock = htmlToDraft(html)
