@@ -91,10 +91,12 @@
     "analyze": "source-map-explorer build/static/js/main.*",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "npm run lint && node scripts/test.js --env=jsdom",
+    "test": "yarn lint && node scripts/test.js --env=jsdom",
     "lint": "standard",
     "lint:fix": "standard --fix",
-    "deploy": "npm run build && ./bin/manual-deploy-s3"
+    "deploy": "yarn build && ./bin/manual-deploy-s3",
+    "deploy:staging": "APP_ENV=staging yarn deploy",
+    "deploy:production": "echo 'NOT IMPLEMENTED!' && exit 1"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/src/setupTests.js",

@@ -10,13 +10,20 @@ AWS_PROFILE="bowtie_agency"
 AWS_REGION="us-east-1"
 AWS_SITE_BUCKET_NAME="sls-cf-houndstooth-ui-us-east-1-dev-site"
 DISTRIBUTION_ID="E1HRLVPUXS38W2"
-BRANCH_TARGETS=("master")
+BRANCH_TARGETS=() # Empty will deploy all branches (temp for manual deploys)
+
+# TODO: Enable branch restricted deployment
+# BRANCH_TARGETS=("master")
 
 should_deploy_branch() {
   # TODO: Add check for codebuild status when automating deployments
   # if [[ "$CODEBUILD_BUILD_SUCCEEDING" != "1" ]]; then
   #   return 1
   # fi
+
+  if [[ "${#BRANCH_TARGETS[@]}" == "0" ]]; then
+    return 0
+  fi
 
   for i in "${BRANCH_TARGETS[@]}"; do
     if [[ "$1" == "$i" ]]; then
@@ -69,7 +76,10 @@ elif should_deploy_branch $BUILD_BRANCH; then
 
   # Invalidate cache on CloudFront distribution
   echo "Create invalidation for CloudFront dist: '$DISTRIBUTION_ID'"
-  aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
+  aws cloudfront create-invalidation \
+    --profile $AWS_PROFILE \
+    --distribution-id $DISTRIBUTION_ID \
+    --paths "/*"
 else
   echo "Not deploying branch: $BUILD_BRANCH"
 fi
