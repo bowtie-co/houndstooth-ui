@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button } from '../../atoms'
+import { Button } from 'atoms'
 
 const Form = ({ childrenWithExtraProp, onSubmit, formData }) => {
   return (

@@ -1,14 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  BackButton,
-  Row,
-  Button
-} from '../../atoms'
-import {
-  FieldContainer,
-  CollectionEditorButton
-} from '../../molecules'
+import { BackButton, Row, Button } from 'atoms'
+import { FieldContainer, CollectionEditorButton } from 'molecules'
 
 const RepoNav = (props) => {
   const { branch, branchList, changeBranch, isCollectionable, isCommitable } = props

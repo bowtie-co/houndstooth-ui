@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Col } from '../../atoms'
+import { Button, Col } from 'atoms'
 import FieldGroup from './FieldGroup'
 
 const RecursiveFields = (props) => {

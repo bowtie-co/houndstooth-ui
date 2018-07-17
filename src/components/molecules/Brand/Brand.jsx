@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {
   BowtieLogo,
   Title
-} from '../../atoms'
+} from 'atoms'
 
 const Brand = ({ title }) => {
   return (

@@ -5,8 +5,8 @@ import {
   Avatar,
   Subtitle,
   Summary
-} from '../../atoms'
-import { LastUpdated } from '../../molecules'
+} from 'atoms'
+import { LastUpdated } from 'molecules'
 
 const RepoCard = ({ repo }) => {
   return (

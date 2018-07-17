@@ -4,11 +4,11 @@ import PropTypes from 'prop-types'
 import {
   PrivateRoute,
   Switch
-} from '../../atoms'
+} from 'atoms'
 import {
   DirList,
   FileSingle
-} from '../../organisms'
+} from 'organisms'
 
 const FileTree = (props) => {
   const { match, dirList, file, setFile, saveFile, branch } = props

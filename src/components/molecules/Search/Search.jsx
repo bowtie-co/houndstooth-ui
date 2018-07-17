@@ -1,8 +1,6 @@
 import React from 'react'
-import {
-  FieldContainer
-} from '../'
-import { Button } from '../../atoms'
+import { FieldContainer } from '..'
+import { Button } from 'atoms'
 
 const Search = () => {
   return (

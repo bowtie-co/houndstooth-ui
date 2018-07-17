@@ -1,7 +1,7 @@
 import React from 'react'
-import { Form } from '../../organisms'
-import { FieldContainer } from '../../molecules'
-import { Title } from '../../atoms'
+import { Form } from 'organisms'
+import { FieldContainer } from 'molecules'
+import { Title } from 'atoms'
 
 /** ********** BASE COMPONENT **********/
 

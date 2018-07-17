@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Col, Button } from '../../atoms'
+import { Col, Button } from 'atoms'
 
 const CollectionList = (props) => {
   const { collections, match } = props

@@ -2,9 +2,8 @@
 import { compose, withStateHandlers, withPropsOnChange, withHandlers, lifecycle } from 'recompose'
 import { withMaybe, withEither } from '@bowtie/react-utils'
 import Collections from './Collections'
-import api from '../../../lib/api'
-import notifier from '../../../lib/notifier'
-import { Loading } from '../../atoms'
+import { api, notifier } from 'lib'
+import { Loading } from 'atoms'
 
 const nullConditionFn = ({ collections }) => collections.length === 0
 const loadingConditionFn = ({ isCollectionLoading }) => isCollectionLoading

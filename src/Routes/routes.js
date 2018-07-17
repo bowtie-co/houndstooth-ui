@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import { AppContainer, AuthContainer } from '../components/environments'
-import { Switch, PublicRoute } from '../components/atoms'
+import { AppContainer, AuthContainer } from 'environments'
+import { Switch, PublicRoute } from 'atoms'
 
 const Routes = () => {
   return (

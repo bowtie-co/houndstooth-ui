@@ -4,9 +4,8 @@
 import { compose, lifecycle, withStateHandlers } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
 import Main from './Main'
-import { Loading } from '../../atoms'
-import api from '../../../lib/api'
-import notifier from '../../../lib/notifier'
+import { Loading } from 'atoms'
+import { api, notifier } from 'lib'
 
 // conditional functions here:
 const loadingConditionFn = ({ isMainLoading }) => isMainLoading

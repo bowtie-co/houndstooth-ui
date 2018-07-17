@@ -3,12 +3,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   Col
-} from '../../atoms'
+} from 'atoms'
 import {
   CollectionList,
   ItemList,
   ItemForm
-} from '../../organisms'
+} from 'organisms'
 
 const Collections = (props) => {
   const { collections, match, items, selectItem, ...rest } = props

@@ -5,7 +5,7 @@ import {
   Row,
   Subtitle,
   Button
-} from '../../atoms'
+} from 'atoms'
 
 const ItemList = (props) => {
   const { items, selectItem } = props

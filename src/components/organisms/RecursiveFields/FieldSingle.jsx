@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FieldContainer } from '../../molecules'
+import { FieldContainer } from 'molecules'
 import { titleize } from '@bowtie/utils'
 import FieldGroup from './FieldGroup'
 

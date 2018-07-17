@@ -5,7 +5,7 @@ import {
   Col,
   Button,
   Title
-} from '../../atoms'
+} from 'atoms'
 
 const CommitChanges = (props) => {
   const { stagedFiles, repo, message, setMessage, pushToGithub } = props

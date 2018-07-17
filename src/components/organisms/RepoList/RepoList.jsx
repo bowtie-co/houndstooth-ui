@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card } from '../../atoms'
-import { RepoCard } from '../../molecules'
+import { Card } from 'atoms'
+import { RepoCard } from 'molecules'
 
 const RepoList = ({ repoList, branch }) => {
   return (

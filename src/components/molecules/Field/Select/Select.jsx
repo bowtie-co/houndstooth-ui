@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Input } from 'reactstrap'
-import { FormGroup } from '../../../atoms'
+import { FormGroup } from 'atoms'
 
 const Select = ({ id, options, ...rest }) => {
   const optionElements = options && options.map((option, index) => {

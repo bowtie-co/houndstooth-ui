@@ -4,13 +4,13 @@ import {
   PrivateRoute,
   Switch,
   Col
-} from '../../atoms'
+} from 'atoms'
 import {
   RepoNav
-} from '../../molecules'
+} from 'molecules'
 import {
   CommitChanges
-} from '../../organisms'
+} from 'organisms'
 import {
   FileTree,
   Collections

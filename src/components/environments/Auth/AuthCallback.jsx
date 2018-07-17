@@ -1,7 +1,5 @@
 import { lifecycle } from 'recompose'
-import api from '../../../lib/api'
-import auth from '../../../lib/auth'
-import storage from '../../../lib/storage'
+import { api, storage, auth } from 'lib'
 
 export default lifecycle({
   componentWillMount () {

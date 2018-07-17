@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import {
   PrivateRoute,
   Switch
-} from '../../atoms'
-import { RepoList } from '../../organisms'
+} from 'atoms'
+import { RepoList } from 'organisms'
 import { Repo } from '..'
 
 const Main = (props) => {
