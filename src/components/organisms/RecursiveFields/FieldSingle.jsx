@@ -5,6 +5,8 @@ import FieldGroup from './FieldGroup'
 
 const FieldSingle = (props) => {
   const { name, field, handleChange, location = '', ...rest } = props
+  const { fileUploads, stagedFileUploads, setStagedFileUploads, setFormData, ...sanitzedFieldProps } = rest
+
   const currentLocation = location === '' ? name : `${location}.${name}`
   if (Array.isArray(field)) {
     return (
@@ -35,7 +37,7 @@ const FieldSingle = (props) => {
         placeholder={name}
         value={field}
         onChange={(e) => handleChange(currentLocation, e.target.value)}
-        {...rest}
+        {...sanitzedFieldProps}
       />
     )
   }
