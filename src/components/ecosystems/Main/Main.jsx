@@ -23,7 +23,6 @@ const Main = (props) => {
           path={'/repos/:username/:repo'}
           component={Repo}
         />
-
       </Switch>
     </div>
   )

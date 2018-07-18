@@ -1,16 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Prompt } from 'react-router-dom'
 import {
   PrivateRoute,
   Switch,
   Col
 } from 'atoms'
-import {
-  RepoNav
-} from 'molecules'
-import {
-  CommitChanges
-} from 'organisms'
+import { RepoNav } from 'molecules'
+import { CommitChanges } from 'organisms'
 import {
   FileTree,
   Collections
@@ -18,6 +15,7 @@ import {
 
 const Repo = (props) => {
   const { match, stagedFiles, branch, branchList, changeBranch, pushToGithub, collections, queryParams } = props
+  const { username } = match.params
   return (
     <div className='demo-template'>
       <Col>
@@ -45,6 +43,10 @@ const Repo = (props) => {
             component={FileTree}
           />
         </Switch>
+        <Prompt
+          when={stagedFiles.length > 0}
+          message={location => location.pathname.startsWith(`/repos/${username}`) ? true : `You will lose uncommitted changes if you leave.`}
+        />
       </Col>
     </div>
   )
