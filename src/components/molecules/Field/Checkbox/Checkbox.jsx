@@ -4,9 +4,10 @@ import { Input } from 'reactstrap'
 import { FormGroup } from 'atoms'
 
 const Checkbox = ({ id, value, onChange, ...rest }) => {
+  const { setFormData, setStagedFileUploads, stagedFileUploads, fileUploads, ...sanitizedProps } = rest
   return (
-    <FormGroup className='marLeft' {...rest}>
-      <Input id={id} type='checkbox' checked={!!value} onChange={() => onChange({ target: { value: !value } })} {...rest} />
+    <FormGroup className='marLeft' {...sanitizedProps}>
+      <Input id={id} type='checkbox' checked={!!value} onChange={() => onChange({ target: { value: !value } })} {...sanitizedProps} />
     </FormGroup>
   )
 }

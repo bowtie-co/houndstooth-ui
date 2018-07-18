@@ -5,6 +5,8 @@ import Select from 'react-select'
 
 const DateTimeSelect = (props) => {
   const { type, onTypeChange, component: Component, ...rest } = props
+  const { setFormData, setStagedFileUploads, stagedFileUploads, fileUploads, ...sanitizedProps } = rest
+
   return (
     <div className='time-select' >
       <Select
@@ -17,7 +19,7 @@ const DateTimeSelect = (props) => {
           { value: 'datetime', label: 'datetime', selected: (type === 'datetime') }
         ]}
       />
-      <Component {...rest} />
+      <Component {...sanitizedProps} />
     </div >
   )
 }
