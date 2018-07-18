@@ -1,12 +1,13 @@
 /*  global atob  */
 import React from 'react'
 import AceEditor from 'react-ace'
+import PropTypes from 'prop-types'
+
 import 'brace/mode/markdown'
 import 'brace/mode/javascript'
 import 'brace/mode/html'
 import 'brace/mode/css'
 import 'brace/mode/ruby'
-
 import 'brace/theme/monokai'
 
 const languages = {
@@ -44,6 +45,12 @@ const TextEditor = ({ content, name, onChange }) => {
       }}
     />
   )
+}
+
+TextEditor.propTypes = {
+  content: PropTypes.string,
+  name: PropTypes.string,
+  onChange: PropTypes.func.isRequired
 }
 
 export default TextEditor

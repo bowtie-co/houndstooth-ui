@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import {
   Avatar,
@@ -22,6 +23,10 @@ const RepoCard = ({ repo }) => {
       <Summary content={`Description: ${repo.description || 'N/A'}`} />
     </Link >
   )
+}
+
+RepoCard.propTypes = {
+  repo: PropTypes.object
 }
 
 export default RepoCard

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   Col,
   Title
@@ -40,6 +41,16 @@ const ItemForm = (props) => {
       </Col>
     </section>
   )
+}
+
+ItemForm.propTypes = {
+  activeItem: PropTypes.object,
+  fileUploads: PropTypes.object,
+  stagedFileUploads: PropTypes.array,
+  handleFormSubmit: PropTypes.func,
+  editFileName: PropTypes.func,
+  handleMarkdownChange: PropTypes.func,
+  setStagedFileUploads: PropTypes.func
 }
 
 export default ItemForm

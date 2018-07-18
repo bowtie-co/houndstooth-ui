@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import SketchPicker from 'react-color'
 
 const ColorPicker = ({ open, toggleState, handleColorChange, handleClose, value }) => {
@@ -36,6 +37,14 @@ const ColorPicker = ({ open, toggleState, handleColorChange, handleClose, value 
       </div>
     </div>
   )
+}
+
+ColorPicker.propTypes = {
+  open: PropTypes.bool,
+  toggleState: PropTypes.func,
+  handleColorChange: PropTypes.func,
+  handleClose: PropTypes.func,
+  value: PropTypes.string
 }
 
 export default ColorPicker

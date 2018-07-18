@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Button, Col } from 'atoms'
 import FieldGroup from './FieldGroup'
 
@@ -14,6 +15,12 @@ const RecursiveFields = (props) => {
       </Button>
     </div>
   )
+}
+
+RecursiveFields.propTypes = {
+  formData: PropTypes.object.isRequired,
+  fields: PropTypes.object,
+  onSubmit: PropTypes.func.isRequired
 }
 
 export default RecursiveFields

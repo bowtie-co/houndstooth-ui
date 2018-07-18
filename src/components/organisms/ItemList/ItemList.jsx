@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   Col,
   Row,
@@ -25,5 +26,14 @@ EMPTY STATE
 **********************************/
 
 export const EmptyState = () => <Subtitle title={'You must select a collection'} />
+
+/**********************************
+PROP TYPES
+**********************************/
+
+ItemList.propTypes = {
+  items: PropTypes.array,
+  selectItem: PropTypes.func
+}
 
 export default ItemList

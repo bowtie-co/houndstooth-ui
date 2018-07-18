@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Label, Input } from 'reactstrap'
 import { FormGroup } from 'atoms'
 
@@ -21,6 +22,15 @@ const RadioField = ({ id, options, name, onChange, checked, label, ...rest }) =>
       )}
     </FormGroup>
   )
+}
+
+RadioField.propTypes = {
+  id: PropTypes.string,
+  options: PropTypes.array,
+  name: PropTypes.string,
+  onChange: PropTypes.func,
+  checked: PropTypes.bool,
+  label: PropTypes.string
 }
 
 export default RadioField

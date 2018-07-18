@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Col, Button } from 'atoms'
 
 const CollectionList = (props) => {
@@ -19,6 +20,10 @@ const CollectionList = (props) => {
       }
     </Col>
   )
+}
+
+CollectionList.propTypes = {
+  collections: PropTypes.array
 }
 
 export default CollectionList

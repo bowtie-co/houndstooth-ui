@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   PrivateRoute,
   Switch
@@ -7,13 +8,13 @@ import { RepoList } from 'organisms'
 import { Repo } from '..'
 
 const Main = (props) => {
-  const { isMainLoading, setMainLoading, ...rest } = props
+  const { isMainLoading, setMainLoading, repoList, ...rest } = props
   return (
     <div className='demo-template'>
       <Switch>
         <PrivateRoute
           exact
-          props={rest}
+          props={{ repoList }}
           path={'/repos'}
           component={RepoList}
         />
@@ -26,6 +27,11 @@ const Main = (props) => {
       </Switch>
     </div>
   )
+}
+
+Main.propTypes = {
+  isMainLoading: PropTypes.bool,
+  setMainLoading: PropTypes.func
 }
 
 export default Main

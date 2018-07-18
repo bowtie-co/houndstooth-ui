@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import FieldSingle from './FieldSingle'
 
 const FieldGroup = (props) => {
@@ -20,6 +21,13 @@ const FieldGroup = (props) => {
       )}
     </div>
   )
+}
+
+FieldGroup.propTypes = {
+  title: PropTypes.string,
+  location: PropTypes.string,
+  fields: PropTypes.object,
+  handleChange: PropTypes.func
 }
 
 export default FieldGroup
