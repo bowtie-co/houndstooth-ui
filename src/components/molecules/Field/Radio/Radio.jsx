@@ -1,10 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Label, Input } from 'reactstrap'
-import { FormGroup } from '../../../atoms'
+import { FormGroup } from 'atoms'
 
 const RadioField = ({ id, options, name, onChange, checked, label, ...rest }) => {
+  const { setFormData, setStagedFileUploads, stagedFileUploads, fileUploads, ...sanitizedProps } = rest
   return (
-    <FormGroup className='customRadio' title={label} {...rest}>
+    <FormGroup className='customRadio' title={label} {...sanitizedProps}>
       {options.map(option =>
         <Label check key={option.label}>
           <Input
@@ -21,6 +23,15 @@ const RadioField = ({ id, options, name, onChange, checked, label, ...rest }) =>
       )}
     </FormGroup>
   )
+}
+
+RadioField.propTypes = {
+  id: PropTypes.string,
+  options: PropTypes.array,
+  name: PropTypes.string,
+  onChange: PropTypes.func,
+  checked: PropTypes.bool,
+  label: PropTypes.string
 }
 
 export default RadioField

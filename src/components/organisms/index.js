@@ -10,6 +10,7 @@ import CollectionList from './CollectionList'
 import ItemList from './ItemList'
 import ItemForm from './ItemForm'
 import RecursiveFields from './RecursiveFields'
+import WysiwygEditor from './WysiwygEditor'
 
 export {
   Header,
@@ -22,5 +23,6 @@ export {
   CollectionList,
   ItemList,
   ItemForm,
-  RecursiveFields
+  RecursiveFields,
+  WysiwygEditor
 }

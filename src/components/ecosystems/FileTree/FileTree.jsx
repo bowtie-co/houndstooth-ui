@@ -1,16 +1,17 @@
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   PrivateRoute,
   Switch
-} from '../../atoms'
+} from 'atoms'
 import {
   DirList,
   FileSingle
-} from '../../organisms'
+} from 'organisms'
 
 const FileTree = (props) => {
-  const { dirList, match, file, setFile, saveFile, branch } = props
+  const { match, dirList, file, setFile, saveFile, branch } = props
   return (
     <Switch>
       <PrivateRoute
@@ -25,6 +26,14 @@ const FileTree = (props) => {
       />
     </Switch>
   )
+}
+
+FileTree.propTypes = {
+  dirList: PropTypes.arrayOf(PropTypes.object),
+  branch: PropTypes.string.isRequired,
+  file: PropTypes.object,
+  setFile: PropTypes.func,
+  saveFile: PropTypes.func
 }
 
 export default FileTree

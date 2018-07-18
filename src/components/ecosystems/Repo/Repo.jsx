@@ -1,16 +1,13 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Prompt } from 'react-router-dom'
 import {
   PrivateRoute,
   Switch,
   Col
-} from '../../atoms'
-import {
-  RepoNav
-} from '../../molecules'
-import {
-  CommitChanges
-} from '../../organisms'
+} from 'atoms'
+import { RepoNav } from 'molecules'
+import { CommitChanges } from 'organisms'
 import {
   FileTree,
   Collections
@@ -53,6 +50,16 @@ const Repo = (props) => {
       </Col>
     </div>
   )
+}
+
+Repo.propTypes = {
+  stagedFiles: PropTypes.array,
+  branch: PropTypes.string,
+  branchList: PropTypes.array,
+  changeBranch: PropTypes.func,
+  pushToGithub: PropTypes.func,
+  collections: PropTypes.arrayOf(PropTypes.string),
+  queryParams: PropTypes.object
 }
 
 export default Repo

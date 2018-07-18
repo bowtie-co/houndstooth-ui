@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Button as ButtonRS } from 'reactstrap'
+import PropTypes from 'prop-types'
 
 const Button = ({ id, value, children, href, staticContext, ...rest }) => {
   const withLink = <Link to={href || ''}>
@@ -22,6 +23,11 @@ const Button = ({ id, value, children, href, staticContext, ...rest }) => {
   </ButtonRS>
 
   return href ? withLink : button
+}
+
+Button.propTypes = {
+  id: PropTypes.string,
+  href: PropTypes.string
 }
 
 export default Button

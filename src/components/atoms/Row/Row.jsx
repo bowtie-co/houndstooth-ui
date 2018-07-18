@@ -1,5 +1,6 @@
 import React from 'react'
 import { Row as RowRS } from 'reactstrap'
+import PropTypes from 'prop-types'
 
 const Row = ({ children, flex = true, className, ...rest }) => {
   return (
@@ -7,6 +8,11 @@ const Row = ({ children, flex = true, className, ...rest }) => {
       { children }
     </RowRS>
   )
+}
+
+Row.propTypes = {
+  flex: PropTypes.bool,
+  className: PropTypes.string
 }
 
 export default Row

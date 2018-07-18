@@ -18,7 +18,6 @@ import TextEditor from './TextEditor'
 import Col from './Col'
 import Row from './Row'
 import BackButton from './BackButton'
-import WysiwygEditor from './WysiwygEditor'
 
 export {
   Avatar,
@@ -40,6 +39,5 @@ export {
   Summary,
   Switch,
   Title,
-  TextEditor,
-  WysiwygEditor
+  TextEditor
 }

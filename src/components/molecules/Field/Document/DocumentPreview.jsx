@@ -3,9 +3,7 @@ import { Document, Page } from 'react-pdf/dist/entry.webpack'
 import { Card, CardText, CardBody, CardFooter, FormGroup } from 'reactstrap'
 import {
   Button
-} from '../../../atoms'
-
-import Pagination from '../../../molecules/Pagination/Pagination'
+} from 'atoms'
 
 const DocumentPreview = (props) => {
   const { value, onTextLoaded, handleDocumentLoad, handleTextLoaded, pageNumber, previewScale, helper, label, previewOnly, togglePreview } = props
@@ -19,7 +17,7 @@ const DocumentPreview = (props) => {
           <Document file={value} onLoadSuccess={handleDocumentLoad}>
             <Page scale={previewScale || 0.5} pageNumber={pageNumber} onGetTextSuccess={handleTextLoaded} />
           </Document>
-          <Pagination justify='center' {...props} />
+          {/* <Pagination justify='center' {...props} /> */}
         </CardBody>
         <CardFooter className='text-center'>
           {onTextLoaded && <p className='x-small'>Preview pages to scan for quote information</p>}

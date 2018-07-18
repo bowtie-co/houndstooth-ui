@@ -9,6 +9,7 @@ import Select from './Select'
 import Checkbox from './Checkbox'
 import DateTimeContainer from './DateTime'
 import ColorPicker from './ColorPicker'
+import FileUpload from './FileUpload'
 import MultiSelect from './MultiSelect'
 import Radio from './Radio'
 import DocumentContainer from './Document/DocumentContainer'
@@ -17,7 +18,7 @@ import DocumentContainer from './Document/DocumentContainer'
 
 // const nullConditionFn = ({ name }) => !name;
 
-// const isFileConditionFn = ({ type, name }) => endsWith(name, '_path') || type === 'file'
+const isFileConditionFn = ({ type, name }) => endsWith(name, '_path') || type === 'file'
 const isColorConditionFn = ({ type, name }) => endsWith(name, '_color') || type === 'color'
 const dateTimePickerCondition = ({ type, name }) => endsWith(name, ['_date', '_on', '_time', '_at']) || type === 'date' || type === 'time' || type === 'datetime'
 const checkboxCondition = ({ type, name, value }) => typeof value === 'boolean' || endsWith(name, '_boolean') || type === 'checkbox'
@@ -33,6 +34,6 @@ export default compose(
   withEither(multiSelectCondition, MultiSelect),
   withEither(radioCondition, Radio),
   withEither(isColorConditionFn, ColorPicker),
-  // withEither(isFileConditionFn, FileUpload),
+  withEither(isFileConditionFn, FileUpload),
   withEither(documentUploadCondition, DocumentContainer)
 )(Input)

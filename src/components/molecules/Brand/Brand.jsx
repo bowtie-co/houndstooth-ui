@@ -1,8 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   BowtieLogo,
   Title
-} from '../../atoms'
+} from 'atoms'
 
 const Brand = ({ title }) => {
   return (
@@ -13,6 +14,10 @@ const Brand = ({ title }) => {
       <Title title={title} />
     </header>
   )
+}
+
+Brand.propTypes = {
+  title: PropTypes.string.isRequired
 }
 
 export default Brand

@@ -2,12 +2,13 @@ import React from 'react'
 import { Input as InputRS } from 'reactstrap'
 import {
   FormGroup
-} from '../../../atoms'
+} from 'atoms'
 
 const Input = ({ id, value, ...rest }) => {
+  const { setFormData, setStagedFileUploads, stagedFileUploads, fileUploads, ...sanitizedProps } = rest
   return (
-    <FormGroup floatLabel {...rest}>
-      <InputRS value={value || ''} id={id} {...rest} />
+    <FormGroup floatLabel {...sanitizedProps}>
+      <InputRS value={value || ''} id={id} {...sanitizedProps} />
     </FormGroup>
   )
 }

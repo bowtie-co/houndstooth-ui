@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '../../atoms'
+import { Button } from 'atoms'
 
 const CollectionEditorButton = ({ location, match }) => {
   const { pathname } = location

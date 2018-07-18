@@ -1,6 +1,6 @@
 import React from 'react'
 import { Switch } from 'react-router-dom'
-import { PublicRoute } from '../../atoms'
+import { PublicRoute } from 'atoms'
 import AuthRedirect from './AuthRedirect'
 import AuthCallback from './AuthCallback'
 import AuthLogin from './AuthLogin'

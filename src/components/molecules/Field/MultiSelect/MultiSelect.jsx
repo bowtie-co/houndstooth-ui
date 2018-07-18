@@ -1,9 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
-import { FormGroup } from '../../../atoms'
+import { FormGroup } from 'atoms'
 
 const MultiSelect = ({ id, name, value, async, onChange, options, ...rest }) => {
+  const { setFormData, setStagedFileUploads, stagedFileUploads, fileUploads, ...sanitizedProps } = rest
+
   const SelectComponent = async ? Select.Async : Select
 
   if (options && Array.isArray(options) && options.length > 0 && typeof options[0] !== 'object') {
@@ -16,7 +19,7 @@ const MultiSelect = ({ id, name, value, async, onChange, options, ...rest }) => 
   }
 
   return (
-    <FormGroup id={id} {...rest}>
+    <FormGroup id={id} {...sanitizedProps}>
       <SelectComponent
         id={id}
         multi
@@ -24,10 +27,19 @@ const MultiSelect = ({ id, name, value, async, onChange, options, ...rest }) => 
         value={value || []}
         onChange={(value) => onChange({ target: { name, value } })}
         options={options}
-        {...rest}
+        {...sanitizedProps}
       />
     </FormGroup>
   )
+}
+
+MultiSelect.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.string,
+  async: PropTypes.bool,
+  onChange: PropTypes.func,
+  options: PropTypes.array
 }
 
 export default MultiSelect
