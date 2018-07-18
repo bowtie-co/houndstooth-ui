@@ -57,6 +57,7 @@
     "reactstrap": "^6.1.0",
     "recompose": "^0.27.1",
     "sass-loader": "^6.0.6",
+    "source-map-explorer": "^1.5.0",
     "showdown": "^1.8.6",
     "style-loader": "0.19.0",
     "sw-precache-webpack-plugin": "0.11.4",
@@ -83,18 +84,20 @@
     "jest": "^22.4.0",
     "jest-cli": "^22.4.0",
     "jest-enzyme": "^6.0.2",
-    "nsp": "^3.2.1",
     "react-test-renderer": "^16.2.0",
     "standard": "^11.0.1"
   },
   "scripts": {
     "preinstall": "node -e \"if (process.env.npm_execpath.indexOf('yarn') === -1) { console.log('\u001b[31mPlease use yarn for installing\u001b[0m'); process.exit(1); }\"",
+    "analyze": "source-map-explorer build/static/js/main.*",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "npm run lint && node scripts/test.js --env=jsdom",
-    "scan": "nsp check",
+    "test": "yarn lint && node scripts/test.js --env=jsdom",
     "lint": "standard",
-    "lint:fix": "standard --fix"
+    "lint:fix": "standard --fix",
+    "deploy": "yarn build && ./bin/manual-deploy-s3",
+    "deploy:staging": "APP_ENV=staging yarn deploy",
+    "deploy:production": "echo 'NOT IMPLEMENTED!' && exit 1"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/src/setupTests.js",
