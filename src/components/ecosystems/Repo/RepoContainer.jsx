@@ -15,7 +15,7 @@ export const enhance = compose(
   withStateHandlers(({ queryParams, match: { params: { username, repo } } }) => ({
     baseRoute: `repos/${username}/${repo}`,
     branchList: [],
-    branch: queryParams['ref'] || 'master',
+    branch: queryParams['ref'],
     stagedFiles: [],
     dirList: [],
     file: {},
