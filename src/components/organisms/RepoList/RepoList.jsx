@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card } from 'atoms'
+import { Card, Button } from 'atoms'
 import { RepoCard } from 'molecules'
 
-const RepoList = ({ repoList }) => {
+const RepoList = ({ repoList, nextPage }) => {
   return (
     <Card>
+      <Button onClick={nextPage} >Next</Button>
       {
         repoList.map((repo, i) => <RepoCard repo={repo} key={i} />)
       }
