@@ -2,13 +2,21 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   Col,
-  Title
+  Title,
+  Button
 } from 'atoms'
-import { FieldContainer } from 'molecules'
-import { RecursiveFields, WysiwygEditor } from '..'
+
+import {
+  FieldContainer
+} from 'molecules'
+
+import {
+  RecursiveFields,
+  WysiwygEditor
+} from '..'
 
 const ItemForm = (props) => {
-  const { activeItem, handleFormSubmit, editFileName, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads } = props
+  const { activeItem, handleFormSubmit, editFileName, deleteItem, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads } = props
   const { item } = match.params
   console.log('Item form props: ', activeItem.fields)
   return (
@@ -33,6 +41,7 @@ const ItemForm = (props) => {
           stagedFileUploads={stagedFileUploads}
           setStagedFileUploads={setStagedFileUploads}
         />
+        <Button onClick={deleteItem}> Delete </Button>
         <WysiwygEditor
           item={item}
           content={activeItem['markdown']}
