@@ -1,34 +1,26 @@
 import React from 'react'
 import { Switch } from 'react-router-dom'
 import { PublicRoute } from 'atoms'
-import AuthRedirect from './AuthRedirect'
-import AuthCallback from './AuthCallback'
-import AuthLogin from './AuthLogin'
-import AuthLogout from './AuthLogout'
 
 const Auth = (props) => {
-  console.log('auth props', props)
+  const { authCallback, authLogin, authLogout, authRedirect } = props
   return (
     <Switch>
       <PublicRoute
-        props={props}
         path='/redirect'
-        component={AuthRedirect}
+        action={authRedirect}
       />
       <PublicRoute
-        props={props}
         path='/callback'
-        component={AuthCallback}
+        action={authCallback}
       />
       <PublicRoute
-        props={props}
         path='/login'
-        component={AuthLogin}
+        action={authLogin}
       />
       <PublicRoute
-        props={props}
         path='/logout'
-        component={AuthLogout}
+        action={authLogout}
       />
     </Switch>
   )

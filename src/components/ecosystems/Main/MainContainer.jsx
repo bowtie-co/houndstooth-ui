@@ -1,7 +1,7 @@
 // Containers should include all logic that enhances a component
 // this includes any reduce methods, recompose, or middleware.
 
-import { compose, lifecycle, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
+import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
 import Main from './Main'
 import { Loading } from 'atoms'
@@ -15,7 +15,7 @@ export const enhance = compose(
     repoList: [],
     repo: {},
     isMainLoading: false,
-    pageCount: 0,
+    pageCount: 0
   }), {
     setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
     setRepo: ({ repo }) => (payload) => ({ repo: payload }),
