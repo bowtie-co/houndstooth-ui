@@ -15,12 +15,22 @@ export const enhance = compose(
     repoList: [],
     repo: {},
     isMainLoading: false,
-    pageCount: 0
+    pages: {},
+    pageNumber: 1
   }), {
     setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
     setRepo: ({ repo }) => (payload) => ({ repo: payload }),
-    nextPage: ({ pageCount }) => () => ({ pageCount: pageCount + 1 }),
-    previousPage: ({ pageCount }) => () => ({ pageCount: pageCount - 1 }),
+    setPages: ({ pages }) => (payload) => ({ pages: payload }),
+    setPageNumber: ({ pageNumber }) => (payload) => {
+      const { next, prev } = payload
+      if (next) {
+        return { pageNumber: parseInt(next['page']) - 1 }
+      } else if (prev) {
+        return { pageNumber: parseInt(prev['page']) + 1 }
+      } else {
+        return { pageNumber: payload }
+      }
+    },
     setCollections: ({ collections }) => (payload) => ({ collections: payload }),
     setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
     setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
@@ -28,17 +38,19 @@ export const enhance = compose(
     setMainLoading: ({ isMainLoading }) => (payload) => ({ isMainLoading: payload })
   }),
   withHandlers({
-    getRepos: ({ pageCount, setMainLoading, setRepoList }) => () => {
+    getRepos: ({ pageNumber, setMainLoading, setRepoList, setPages, setPageNumber }) => () => {
       setMainLoading(true)
-      api.get(`repos?page=${pageCount}&sort=updated`)
+      api.get(`repos?page=${pageNumber}&sort=updated`)
         .then(({ data }) => {
+          setPages(data['pages'])
+          setPageNumber(data['pages'])
           setRepoList(data.repos)
           setMainLoading(false)
         })
         .catch(notifier.bad.bind(notifier))
     }
   }),
-  withPropsOnChange(['pageCount'], ({ pageCount, getRepos }) => {
+  withPropsOnChange(['pageNumber'], ({ getRepos }) => {
     getRepos()
   }),
   withEither(loadingConditionFn, Loading)

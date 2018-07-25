@@ -1,8 +1,13 @@
 import React from 'react'
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap'
+import { withMaybe } from '@bowtie/react-utils'
+
+const nullConditionalFn = ({ next, prev }) => !(prev || next)
 
 const GeneralPagination = (props) => {
-  const { children, pageNumber, numPages, handlePage, size, maxItems = 6 } = props
+  const { children, handlePage, pageNumber, last, next, prev, size, maxItems = 6 } = props
+  const numPages = last ? last['page'] : parseInt(prev['page'] + 1)
+
   const pageNumberItems = []
 
   if (numPages === 1) {
@@ -23,7 +28,8 @@ const GeneralPagination = (props) => {
     if (endPage > numPages) {
       endPage = numPages
     }
-
+    console.log('startPage:', startPage)
+    console.log('endPage:', endPage)
     for (let i = startPage; i <= endPage; i++) {
       pageNumberItems.push((
         <PaginationItem key={`paginate-${i}`} active={pageNumber === i}>
@@ -35,13 +41,13 @@ const GeneralPagination = (props) => {
     }
 
     return (
-      <Pagination size={size || 'sm'}>
+      <Pagination size={size || 'sm'} className='pagination'>
         <PaginationItem disabled={pageNumber <= 1}>
-          <PaginationLink previous onClick={(e) => handlePage(pageNumber - 1)} />
+          <PaginationLink previous onClick={(e) => handlePage(prev['page'])} />
         </PaginationItem>
         {pageNumberItems}
         <PaginationItem disabled={pageNumber >= numPages}>
-          <PaginationLink next onClick={(e) => handlePage(pageNumber + 1)} />
+          <PaginationLink next onClick={(e) => handlePage(next['page'])} />
         </PaginationItem>
         <PaginationItem>
           {children}
@@ -51,4 +57,5 @@ const GeneralPagination = (props) => {
   }
 }
 
-export default GeneralPagination
+// export default GeneralPagination
+export default withMaybe(nullConditionalFn)(GeneralPagination)

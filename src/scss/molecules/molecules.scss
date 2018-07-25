@@ -32,3 +32,18 @@
       width: 80px;
   }
 }
+
+.pagination {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  li {
+    border: none;
+  }
+  li.active {
+    border-bottom: 2px magenta solid;
+  }
+  li.disabled {
+    color: lightgrey;
+  }
+}

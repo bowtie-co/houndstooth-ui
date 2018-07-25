@@ -1,16 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Button } from 'atoms'
-import { RepoCard } from 'molecules'
+import { Card } from 'atoms'
+import { RepoCard, Pagination } from 'molecules'
 
-const RepoList = ({ repoList, nextPage }) => {
+const RepoList = ({ repoList, pages, setPageNumber, pageNumber }) => {
   return (
-    <Card>
-      <Button onClick={nextPage} >Next</Button>
-      {
-        repoList.map((repo, i) => <RepoCard repo={repo} key={i} />)
-      }
-    </Card>
+    <section>
+      <Pagination {...pages} handlePage={setPageNumber} pageNumber={pageNumber} />
+      <Card>
+        {
+          repoList.map((repo, i) => <RepoCard repo={repo} key={i} />)
+        }
+      </Card>
+    </section>
+
   )
 }
 
