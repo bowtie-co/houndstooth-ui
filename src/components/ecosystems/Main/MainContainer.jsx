@@ -17,16 +17,16 @@ export const enhance = compose(
     isMainLoading: false,
     pageCount: 0
   }), {
-      setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
-      setRepo: ({ repo }) => (payload) => ({ repo: payload }),
-      nextPage: ({ pageCount }) => () => ({ pageCount: pageCount + 1 }),
-      previousPage: ({ pageCount }) => () => ({ pageCount: pageCount - 1 }),
-      setCollections: ({ collections }) => (payload) => ({ collections: payload }),
-      setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
-      setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
-      setBranch: ({ branch }) => (payload) => ({ branch: payload }),
-      setMainLoading: ({ isMainLoading }) => (payload) => ({ isMainLoading: payload })
-    }),
+    setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
+    setRepo: ({ repo }) => (payload) => ({ repo: payload }),
+    nextPage: ({ pageCount }) => () => ({ pageCount: pageCount + 1 }),
+    previousPage: ({ pageCount }) => () => ({ pageCount: pageCount - 1 }),
+    setCollections: ({ collections }) => (payload) => ({ collections: payload }),
+    setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
+    setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
+    setBranch: ({ branch }) => (payload) => ({ branch: payload }),
+    setMainLoading: ({ isMainLoading }) => (payload) => ({ isMainLoading: payload })
+  }),
   withHandlers({
     getRepos: ({ pageCount, setMainLoading, setRepoList }) => () => {
       setMainLoading(true)

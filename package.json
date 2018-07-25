@@ -99,6 +99,7 @@
     "deploy:production": "echo 'NOT IMPLEMENTED!' && exit 1"
   },
   "jest": {
+    "browser": true,
     "setupTestFrameworkScriptFile": "<rootDir>/src/setupTests.js",
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,mjs}"
@@ -122,7 +123,19 @@
     ],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
-      "\\.worker.js": "<rootDir>/__mocks__/workerMock.js"
+      "\\.worker.js": "<rootDir>/__mocks__/workerMock.js",
+      "^atoms[/]?(.*)": "<rootDir>/src/components/atoms/$1",
+      "^ecosystems[/]?(.*)": "<rootDir>/src/components/ecosystems/$1",
+      "^environments[/]?(.*)": "<rootDir>/src/components/environments/$1",
+      "^molecules[/]?(.*)": "<rootDir>/src/components/molecules/$1",
+      "^organisms[/]?(.*)": "<rootDir>/src/components/organisms/$1",
+      "^models[/]?(.*)": "<rootDir>/src/components/models/$1",
+      "^components[/]?(.*)": "<rootDir>/src/components/$1",
+      "^helpers[/]?(.*)": "<rootDir>/src/helpers/$1",
+      "^lib[/]?(.*)": "<rootDir>/src/lib/$1",
+      "^Routes[/]?(.*)": "<rootDir>/src/Routes/$1",
+      "^scss[/]?(.*)": "<rootDir>/src/scss/$1",
+      "^src[/]?(.*)": "<rootDir>/src/src/$1"
     },
     "moduleFileExtensions": [
       "web.js",
