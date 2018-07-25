@@ -6,7 +6,7 @@ const nullConditionalFn = ({ next, prev }) => !(prev || next)
 
 const GeneralPagination = (props) => {
   const { children, handlePage, pageNumber, last, next, prev, size, maxItems = 6 } = props
-  const numPages = last ? last['page'] : parseInt(prev['page'] + 1)
+  const numPages = last ? last['page'] : null
 
   const pageNumberItems = []
 
