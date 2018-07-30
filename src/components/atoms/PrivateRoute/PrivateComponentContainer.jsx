@@ -13,7 +13,22 @@ const unauthenticatedConditionFn = () => !auth.isAuthenticated()
 
 export const enhance = compose(
   withRouter,
-  withProps(({ roles }) => ({ roles: roles || [] })),
+  withProps(({ component, action, roles }) => {
+    if (component && action) {
+      console.error('Please either pass an action or a component into PrivateRoute, not both.')
+    }
+
+    const actionAsComponent = () => {
+      action()
+      return null
+    }
+
+    const newComponent = action ? actionAsComponent : component
+    return {
+      component: newComponent,
+      roles: roles || []
+    }
+  }),
   withState('currentUser', 'setCurrentUser', () => storage.get('current_user')),
   withEither(unauthenticatedConditionFn, LoginRedirect),
   lifecycle({
