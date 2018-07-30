@@ -5,8 +5,8 @@ import { withMaybe } from '@bowtie/react-utils'
 const nullConditionalFn = ({ next, prev }) => !(prev || next)
 
 const GeneralPagination = (props) => {
-  const { children, handlePage, pageNumber, last, next, prev, size, maxItems = 12 } = props
-  const numPages = last ? last['page'] : null
+  const { children, handlePage, pageNumber, last, next, prev, size, maxItems = 6 } = props
+  const numPages = last ? last['page'] : pageNumber
 
   const pageNumberItems = []
 
@@ -26,10 +26,9 @@ const GeneralPagination = (props) => {
     }
 
     if (endPage > numPages) {
-      endPage = numPages || 6
+      endPage = numPages
     }
-    console.log('startPage:', startPage)
-    console.log('endPage:', endPage)
+
     for (let i = startPage; i <= endPage; i++) {
       pageNumberItems.push((
         <PaginationItem key={`paginate-${i}`} active={pageNumber === i}>
