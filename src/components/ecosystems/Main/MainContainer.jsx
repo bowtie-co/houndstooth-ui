@@ -40,7 +40,7 @@ export const enhance = compose(
   withHandlers({
     getRepos: ({ pageNumber, setMainLoading, setRepoList, setPages, setPageNumber }) => () => {
       setMainLoading(true)
-      api.get(`repos?page=${pageNumber}&per_page=15&sort=updated`)
+      api.get(`repos?page=${pageNumber}&sort=updated`)
         .then(({ data }) => {
           setPages(data['pages'])
           setPageNumber(data['pages'])
