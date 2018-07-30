@@ -5,7 +5,7 @@ import { withMaybe } from '@bowtie/react-utils'
 const nullConditionalFn = ({ next, prev }) => !(prev || next)
 
 const GeneralPagination = (props) => {
-  const { children, handlePage, pageNumber, last, next, prev, size, maxItems = 6 } = props
+  const { children, handlePage, pageNumber, last, next, prev, size, maxItems = 12 } = props
   const numPages = last ? last['page'] : null
 
   const pageNumberItems = []
@@ -26,7 +26,7 @@ const GeneralPagination = (props) => {
     }
 
     if (endPage > numPages) {
-      endPage = numPages
+      endPage = numPages || 6
     }
     console.log('startPage:', startPage)
     console.log('endPage:', endPage)
@@ -43,11 +43,11 @@ const GeneralPagination = (props) => {
     return (
       <Pagination size={size || 'sm'} className='pagination'>
         <PaginationItem disabled={pageNumber <= 1}>
-          <PaginationLink previous onClick={(e) => handlePage(prev['page'])} />
+          <PaginationLink disabled={pageNumber <= 1} previous onClick={(e) => handlePage(prev['page'])} />
         </PaginationItem>
         {pageNumberItems}
         <PaginationItem disabled={pageNumber >= numPages}>
-          <PaginationLink next onClick={(e) => handlePage(next['page'])} />
+          <PaginationLink disabled={pageNumber >= numPages} next onClick={(e) => handlePage(next['page'])} />
         </PaginationItem>
         <PaginationItem>
           {children}
