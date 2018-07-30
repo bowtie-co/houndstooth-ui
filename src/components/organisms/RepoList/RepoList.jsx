@@ -1,7 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withMaybe } from '@bowtie/react-utils'
 import { Card } from 'atoms'
 import { RepoCard, Pagination } from 'molecules'
+
+const nullConditionFn = ({ repoList }) => repoList.length <= 0
 
 const RepoList = ({ repoList, pages, setPageNumber, pageNumber }) => {
   return (
@@ -21,4 +24,4 @@ RepoList.propTypes = {
   repoList: PropTypes.array
 }
 
-export default RepoList
+export default withMaybe(nullConditionFn)(RepoList)

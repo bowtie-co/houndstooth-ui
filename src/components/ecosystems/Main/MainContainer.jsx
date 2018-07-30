@@ -28,7 +28,7 @@ export const enhance = compose(
       } else if (prev) {
         return { pageNumber: parseInt(prev['page']) + 1 }
       } else {
-        return { pageNumber: payload }
+        return { pageNumber: parseInt(payload) }
       }
     },
     setCollections: ({ collections }) => (payload) => ({ collections: payload }),
