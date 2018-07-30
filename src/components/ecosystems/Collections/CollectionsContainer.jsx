@@ -145,7 +145,21 @@ export default compose(
           setStagedFileUploads([])
         })
         .catch(notifier.bad.bind(notifier))
+    },
+    deleteItem: ({ baseRoute, branch, match, history, activeItem, getItems }) => () => {
+      const { item } = match.params
+      const { sha } = activeItem
+      const message = 'Delete file'
+      const route = `${baseRoute}/items/${item}?ref=${branch || 'master'}&message=${message}&sha=${sha}`
+      console.log('route: ', route)
+      api.delete(route)
+        .then(resp => {
+          getItems()
+          history.push(baseRoute)
+        })
+        .catch(notifier.bad.bind(notifier))
     }
+
   }),
   lifecycle({
     componentWillMount () {
