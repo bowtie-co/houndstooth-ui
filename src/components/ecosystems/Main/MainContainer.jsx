@@ -8,7 +8,7 @@ import { Loading } from 'atoms'
 import { api, notifier } from 'lib'
 
 // conditional functions here:
-const loadingConditionFn = ({ isMainLoading }) => isMainLoading
+const loadingConditionFn = ({ isMainLoading, repoList }) => isMainLoading || repoList.length <= 0
 
 export const enhance = compose(
   withStateHandlers(({ queryParams }) => ({
