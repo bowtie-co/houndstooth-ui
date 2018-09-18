@@ -1,29 +1,39 @@
 import React from 'react'
-import { Brand } from 'molecules'
 import { auth } from 'lib'
 import {
   NavLink,
   Login,
   Logout,
   Row,
-  Nav
+  Col,
+  Nav,
+  Icon,
+  BowtieLogo
 } from 'atoms'
 
 const Header = () => {
   return (
     <section className='top-nav-section' >
-      <Brand title={'Houndstooth'} />
-      <Nav className='nav-bar'>
-        <Row>
-          <NavLink path={'/repos/'}>Repos</NavLink>
-          {
-            auth.isAuthenticated()
-              ? <Logout />
-              : <Login />
-          }
-        </Row>
+      <Row>
+        <Col sm='1'>
+          <BowtieLogo />
+        </Col>
+        <Col>
+          [ Project Control here ]
+        </Col>
+        <Col sm='6'>
+          <Nav className='nav-bar'>
+            <NavLink path={'/notifications/'}><Icon iconName='bell' color='white' size='md' /></NavLink>
+            <NavLink path={'/settings/'}><Icon iconName='cog' color='white' size='md' /></NavLink>
+            {
+              auth.isAuthenticated()
+                ? <Logout />
+                : <Login />
+            }
+          </Nav>
+        </Col>
+      </Row>
 
-      </Nav>
     </section>
   )
 }

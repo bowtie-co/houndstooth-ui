@@ -1,5 +1,4 @@
 import Search from './Search'
-import Brand from './Brand'
 import RepoCard from './RepoCard'
 import FieldContainer from './Field'
 import LastUpdated from './LastUpdated'
@@ -11,7 +10,6 @@ import CollectionEditorButton from './CollectionEditorButton'
 
 export {
   Search,
-  Brand,
   FieldContainer,
   RepoCard,
   LastUpdated,

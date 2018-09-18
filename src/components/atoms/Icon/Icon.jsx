@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 
 const Icon = ({ className, size = 'xsmall', fill = true, iconName, color }) => {
   const sizes = {
-    xsmall: '',
-    small: 'lg',
-    medium: '2x',
-    large: '3x',
-    xlarge: '4x',
-    xxlarge: '5x'
+    xs: '',
+    sm: 'lg',
+    md: '2x',
+    lg: '3x',
+    xl: '4x',
+    xxl: '5x'
   }
 
   const faClass = className || `fa${fill ? 's' : 'r'} fa-${iconName}`
