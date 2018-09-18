@@ -1,7 +1,6 @@
 .top-nav-section {
   text-align: center;  
-  border-bottom: 2px lightgrey solid;
-  background-color: black;
+  background-color: #333333;
   .nav-bar{
     justify-content: flex-end;
     width: 100%;
@@ -34,4 +33,14 @@
 .side-menu-section {
   border-right: 2px solid lightgrey;
   max-width: 265px;
+  background-color: #333333;
+  a.nav-link{
+    color: #787878;
+    padding: 21px;
+    &:hover{
+      background-color: black;
+      color: white;
+    }
+  }
+
 }

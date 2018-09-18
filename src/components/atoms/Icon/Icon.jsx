@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Icon = ({ className, size = 'xsmall', fill = true, iconName, color }) => {
+const Icon = ({ className, size = 'xs', fill = true, iconName, color }) => {
   const sizes = {
     xs: '',
     sm: 'lg',
