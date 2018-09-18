@@ -1,10 +1,15 @@
 import React from 'react'
+import { Col, Row, Container } from 'atoms'
 
 const Body = ({ children }) => {
   return (
-    <section className='body-template'>
-      { children }
-    </section>
+    <Container fluid>
+      <Col className='body-template'>
+        <Row>
+          {children}
+        </Row>
+      </Col>
+    </Container>
   )
 }
 

@@ -3,7 +3,7 @@ import { NavLink } from '..'
 
 const Login = () => {
   return (
-    <NavLink to='/login'>Login</NavLink>
+    <NavLink path='/login'>Login</NavLink>
   )
 }
 

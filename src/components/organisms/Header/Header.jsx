@@ -1,20 +1,29 @@
 import React from 'react'
 import { Brand } from 'molecules'
-import { NavLink, Login, Logout } from 'atoms'
 import { auth } from 'lib'
+import {
+  NavLink,
+  Login,
+  Logout,
+  Row,
+  Nav
+} from 'atoms'
 
 const Header = () => {
   return (
     <section className='top-nav-section' >
       <Brand title={'Houndstooth'} />
-      <div className='nav-bar'>
-        <NavLink to={'/repos/'}>Repos</NavLink>
-        {
-          auth.isAuthenticated()
-            ? <Logout />
-            : <Login />
-        }
-      </div>
+      <Nav className='nav-bar'>
+        <Row>
+          <NavLink path={'/repos/'}>Repos</NavLink>
+          {
+            auth.isAuthenticated()
+              ? <Logout />
+              : <Login />
+          }
+        </Row>
+
+      </Nav>
     </section>
   )
 }

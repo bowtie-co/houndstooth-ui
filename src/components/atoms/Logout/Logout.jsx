@@ -3,7 +3,7 @@ import { NavLink } from '..'
 
 const Logout = () => {
   return (
-    <NavLink to='/logout'>Logout</NavLink>
+    <NavLink path='/logout'>Logout</NavLink>
   )
 }
 

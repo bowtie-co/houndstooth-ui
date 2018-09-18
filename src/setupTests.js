@@ -1,6 +1,8 @@
 import 'jest-enzyme'
 import { configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
+import ShallowWrapper from 'enzyme/ShallowWrapper'
+import until from 'enzyme-shallow-until'
 
 // Do this as the first thing so that any code reading it knows the right env.
 process.env.BABEL_ENV = 'test'
@@ -18,6 +20,9 @@ process.on('unhandledRejection', err => {
 require('../config/env')
 
 configure({ adapter: new Adapter() })
+
+// This allows jest testing to find the Base Component in a HOC.
+ShallowWrapper.prototype.until = until
 
 function storageMock () {
   var storage = {}
