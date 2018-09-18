@@ -5,16 +5,16 @@ const SideMenu = ({ user }) => {
   return (
     <Nav vertical className={'flex-column'}>
       <NavLink path={'/home'}>
-        <Icon iconName='tachometer-alt' />Dashboard
+        <Icon size='sm' iconName='tachometer-alt' />Dashboard
       </NavLink>
       <NavLink path={'/'} >
-        <Icon iconName='folder' />Collections
+        <Icon size='sm' iconName='folder' />Collections
       </NavLink>
       <NavLink path={'/'} >
-        <Icon iconName='user' />Users
+        <Icon size='sm' iconName='user' />Users
       </NavLink>
       <NavLink path={'/'} >
-        <Icon iconName='cogs' />Advanced Settings
+        <Icon size='sm' iconName='cogs' />Advanced Settings
       </NavLink>
     </Nav>
   )
