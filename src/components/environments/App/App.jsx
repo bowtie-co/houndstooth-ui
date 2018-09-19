@@ -10,10 +10,10 @@ const App = (props) => {
     <section className='app'>
       <Header />
       <Row>
-        <Col className='side-menu-section' sm='2' style={{'padding-right': '0'}}>
+        <Col id='side-menu-section' sm='2' style={{'padding-right': '0'}}>
           <SideMenu />
         </Col>
-        <Col sm='10'>
+        <Col sm='auto'>
           <Body>
             <Switch>
               <PublicRoute

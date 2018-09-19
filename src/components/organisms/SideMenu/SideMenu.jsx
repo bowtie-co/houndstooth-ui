@@ -1,20 +1,51 @@
 import React from 'react'
-import { NavLink, Nav, Icon } from 'atoms'
+import { NavLink, Nav, Icon, Col, Row } from 'atoms'
 
 const SideMenu = ({ user }) => {
   return (
     <Nav vertical className={'flex-column'}>
       <NavLink path={'/home'}>
-        <Icon size='sm' iconName='tachometer-alt' />Dashboard
+        <Row className='flex-center'>
+          <Col sm='3'>
+            <Icon size='sm' iconName='tachometer-alt' />
+          </Col>
+          <Col sm='9'>
+            Dashboard
+          </Col>
+        </Row>
       </NavLink>
       <NavLink path={'/'} >
-        <Icon size='sm' iconName='folder' />Collections
+        <Row className='flex-center'>
+          <Col sm='3'>
+            <Icon size='sm' iconName='folder' />
+          </Col>
+          <Col sm='9'>
+            Collections
+          </Col>
+        </Row>
       </NavLink>
       <NavLink path={'/'} >
-        <Icon size='sm' iconName='user' />Users
+
+        <Row className='flex-center'>
+          <Col sm='3'>
+            <Icon size='sm' iconName='user' />
+          </Col>
+          <Col sm='9'>
+            Users
+          </Col>
+        </Row>
+
       </NavLink>
       <NavLink path={'/'} >
-        <Icon size='sm' iconName='cogs' />Advanced Settings
+        <Row className='flex-center'>
+          <Col sm='3'>
+            <Icon size='sm' iconName='cogs' />
+          </Col>
+          <Col sm='9'>
+            Advanced Settings
+          </Col>
+        </Row>
+
       </NavLink>
     </Nav>
   )
