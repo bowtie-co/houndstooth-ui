@@ -13,28 +13,25 @@ import {
 
 const Header = () => {
   return (
-    <section className='top-nav-section' >
-      <Row>
-        <Col sm='1'>
-          <BowtieLogo />
-        </Col>
-        <Col>
-          [ Project Control here ]
-        </Col>
-        <Col sm='6'>
-          <Nav className='nav-bar'>
-            <NavLink path={'/notifications/'}><Icon iconName='bell' color='white' size='md' /></NavLink>
-            <NavLink path={'/settings/'}><Icon iconName='cog' color='white' size='md' /></NavLink>
-            {
-              auth.isAuthenticated()
-                ? <Logout />
-                : <Login />
-            }
-          </Nav>
-        </Col>
-      </Row>
-
-    </section>
+    <Row className='top-nav-section'>
+      <Col className='flex' sm='2'>
+        <BowtieLogo />
+      </Col>
+      <Col sm='4'>
+        [ Project Control here ]
+      </Col>
+      <Col sm='6'>
+        <Nav className='nav-bar'>
+          <NavLink path={'/notifications/'}><Icon iconName='bell' color='white' size='md' /></NavLink>
+          <NavLink path={'/settings/'}><Icon iconName='cog' color='white' size='md' /></NavLink>
+          {
+            auth.isAuthenticated()
+              ? <Logout />
+              : <Login />
+          }
+        </Nav>
+      </Col>
+    </Row>
   )
 }
 

@@ -30,10 +30,11 @@
   }
 }
 
-#side-menu-section {
-  width: 227px;
-  // max-width: 228px;
+.side-menu-section {
+  min-width: 227px;
+  max-width: 227px;
   background-color: #333333;
+  padding: 0;
   a.nav-link{
     color: #787878;
     padding: 21px;

@@ -3,7 +3,7 @@ import { NavLink, Nav, Icon, Col, Row } from 'atoms'
 
 const SideMenu = ({ user }) => {
   return (
-    <Nav vertical className={'flex-column'}>
+    <Nav vertical className={'side-menu-section flex-column'} sm='2'>
       <NavLink path={'/home'}>
         <Row className='flex-center'>
           <Col sm='3'>
