@@ -11,13 +11,15 @@ import { api, notifier } from 'lib'
 const loadingConditionFn = ({ isMainLoading, repoList }) => isMainLoading || repoList.length <= 0
 
 export const enhance = compose(
-  withStateHandlers(({ queryParams }) => ({
+  withStateHandlers(({ queryParams, match: { params: { username, repo } } }) => ({
+    baseRoute: `repos/${username}/${repo}`,
     repoList: [],
     repo: {},
     isMainLoading: false,
     pages: {},
     pageNumber: 1
   }), {
+    setBaseRoute: ({ baseRoute }) => (payload) => ({ baseRoute: payload }),
     setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
     setRepo: ({ repo }) => (payload) => ({ repo: payload }),
     setPages: ({ pages }) => (payload) => ({ pages: payload }),
@@ -33,8 +35,6 @@ export const enhance = compose(
     },
     setCollections: ({ collections }) => (payload) => ({ collections: payload }),
     setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
-    setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
-    setBranch: ({ branch }) => (payload) => ({ branch: payload }),
     setMainLoading: ({ isMainLoading }) => (payload) => ({ isMainLoading: payload })
   }),
   withHandlers({
@@ -52,6 +52,10 @@ export const enhance = compose(
   }),
   withPropsOnChange(['pageNumber'], ({ getRepos }) => {
     getRepos()
+  }),
+  withPropsOnChange(['match'], ({ match, setBaseRoute }) => {
+    const { repo, username } = match.params
+    setBaseRoute(`repos/${username}/${repo}`)
   }),
   withEither(loadingConditionFn, Loading)
 )

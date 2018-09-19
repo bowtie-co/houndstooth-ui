@@ -4,7 +4,6 @@ import { compose, withStateHandlers, withHandlers, withPropsOnChange, lifecycle 
 import { withEither } from '@bowtie/react-utils'
 import Repo from './Repo'
 import { Loading } from 'atoms'
-
 import qs from 'qs'
 import { api, notifier } from 'lib'
 
@@ -13,8 +12,6 @@ const loadingConditionalFn = ({ isRepoLoading }) => isRepoLoading
 
 export const enhance = compose(
   withStateHandlers(({ queryParams, match: { params: { username, repo } } }) => ({
-    baseRoute: `repos/${username}/${repo}`,
-    branchList: [],
     branch: queryParams['ref'] || 'master',
     stagedFiles: [],
     dirList: [],
@@ -22,12 +19,10 @@ export const enhance = compose(
     collections: [],
     isRepoLoading: false
   }), {
-    setBaseRoute: ({ baseRoute }) => (payload) => ({ baseRoute: payload }),
     setDirList: ({ dirList }) => (payload) => ({ dirList: payload }),
     setFile: ({ file }) => (payload) => ({ file: payload }),
     setCollections: ({ collections }) => (payload) => ({ collections: payload }),
     setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
-    setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
     setBranch: ({ branch }) => (payload) => ({ branch: payload }),
     setRepoLoading: ({ isRepoLoading }) => (payload) => ({ isRepoLoading: payload })
   }),
@@ -63,6 +58,16 @@ export const enhance = compose(
         })
 
       setStagedFiles([])
+    },
+    asyncLoadModel: ({ baseRoute }) => (model, search) => {
+      return api.get(`${baseRoute}/${model}`)
+        .then(({ data }) => {
+          console.log('BRANCH DATA', data)
+          return {
+            options: data[model]
+          }
+        })
+        .catch(notifier.bad.bind(notifier))
     }
   }),
   lifecycle({
@@ -83,8 +88,9 @@ export const enhance = compose(
         .catch(notifier.bad.bind(notifier))
     }
   }),
-  withPropsOnChange(['queryParams'], ({ baseRoute, queryParams, setDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
+  withPropsOnChange(['queryParams', 'baseRoute'], ({ baseRoute, queryParams, setDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
     setBranch(queryParams['ref'] || 'master')
+
     const stringifiedParams = qs.stringify(queryParams)
     const route = `${baseRoute}/files?${stringifiedParams}`
     const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])

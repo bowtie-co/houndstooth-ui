@@ -15,14 +15,15 @@ import {
 } from '..'
 
 const Repo = (props) => {
-  const { match, stagedFiles, branch, branchList, changeBranch, pushToGithub, collections, queryParams } = props
+  const { match, stagedFiles, branch, asyncLoadModel, baseRoute, changeBranch, pushToGithub, collections, queryParams } = props
   const { username } = match.params
   return (
     <Row>
       <Col>
         <RepoNav
+          baseRoute={baseRoute}
           branch={branch}
-          branchList={branchList}
+          asyncLoadModel={asyncLoadModel}
           changeBranch={changeBranch}
           isCommitable={stagedFiles.length > 0}
           isCollectionable={collections.length > 0}
@@ -56,7 +57,6 @@ const Repo = (props) => {
 Repo.propTypes = {
   stagedFiles: PropTypes.array,
   branch: PropTypes.string,
-  branchList: PropTypes.array,
   changeBranch: PropTypes.func,
   pushToGithub: PropTypes.func,
   collections: PropTypes.arrayOf(PropTypes.string),

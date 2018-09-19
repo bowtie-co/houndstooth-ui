@@ -1,6 +1,16 @@
 .top-nav-section {
   text-align: center;  
   background-color: #333333;
+
+  .form-group {
+    margin: 0;
+  }
+
+  .Select-control {
+    width: 265px;
+    text-align: start;
+  }
+
   .nav-bar{
     justify-content: flex-end;
     width: 100%;

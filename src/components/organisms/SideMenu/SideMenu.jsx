@@ -1,7 +1,8 @@
 import React from 'react'
 import { NavLink, Nav, Icon, Col, Row } from 'atoms'
 
-const SideMenu = ({ user }) => {
+const SideMenu = (props) => {
+  const { baseRoute, queryParams } = props
   return (
     <Nav vertical className={'side-menu-section flex-column'} sm='2'>
       <NavLink path={'/home'}>
@@ -14,7 +15,8 @@ const SideMenu = ({ user }) => {
           </Col>
         </Row>
       </NavLink>
-      <NavLink path={'/'} >
+
+      <NavLink path={`/${baseRoute}/collections?ref=${queryParams['ref']}`} >
         <Row className='flex-center'>
           <Col sm='3'>
             <Icon size='sm' iconName='folder' />
@@ -24,8 +26,8 @@ const SideMenu = ({ user }) => {
           </Col>
         </Row>
       </NavLink>
-      <NavLink path={'/'} >
 
+      <NavLink path={'/'} >
         <Row className='flex-center'>
           <Col sm='3'>
             <Icon size='sm' iconName='user' />
@@ -34,8 +36,8 @@ const SideMenu = ({ user }) => {
             Users
           </Col>
         </Row>
-
       </NavLink>
+
       <NavLink path={'/'} >
         <Row className='flex-center'>
           <Col sm='3'>
@@ -45,7 +47,17 @@ const SideMenu = ({ user }) => {
             Advanced Settings
           </Col>
         </Row>
+      </NavLink>
 
+      <NavLink path={`/${baseRoute}/dir?ref=${queryParams['ref']}`} >
+        <Row className='flex-center'>
+          <Col sm='3'>
+            <Icon size='sm' iconName='folder' />
+          </Col>
+          <Col sm='9'>
+            File Editor
+          </Col>
+        </Row>
       </NavLink>
     </Nav>
   )

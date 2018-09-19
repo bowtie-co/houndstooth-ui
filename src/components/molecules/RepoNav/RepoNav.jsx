@@ -4,17 +4,22 @@ import { BackButton, Row, Button } from 'atoms'
 import { FieldContainer, CollectionEditorButton } from 'molecules'
 
 const RepoNav = (props) => {
-  const { branch, branchList, changeBranch, isCollectionable, isCommitable } = props
+  const { branch, changeBranch, isCollectionable, isCommitable, asyncLoadModel } = props
+  console.log('REPO NAV props', props)
   return (
     <Row className='space-between file-tree-navigation'>
       <BackButton> back </BackButton>
       <Button href={'commit'} disabled={!isCommitable}>Commit Changes</Button>
       <CollectionEditorButton isCollectionable={isCollectionable} />
       <FieldContainer
+        async
+        clearable={false}
         type={'select'}
         label={'Select a Branch'}
         value={branch}
-        options={branchList.map(branch => branch.name)}
+        valueKey='name'
+        labelKey='name'
+        loadOptions={(search) => asyncLoadModel('branches', search)}
         onChange={changeBranch}
       />
     </Row>
@@ -23,7 +28,6 @@ const RepoNav = (props) => {
 
 RepoNav.propTypes = {
   branch: PropTypes.string,
-  branchList: PropTypes.array,
   changeBranch: PropTypes.func,
   isCollectionable: PropTypes.bool,
   isCommitable: PropTypes.bool

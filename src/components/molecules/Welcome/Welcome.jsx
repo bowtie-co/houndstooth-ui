@@ -9,7 +9,7 @@ import {
 
 const Welcome = () => {
   return (
-    <Col>
+    <Col style={{'height': '90vh'}}>
       <div className='logo-container'>
         <BowtieLogo />
       </div>
