@@ -1,27 +1,30 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { BackButton, Row, Button } from 'atoms'
-import { FieldContainer, CollectionEditorButton } from 'molecules'
+import { Row, Button, Col } from 'atoms'
+import { FieldContainer } from 'molecules'
 
 const RepoNav = (props) => {
-  const { branch, changeBranch, isCollectionable, isCommitable, asyncLoadModel } = props
+  const { branch, changeBranch, isCommitable, asyncLoadModel } = props
   console.log('REPO NAV props', props)
   return (
     <Row className='space-between file-tree-navigation'>
-      <BackButton> back </BackButton>
-      <Button href={'commit'} disabled={!isCommitable}>Commit Changes</Button>
-      <CollectionEditorButton isCollectionable={isCollectionable} />
-      <FieldContainer
-        async
-        clearable={false}
-        type={'select'}
-        label={'Select a Branch'}
-        value={branch}
-        valueKey='name'
-        labelKey='name'
-        loadOptions={(search) => asyncLoadModel('branches', search)}
-        onChange={changeBranch}
-      />
+      {/* <BackButton> back </BackButton> */}
+      <Col>
+        <FieldContainer
+          async
+          clearable={false}
+          type={'select'}
+          label={'Select a Branch'}
+          value={branch}
+          valueKey='name'
+          labelKey='name'
+          loadOptions={(search) => asyncLoadModel('branches', search)}
+          onChange={changeBranch}
+        />
+      </Col>
+      <Col>
+        <Button href={'commit'} disabled={!isCommitable}>Commit Changes</Button>
+      </Col>
     </Row>
   )
 }
