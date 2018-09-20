@@ -12,6 +12,7 @@ const RepoNav = (props) => {
       <Col>
         <FieldContainer
           async
+          horizontal
           clearable={false}
           type={'select'}
           label={'Select a Branch'}
@@ -22,7 +23,7 @@ const RepoNav = (props) => {
           onChange={changeBranch}
         />
       </Col>
-      <Col>
+      <Col className='justify-content-end'>
         <Button href={'commit'} disabled={!isCommitable}>Commit Changes</Button>
       </Col>
     </Row>

@@ -1,15 +1,14 @@
 import React from 'react'
 import { FormGroup as FormGroupRS, FormText } from 'reactstrap'
-import { Row, Col } from 'atoms'
 import PropTypes from 'prop-types'
 
-const SelectFormGroup = ({ id, label, title, errorMessage, helper, children, floatLabel = false, check = false, required }) => {
+const SelectFormGroup = ({ id, label, title, errorMessage, helper, children, horizontal = false, floatLabel = false, check = false, required }) => {
   return (
     <FormGroupRS style={{'margin': '0'}}>
-      <Row>
-        <Col sm='auto' className='flex flex-center'>{label}</Col>
-        <Col sm='6'>{children}</Col>
-      </Row>
+      <div className={`flex-${horizontal ? 'row' : 'col'}`}>
+        {label && <div sm='auto' className='flex flex-center  select-form-group-container'>{label}</div> }
+        {children}
+      </div>
       <FormText>
         {errorMessage}
       </FormText>
