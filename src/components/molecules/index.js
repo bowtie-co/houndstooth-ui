@@ -4,7 +4,7 @@ import FieldContainer from './Field'
 import LastUpdated from './LastUpdated'
 import DirCard from './DirCard'
 import Pagination from './Pagination'
-import RepoNav from './RepoNav'
+import RepoControls from './RepoControls'
 import Welcome from './Welcome'
 import CollectionEditorButton from './CollectionEditorButton'
 
@@ -14,7 +14,7 @@ export {
   RepoCard,
   LastUpdated,
   DirCard,
-  RepoNav,
+  RepoControls,
   CollectionEditorButton,
   Welcome,
   Pagination

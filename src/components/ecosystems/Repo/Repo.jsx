@@ -7,7 +7,7 @@ import {
   Col,
   Row
 } from 'atoms'
-import { RepoNav } from 'molecules'
+import { RepoControls } from 'molecules'
 import { CommitChanges } from 'organisms'
 import {
   FileTree,
@@ -20,7 +20,7 @@ const Repo = (props) => {
   return (
     <Row>
       <Col>
-        <RepoNav
+        <RepoControls
           baseRoute={baseRoute}
           branch={branch}
           asyncLoadModel={asyncLoadModel}

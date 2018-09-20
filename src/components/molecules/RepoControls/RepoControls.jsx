@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Row, Button, Col } from 'atoms'
 import { FieldContainer } from 'molecules'
 
-const RepoNav = (props) => {
+const RepoControls = (props) => {
   const { branch, changeBranch, isCommitable, asyncLoadModel } = props
   console.log('REPO NAV props', props)
   return (
@@ -30,11 +30,11 @@ const RepoNav = (props) => {
   )
 }
 
-RepoNav.propTypes = {
+RepoControls.propTypes = {
   branch: PropTypes.string,
   changeBranch: PropTypes.func,
   isCollectionable: PropTypes.bool,
   isCommitable: PropTypes.bool
 }
 
-export default RepoNav
+export default RepoControls
