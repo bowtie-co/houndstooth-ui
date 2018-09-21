@@ -8,8 +8,6 @@ const RepoSelect = (props) => {
   const { match, asyncLoadRepos, history } = props
   const { repo, username } = match.params
   return (
-    // <Col>
-
     <FieldContainer
       async
       className='repo-select'
@@ -25,7 +23,6 @@ const RepoSelect = (props) => {
         history.push({ pathname: `/repos/${e.target.value}/collections`, search: `?ref=${e.target.default_branch || 'master'}` })
       }}
     />
-    // </Col>
   )
 }
 

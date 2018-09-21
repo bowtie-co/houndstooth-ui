@@ -1,6 +1,6 @@
 /* global alert  */
 
-import { compose, withStateHandlers, withHandlers, withPropsOnChange, lifecycle } from 'recompose'
+import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
 import Repo from './Repo'
 import { Loading } from 'atoms'
@@ -70,25 +70,17 @@ export const enhance = compose(
         .catch(notifier.bad.bind(notifier))
     }
   }),
-  lifecycle({
-    componentWillMount () {
-      const { setBranchList, setCollections, baseRoute, setRepoLoading } = this.props
-      setRepoLoading(true)
-      api.get(`${baseRoute}/collections`)
-        .then(({ data }) => {
-          setCollections(Object.keys(data['collections']))
-          setRepoLoading(false)
-        })
-
-      api.get(`${baseRoute}/branches`)
-        .then(({ data }) => {
-          setBranchList(data.branches)
-          setRepoLoading(false)
-        })
-        .catch(notifier.bad.bind(notifier))
-    }
+  withPropsOnChange(['baseRoute'], ({ setCollections, setRepoLoading, baseRoute }) => {
+    setRepoLoading(true)
+    api.get(`${baseRoute}/collections`)
+      .then(({ data }) => {
+        const { collections } = data
+        setCollections(Object.keys(collections))
+        setRepoLoading(false)
+      })
+      .catch(() => setCollections([]))
   }),
-  withPropsOnChange(['queryParams', 'baseRoute'], ({ baseRoute, queryParams, setDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
+  withPropsOnChange(['location'], ({ baseRoute, queryParams, setDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
     setBranch(queryParams['ref'] || 'master')
 
     const stringifiedParams = qs.stringify(queryParams)

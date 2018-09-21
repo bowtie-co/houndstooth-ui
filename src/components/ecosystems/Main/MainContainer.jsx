@@ -33,7 +33,6 @@ export const enhance = compose(
         return { pageNumber: parseInt(payload) }
       }
     },
-    setCollections: ({ collections }) => (payload) => ({ collections: payload }),
     setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
     setMainLoading: ({ isMainLoading }) => (payload) => ({ isMainLoading: payload })
   }),
