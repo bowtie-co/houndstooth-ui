@@ -1,17 +1,15 @@
 import React from 'react'
+import { NavLink as NavLinkRS, NavItem } from 'reactstrap'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
-const NavLink = ({ to, children, ...rest }) => {
+const NavLink = ({ path, title, children }) => {
   return (
-    <Link className='nav-link' to={to} {...rest}>
-      { children }
-    </Link>
+    <NavItem>
+      <NavLinkRS tag={Link} to={path}>
+        { title || children}
+      </NavLinkRS>
+    </NavItem>
   )
-}
-
-NavLink.propTypes = {
-  to: PropTypes.string.isRequired
 }
 
 export default NavLink

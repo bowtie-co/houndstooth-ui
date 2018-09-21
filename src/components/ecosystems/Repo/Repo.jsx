@@ -4,7 +4,8 @@ import { Prompt } from 'react-router-dom'
 import {
   PrivateRoute,
   Switch,
-  Col
+  Col,
+  Row
 } from 'atoms'
 import { RepoNav } from 'molecules'
 import { CommitChanges } from 'organisms'
@@ -17,7 +18,7 @@ const Repo = (props) => {
   const { match, stagedFiles, branch, branchList, changeBranch, pushToGithub, collections, queryParams } = props
   const { username } = match.params
   return (
-    <div className='demo-template'>
+    <Row>
       <Col>
         <RepoNav
           branch={branch}
@@ -48,7 +49,7 @@ const Repo = (props) => {
           message={location => location.pathname.startsWith(`/repos/${username}`) ? true : `You will lose uncommitted changes if you leave.`}
         />
       </Col>
-    </div>
+    </Row>
   )
 }
 

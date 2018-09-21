@@ -1,15 +1,13 @@
 .top-nav-section {
-  display: flex;
-  flex-direction: column;
   text-align: center;  
-
+  background-color: #333333;
   .nav-bar{
+    justify-content: flex-end;
+    width: 100%;
+    flex-grow: 1;
     padding: 10px;
-    border-bottom: 2px grey solid;
-    height: 100%;
     .nav-link{
-      padding: 10px 45px;
-      width: 100px;
+      width: 75px;
       text-decoration: none;
       cursor: pointer;
       color: grey;
@@ -17,6 +15,33 @@
         background-color: lightgrey;
       }
     }
+    .avatar-menu {
+      display: flex;
+      flex-direction: row;
+      margin: 8px 12px;
+      align-items: center;
+      background-color: transparent;
+      color: grey;
+      border: none;
+      &:focus{
+        box-shadow: transparent;
+      }
+    }    
   }
 }
 
+.side-menu-section {
+  min-width: 227px;
+  max-width: 227px;
+  background-color: #333333;
+  padding: 0;
+  a.nav-link{
+    color: #787878;
+    padding: 21px;
+    &:hover{
+      background-color: black;
+      color: white;
+    }
+  }
+
+}

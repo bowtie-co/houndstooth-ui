@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withMaybe } from '@bowtie/react-utils'
-import { Card } from 'atoms'
+import { Row, Col } from 'atoms'
 import { RepoCard, Pagination } from 'molecules'
 
 const nullConditionFn = ({ repoList }) => repoList.length <= 0
@@ -10,11 +10,11 @@ const RepoList = ({ repoList, pages, setPageNumber, pageNumber }) => {
   return (
     <section>
       <Pagination {...pages} handlePage={setPageNumber} pageNumber={pageNumber} />
-      <Card>
+      <Row>
         {
-          repoList.map((repo, i) => <RepoCard repo={repo} key={i} />)
+          repoList.map((repo, i) => <Col sm='4'><RepoCard repo={repo} key={i} /></Col>)
         }
-      </Card>
+      </Row>
     </section>
 
   )

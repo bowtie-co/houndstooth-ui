@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 const Row = ({ children, flex = true, className, ...rest }) => {
   return (
-    <RowRS className={`${flex ? 'dflex' : ''} ${className}`} {...rest} >
+    <RowRS className={`${flex ? 'dflex' : ''} ${className || ''}`} {...rest} >
       { children }
     </RowRS>
   )

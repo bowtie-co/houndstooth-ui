@@ -2,7 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   PrivateRoute,
-  Switch
+  Switch,
+  Row,
+  Col
 } from 'atoms'
 import { RepoList } from 'organisms'
 import { Repo } from '..'
@@ -10,21 +12,23 @@ import { Repo } from '..'
 const Main = (props) => {
   const { isMainLoading, setMainLoading, repoList, pages, setPageNumber, pageNumber, ...rest } = props
   return (
-    <div className='demo-template'>
-      <Switch>
-        <PrivateRoute
-          exact
-          props={{ repoList, pages, setPageNumber, pageNumber }}
-          path={'/repos'}
-          component={RepoList}
-        />
-        <PrivateRoute
-          props={rest}
-          path={'/repos/:username/:repo'}
-          component={Repo}
-        />
-      </Switch>
-    </div>
+    <Row>
+      <Col>
+        <Switch>
+          <PrivateRoute
+            exact
+            props={{ repoList, pages, setPageNumber, pageNumber }}
+            path={'/repos'}
+            component={RepoList}
+          />
+          <PrivateRoute
+            props={rest}
+            path={'/repos/:username/:repo'}
+            component={Repo}
+          />
+        </Switch>
+      </Col>
+    </Row>
   )
 }
 

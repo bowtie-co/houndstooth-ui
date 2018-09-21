@@ -1,20 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { Button } from 'atoms'
+import { Form as FormRS } from 'reactstrap'
 
-const Form = ({ childrenWithExtraProp, onSubmit, formData }) => {
+const FormBT = ({ childrenWithExtraProp, onSubmit, formData, ...rest }) => {
   return (
-    <section>
+    <FormRS {...rest}>
       { childrenWithExtraProp }
-      <Button onClick={() => onSubmit(formData)}> Save </Button>
-    </section>
+    </FormRS>
   )
 }
 
-Form.propTypes = {
-  onSubmit: PropTypes.func,
-  formData: PropTypes.object,
-  childrenWithExtraProp: PropTypes.element.isRequired
-}
-
-export default Form
+export default FormBT

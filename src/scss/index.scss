@@ -1,9 +1,8 @@
 @import './reset.scss';
 @import './variables.scss';
 @import './partials/float-label.scss';
-@import './environments/App.scss';
-@import './ecosystems/Description.scss';
-@import './ecosystems/Main.scss';
+@import './environments/environments.scss';
+@import './ecosystems/ecosystems.scss';
 @import './organisms/CommitChanges.scss';
 @import './organisms/Header.scss';
 @import './organisms/Footer.scss';
@@ -18,17 +17,18 @@
   height: 100%;
 }
 
-.app {
-  display: flex;
-  flex-direction: column;
-  .body-template {
-    flex-grow: 1;
-    min-height: 70vh;
-  }
-}
 
 .space-between {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  align-items: center;
+  justify-content: center;
 }

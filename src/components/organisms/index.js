@@ -10,6 +10,7 @@ import CollectionList from './CollectionList'
 import ItemList from './ItemList'
 import ItemForm from './ItemForm'
 import RecursiveFields from './RecursiveFields'
+import SideMenu from './SideMenu'
 import WysiwygEditor from './WysiwygEditor'
 
 export {
@@ -24,5 +25,6 @@ export {
   ItemList,
   ItemForm,
   RecursiveFields,
-  WysiwygEditor
+  WysiwygEditor,
+  SideMenu
 }

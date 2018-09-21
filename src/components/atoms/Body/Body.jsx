@@ -1,10 +1,11 @@
 import React from 'react'
+import { Col } from 'atoms'
 
 const Body = ({ children }) => {
   return (
-    <section className='body-template'>
-      { children }
-    </section>
+    <Col className='body-template' sm='10'>
+      {children}
+    </Col>
   )
 }
 
