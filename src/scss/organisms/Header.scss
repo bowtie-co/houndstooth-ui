@@ -55,10 +55,11 @@
   max-width: 227px;
   background-color: #333333;
   padding: 0;
-  a.nav-link {
+  .nav-link {
     color: #787878;
     padding: 21px;
-    &:hover {
+    &:hover,
+    &.active {
       background-color: black;
       color: white;
     }
@@ -71,5 +72,4 @@
       }
     }
   }
-
 }

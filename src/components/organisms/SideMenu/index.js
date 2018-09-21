@@ -1,1 +1,1 @@
-export { default } from './SideMenu'
+export { default } from './SideMenuContainer'

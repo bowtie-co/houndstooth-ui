@@ -16,12 +16,12 @@ const FileTree = (props) => {
     <Switch>
       <PrivateRoute
         props={{ dirList, branch }}
-        path={`${match['url']}/dir`}
+        path={`/repos/:username/:repo/dir`}
         component={DirList}
       />
       <PrivateRoute
         props={{ file, setFile, saveFile }}
-        path={`${match['url']}/file`}
+        path={`/repos/:username/:repo/file`}
         component={FileSingle}
       />
     </Switch>

@@ -41,8 +41,9 @@ export const enhance = compose(
       setFile(newFile)
       setStagedFiles(newState)
     },
-    changeBranch: ({ history }) => (e) => {
-      history.push(`?ref=${e.target.value}`)
+    changeBranch: ({ history, queryParams, match }) => (e) => {
+      Object.assign(queryParams, { ref: e.target.value })
+      history.push(`${match['url']}?${qs.stringify(queryParams)}`)
     },
     pushToGithub: ({ branch, baseRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
       const requestPath = `${baseRoute}/files/upsert?ref=${branch}`
@@ -70,9 +71,11 @@ export const enhance = compose(
         .catch(notifier.bad.bind(notifier))
     }
   }),
-  withPropsOnChange(['baseRoute'], ({ setCollections, setRepoLoading, baseRoute }) => {
+  withPropsOnChange(['baseRoute'], ({ match, setCollections, setRepoLoading, baseRoute }) => {
     setRepoLoading(true)
-    api.get(`${baseRoute}/collections`)
+    const { repo, username } = match.params
+
+    api.get(`${username}/${repo}/collections`)
       .then(({ data }) => {
         const { collections } = data
         setCollections(Object.keys(collections))
@@ -80,11 +83,11 @@ export const enhance = compose(
       })
       .catch(() => setCollections([]))
   }),
-  withPropsOnChange(['location'], ({ baseRoute, queryParams, setDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
+  withPropsOnChange(['location'], ({ match, queryParams, setDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
     setBranch(queryParams['ref'] || 'master')
-
+    const { repo, username } = match.params
     const stringifiedParams = qs.stringify(queryParams)
-    const route = `${baseRoute}/files?${stringifiedParams}`
+    const route = `${username}/${repo}/files?${stringifiedParams}`
     const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
 
     if (stagedFile) {

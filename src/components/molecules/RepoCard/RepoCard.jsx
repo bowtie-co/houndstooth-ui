@@ -10,7 +10,7 @@ import { LastUpdated } from 'molecules'
 
 const RepoCard = ({ repo }) => {
   return (
-    <Link to={{ pathname: `/repos/${repo.owner.login}/${repo.name}/dir`, search: `?ref=${repo.default_branch}` }} className='list-item' >
+    <Link to={{ pathname: `/repos/${repo.full_name}/collections`, search: `?ref=${repo.default_branch}` }} className='list-item' >
       <div className='repoNameWrapper'>
         <Subtitle title={repo.name} />
         <Subtitle title={repo.private ? 'private' : 'public'} />

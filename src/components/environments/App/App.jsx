@@ -5,7 +5,7 @@ import { Welcome } from 'molecules'
 import {
   Switch,
   PublicRoute,
-  PrivateRoute
+  PrivateRoute,
 } from 'atoms'
 
 const App = (props) => {
@@ -19,7 +19,7 @@ const App = (props) => {
         />
         <PrivateRoute
           props={props}
-          path='/:model(repos)/:username?/:repo?'
+          path='/:model(repos)/:username?/:repo?/:type?'
           component={Main}
         />
         <PublicRoute
