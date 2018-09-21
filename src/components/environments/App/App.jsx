@@ -32,7 +32,6 @@ const App = (props) => {
           />
         </Switch>
       </Container>
-      <Footer />
     </section>
   )
 }

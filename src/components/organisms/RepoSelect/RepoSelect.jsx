@@ -18,7 +18,7 @@ const RepoSelect = (props) => {
       type={'select'}
       value={`${username}/${repo}`}
       valueKey={'full_name'}
-      labelKey='name'
+      labelKey='full_name'
       loadOptions={(search) => asyncLoadRepos(search)}
       onChange={(e) => {
         console.log('e', e)

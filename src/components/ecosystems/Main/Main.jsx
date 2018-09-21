@@ -9,7 +9,8 @@ import {
 import {
   RepoList,
   SideMenu,
-  Header
+  Header,
+  Footer
 } from 'organisms'
 import { Repo } from '..'
 
@@ -34,7 +35,9 @@ const Main = (props) => {
               component={Repo}
             />
           </Switch>
+
         </Body>
+        <Footer />
       </Row>
     </section>
   )

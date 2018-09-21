@@ -2,21 +2,22 @@ import React from 'react'
 import { NavLink, Nav, Icon, Col, Row } from 'atoms'
 
 const SideMenu = (props) => {
-  const { baseRoute, queryParams } = props
+  const { baseRoute, queryParams, match } = props
+  const { repo, username } = match.params
   return (
     <Nav vertical className={'side-menu-section flex-column'} sm='2'>
-      <NavLink path={'/home'}>
+      <NavLink path={'/repos'}>
         <Row className='flex-center'>
           <Col sm='3'>
             <Icon size='sm' iconName='tachometer-alt' />
           </Col>
           <Col sm='9'>
-            Dashboard
+            Dashboard [REPOS]
           </Col>
         </Row>
       </NavLink>
 
-      <NavLink path={`/${baseRoute}/collections?ref=${queryParams['ref']}`} >
+      <NavLink disabled={!repo && !username} path={`/${baseRoute}/collections?ref=${queryParams['ref'] || 'master'}`} >
         <Row className='flex-center'>
           <Col sm='3'>
             <Icon size='sm' iconName='folder' />
@@ -49,7 +50,7 @@ const SideMenu = (props) => {
         </Row>
       </NavLink>
 
-      <NavLink path={`/${baseRoute}/dir?ref=${queryParams['ref']}`} >
+      <NavLink disabled={!repo && !username} path={`/${baseRoute}/dir?ref=${queryParams['ref'] || 'master'}`} >
         <Row className='flex-center'>
           <Col sm='3'>
             <Icon size='sm' iconName='folder' />

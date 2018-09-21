@@ -28,7 +28,13 @@
       &:hover {
         background-color: lightgrey;
       }
+      &.disabled:hover{
+        cursor: default;
+        color: grey;
+        background-color: #333333;
+      }
     }
+
     .avatar-menu {
       display: flex;
       flex-direction: row;
@@ -49,12 +55,20 @@
   max-width: 227px;
   background-color: #333333;
   padding: 0;
-  a.nav-link{
+  a.nav-link {
     color: #787878;
     padding: 21px;
-    &:hover{
+    &:hover {
       background-color: black;
       color: white;
+    }
+    &.disabled {
+      background-color: black;
+      &:hover {
+        cursor: default;
+        color: grey;
+        background-color: black;
+      }
     }
   }
 
