@@ -11,7 +11,7 @@ import {
 } from 'organisms'
 
 const FileTree = (props) => {
-  const { match, dirList, file, setFile, saveFile, branch } = props
+  const { dirList, file, setFile, saveFile, branch } = props
   return (
     <Switch>
       <PrivateRoute

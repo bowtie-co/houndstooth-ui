@@ -5,7 +5,7 @@ import { Welcome } from 'molecules'
 import {
   Switch,
   PublicRoute,
-  PrivateRoute,
+  PrivateRoute
 } from 'atoms'
 
 const App = (props) => {

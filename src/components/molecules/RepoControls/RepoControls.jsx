@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { 
-  Row, 
-  Button, 
-  Col, 
-  // BackButton 
+import {
+  Row,
+  Button,
+  Col
+  // BackButton
 } from 'atoms'
 import { FieldContainer } from 'molecules'
 

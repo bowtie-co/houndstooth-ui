@@ -75,7 +75,7 @@ export const enhance = compose(
     setRepoLoading(true)
     const { repo, username } = match.params
 
-    api.get(`${username}/${repo}/collections`)
+    api.get(`repos/${username}/${repo}/collections`)
       .then(({ data }) => {
         const { collections } = data
         setCollections(Object.keys(collections))
@@ -87,7 +87,7 @@ export const enhance = compose(
     setBranch(queryParams['ref'] || 'master')
     const { repo, username } = match.params
     const stringifiedParams = qs.stringify(queryParams)
-    const route = `${username}/${repo}/files?${stringifiedParams}`
+    const route = `repos/${username}/${repo}/files?${stringifiedParams}`
     const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
 
     if (stagedFile) {

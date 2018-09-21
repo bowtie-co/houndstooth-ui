@@ -1,9 +1,5 @@
-/* global btoa */
-
-import { compose, withStateHandlers, lifecycle, withPropsOnChange } from 'recompose'
-import { withMaybe } from '@bowtie/react-utils'
+import { compose, withStateHandlers, withPropsOnChange } from 'recompose'
 import SideMenu from './SideMenu'
-
 
 export default compose(
   withStateHandlers(({ match }) => ({
