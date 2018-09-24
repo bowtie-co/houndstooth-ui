@@ -1,5 +1,6 @@
 import React from 'react'
 import { auth } from 'lib'
+import { RepoSelect } from 'organisms'
 import {
   NavLink,
   Login,
@@ -11,14 +12,14 @@ import {
   BowtieLogo
 } from 'atoms'
 
-const Header = () => {
+const Header = (props) => {
   return (
     <Row className='top-nav-section'>
       <Col className='flex' sm='2'>
         <BowtieLogo />
       </Col>
-      <Col sm='4'>
-        [ Project Control here ]
+      <Col sm='4' className='align-end'>
+        <RepoSelect {...props} />
       </Col>
       <Col sm='6'>
         <Nav className='nav-bar'>

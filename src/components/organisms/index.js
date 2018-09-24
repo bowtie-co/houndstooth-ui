@@ -6,6 +6,7 @@ import RepoList from './RepoList'
 import DirList from './DirList'
 import FileSingle from './FileSingle'
 import CommitChanges from './CommitChanges'
+import RepoSelect from './RepoSelect'
 import CollectionList from './CollectionList'
 import ItemList from './ItemList'
 import ItemForm from './ItemForm'
@@ -21,6 +22,7 @@ export {
   DirList,
   FileSingle,
   CommitChanges,
+  RepoSelect,
   CollectionList,
   ItemList,
   ItemForm,

@@ -1,6 +1,20 @@
 .top-nav-section {
   text-align: center;  
   background-color: #333333;
+
+  .form-group {
+    margin: 0;
+  }
+
+  .Select-control {
+    width: 265px;
+    text-align: start;
+  }
+
+  .select-form-group-container * {
+    margin: 0;
+  }
+
   .nav-bar{
     justify-content: flex-end;
     width: 100%;
@@ -14,7 +28,13 @@
       &:hover {
         background-color: lightgrey;
       }
+      &.disabled:hover{
+        cursor: default;
+        color: grey;
+        background-color: #333333;
+      }
     }
+
     .avatar-menu {
       display: flex;
       flex-direction: row;
@@ -35,13 +55,21 @@
   max-width: 227px;
   background-color: #333333;
   padding: 0;
-  a.nav-link{
+  .nav-link {
     color: #787878;
     padding: 21px;
-    &:hover{
+    &:hover,
+    &.active {
       background-color: black;
       color: white;
     }
+    &.disabled {
+      background-color: black;
+      &:hover {
+        cursor: default;
+        color: grey;
+        background-color: black;
+      }
+    }
   }
-
 }

@@ -5,11 +5,13 @@ import {
   Button
 } from 'atoms'
 
+// import Pagination from 'Pagination/Pagination'
+
 const DocumentPreview = (props) => {
-  const { value, onTextLoaded, handleDocumentLoad, handleTextLoaded, pageNumber, previewScale, helper, label, previewOnly, togglePreview } = props
+  const { value, edited, className = '', onTextLoaded, handleDocumentLoad, handleTextLoaded, pageNumber, previewScale, helper, label, previewOnly, togglePreview } = props
 
   return (
-    <FormGroup>
+    <FormGroup className={`${className} ${edited ? 'success-highlight' : ''}`}>
       {helper ? <p className='helpertext'>{helper}</p> : ''}
       <Card>
         <CardBody>

@@ -1,17 +1,16 @@
 
 import { compose, withStateHandlers, withPropsOnChange, withHandlers, lifecycle } from 'recompose'
-import { withMaybe, withEither } from '@bowtie/react-utils'
-import Collections from './Collections'
+import { withEither } from '@bowtie/react-utils'
+import { Collections, EmptyState } from './Collections'
 import { api, notifier } from 'lib'
 import { Loading } from 'atoms'
 
-const nullConditionFn = ({ collections }) => collections.length === 0
+const emptyStateConditionFn = ({ collections }) => collections.length === 0
 const loadingConditionFn = ({ isCollectionLoading }) => isCollectionLoading
 
 export default compose(
-  withMaybe(nullConditionFn),
-  withStateHandlers(({ match: { params: { username, repo, collection } } }) => ({
-    baseRoute: `/repos/${username}/${repo}/collections/${collection || ''}`,
+  withStateHandlers(({ baseRoute, match: { params: { username, repo, collection } } }) => ({
+    collectionsRoute: `${baseRoute}/collections/${collection || ''}`,
     items: [],
     defaultFields: {},
     activeItem: {},
@@ -19,7 +18,7 @@ export default compose(
     fileUploads: {},
     stagedFileUploads: []
   }), {
-    setBaseRoute: ({ baseRoute }) => (payload) => ({ baseRoute: payload }),
+    setBaseRoute: ({ collectionsRoute }) => (payload) => ({ collectionsRoute: payload }),
     setItems: ({ items }) => (payload) => ({ items: payload }),
     setDefaultFields: ({ defaultFields }) => (payload) => ({ defaultFields: payload }),
     setActiveItem: ({ activeItem }) => (payload) => ({ activeItem: payload }),
@@ -32,11 +31,11 @@ export default compose(
       const editedItem = Object.assign({}, activeItem, { name: e.target.value })
       setActiveItem(editedItem)
     },
-    selectItem: ({ history, baseRoute }) => (item) => {
+    selectItem: ({ history, collectionsRoute }) => (item) => {
       if (item) {
-        history.push(`${baseRoute}/${item['name']}`)
+        history.push(`${collectionsRoute}/${item['name']}`)
       } else {
-        history.push(`${baseRoute}/new`)
+        history.push(`${collectionsRoute}/new`)
       }
     },
     getFileUploads: ({ match, setFileUploads, branch }) => () => {
@@ -45,9 +44,9 @@ export default compose(
       //   .then(({ data: fileUploads }) => setFileUploads(fileUploads))
       //   .catch(notifier.bad.bind(notifier))
     },
-    getItems: ({ baseRoute, match, setItems, setDefaultFields, setCollectionLoading }) => (newCollectionRoute) => {
+    getItems: ({ collectionsRoute, match, setItems, setDefaultFields, setCollectionLoading }) => (newCollectionRoute) => {
       const { collection } = match.params
-      const route = newCollectionRoute || baseRoute
+      const route = newCollectionRoute || collectionsRoute
       if (collection) {
         setCollectionLoading(true)
         api.get(route)
@@ -59,17 +58,17 @@ export default compose(
           })
       }
     },
-    editItem: ({ baseRoute, branch, activeItem, match }) => (formData) => {
+    editItem: ({ collectionsRoute, branch, activeItem, match }) => (formData) => {
       const { item } = match.params
       const message = 'Edit file'
-      const route = `${baseRoute}/items/${item}?ref=${branch || 'master'}&sha=${activeItem['sha']}&message=${message}`
+      const route = `${collectionsRoute}/items/${item}?ref=${branch || 'master'}&sha=${activeItem['sha']}&message=${message}`
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       return api.put(route, updatedItem)
     },
-    createItem: ({ baseRoute, branch, match, activeItem }) => (formData) => {
+    createItem: ({ collectionsRoute, branch, match, activeItem }) => (formData) => {
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       const message = 'Create file'
-      const route = `${baseRoute}/items?ref=${branch || 'master'}&message=${message}`
+      const route = `${collectionsRoute}/items?ref=${branch || 'master'}&message=${message}`
       console.log('updated item: ', updatedItem)
       console.log('route: ', route)
       return api.post(route, updatedItem)
@@ -146,16 +145,16 @@ export default compose(
         })
         .catch(notifier.bad.bind(notifier))
     },
-    deleteItem: ({ baseRoute, branch, match, history, activeItem, getItems }) => () => {
+    deleteItem: ({ collectionsRoute, branch, match, history, activeItem, getItems }) => () => {
       const { item } = match.params
       const { sha } = activeItem
       const message = 'Delete file'
-      const route = `${baseRoute}/items/${item}?ref=${branch || 'master'}&message=${message}&sha=${sha}`
+      const route = `${collectionsRoute}/items/${item}?ref=${branch || 'master'}&message=${message}&sha=${sha}`
       console.log('route: ', route)
       api.delete(route)
         .then(resp => {
           getItems()
-          history.push(baseRoute)
+          history.push(collectionsRoute)
         })
         .catch(notifier.bad.bind(notifier))
     }
@@ -167,5 +166,6 @@ export default compose(
       getFileUploads()
     }
   }),
+  withEither(emptyStateConditionFn, EmptyState),
   withEither(loadingConditionFn, Loading)
 )(Collections)

@@ -1,14 +1,3 @@
-.search-mol {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-
-  // &input[text]{
-  //   background-color: magenta;
-  // }
-
-}
-
 .todo-section {
   display: flex;
   border: 2px solid grey;
@@ -46,4 +35,24 @@
   li.disabled {
     color: lightgrey;
   }
+}
+
+.Select-control {
+  min-width: 200px;
+}
+
+div.Select-menu-outer {
+  z-index: 99;
+}
+
+.select-form-group-container {
+  margin-right: 15px;
+}
+
+.welcome-screen {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

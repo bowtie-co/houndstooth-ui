@@ -3,7 +3,12 @@
   display: flex;
   flex-direction: column;
   .body-template {
-    flex-grow: 1;
-    min-height: 88vh;
+    // flex-grow: 1;
+    height: 95vh;
+    overflow: scroll;
+    padding: 25px;
+  }
+  .container-fluid {
+    padding-right: 0;
   }
 }

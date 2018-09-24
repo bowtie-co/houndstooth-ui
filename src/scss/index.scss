@@ -28,7 +28,28 @@
   display: flex;
 }
 
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
 .flex-center {
   align-items: center;
   justify-content: center;
 }
+
+.align-end {
+  display: flex;
+  align-items: flex-end;
+}
+
+.justify-content-end {
+  display: flex;
+  justify-content: flex-end;
+}
+

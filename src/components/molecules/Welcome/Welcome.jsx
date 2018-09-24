@@ -9,7 +9,7 @@ import {
 
 const Welcome = () => {
   return (
-    <Col>
+    <Col className='welcome-screen'>
       <div className='logo-container'>
         <BowtieLogo />
       </div>

@@ -11,17 +11,17 @@ import {
 } from 'organisms'
 
 const FileTree = (props) => {
-  const { match, dirList, file, setFile, saveFile, branch } = props
+  const { dirList, file, setFile, saveFile, branch } = props
   return (
     <Switch>
       <PrivateRoute
         props={{ dirList, branch }}
-        path={`${match['url']}/dir`}
+        path={`/repos/:username/:repo/dir`}
         component={DirList}
       />
       <PrivateRoute
         props={{ file, setFile, saveFile }}
-        path={`${match['url']}/file`}
+        path={`/repos/:username/:repo/file`}
         component={FileSingle}
       />
     </Switch>

@@ -7,7 +7,7 @@ import {
   Col,
   Row
 } from 'atoms'
-import { RepoNav } from 'molecules'
+import { RepoControls } from 'molecules'
 import { CommitChanges } from 'organisms'
 import {
   FileTree,
@@ -15,17 +15,15 @@ import {
 } from '..'
 
 const Repo = (props) => {
-  const { match, stagedFiles, branch, branchList, changeBranch, pushToGithub, collections, queryParams } = props
+  const { match, stagedFiles, branch, baseRoute, pushToGithub, collections, queryParams } = props
   const { username } = match.params
   return (
     <Row>
       <Col>
-        <RepoNav
-          branch={branch}
-          branchList={branchList}
-          changeBranch={changeBranch}
+        <RepoControls
           isCommitable={stagedFiles.length > 0}
           isCollectionable={collections.length > 0}
+          {...props}
         />
         <Switch>
           <PrivateRoute
@@ -34,8 +32,8 @@ const Repo = (props) => {
             component={CommitChanges}
           />
           <PrivateRoute
-            props={{ collections, queryParams, branch }}
-            path={`/repos/:username/:repo/collections/:collection?/:item?`}
+            props={{ collections, queryParams, branch, baseRoute }}
+            path={`/repos/:username/:repo/:type(collections)/:collection?/:item?`}
             component={Collections}
           />
           <PrivateRoute
@@ -56,7 +54,6 @@ const Repo = (props) => {
 Repo.propTypes = {
   stagedFiles: PropTypes.array,
   branch: PropTypes.string,
-  branchList: PropTypes.array,
   changeBranch: PropTypes.func,
   pushToGithub: PropTypes.func,
   collections: PropTypes.arrayOf(PropTypes.string),
