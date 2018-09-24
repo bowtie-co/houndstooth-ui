@@ -43,7 +43,7 @@ export const enhance = compose(
     },
     changeBranch: ({ history, queryParams, match }) => (e) => {
       Object.assign(queryParams, { ref: e.target.value })
-      history.push(`${match['url']}?${qs.stringify(queryParams)}`)
+      history.push(`${match['url']}?${qs.stringify(queryParams, { encode: false })}`)
     },
     pushToGithub: ({ branch, baseRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
       const requestPath = `${baseRoute}/files/upsert?ref=${branch}`

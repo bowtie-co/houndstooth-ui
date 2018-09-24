@@ -9,7 +9,7 @@ import {
 import { FieldContainer } from 'molecules'
 
 const RepoControls = (props) => {
-  const { branch, changeBranch, isCommitable, asyncLoadModel } = props
+  const { branch, changeBranch, isCommitable, asyncLoadModel, stagedFiles } = props
   console.log('REPO NAV props', props)
   return (
     <Row className='space-between file-tree-navigation'>
@@ -18,6 +18,7 @@ const RepoControls = (props) => {
         <FieldContainer
           async
           horizontal
+          disabled={stagedFiles.length > 0}
           clearable={false}
           type={'select'}
           label={'Select a Branch'}

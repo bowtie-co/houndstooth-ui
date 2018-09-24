@@ -15,18 +15,15 @@ import {
 } from '..'
 
 const Repo = (props) => {
-  const { match, stagedFiles, branch, asyncLoadModel, baseRoute, changeBranch, pushToGithub, collections, queryParams } = props
+  const { match, stagedFiles, branch, baseRoute, pushToGithub, collections, queryParams } = props
   const { username } = match.params
   return (
     <Row>
       <Col>
         <RepoControls
-          baseRoute={baseRoute}
-          branch={branch}
-          asyncLoadModel={asyncLoadModel}
-          changeBranch={changeBranch}
           isCommitable={stagedFiles.length > 0}
           isCollectionable={collections.length > 0}
+          {...props}
         />
         <Switch>
           <PrivateRoute
