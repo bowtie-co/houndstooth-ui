@@ -6,7 +6,6 @@ import {
   Button
 } from 'atoms'
 import {
-  CollectionList,
   ItemList,
   ItemForm
 } from 'organisms'
@@ -16,10 +15,6 @@ export const Collections = (props) => {
   return (
     <Col>
       <p>These are your collections:</p>
-      <CollectionList
-        collections={collections}
-        match={match}
-      />
       <ItemList
         items={items}
         selectItem={selectItem}
