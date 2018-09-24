@@ -1,17 +1,25 @@
 import React from 'react'
-import { NavLink, Nav, Icon, Col, Row } from 'atoms'
+import qs from 'qs'
+import classNames from 'classnames'
+import { Collapse } from 'reactstrap'
+import {
+  NavLink,
+  Nav,
+  Icon,
+  Col,
+  Row
+} from 'atoms'
 
 const SideMenu = (props) => {
-  const { baseRoute, queryParams, activeTab, setActiveTab, match } = props
-  const { repo, username } = match.params
+  const { baseRoute, queryParams, activeTab, setActiveTab, match, collections } = props
+  const { repo, username, collection } = match.params
   return (
     <Nav vertical className={'side-menu-section flex-column'} sm='2'>
       <NavLink
         active={activeTab === 'dashboard'}
-        onClick={() => setActiveTab('dashboard')}
         path={'/repos'}>
 
-        <Row className='flex-center'>
+        <Row className='flex-center' onClick={() => setActiveTab('dashboard')}>
           <Col sm='3'>
             <Icon size='sm' iconName='tachometer-alt' />
           </Col>
@@ -21,13 +29,12 @@ const SideMenu = (props) => {
         </Row>
       </NavLink>
 
-      <NavLink
-        active={activeTab === 'collections'}
-        onClick={() => setActiveTab('collections')}
-        disabled={!repo && !username}
-        path={`/${baseRoute}/collections?ref=${queryParams['ref'] || 'master'}`}>
+      <div
+        className={classNames('nav-link', { 'disabled': collections.length < 1, 'active': activeTab === 'collections' && collections.length >= 1 })}
+        disabled={(!repo && !username) || collections.length < 1}
+      >
 
-        <Row className='flex-center'>
+        <Row className='flex-center' onClick={() => setActiveTab('collections')}>
           <Col sm='3'>
             <Icon size='sm' iconName='folder' />
           </Col>
@@ -35,14 +42,35 @@ const SideMenu = (props) => {
             Collections
           </Col>
         </Row>
-      </NavLink>
+        <Collapse isOpen={activeTab === 'collections'}>
+          {
+            collections.map((col, i) => {
+              return (
+                <NavLink
+                  active={collection === col}
+                  path={`/repos/${username}/${repo}/collections/${col}?${qs.stringify(queryParams, { encode: false })}`}
+                >
+                  <Row className='flex-center'>
+                    <Col sm='3'>
+                      <Icon size='sm' iconName='folder' />
+                    </Col>
+                    <Col sm='9'>
+                      {col}
+                    </Col>
+                  </Row>
+
+                </NavLink>
+              )
+            })
+          }
+        </Collapse>
+      </div>
 
       <NavLink
         active={activeTab === 'users'}
-        onClick={() => setActiveTab('users')}
-        path={'/'}>
+        path={'/repos'}>
 
-        <Row className='flex-center'>
+        <Row className='flex-center' onClick={() => setActiveTab('users')}>
           <Col sm='3'>
             <Icon size='sm' iconName='user' />
           </Col>
@@ -52,10 +80,10 @@ const SideMenu = (props) => {
         </Row>
       </NavLink>
 
-      <NavLink
-        active={activeTab === 'advanced_settings'}
+      <div
+        className={classNames('nav-link', { 'active': ['file', 'dir', 'advanced_settings'].includes(activeTab) })}
         onClick={() => setActiveTab('advanced_settings')}
-        path={'/'}>
+      >
 
         <Row className='flex-center'>
           <Col sm='3'>
@@ -65,23 +93,24 @@ const SideMenu = (props) => {
             Advanced Settings
           </Col>
         </Row>
-      </NavLink>
+        <Collapse isOpen={['file', 'dir', 'advanced_settings'].includes(activeTab)}>
+          <NavLink
+            active={['file', 'dir'].includes(activeTab)}
+            onClick={() => setActiveTab('file')}
+            disabled={!repo && !username}
+            path={`/${baseRoute}/dir?ref=${queryParams['ref'] || 'master'}`}>
 
-      <NavLink
-        active={['file', 'dir'].includes(activeTab)}
-        onClick={() => setActiveTab('file')}
-        disabled={!repo && !username}
-        path={`/${baseRoute}/dir?ref=${queryParams['ref'] || 'master'}`}>
-
-        <Row className='flex-center'>
-          <Col sm='3'>
-            <Icon size='sm' iconName='folder' />
-          </Col>
-          <Col sm='9'>
-            File Editor
-          </Col>
-        </Row>
-      </NavLink>
+            <Row className='flex-center'>
+              <Col sm='3'>
+                <Icon size='sm' iconName='folder' />
+              </Col>
+              <Col sm='9'>
+                File Editor
+              </Col>
+            </Row>
+          </NavLink>
+        </Collapse>
+      </div>
     </Nav>
   )
 }

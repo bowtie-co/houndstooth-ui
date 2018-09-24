@@ -16,6 +16,7 @@ import Switch from './Switch'
 import Card from './Card'
 import Container from './Container'
 import TextEditor from './TextEditor'
+import Tooltip from './Tooltip'
 import Col from './Col'
 import Row from './Row'
 import BackButton from './BackButton'
@@ -53,5 +54,6 @@ export {
   Summary,
   Switch,
   Title,
+  Tooltip,
   TextEditor
 }

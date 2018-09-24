@@ -16,12 +16,10 @@ export const enhance = compose(
     stagedFiles: [],
     dirList: [],
     file: {},
-    collections: [],
     isRepoLoading: false
   }), {
     setDirList: ({ dirList }) => (payload) => ({ dirList: payload }),
     setFile: ({ file }) => (payload) => ({ file: payload }),
-    setCollections: ({ collections }) => (payload) => ({ collections: payload }),
     setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
     setBranch: ({ branch }) => (payload) => ({ branch: payload }),
     setRepoLoading: ({ isRepoLoading }) => (payload) => ({ isRepoLoading: payload })

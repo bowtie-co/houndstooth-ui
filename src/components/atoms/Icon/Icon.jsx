@@ -1,21 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {
+  Tooltip
+} from 'atoms'
 
-const Icon = ({ className, size = 'xs', fill = true, iconName, color }) => {
+const Icon = ({ className, size = 'xsmall', fill = true, iconName, color, id, tooltip, ...rest }) => {
   const sizes = {
-    xs: '',
-    sm: 'lg',
-    md: '2x',
-    lg: '3x',
-    xl: '4x',
-    xxl: '5x'
+    xsmall: '',
+    small: 'lg',
+    medium: '2x',
+    large: '3x',
+    xlarge: '4x',
+    xxlarge: '5x'
   }
 
-  const faClass = className || `fa${fill ? 's' : 'r'} fa-${iconName}`
+  const tooltipId = tooltip ? `Tooltip-${id || Date.now()}-${tooltip.split(' ').join('_')}` : id
 
+  const faClass = className || `fa${fill ? 's' : 'r'} fa-${iconName}`
   return (
     <div className='fa-icon-sm'>
-      <i className={`${faClass} fa-${sizes[size]}`} style={{ 'color': color }} />
+      <i className={`${faClass} fa-${sizes[size]}`} style={{ 'color': color }} id={tooltipId} />
+      {
+        tooltip &&
+        <Tooltip target={tooltipId} {...rest}>
+          {tooltip}
+        </Tooltip>
+      }
     </div>
   )
 }
