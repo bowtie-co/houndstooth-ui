@@ -2,6 +2,7 @@ import React from 'react'
 import qs from 'qs'
 import classNames from 'classnames'
 import { Collapse } from 'reactstrap'
+import { titleize } from '@bowtie/utils'
 import {
   NavLink,
   Nav,
@@ -54,10 +55,10 @@ const SideMenu = (props) => {
                 >
                   <Row className='flex-center'>
                     <Col sm='3'>
-                      <Icon size='sm' iconName='folder' />
+                      <Icon size='sm' iconName='folder-open' />
                     </Col>
                     <Col sm='9'>
-                      {col}
+                      {titleize(col, '_')}
                     </Col>
                   </Row>
 
@@ -106,7 +107,7 @@ const SideMenu = (props) => {
 
             <Row className='flex-center'>
               <Col sm='3'>
-                <Icon size='sm' iconName='folder' />
+                <Icon size='sm' iconName='folder-open' />
               </Col>
               <Col sm='9'>
                 File Editor

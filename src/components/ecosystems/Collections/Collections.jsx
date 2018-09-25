@@ -2,28 +2,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  Col,
-  Button
+  Button,
+  Tabs,
+  Icon
 } from 'atoms'
 import {
-  ItemList,
   ItemForm
 } from 'organisms'
 
 export const Collections = (props) => {
   const { collections, match, items, selectItem, ...rest } = props
   return (
-    <Col>
-      <p>These are your collections:</p>
-      <ItemList
-        items={items}
-        selectItem={selectItem}
-      />
-      <ItemForm
-        match={match}
-        {...rest}
-      />
-    </Col>
+    <section>
+      <Icon onClick={() => selectItem()} iconName='plus-circle' />
+
+      <div className='collections-section'>
+        <Tabs
+          onClick={selectItem}
+          tabs={items}
+          vertical
+        >
+          <ItemForm
+            match={match}
+            {...rest}
+          />
+        </Tabs>
+      </div>
+    </section>
   )
 }
 
@@ -38,6 +43,16 @@ export const EmptyState = (props) => {
     </section>
   )
 }
+
+export const EmptyItem = (props) => {
+  return (
+    <section>
+      <div>Select an item from your collection</div>
+    </section>
+  )
+}
+
+/** *********** PROPTYPES ********************/
 
 Collections.propTypes = {
   collections: PropTypes.arrayOf(PropTypes.string),

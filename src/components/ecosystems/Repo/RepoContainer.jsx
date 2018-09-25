@@ -1,14 +1,14 @@
 /* global alert  */
 
 import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
-import { withEither } from '@bowtie/react-utils'
+// import { withEither } from '@bowtie/react-utils'
 import Repo from './Repo'
-import { Loading } from 'atoms'
+// import { Loading } from 'atoms'
 import qs from 'qs'
 import { api, notifier } from 'lib'
 
 // conditional functions here:
-const loadingConditionalFn = ({ isRepoLoading }) => isRepoLoading
+// const loadingConditionalFn = ({ isRepoLoading }) => isRepoLoading
 
 export const enhance = compose(
   withStateHandlers(({ queryParams, match: { params: { username, repo } } }) => ({
@@ -105,8 +105,8 @@ export const enhance = compose(
         })
         .catch(notifier.bad.bind(notifier))
     }
-  }),
-  withEither(loadingConditionalFn, Loading)
+  })
+  // withEither(loadingConditionalFn, Loading)
 )
 
 export default enhance(Repo)

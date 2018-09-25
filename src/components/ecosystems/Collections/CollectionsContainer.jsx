@@ -1,12 +1,13 @@
 
 import { compose, withStateHandlers, withPropsOnChange, withHandlers, lifecycle } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
-import { Collections, EmptyState } from './Collections'
+import { Collections, EmptyState, EmptyItem } from './Collections'
 import { api, notifier } from 'lib'
 import { Loading } from 'atoms'
 
 const emptyStateConditionFn = ({ collections }) => collections.length === 0
-const loadingConditionFn = ({ isCollectionLoading }) => isCollectionLoading
+const emptyItemConditionFn = ({ collections, match }) => collections.length > 0 && !match.params['collection']
+const isCollectionLoadingConditionFn = ({ isCollectionLoading }) => isCollectionLoading
 
 export default compose(
   withStateHandlers(({ baseRoute, match: { params: { username, repo, collection } } }) => ({
@@ -31,9 +32,9 @@ export default compose(
       const editedItem = Object.assign({}, activeItem, { name: e.target.value })
       setActiveItem(editedItem)
     },
-    selectItem: ({ history, collectionsRoute }) => (item) => {
-      if (item) {
-        history.push(`${collectionsRoute}/${item['name']}`)
+    selectItem: ({ history, collectionsRoute }) => (itemName) => {
+      if (itemName) {
+        history.push(`${collectionsRoute}/${itemName}`)
       } else {
         history.push(`${collectionsRoute}/new`)
       }
@@ -158,7 +159,6 @@ export default compose(
         })
         .catch(notifier.bad.bind(notifier))
     }
-
   }),
   lifecycle({
     componentWillMount () {
@@ -167,5 +167,6 @@ export default compose(
     }
   }),
   withEither(emptyStateConditionFn, EmptyState),
-  withEither(loadingConditionFn, Loading)
+  withEither(emptyItemConditionFn, EmptyItem),
+  withEither(isCollectionLoadingConditionFn, Loading)
 )(Collections)

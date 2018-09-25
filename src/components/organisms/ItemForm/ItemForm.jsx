@@ -15,7 +15,7 @@ import {
   WysiwygEditor
 } from '..'
 
-const ItemForm = (props) => {
+export const ItemForm = (props) => {
   const { activeItem, handleFormSubmit, editFileName, deleteItem, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads } = props
   const { item } = match.params
   console.log('Item form props: ', activeItem.fields)
@@ -52,6 +52,16 @@ const ItemForm = (props) => {
   )
 }
 
+/** ************** EMPTY STATE ************** */
+
+export const EmptyState = (props) => {
+  return (
+    <section>
+      <div>Select a file to edit</div>
+    </section>
+  )
+}
+
 ItemForm.propTypes = {
   activeItem: PropTypes.object,
   fileUploads: PropTypes.object,
@@ -61,5 +71,3 @@ ItemForm.propTypes = {
   handleMarkdownChange: PropTypes.func,
   setStagedFileUploads: PropTypes.func
 }
-
-export default ItemForm
