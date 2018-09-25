@@ -9,17 +9,17 @@
 }
 
 .collections-section {
-  border-top: 1px #c5c5c5 solid;
   margin: 31px;
   padding: 0;
   .nav-tabs {
+    border-bottom: none;
     .nav-item {
       background-color: #f0f0f0;
       color: #c5c5c5;
       border: 1px #c5c5c5 solid;
       &.active{
-        border: none;
         border-left: 3px #075ec4 solid;
+        border-right: none;
       }
     }
     .nav-link{

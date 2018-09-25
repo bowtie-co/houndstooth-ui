@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {
   Col,
   Title,
-  Button
+  Row
 } from 'atoms'
 
 import {
@@ -20,8 +20,8 @@ export const ItemForm = (props) => {
   const { item } = match.params
   console.log('Item form props: ', activeItem.fields)
   return (
-    <section>
-      <Col>
+    <Row>
+      <Col sm='5' className='tab-content-vertical'>
         {
           item === 'new'
             ? <FieldContainer
@@ -37,18 +37,21 @@ export const ItemForm = (props) => {
           fields={activeItem['fields']}
           match={match}
           onSubmit={handleFormSubmit}
+          deleteItem={deleteItem}
           fileUploads={fileUploads}
           stagedFileUploads={stagedFileUploads}
           setStagedFileUploads={setStagedFileUploads}
         />
-        <Button onClick={deleteItem}> Delete </Button>
+      </Col>
+      <Col sm='6' className='tab-content-vertical'>
         <WysiwygEditor
           item={item}
           content={activeItem['markdown']}
           handleEditorChange={handleMarkdownChange}
         />
       </Col>
-    </section>
+    </Row>
+
   )
 }
 

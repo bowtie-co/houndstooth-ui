@@ -11,11 +11,10 @@ import {
 } from 'organisms'
 
 export const Collections = (props) => {
-  const { collections, match, items, selectItem, ...rest } = props
+  const { items, selectItem } = props
   return (
     <section>
       <Icon onClick={() => selectItem()} iconName='plus-circle' />
-
       <div className='collections-section'>
         <Tabs
           onClick={selectItem}
@@ -23,9 +22,9 @@ export const Collections = (props) => {
           vertical
         >
           <ItemForm
-            match={match}
-            {...rest}
+            {...props}
           />
+
         </Tabs>
       </div>
     </section>

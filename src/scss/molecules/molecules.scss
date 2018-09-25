@@ -56,3 +56,11 @@ div.Select-menu-outer {
   justify-content: center;
   align-items: center;
 }
+
+.field-group{
+  .form-group {
+    label {
+      width: 93%;
+    }
+  }
+}

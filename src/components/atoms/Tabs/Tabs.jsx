@@ -7,7 +7,7 @@ const Tabs = ({ tabs = [], activeTab, handleClick, children, vertical = false, d
   return (
     <Nav tabs vertical={vertical}>
       <Row>
-        <Col>
+        <Col sm='2' className='tabs-vertical'>
           {
             tabs.map((t, i) => (
               <NavItem key={i} className={classnames({ active: activeTab === t.name })}>
@@ -20,12 +20,13 @@ const Tabs = ({ tabs = [], activeTab, handleClick, children, vertical = false, d
               </NavItem>
             ))
           }
-        </Col>
-        <Col sm='10'>
-          <TabContent activeTab={activeTab}>
-            { children }
-          </TabContent>
-        </Col>
+
+        </Col >
+        {/* <Col sm='10'> */}
+        <TabContent activeTab={activeTab} className='col-sm-10'>
+          { children }
+        </TabContent>
+        {/* </Col> */}
       </Row>
     </Nav>
   )
