@@ -21,7 +21,7 @@ export const ItemForm = (props) => {
   console.log('Item form props: ', activeItem.fields)
   return (
     <Row>
-      <Col sm='5' className='tab-content-vertical'>
+      <Col sm='5' className='tab-content-card'>
         {
           item === 'new'
             ? <FieldContainer
@@ -43,7 +43,7 @@ export const ItemForm = (props) => {
           setStagedFileUploads={setStagedFileUploads}
         />
       </Col>
-      <Col sm='6' className='tab-content-vertical'>
+      <Col sm='6' className='tab-content-card'>
         <WysiwygEditor
           item={item}
           content={activeItem['markdown']}
