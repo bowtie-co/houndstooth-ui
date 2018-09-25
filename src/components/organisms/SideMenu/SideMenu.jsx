@@ -16,10 +16,12 @@ const SideMenu = (props) => {
   return (
     <Nav vertical className={'side-menu-section flex-column'} sm='2'>
       <NavLink
+        onClick={() => setActiveTab('dashboard')}
         active={activeTab === 'dashboard'}
-        path={'/repos'}>
+        path={'/repos'}
+      >
 
-        <Row className='flex-center' onClick={() => setActiveTab('dashboard')}>
+        <Row className='flex-center'>
           <Col sm='3'>
             <Icon size='sm' iconName='tachometer-alt' />
           </Col>
@@ -68,9 +70,11 @@ const SideMenu = (props) => {
 
       <NavLink
         active={activeTab === 'users'}
-        path={'/repos'}>
+        path={'/repos'}
+        onClick={() => setActiveTab('users')}
+      >
 
-        <Row className='flex-center' onClick={() => setActiveTab('users')}>
+        <Row className='flex-center' >
           <Col sm='3'>
             <Icon size='sm' iconName='user' />
           </Col>
