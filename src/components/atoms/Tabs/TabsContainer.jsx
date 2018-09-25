@@ -2,9 +2,11 @@
 // this includes any reduce methods, recompose, or middleware.
 
 import Tabs from './Tabs'
+import { withRouter } from 'react-router'
 import { compose, withHandlers, withStateHandlers } from 'recompose'
 
 export const enhance = compose(
+  withRouter,
   withStateHandlers(({ match }) => ({
     activeTab: match.params['item']
   }), {
