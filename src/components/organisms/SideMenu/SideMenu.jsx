@@ -12,7 +12,7 @@ import {
 
 const SideMenu = (props) => {
   const { baseRoute, queryParams, activeTab, setActiveTab, match, collections } = props
-  const { repo, username, collection } = match.params
+  const { repo, username, collection, type } = match.params
   return (
     <Nav vertical className={'side-menu-section flex-column'} sm='2'>
       <NavLink
@@ -95,7 +95,7 @@ const SideMenu = (props) => {
         </Row>
         <Collapse isOpen={['file', 'dir', 'advanced_settings'].includes(activeTab)}>
           <NavLink
-            active={['file', 'dir'].includes(activeTab)}
+            active={['file', 'dir'].includes(type)}
             onClick={() => setActiveTab('file')}
             disabled={!repo && !username}
             path={`/${baseRoute}/dir?ref=${queryParams['ref'] || 'master'}`}>
