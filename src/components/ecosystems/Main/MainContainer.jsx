@@ -54,8 +54,9 @@ export const enhance = compose(
   withPropsOnChange(['pageNumber'], ({ getRepos }) => {
     getRepos()
   }),
-  withPropsOnChange(['match'], ({ match, setBaseRoute }) => {
+  withPropsOnChange(['match'], ({ match, setBaseRoute, setCollections }) => {
     const { repo, username } = match.params
+    !repo && setCollections([])
     setBaseRoute(`repos/${username}/${repo}`)
   }),
   withEither(loadingConditionFn, Loading)
