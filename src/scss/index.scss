@@ -32,6 +32,10 @@
   display: flex;
 }
 
+.flex-grow {
+  flex-grow: 1;
+}
+
 .flex-row {
   display: flex;
   flex-direction: row;

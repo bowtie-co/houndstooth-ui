@@ -14,14 +14,14 @@ import {
 
 const Header = (props) => {
   return (
-    <Row className='top-nav-section'>
-      <Col className='flex' sm='2'>
+    <section className='flex-row top-nav-section'>
+      <div className='flex' >
         <HoundstoothLogo color='white' />
-      </Col>
-      <Col sm='4' className='align-end'>
+      </div>
+      <div sm='4' className='flex flex-center'>
         <RepoSelect {...props} />
-      </Col>
-      <Col sm='6'>
+      </div>
+      <div className='flex-grow'>
         <Nav className='nav-bar'>
           <NavLink path={'/notifications/'}><Icon iconName='bell' color='white' size='md' /></NavLink>
           <NavLink path={'/settings/'}><Icon iconName='cog' color='white' size='md' /></NavLink>
@@ -31,8 +31,8 @@ const Header = (props) => {
               : <Login />
           }
         </Nav>
-      </Col>
-    </Row>
+      </div>
+    </section>
   )
 }
 
