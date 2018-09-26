@@ -16,7 +16,7 @@ const Header = (props) => {
   return (
     <Row className='top-nav-section'>
       <Col className='flex' sm='2'>
-        <HoundstoothLogo color='white'/>
+        <HoundstoothLogo color='white' />
       </Col>
       <Col sm='4' className='align-end'>
         <RepoSelect {...props} />

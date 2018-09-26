@@ -27,7 +27,7 @@ const SideMenu = (props) => {
             <Icon size='sm' iconName='tachometer-alt' />
           </Col>
           <Col sm='9'>
-            Dashboard [REPOS]
+            REPOS
           </Col>
         </Row>
       </NavLink>
@@ -46,26 +46,28 @@ const SideMenu = (props) => {
           </Col>
         </Row>
         <Collapse isOpen={['collections'].includes(activeTab)}>
-          {
-            collections.map((col, i) => {
-              return (
-                <NavLink
-                  active={collection === col}
-                  path={`/repos/${username}/${repo}/collections/${col}?${qs.stringify(queryParams, { encode: false })}`}
-                >
-                  <Row className='flex-center'>
-                    <Col sm='3'>
-                      <Icon size='sm' iconName='folder' fill={false} />
-                    </Col>
-                    <Col sm='9'>
-                      {titleize(col, '_')}
-                    </Col>
-                  </Row>
+          <div className='collapsable-content'>
+            {
+              collections.map((col, i) => {
+                return (
+                  <NavLink
+                    active={collection === col}
+                    path={`/repos/${username}/${repo}/collections/${col}?${qs.stringify(queryParams, { encode: false })}`}
+                  >
+                    <Row className='flex-center'>
+                      <Col sm='3'>
+                        <Icon size='sm' iconName='folder' fill={false} />
+                      </Col>
+                      <Col sm='9'>
+                        {titleize(col, '_')}
+                      </Col>
+                    </Row>
 
-                </NavLink>
-              )
-            })
-          }
+                  </NavLink>
+                )
+              })
+            }
+          </div>
         </Collapse>
       </div>
 

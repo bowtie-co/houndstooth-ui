@@ -33,7 +33,7 @@ export default compose(
       setActiveItem(editedItem)
     },
     addNewItem: ({ history, collectionsRoute, items }) => () => {
-      if(items[0]['name'] !== 'NEW FILE' ){
+      if (items[0]['name'] !== 'NEW FILE') {
         items.unshift({ name: 'NEW FILE' })
         history.push(`${collectionsRoute}/new`)
       }
@@ -41,7 +41,7 @@ export default compose(
     selectItem: ({ history, collectionsRoute }) => (itemName) => {
       if (itemName) {
         history.push(`${collectionsRoute}/${itemName}`)
-      } 
+      }
     },
     getFileUploads: ({ match, setFileUploads, branch }) => () => {
       // const { username, repo } = match.params
@@ -146,7 +146,7 @@ export default compose(
           .then(() => getItems())
           .catch(notifier.bad.bind(notifier))
       }
-      
+
       // TODO: Improve order of executing upload route & item create to ensure both work?
       createFileUpload()
         .then(notifier.ok.bind(notifier))

@@ -17,7 +17,7 @@ export const Collections = (props) => {
   return (
     <section>
       <div className='pointer' onClick={addNewItem}>
-        <Icon iconName='plus-circle'/> Add File
+        <Icon iconName='plus-circle' /> Add File
       </div>
       <div className='collections-section'>
         <Tabs
@@ -42,9 +42,9 @@ export const EmptyState = (props) => {
   return (
     <Row>
       <Col className='tab-content-card' sm='4'>
-      <div>This project does not have collections. Please edit files directly user the File Editor.</div>
-      <Button href={`/${baseRoute}/dir?ref=${queryParams['ref']}`}>File Editor</Button>
-    </Col>
+        <div>This project does not have collections. Please edit files directly user the File Editor.</div>
+        <Button href={`/${baseRoute}/dir?ref=${queryParams['ref']}`}>File Editor</Button>
+      </Col>
     </Row>
   )
 }

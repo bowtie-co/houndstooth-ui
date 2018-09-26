@@ -20,7 +20,7 @@ export const enhance = compose(
     }
   }),
   withPropsOnChange(['match'], ({ match, setActiveTab, tabs }) => {
-    if(match.params['item'] === 'new'){
+    if (match.params['item'] === 'new') {
       if (tabs[0]['name'] !== 'NEW FILE') {
         tabs.unshift({ name: 'NEW FILE' })
       }
