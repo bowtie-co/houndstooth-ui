@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from './bowtie_logo.png'
+import logo from './bowtie_logo_white.png'
 
 const BowtieLogo = () => {
   return (

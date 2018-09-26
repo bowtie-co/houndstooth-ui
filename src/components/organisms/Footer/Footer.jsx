@@ -1,11 +1,11 @@
 import React from 'react'
-import { BowtieLogo } from 'atoms'
+import { BowtieLogo, Icon } from 'atoms'
 
 const Footer = (props) => {
   return (
     <section className='footer-section' >
-      <div className='copyright'>Created by Bowtie @2018</div>
       <BowtieLogo />
+      <div className='copyright'>Copyright Bowtie <Icon iconName='copyright' fill={false} /> 2018</div>
     </section>
   )
 }

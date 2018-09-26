@@ -1,7 +1,11 @@
+
+
 .footer-section{
+  background-image: url(../images/HT_footer_background.jpg);
   background-color: #333333;
-  min-height: 106px;
+  min-height: 200px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 24px;
