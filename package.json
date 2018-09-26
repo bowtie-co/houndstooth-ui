@@ -99,7 +99,8 @@
     "test": "node scripts/test.js --env=jsdom",
     "test:watch": "node scripts/test.js --env=jsdom",
     "lint": "standard",
-    "lint:fix": "standard --fix"
+    "lint:fix": "standard --fix",
+    "deploy:staging": "APP_ENV=staging npm run build && ./bin/manual-deploy-s3" 
   },
   "jest": {
     "browser": true,
