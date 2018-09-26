@@ -3,7 +3,7 @@
 
 import Tabs from './Tabs'
 import { withRouter } from 'react-router'
-import { compose, withHandlers, withStateHandlers } from 'recompose'
+import { compose, withHandlers, withStateHandlers, withPropsOnChange } from 'recompose'
 
 export const enhance = compose(
   withRouter,
@@ -14,8 +14,17 @@ export const enhance = compose(
   }),
   withHandlers({
     handleClick: ({ onClick, setActiveTab }) => (tabName) => {
-      onClick && onClick(tabName)
+      const name = tabName === 'NEW FILE' ? 'new' : tabName
+      onClick && onClick(name)
       setActiveTab(tabName)
+    }
+  }),
+  withPropsOnChange(['match'], ({ match, setActiveTab, tabs }) => {
+    if(match.params['item'] === 'new'){
+      if (tabs[0]['name'] !== 'NEW FILE') {
+        tabs.unshift({ name: 'NEW FILE' })
+      }
+      setActiveTab('NEW FILE')
     }
   })
 )

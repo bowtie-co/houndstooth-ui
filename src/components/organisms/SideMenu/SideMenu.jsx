@@ -37,7 +37,7 @@ const SideMenu = (props) => {
         disabled={(!repo && !username) || collections.length < 1}
       >
 
-        <Row className='flex-center' onClick={() => setActiveTab('collections')}>
+        <Row className='flex-center' onClick={() => (repo && username) || collections.length > 0 && setActiveTab('collections')}>
           <Col sm='3'>
             <Icon size='sm' iconName='folder' />
           </Col>
@@ -55,7 +55,7 @@ const SideMenu = (props) => {
                 >
                   <Row className='flex-center'>
                     <Col sm='3'>
-                      <Icon size='sm' iconName='folder-open' />
+                      <Icon size='sm' iconName='folder' fill={false} />
                     </Col>
                     <Col sm='9'>
                       {titleize(col, '_')}

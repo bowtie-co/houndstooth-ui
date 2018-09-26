@@ -32,12 +32,16 @@ export default compose(
       const editedItem = Object.assign({}, activeItem, { name: e.target.value })
       setActiveItem(editedItem)
     },
+    addNewItem: ({ history, collectionsRoute, items }) => () => {
+      if(items[0]['name'] !== 'NEW FILE' ){
+        items.unshift({ name: 'NEW FILE' })
+        history.push(`${collectionsRoute}/new`)
+      }
+    },
     selectItem: ({ history, collectionsRoute }) => (itemName) => {
       if (itemName) {
         history.push(`${collectionsRoute}/${itemName}`)
-      } else {
-        history.push(`${collectionsRoute}/new`)
-      }
+      } 
     },
     getFileUploads: ({ match, setFileUploads, branch }) => () => {
       // const { username, repo } = match.params
@@ -123,12 +127,18 @@ export default compose(
   }
   ),
   withHandlers({
-    handleFormSubmit: ({ createItem, editItem, createFileUpload, getItems, getFileUploads, match, setCollectionLoading, setStagedFileUploads }) => (formData) => {
+    handleFormSubmit: ({ collectionsRoute, items, createItem, history, editItem, createFileUpload, getItems, getFileUploads, match, setCollectionLoading, setStagedFileUploads }) => (formData) => {
       setCollectionLoading(true)
       if (match['params']['item'] === 'new') {
         createItem(formData)
           .then(notifier.ok.bind(notifier))
-          .then(() => getItems())
+          .then(({ data }) => {
+            if (items[0]['name'] === 'NEW FILE') {
+              items.shift()
+            }
+            getItems()
+            history.push(`${collectionsRoute}/${data.data.content['name']}`)
+          })
           .catch(notifier.bad.bind(notifier))
       } else {
         editItem(formData)
@@ -136,7 +146,7 @@ export default compose(
           .then(() => getItems())
           .catch(notifier.bad.bind(notifier))
       }
-
+      
       // TODO: Improve order of executing upload route & item create to ensure both work?
       createFileUpload()
         .then(notifier.ok.bind(notifier))

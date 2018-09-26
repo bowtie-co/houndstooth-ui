@@ -4,6 +4,7 @@ import Logout from './Logout'
 import Title from './Title'
 import Button from './Button'
 import FormGroup from './FormGroup'
+import HoundstoothLogo from './HoundstoothLogo'
 import NavLink from './NavLink'
 import Subtitle from './Subtitle'
 import PublicRoute from './PublicRoute'
@@ -16,7 +17,6 @@ import Switch from './Switch'
 import Card from './Card'
 import Container from './Container'
 import TextEditor from './TextEditor'
-import Tabs from './Tabs'
 import Tooltip from './Tooltip'
 import Col from './Col'
 import Row from './Row'
@@ -44,6 +44,7 @@ export {
   SocialLink,
   Container,
   FormGroup,
+  HoundstoothLogo,
   Loading,
   Login,
   Logout,
@@ -54,7 +55,6 @@ export {
   Subtitle,
   Summary,
   Switch,
-  Tabs,
   Title,
   Tooltip,
   TextEditor

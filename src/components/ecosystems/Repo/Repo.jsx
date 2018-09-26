@@ -19,7 +19,7 @@ const Repo = (props) => {
   const { username } = match.params
   return (
     <Row>
-      <Col>
+      <Col style={{ 'padding': '24px' }}>
         <RepoControls
           isCommitable={stagedFiles.length > 0}
           isCollectionable={collections.length > 0}

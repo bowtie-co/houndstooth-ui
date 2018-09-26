@@ -59,9 +59,12 @@ export const ItemForm = (props) => {
 
 export const EmptyState = (props) => {
   return (
-    <section>
-      <div>Select a file to edit</div>
-    </section>
+    <Row>
+      <Col className='tab-content-card' sm='4'>
+        <div>Select a file to edit</div>
+      </Col>
+
+    </Row>
   )
 }
 

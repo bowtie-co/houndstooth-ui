@@ -9,14 +9,14 @@ import {
   Col,
   Nav,
   Icon,
-  BowtieLogo
+  HoundstoothLogo
 } from 'atoms'
 
 const Header = (props) => {
   return (
     <Row className='top-nav-section'>
       <Col className='flex' sm='2'>
-        <BowtieLogo />
+        <HoundstoothLogo color='white'/>
       </Col>
       <Col sm='4' className='align-end'>
         <RepoSelect {...props} />

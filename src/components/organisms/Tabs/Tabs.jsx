@@ -9,24 +9,24 @@ const Tabs = ({ tabs = [], activeTab, handleClick, children, vertical = false, d
       <Row>
         <Col sm='2' className='tabs-vertical'>
           {
-            tabs.map((t, i) => (
-              <NavItem key={i} className={classnames({ active: activeTab === t.name })}>
-                <NavLink
-                  onClick={() => handleClick(t.name)}
-                  className={classnames({ active: activeTab === t.name })}
-                >
-                  {t.name}
-                </NavLink>
-              </NavItem>
-            ))
+            tabs.map((t, i) => {
+              return (
+                <NavItem key={i} className={classnames({ active: activeTab === t.name })}>
+                  <NavLink
+                    onClick={() => handleClick(t.name)}
+                    className={classnames({ active: activeTab === t.name })}
+                  >
+                    {t.name}
+                  </NavLink>
+                </NavItem>
+              )
+            })
           }
 
         </Col >
-        {/* <Col sm='10'> */}
         <TabContent activeTab={activeTab} className='col-sm-10'>
           { children }
         </TabContent>
-        {/* </Col> */}
       </Row>
     </Nav>
   )
