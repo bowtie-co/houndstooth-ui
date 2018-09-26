@@ -18,7 +18,7 @@ const Icon = ({ className, size = 'xsmall', fill = true, iconName, color, id, to
 
   const faClass = className || `fa${fill ? 's' : 'r'} fa-${iconName}`
   return (
-    <div className='fa-icon-sm' {...rest}>
+    <div className='fa-icon-sm pointer' {...rest}>
       <i className={`${faClass} fa-${sizes[size]}`} style={{ 'color': color }} id={tooltipId} />
       {
         tooltip &&
