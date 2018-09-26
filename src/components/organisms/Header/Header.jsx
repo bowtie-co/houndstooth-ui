@@ -5,8 +5,6 @@ import {
   NavLink,
   Login,
   Logout,
-  Row,
-  Col,
   Nav,
   Icon,
   HoundstoothLogo
