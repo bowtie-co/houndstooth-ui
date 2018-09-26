@@ -28,7 +28,7 @@ const Repo = (props) => {
         <Switch>
           <PrivateRoute
             props={{ stagedFiles, pushToGithub, repo: match.params['repo'] }}
-            path={`${match['url']}/commit`}
+            path={`/repos/:username/:repo/commit`}
             component={CommitChanges}
           />
           <PrivateRoute
