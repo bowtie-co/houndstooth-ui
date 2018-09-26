@@ -6,7 +6,7 @@ const NavLink = ({ path, title, children, ...rest }) => {
   return (
     <NavItem>
       <NavLinkRS tag={Link} to={path} {...rest}>
-        { title || children}
+        { title || children }
       </NavLinkRS>
     </NavItem>
   )

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {
   Col,
   Title,
-  Button
+  Row
 } from 'atoms'
 
 import {
@@ -15,13 +15,13 @@ import {
   WysiwygEditor
 } from '..'
 
-const ItemForm = (props) => {
+export const ItemForm = (props) => {
   const { activeItem, handleFormSubmit, editFileName, deleteItem, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads } = props
   const { item } = match.params
   console.log('Item form props: ', activeItem.fields)
   return (
-    <section>
-      <Col>
+    <Row>
+      <Col sm='5' className='tab-content-card'>
         {
           item === 'new'
             ? <FieldContainer
@@ -37,17 +37,30 @@ const ItemForm = (props) => {
           fields={activeItem['fields']}
           match={match}
           onSubmit={handleFormSubmit}
+          deleteItem={deleteItem}
           fileUploads={fileUploads}
           stagedFileUploads={stagedFileUploads}
           setStagedFileUploads={setStagedFileUploads}
         />
-        <Button onClick={deleteItem}> Delete </Button>
+      </Col>
+      <Col sm='6' className='tab-content-card'>
         <WysiwygEditor
           item={item}
           content={activeItem['markdown']}
           handleEditorChange={handleMarkdownChange}
         />
       </Col>
+    </Row>
+
+  )
+}
+
+/** ************** EMPTY STATE ************** */
+
+export const EmptyState = (props) => {
+  return (
+    <section>
+      <div>Select a file to edit</div>
     </section>
   )
 }
@@ -61,5 +74,3 @@ ItemForm.propTypes = {
   handleMarkdownChange: PropTypes.func,
   setStagedFileUploads: PropTypes.func
 }
-
-export default ItemForm

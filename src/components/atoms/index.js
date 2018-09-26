@@ -16,6 +16,8 @@ import Switch from './Switch'
 import Card from './Card'
 import Container from './Container'
 import TextEditor from './TextEditor'
+import Tabs from './Tabs'
+import Tooltip from './Tooltip'
 import Col from './Col'
 import Row from './Row'
 import BackButton from './BackButton'
@@ -52,6 +54,8 @@ export {
   Subtitle,
   Summary,
   Switch,
+  Tabs,
   Title,
+  Tooltip,
   TextEditor
 }

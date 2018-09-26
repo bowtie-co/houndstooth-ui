@@ -7,3 +7,27 @@
 .home-template {
   padding: 30px;
 }
+
+.collections-section {
+  margin: 31px;
+  padding: 0;
+  .nav-tabs {
+    border-bottom: none;
+    .nav-item {
+      background-color: #f0f0f0;
+      color: #c5c5c5;
+      border: 1px #c5c5c5 solid;
+      &.active{
+        border-left: 3px #075ec4 solid;
+        border-right: none;
+      }
+    }
+    .nav-link{
+      &.active{
+        background-color: white;
+        color: #075ec4;
+        border: none;
+      }
+    }
+  }
+}

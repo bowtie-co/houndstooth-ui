@@ -1,10 +1,10 @@
 
 import { compose } from 'recompose'
-import { withMaybe } from '@bowtie/react-utils'
-import ItemForm from './ItemForm'
+import { withEither } from '@bowtie/react-utils'
+import { ItemForm, EmptyState } from './ItemForm'
 
-const nullConditionFn = ({ match, activeItem }) => !match.params.item || !activeItem['fields']
+const emptyStateConditionFn = ({ match, activeItem }) => !match.params.item || !activeItem['fields']
 
 export default compose(
-  withMaybe(nullConditionFn)
+  withEither(emptyStateConditionFn, EmptyState)
 )(ItemForm)

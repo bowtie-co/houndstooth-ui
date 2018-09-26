@@ -31,11 +31,10 @@ const Main = (props) => {
             />
             <PrivateRoute
               props={rest}
-              path={'/repos/:username/:repo/:type?'}
+              path={'/repos/:username/:repo/:type?/:collection?'}
               component={Repo}
             />
           </Switch>
-
         </Body>
         <Footer />
       </Row>

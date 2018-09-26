@@ -19,7 +19,7 @@ const App = (props) => {
         />
         <PrivateRoute
           props={props}
-          path='/:model(repos)/:username?/:repo?/:type?'
+          path='/:model(repos)/:username?/:repo?/:type?/:collection?'
           component={Main}
         />
         <PublicRoute
