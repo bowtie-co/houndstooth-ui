@@ -25,6 +25,8 @@ export const enhance = compose(
         tabs.unshift({ name: 'NEW FILE' })
       }
       setActiveTab('NEW FILE')
+    } else {
+      setActiveTab(match.params['item'])
     }
   })
 )
