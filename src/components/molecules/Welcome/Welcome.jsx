@@ -1,22 +1,32 @@
 import React from 'react'
 import {
   BowtieLogo,
-  Title,
+  HoundstoothLogo,
   Subtitle,
+  Row,
   Col,
   Button
 } from 'atoms'
 
 const Welcome = () => {
   return (
-    <Col className='welcome-screen'>
-      <div className='logo-container'>
-        <BowtieLogo />
-      </div>
-      <Title title={'Welcome to Houndstooth!'} />
-      <Subtitle title={'Please log in.'} />
-      <Button href={'/login'}>Log In</Button>
-    </Col>
+    <section className='welcome-screen'>
+      <Row className='flex-center'>
+        <Col className='flex flex-center' sm='12'>
+          <HoundstoothLogo />
+        </Col>
+        <Col className='flex flex-center' sm='12'>
+          by <BowtieLogo color='black' />
+        </Col>
+        <Col className='flex flex-center' sm='12'>
+          <Subtitle title={'Please log in.'} />
+        </Col>
+        <Col className='flex flex-center' sm='12'>
+          <Button href={'/login'}>Log In</Button>
+        </Col>
+      </Row>
+    </section>
+
   )
 }
 

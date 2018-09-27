@@ -1,9 +1,10 @@
 import React from 'react'
-import logo from './bowtie_logo_white.png'
+import logoWhite from './bowtie_logo_white.png'
+import logoBlack from './bowtie_logo.png'
 
-const BowtieLogo = () => {
+const BowtieLogo = ({ color = 'white' }) => {
   return (
-    <img src={logo} className='logo' alt='logo' />
+    <img src={color === 'white' ? logoWhite : logoBlack} className='logo' alt='logo' />
   )
 }
 

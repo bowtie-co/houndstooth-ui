@@ -50,11 +50,18 @@ div.Select-menu-outer {
 }
 
 .welcome-screen {
+  background-color: #f3f3f3;
   height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  .row {
+    width: 28%;
+    background-color: white;
+    padding: 100px;
+    box-shadow:  2px 5px 14px -4px rgba(0, 0, 0, 0.50);
+  }
 }
 
 .field-group{
