@@ -45,7 +45,7 @@
     "react-color": "^2.14.1",
     "react-datepicker": "^1.5.0",
     "react-datetime": "^2.14.0",
-    "react-dev-utils": "^5.0.0",
+    "react-dev-utils": "^5.0.2",
     "react-dom": "^16.2.0",
     "react-draft-wysiwyg": "^1.12.13",
     "react-dropzone": "^4.2.11",
@@ -100,7 +100,7 @@
     "test:watch": "node scripts/test.js --env=jsdom",
     "lint": "standard",
     "lint:fix": "standard --fix",
-    "deploy:staging": "APP_ENV=staging npm run build && ./bin/manual-deploy-s3" 
+    "deploy:staging": "APP_ENV=staging npm run build && ./bin/manual-deploy-s3"
   },
   "jest": {
     "browser": true,
@@ -159,8 +159,5 @@
   },
   "eslintConfig": {
     "extends": "react-app"
-  },
-  "resolutions": {
-    "eslint-scope": "3.7.1"
   }
 }
