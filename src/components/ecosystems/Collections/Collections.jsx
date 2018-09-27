@@ -53,7 +53,7 @@ export const EmptyItem = (props) => {
   return (
     <Row>
       <Col className='tab-content-card' sm='4'>
-        <div>Select an item from your collection</div>
+        <div>Select a collection to edit</div>
       </Col>
     </Row>
   )

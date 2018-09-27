@@ -22,7 +22,7 @@ const Repo = (props) => {
       <Col style={{ 'padding': '24px' }}>
         <RepoControls
           isCommitable={stagedFiles.length > 0}
-          isCollectionable={collections.length > 0}
+          isCollectionable={collections && collections.length > 0}
           {...props}
         />
         <Switch>

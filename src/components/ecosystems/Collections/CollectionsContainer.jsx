@@ -1,10 +1,11 @@
 
 import { compose, withStateHandlers, withPropsOnChange, withHandlers, lifecycle } from 'recompose'
-import { withEither } from '@bowtie/react-utils'
+import { withEither, withMaybe } from '@bowtie/react-utils'
 import { Collections, EmptyState, EmptyItem } from './Collections'
 import { api, notifier } from 'lib'
 import { Loading } from 'atoms'
 
+const nullConditionFn = ({ collections }) => !collections
 const emptyStateConditionFn = ({ collections }) => collections.length === 0
 const emptyItemConditionFn = ({ collections, match }) => collections.length > 0 && !match.params['collection']
 const isCollectionLoadingConditionFn = ({ isCollectionLoading }) => isCollectionLoading
@@ -176,6 +177,7 @@ export default compose(
       getFileUploads()
     }
   }),
+  withMaybe(nullConditionFn),
   withEither(emptyStateConditionFn, EmptyState),
   withEither(emptyItemConditionFn, EmptyItem),
   withEither(isCollectionLoadingConditionFn, Loading)

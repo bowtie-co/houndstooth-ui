@@ -16,7 +16,7 @@ const RecursiveFields = (props) => {
         </Col>
         <Col sm='6'>
           <Button onClick={() => onSubmit(formData)}>
-            Submit
+            Save
           </Button>
         </Col>
 

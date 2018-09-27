@@ -33,8 +33,7 @@ const SideMenu = (props) => {
       </NavLink>
 
       <div
-        className={classNames('nav-link', { 'disabled': collections.length < 1, 'active': activeTab === 'collections' && collections.length >= 1 })}
-        disabled={(!repo && !username) || collections.length < 1}
+        className={classNames('nav-link', { 'disabled': !collections || collections.length < 1, 'active': activeTab === 'collections' && collections && collections.length >= 1 })}
       >
 
         <Row className='flex-center' onClick={() => collections.length > 0 && setActiveTab('collections')}>
@@ -48,7 +47,7 @@ const SideMenu = (props) => {
         <Collapse isOpen={['collections'].includes(activeTab)}>
           <div className='collapsable-content'>
             {
-              collections.map((col, i) => {
+              collections && collections.map((col, i) => {
                 return (
                   <NavLink
                     active={collection === col}
