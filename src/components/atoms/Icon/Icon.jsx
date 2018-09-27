@@ -6,12 +6,12 @@ import {
 
 const Icon = ({ className, size = 'xsmall', fill = true, iconName, color, id, tooltip, ...rest }) => {
   const sizes = {
-    xsmall: '',
-    small: 'lg',
-    medium: '2x',
-    large: '3x',
-    xlarge: '4x',
-    xxlarge: '5x'
+    xs: '',
+    sm: 'lg',
+    md: '2x',
+    l: '3x',
+    xl: '4x',
+    xxl: '5x'
   }
 
   const tooltipId = tooltip ? `Tooltip-${id || Date.now()}-${tooltip.split(' ').join('_')}` : id

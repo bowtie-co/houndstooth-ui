@@ -5,7 +5,7 @@ import { Tooltip as TooltipRS } from 'reactstrap'
 const Tooltip = ({ tooltipOpen, placement = 'bottom', toggleToolTip, target, children, ...rest }) => {
   return (
     <TooltipRS
-      delay={{ show: 250, hide: 0 }}
+      delay={{ show: 450, hide: 0 }}
       isOpen={tooltipOpen}
       placement={placement}
       target={target}
