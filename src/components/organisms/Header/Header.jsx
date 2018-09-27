@@ -5,34 +5,32 @@ import {
   NavLink,
   Login,
   Logout,
-  Row,
-  Col,
   Nav,
   Icon,
-  BowtieLogo
+  HoundstoothLogo
 } from 'atoms'
 
 const Header = (props) => {
   return (
-    <Row className='top-nav-section'>
-      <Col className='flex' sm='2'>
-        <BowtieLogo />
-      </Col>
-      <Col sm='4' className='align-end'>
+    <section className='flex-row top-nav-section'>
+      <div className='flex' >
+        <HoundstoothLogo color='white' />
+      </div>
+      <div sm='4' className='flex flex-center'>
         <RepoSelect {...props} />
-      </Col>
-      <Col sm='6'>
+      </div>
+      <div className='flex-grow'>
         <Nav className='nav-bar'>
-          <NavLink path={'/notifications/'}><Icon iconName='bell' color='white' size='md' /></NavLink>
-          <NavLink path={'/settings/'}><Icon iconName='cog' color='white' size='md' /></NavLink>
+          <NavLink path={'/notifications/'}><Icon iconName='bell' color='white' size='sm' /></NavLink>
+          <NavLink path={'/settings/'}><Icon iconName='cog' color='white' size='sm' /></NavLink>
           {
             auth.isAuthenticated()
               ? <Logout />
               : <Login />
           }
         </Nav>
-      </Col>
-    </Row>
+      </div>
+    </section>
   )
 }
 

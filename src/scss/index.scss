@@ -6,9 +6,9 @@
 @import './organisms/CommitChanges.scss';
 @import './organisms/Header.scss';
 @import './organisms/Footer.scss';
-@import './organisms/TodoList.scss';
-@import './organisms/TodoDetail.scss';
+@import './organisms/Tabs.scss';
 @import './organisms/RecursiveFields.scss';
+@import './organisms/Wysiwyg.scss';
 @import './molecules/molecules';
 @import './atoms/buttons.scss';
 @import './atoms/atoms.scss';
@@ -17,6 +17,9 @@
   height: 100%;
 }
 
+.pointer:hover {
+  cursor: pointer;
+}
 
 .space-between {
   display: flex;
@@ -26,6 +29,10 @@
 
 .flex {
   display: flex;
+}
+
+.flex-grow {
+  flex-grow: 1;
 }
 
 .flex-row {
@@ -44,12 +51,18 @@
 }
 
 .align-end {
-  display: flex;
   align-items: flex-end;
 }
 
+.align-center {
+  align-items: center;
+}
+
 .justify-content-end {
-  display: flex;
   justify-content: flex-end;
+}
+
+.justify-content-start {
+  justify-content: flex-start;
 }
 

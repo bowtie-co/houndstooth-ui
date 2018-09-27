@@ -26,8 +26,8 @@ const RadioField = ({ id, options, name, onChange, edited, className = '', ...re
               />
               {
                 rest.value === option.value
-                  ? <Icon iconName='dot-circle' size={'small'} fill={false} />
-                  : <Icon iconName='circle' size={'small'} fill={false} />
+                  ? <Icon iconName='dot-circle' size={'sm'} fill={false} />
+                  : <Icon iconName='circle' size={'sm'} fill={false} />
               }
               <span>{option.label}</span>
             </Label>

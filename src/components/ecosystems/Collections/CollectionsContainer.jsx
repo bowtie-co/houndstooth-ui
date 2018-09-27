@@ -1,10 +1,11 @@
 
 import { compose, withStateHandlers, withPropsOnChange, withHandlers, lifecycle } from 'recompose'
-import { withEither } from '@bowtie/react-utils'
+import { withEither, withMaybe } from '@bowtie/react-utils'
 import { Collections, EmptyState, EmptyItem } from './Collections'
 import { api, notifier } from 'lib'
 import { Loading } from 'atoms'
 
+const nullConditionFn = ({ collections }) => !collections
 const emptyStateConditionFn = ({ collections }) => collections.length === 0
 const emptyItemConditionFn = ({ collections, match }) => collections.length > 0 && !match.params['collection']
 const isCollectionLoadingConditionFn = ({ isCollectionLoading }) => isCollectionLoading
@@ -35,8 +36,6 @@ export default compose(
     selectItem: ({ history, collectionsRoute }) => (itemName) => {
       if (itemName) {
         history.push(`${collectionsRoute}/${itemName}`)
-      } else {
-        history.push(`${collectionsRoute}/new`)
       }
     },
     getFileUploads: ({ match, setFileUploads, branch }) => () => {
@@ -123,12 +122,18 @@ export default compose(
   }
   ),
   withHandlers({
-    handleFormSubmit: ({ createItem, editItem, createFileUpload, getItems, getFileUploads, match, setCollectionLoading, setStagedFileUploads }) => (formData) => {
+    handleFormSubmit: ({ collectionsRoute, items, createItem, history, editItem, createFileUpload, getItems, getFileUploads, match, setCollectionLoading, setStagedFileUploads }) => (formData) => {
       setCollectionLoading(true)
       if (match['params']['item'] === 'new') {
         createItem(formData)
           .then(notifier.ok.bind(notifier))
-          .then(() => getItems())
+          .then(({ data }) => {
+            if (items[0]['name'] === 'NEW FILE') {
+              items.shift()
+            }
+            getItems()
+            history.push(`${collectionsRoute}/${data.data.content['name']}`)
+          })
           .catch(notifier.bad.bind(notifier))
       } else {
         editItem(formData)
@@ -166,6 +171,7 @@ export default compose(
       getFileUploads()
     }
   }),
+  withMaybe(nullConditionFn),
   withEither(emptyStateConditionFn, EmptyState),
   withEither(emptyItemConditionFn, EmptyItem),
   withEither(isCollectionLoadingConditionFn, Loading)

@@ -9,7 +9,8 @@ import {
 import { FieldContainer } from 'molecules'
 
 const RepoControls = (props) => {
-  const { branch, changeBranch, isCommitable, asyncLoadModel, stagedFiles } = props
+  const { branch, changeBranch, isCommitable, asyncLoadModel, stagedFiles, match } = props
+  const { type } = match.params
   console.log('REPO NAV props', props)
   return (
     <Row className='space-between file-tree-navigation'>
@@ -29,9 +30,12 @@ const RepoControls = (props) => {
           onChange={changeBranch}
         />
       </Col>
-      <Col className='justify-content-end'>
-        <Button href={'commit'} disabled={!isCommitable}>Commit Changes</Button>
-      </Col>
+      {
+        type !== 'collections' &&
+          <Col className='justify-content-end'>
+            <Button href={'commit'} disabled={!isCommitable}>Commit Changes</Button>
+          </Col>
+      }
     </Row>
   )
 }

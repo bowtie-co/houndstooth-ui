@@ -51,25 +51,30 @@
 }
 
 .side-menu-section {
-  min-width: 227px;
-  max-width: 227px;
-  background-color: #333333;
-  padding: 0;
+  min-width: 210px;
+  max-width: 210px;
+  background-color: white;
+  border-right: 2px #d3d3d366 solid;
+  margin-left: 21px;
+  .collapsable-content {
+    margin-top: 13px;
+  }
   .nav-link {
-    color: #787878;
+    color: black;
     padding: 21px;
     &:hover,
     &.active {
       cursor: pointer;
-      background-color: black;
-      color: white;
+      background-color: white;
+      color: #ff3500;
     }
     &.disabled {
-      background-color: black;
+      background-color: white;
+      color: #6c757d8c;
       &:hover {
         cursor: default;
-        color: grey;
-        background-color: black;
+        background-color: white;;
+        color: #6c757d8c;
       }
     }
   }

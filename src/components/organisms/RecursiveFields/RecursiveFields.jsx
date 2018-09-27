@@ -11,12 +11,12 @@ const RecursiveFields = (props) => {
         <FieldGroup fields={formData} {...rest} />
       </Col>
       <Row>
-        <Col sm='6'>
-          <Icon onClick={deleteItem} iconName='trash-alt' color='red' />
+        <Col className='flex align-center justify-content-start' sm='6'>
+          <Icon onClick={deleteItem} iconName='trash-alt' color='grey' size='sm' tooltip='Delete file' placement='top' />
         </Col>
-        <Col sm='6'>
+        <Col className='flex align-center justify-content-end' sm='6'>
           <Button onClick={() => onSubmit(formData)}>
-            Submit
+            Save
           </Button>
         </Col>
 

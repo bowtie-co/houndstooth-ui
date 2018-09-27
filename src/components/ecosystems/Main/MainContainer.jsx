@@ -13,7 +13,7 @@ const loadingConditionFn = ({ isMainLoading, repoList }) => isMainLoading || rep
 export const enhance = compose(
   withStateHandlers(({ queryParams, match: { params: { username, repo } } }) => ({
     baseRoute: `repos/${username}/${repo}`,
-    collections: [],
+    collections: null,
     repoList: [],
     repo: {},
     isMainLoading: false,
@@ -56,7 +56,7 @@ export const enhance = compose(
   }),
   withPropsOnChange(['match'], ({ match, setBaseRoute, setCollections }) => {
     const { repo, username } = match.params
-    !repo && setCollections([])
+    !repo && setCollections(null)
     setBaseRoute(`repos/${username}/${repo}`)
   }),
   withEither(loadingConditionFn, Loading)

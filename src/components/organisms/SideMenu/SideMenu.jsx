@@ -27,17 +27,16 @@ const SideMenu = (props) => {
             <Icon size='sm' iconName='tachometer-alt' />
           </Col>
           <Col sm='9'>
-            Dashboard [REPOS]
+            REPOS
           </Col>
         </Row>
       </NavLink>
 
       <div
-        className={classNames('nav-link', { 'disabled': collections.length < 1, 'active': activeTab === 'collections' && collections.length >= 1 })}
-        disabled={(!repo && !username) || collections.length < 1}
+        className={classNames('nav-link', { 'disabled': !collections || collections.length < 1, 'active': activeTab === 'collections' && collections && collections.length >= 1 })}
       >
 
-        <Row className='flex-center' onClick={() => setActiveTab('collections')}>
+        <Row className='flex-center' onClick={() => collections.length > 0 && setActiveTab('collections')}>
           <Col sm='3'>
             <Icon size='sm' iconName='folder' />
           </Col>
@@ -45,27 +44,29 @@ const SideMenu = (props) => {
             Collections
           </Col>
         </Row>
-        <Collapse isOpen={activeTab === 'collections'}>
-          {
-            collections.map((col, i) => {
-              return (
-                <NavLink
-                  active={collection === col}
-                  path={`/repos/${username}/${repo}/collections/${col}?${qs.stringify(queryParams, { encode: false })}`}
-                >
-                  <Row className='flex-center'>
-                    <Col sm='3'>
-                      <Icon size='sm' iconName='folder-open' />
-                    </Col>
-                    <Col sm='9'>
-                      {titleize(col, '_')}
-                    </Col>
-                  </Row>
+        <Collapse isOpen={['collections'].includes(activeTab)}>
+          <div className='collapsable-content'>
+            {
+              collections && collections.map((col, i) => {
+                return (
+                  <NavLink
+                    active={collection === col}
+                    path={`/repos/${username}/${repo}/collections/${col}?${qs.stringify(queryParams, { encode: false })}`}
+                  >
+                    <Row className='flex-center'>
+                      <Col sm='3'>
+                        <Icon size='sm' iconName='folder' fill={false} />
+                      </Col>
+                      <Col sm='9'>
+                        {titleize(col, '_')}
+                      </Col>
+                    </Row>
 
-                </NavLink>
-              )
-            })
-          }
+                  </NavLink>
+                )
+              })
+            }
+          </div>
         </Collapse>
       </div>
 
@@ -107,7 +108,7 @@ const SideMenu = (props) => {
 
             <Row className='flex-center'>
               <Col sm='3'>
-                <Icon size='sm' iconName='folder-open' />
+                <Icon size='sm' iconName='folder' fill={false} />
               </Col>
               <Col sm='9'>
                 File Editor
