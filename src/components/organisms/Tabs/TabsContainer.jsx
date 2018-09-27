@@ -7,9 +7,11 @@ import { compose, withHandlers, withStateHandlers, withPropsOnChange } from 'rec
 
 export const enhance = compose(
   withRouter,
-  withStateHandlers(({ match }) => ({
+  withStateHandlers(({ match, tabs }) => ({
+    tabs: tabs,
     activeTab: match.params['item']
   }), {
+    setTabs: () => (payload) => ({ tabs: payload }),
     setActiveTab: () => (payload) => ({ activeTab: payload })
   }),
   withHandlers({
@@ -17,12 +19,22 @@ export const enhance = compose(
       const name = tabName === 'NEW FILE' ? 'new' : tabName
       onClick && onClick(name)
       setActiveTab(tabName)
+    },
+    addNewItem: ({ history, collectionsRoute, tabs, setTabs }) => () => {
+      if (tabs[0]['name'] !== 'NEW FILE') {
+        history.push(`${collectionsRoute}/new`)
+      }
+    },
+    closeTab: ({ tabs, history, collectionsRoute, setTabs }) => (tab) => {
+      const newTabs = tabs.filter(t => t['name'] !== tab['name'])
+      setTabs(newTabs)
+      history.push(`${collectionsRoute}/${newTabs[0]['name']}`)
     }
   }),
-  withPropsOnChange(['match'], ({ match, setActiveTab, tabs }) => {
+  withPropsOnChange(['match'], ({ match, setActiveTab, tabs, setTabs }) => {
     if (match.params['item'] === 'new') {
       if (tabs[0]['name'] !== 'NEW FILE') {
-        tabs.unshift({ name: 'NEW FILE' })
+        setTabs([{ name: 'NEW FILE' }, ...tabs])
       }
       setActiveTab('NEW FILE')
     } else {

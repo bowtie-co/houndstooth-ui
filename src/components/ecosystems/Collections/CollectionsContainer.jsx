@@ -33,12 +33,6 @@ export default compose(
       const editedItem = Object.assign({}, activeItem, { name: e.target.value })
       setActiveItem(editedItem)
     },
-    addNewItem: ({ history, collectionsRoute, items }) => () => {
-      if (items[0]['name'] !== 'NEW FILE') {
-        items.unshift({ name: 'NEW FILE' })
-        history.push(`${collectionsRoute}/new`)
-      }
-    },
     selectItem: ({ history, collectionsRoute }) => (itemName) => {
       if (itemName) {
         history.push(`${collectionsRoute}/${itemName}`)

@@ -34,7 +34,7 @@ export default Icon
 
 Icon.propTypes = {
   fill: PropTypes.bool,
-  size: PropTypes.oneOf(['xsmall', 'small', 'medium', 'large', 'xlarge', 'xxlarge']),
+  size: PropTypes.oneOf(['xs', 'sm', 'md', 'l', 'xl', 'xxl']),
   iconName: PropTypes.string,
   className: PropTypes.string
 }

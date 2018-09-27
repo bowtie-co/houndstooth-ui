@@ -3,7 +3,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   Button,
-  Icon,
   Row,
   Col
 } from 'atoms'
@@ -13,17 +12,15 @@ import {
 } from 'organisms'
 
 export const Collections = (props) => {
-  const { items, selectItem, addNewItem } = props
+  const { items, selectItem, addNewItem, ...rest } = props
   return (
     <section>
-      <div className='pointer' onClick={addNewItem}>
-        <Icon iconName='plus-circle' /> Add File
-      </div>
       <div className='collections-section'>
         <Tabs
           onClick={selectItem}
           tabs={items}
           vertical
+          {...rest}
         >
           <ItemForm
             {...props}

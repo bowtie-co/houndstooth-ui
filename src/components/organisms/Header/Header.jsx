@@ -21,8 +21,8 @@ const Header = (props) => {
       </div>
       <div className='flex-grow'>
         <Nav className='nav-bar'>
-          <NavLink path={'/notifications/'}><Icon iconName='bell' color='white' size='md' /></NavLink>
-          <NavLink path={'/settings/'}><Icon iconName='cog' color='white' size='md' /></NavLink>
+          <NavLink path={'/notifications/'}><Icon iconName='bell' color='white' size='sm' /></NavLink>
+          <NavLink path={'/settings/'}><Icon iconName='cog' color='white' size='sm' /></NavLink>
           {
             auth.isAuthenticated()
               ? <Logout />

@@ -11,23 +11,5 @@
 .collections-section {
   margin: 16px;
   padding: 0;
-  .nav-tabs {
-    border-bottom: none;
-    .nav-item {
-      background-color: #f0f0f0;
-      color: #c5c5c5;
-      border: 1px #c5c5c5 solid;
-      &.active{
-        border-left: 3px #ff3500 solid;
-        border-right: none;
-      }
-    }
-    .nav-link{
-      &.active{
-        background-color: white;
-        color: #ff3500;
-        border: none;
-      }
-    }
-  }
+  
 }
