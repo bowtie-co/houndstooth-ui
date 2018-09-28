@@ -61,7 +61,7 @@ export const enhance = compose(
     asyncLoadModel: ({ baseRoute }) => (model, search) => {
       return api.get(`${baseRoute}/${model}`)
         .then(({ data }) => {
-          console.log('BRANCH DATA', data)
+          console.log(`${model} DATA FROM ASYNC SELECT`, data)
           return {
             options: data[model]
           }
