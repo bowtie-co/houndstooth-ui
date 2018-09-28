@@ -10,7 +10,7 @@ const RecursiveFields = (props) => {
       <Col>
         <FieldGroup fields={formData} {...rest} />
       </Col>
-      <Row>
+      <Row style={{ 'padding': '0 36px 0 12px' }}>
         <Col className='flex align-center justify-content-start' sm='6'>
           <Icon onClick={deleteItem} iconName='trash-alt' color='grey' size='sm' tooltip='Delete file' placement='top' />
         </Col>
