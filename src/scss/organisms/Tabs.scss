@@ -24,7 +24,13 @@
         &.active{
           background-color: white;
           color: #ff3500;
-          border: none;
+          border-right: none;
+          border-left: none;
+          border-radius: 0;
+          border-top: none;
+        }
+        &:hover {
+          border-color: transparent;
         }
       }
     }
