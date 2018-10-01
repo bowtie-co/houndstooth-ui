@@ -15,7 +15,6 @@ export const enhance = compose(
           console.error(err)
           history.push('/')
         } else {
-          api.get('user')
           history.push(resumeRoute)
         }
       })
