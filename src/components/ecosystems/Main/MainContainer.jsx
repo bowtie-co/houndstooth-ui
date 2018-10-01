@@ -43,7 +43,7 @@ export const enhance = compose(
       setMainLoading(true)
       api.get(`repos?page=${pageNumber}&sort=updated`)
         .then(({ data }) => {
-          setPages(data['pages'])
+          setPages(data['pages'] ? data['pages'] : {})
           setPageNumber(data['pages'])
           setRepoList(data.repos)
           setMainLoading(false)
