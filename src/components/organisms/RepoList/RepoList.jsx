@@ -12,7 +12,7 @@ const RepoList = ({ repoList, pages, setPageNumber, pageNumber }) => {
       <Pagination {...pages} handlePage={setPageNumber} pageNumber={pageNumber} />
       <Row>
         {
-          repoList.map((repo, i) => <Col sm='4'><RepoCard repo={repo} key={i} /></Col>)
+          repoList.map((repo, i) => <Col key={i} sm='4'><RepoCard repo={repo} key={i} /></Col>)
         }
       </Row>
     </section>
