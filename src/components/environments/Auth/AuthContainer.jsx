@@ -3,7 +3,7 @@
 
 import Auth from './Auth'
 import { compose, withHandlers } from 'recompose'
-import { auth, storage, api } from 'lib'
+import { auth, storage } from 'lib'
 
 export const enhance = compose(
   withHandlers({
@@ -15,7 +15,6 @@ export const enhance = compose(
           console.error(err)
           history.push('/')
         } else {
-          api.get('user')
           history.push(resumeRoute)
         }
       })

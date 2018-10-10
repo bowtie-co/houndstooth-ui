@@ -24,11 +24,18 @@
         &.active{
           background-color: white;
           color: #ff3500;
-          border: none;
+          border-right: none;
+          border-left: none;
+          border-radius: 0;
+          border-top: none;
+        }
+        &:hover {
+          border-color: transparent;
         }
       }
     }
   }
+  
   .tab-content-card {
     box-shadow:  2px 5px 14px -4px rgba(0, 0, 0, 0.50);
     border: 1px #c5c5c5 solid;
