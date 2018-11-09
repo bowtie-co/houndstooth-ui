@@ -28,11 +28,11 @@ export const enhance = compose(
     setPageNumber: ({ pageNumber }) => (payload) => {
       const { next, prev } = payload
       if (next) {
-        return { pageNumber: parseInt(next['page']) - 1 }
+        return { pageNumber: parseInt(next['page'], 10) - 1 }
       } else if (prev) {
-        return { pageNumber: parseInt(prev['page']) + 1 }
+        return { pageNumber: parseInt(prev['page'], 10) + 1 }
       } else {
-        return { pageNumber: parseInt(payload) }
+        return { pageNumber: parseInt(payload, 10) }
       }
     },
     setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),

@@ -6,7 +6,7 @@ const ImageUpload = (props) => {
   const { handleFileDrop, name, value, defaultImage, preview, handleCancelPreview, deleteImage, ...rest } = props
   return (
     <FormGroup {...rest}>
-      <img className={'img-preview'} src={value} />
+      <img alt='preview' className={'img-preview'} src={value} />
       <Dropzone
         className='react-dropzone-preview'
         name={name}

@@ -66,7 +66,7 @@
     "url-loader": "0.6.2",
     "uuid": "^3.2.1",
     "webpack": "3.8.1",
-    "webpack-dev-server": "2.9.4",
+    "webpack-dev-server": "^3.1.10",
     "webpack-manifest-plugin": "1.3.2",
     "whatwg-fetch": "2.0.3"
   },
@@ -83,9 +83,8 @@
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-jsx-a11y": "5.1.1",
     "eslint-plugin-react": "7.4.0",
-    "nsp": "^3.2.1",
     "jest": "^22.4.0",
-    "jest-cli": "^22.4.0",
+    "jest-cli": "^23.6.0",
     "jest-enzyme": "^6.0.2",
     "react-test-renderer": "^16.2.0",
     "standard": "^11.0.1"
@@ -95,7 +94,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "scan": "nsp check",
-    "pretest": "npm run lint && npm run scan",
+    "pretest": "npm run lint && npm audit",
     "test": "node scripts/test.js --env=jsdom",
     "test:watch": "node scripts/test.js --env=jsdom",
     "lint": "standard",
