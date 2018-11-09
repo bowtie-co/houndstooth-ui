@@ -2,7 +2,7 @@ import React from 'react'
 import {
   BowtieLogo,
   HoundstoothLogo,
-  Subtitle,
+  // Subtitle,
   Row,
   Col,
   Button,
@@ -19,9 +19,9 @@ const Welcome = () => {
         <Col className='flex flex-center' sm='12'>
           by <BowtieLogo color='black' size='sm' />
         </Col>
-        <Col className='flex flex-center column-2' sm='12'>
+        {/* <Col className='flex flex-center column-2' sm='12'>
           <Subtitle title={'LOGIN'} />
-        </Col>
+        </Col> */}
         <Col className='flex flex-center column-3' sm='12'>
           <Button href={'/login'}>
             <Icon className={'fab fa-github'} size='md' />
