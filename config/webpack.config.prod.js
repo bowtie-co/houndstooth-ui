@@ -1,5 +1,17 @@
 process.traceDeprecation = true
 
+// const memwatch = require('node-memwatch')
+
+// memwatch.on('leak',  function(info) {
+//   console.log('MEMORY LEAK!!!')
+//   console.log(info)
+// })
+
+// memwatch.on('stats', function(stats) {
+//   console.log('MEMORY STATS::::')
+//   console.log(stats)
+// })
+
 const autoprefixer = require('autoprefixer')
 const path = require('path')
 const webpack = require('webpack')
@@ -98,7 +110,11 @@ module.exports = {
   // You can exclude the *.map files from the build during deployment.
   devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the polyfills and the app code.
-  entry: [require.resolve('./polyfills'), paths.appIndexJs],
+  entry: [
+    require.resolve('./polyfills'),
+    paths.appIndexJs,
+    paths.appRoutesJs
+  ],
   output: {
     // The build folder.
     path: paths.appBuild,
@@ -357,6 +373,11 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
+  },
+  performance: {
+    hints: 'error',
+    maxAssetSize: 3500000,
+    maxEntrypointSize: 3500000
   },
   optimization: {
     minimizer: [

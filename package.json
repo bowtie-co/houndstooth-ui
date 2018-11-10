@@ -30,6 +30,7 @@
     "interpolate-html-plugin": "^3.0.0",
     "libphonenumber-js": "^1.2.15",
     "moment": "^2.22.2",
+    "node-memwatch": "^1.0.1",
     "node-sass": "^4.7.2",
     "object-assign": "4.1.1",
     "parse-link-header": "^1.0.1",
