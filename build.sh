@@ -12,4 +12,4 @@ npm test
 
 echo "Building for env: $APP_ENV"
 
-APP_ENV=$APP_ENV npm run build
+GENERATE_SOURCEMAP=false APP_ENV=$APP_ENV npm run build

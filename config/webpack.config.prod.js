@@ -1,17 +1,5 @@
 process.traceDeprecation = true
 
-// const memwatch = require('node-memwatch')
-
-// memwatch.on('leak',  function(info) {
-//   console.log('MEMORY LEAK!!!')
-//   console.log(info)
-// })
-
-// memwatch.on('stats', function(stats) {
-//   console.log('MEMORY STATS::::')
-//   console.log(stats)
-// })
-
 const autoprefixer = require('autoprefixer')
 const path = require('path')
 const webpack = require('webpack')
