@@ -3,7 +3,7 @@ import api from './api'
 import auth from './auth'
 import notifier from './notifier'
 import storage from './storage'
-import selectLists from './selectLists'
+import * as selectLists from './selectLists'
 
 export {
   airbrake,
