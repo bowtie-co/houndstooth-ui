@@ -26,6 +26,7 @@ export default compose(
   withHandlers({
     handleFileUpload: ({ onChange, name: fieldKey, setStagedFileUploads, stagedFileUploads, imagePreview }) => (file) => {
       imagePreview(file)
+      console.log('file', file)
 
       const shouldUpdateStaged = stagedFileUploads.some(stagedFile => stagedFile['fieldKey'] === fieldKey)
       const filePath = `upload/${file['type']}/${Date.now()}_${fieldKey}_${file['name']}`
