@@ -7,6 +7,7 @@ import { withRouter } from 'react-router'
 import { compose, withPropsOnChange } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
 import { Loading } from 'atoms'
+import { withQueryParams } from 'helpers'
 
 // conditional functions here:
 const loadingConditionFn = (props) => props.isLoading
@@ -14,10 +15,7 @@ const loadingConditionFn = (props) => props.isLoading
 export const enhance = compose(
   withRouter,
   withEither(loadingConditionFn, Loading),
-  withPropsOnChange(
-    ({ location }, { location: nextLocation }) => nextLocation.search !== location.search,
-    ({ location }) => ({ queryParams: qs.parse(location.search, { ignoreQueryPrefix: true }) })
-  )
+  withQueryParams
 )
 
 export default enhance(App)
