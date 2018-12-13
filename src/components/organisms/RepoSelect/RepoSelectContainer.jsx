@@ -18,7 +18,9 @@ export default compose(
             options: data['repos']
           }
         })
-        .catch(notifier.bad.bind(notifier))
+        .catch((resp) => {
+          notifier.bad(resp)
+        })
     }
   })
 )(RepoSelect)

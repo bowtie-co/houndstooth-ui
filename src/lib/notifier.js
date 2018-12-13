@@ -11,7 +11,7 @@ class Notifier extends EventEmitter {
 
     this.msgs = []
     this.user = storage.get('current_user')
-    this.timeout = 4000
+    this.timeout = 5000
     this.channels = {}
 
     const types = [
@@ -38,24 +38,38 @@ class Notifier extends EventEmitter {
     this.init()
 
     storage.on('current_user_changed', this.userChange.bind(this))
+    storage.on('clear', this.userChange.bind(this))
   }
 
   userChange (user) {
-    if (user.channels && JSON.stringify(this.channels) !== JSON.stringify(user.channels)) {
-      if (this.pubnub) this.pubnub.stop()
-      this.user = user
-      setTimeout(() => { this.init() }, 500)
+    if (!this.user || !user) {
+      this.resetPubnub()
     }
+
+    this.user = user
+    this.init()
   }
 
   init () {
+    if (!this.pubnub) this.resetPubnub()
+
     if (this.user) {
-      this.channels = this.user.channels
-      this.authorize()
-      this.subscribe()
+      if (this.user.channels && JSON.stringify(this.channels) !== JSON.stringify(this.user.channels)) {
+        this.channels = this.user.channels
+        this.subscribe()
+      }
     } else {
       // NO USER TO INIT NOTIFIER PUBNUB
       // console.warn('NO USER TO INIT NOTIFIER PUBNUB')
+    }
+  }
+
+  resetPubnub () {
+    this.channels = {}
+    if (this.pubnub) this.pubnub.destroy()
+    if (this.user) {
+      this.authorize()
+      this.listen()
     }
   }
 
@@ -68,16 +82,6 @@ class Notifier extends EventEmitter {
     console.log('NOTIFIER RECEIVED MESSAGE:', message)
 
     this.emit(message.channel, message)
-
-    // if (message.message.body) {
-    //   this.msg(message.message.body, message.message.type)
-    // }
-
-    if (message.message.conn_update) {
-      let changes = storage.get('current_user')
-      changes.channels = message.message.channels
-      storage.set('current_user', changes)
-    }
   }
 
   handlePresence (presence) {
@@ -112,7 +116,6 @@ class Notifier extends EventEmitter {
       authKey: this.user.auth_key,
       ssl: true
     })
-    // this.subscribe()
   }
 
   listen () {
@@ -134,8 +137,6 @@ class Notifier extends EventEmitter {
     this.pubnub.subscribe({
       channels: this.readChannels()
     })
-
-    this.listen()
   }
 
   unsubscribe () {
@@ -165,10 +166,6 @@ class Notifier extends EventEmitter {
 
     if (Array.isArray(saved)) {
       this.msgs = saved
-
-      if (this.msgs.length > 0) {
-        setTimeout(this.reset.bind(this), this.timeout)
-      }
     } else {
       console.warn('Bad saved messages format', saved)
     }
@@ -193,38 +190,69 @@ class Notifier extends EventEmitter {
 
     const color = this.colorMap[type] || type
 
-    this.msgs.push({
+    const msg = {
       id,
       body,
       type,
       color
-    })
+    }
+
+    this.msgs.push(msg)
 
     this.save()
   }
 
+  clearMsg (msg) {
+    const msgIndex = this.msgs.findIndex(m => m.id === msg.id)
+
+    if (msgIndex >= 0) {
+      this.msgs.splice(msgIndex, 1)
+      this.save()
+    } else {
+      console.log('Cannot clear unknown msg', msg)
+    }
+  }
+
+  readMsg (msg) {
+    setTimeout(() => {
+      this.clearMsg(msg)
+    }, this.timeout)
+  }
+
   ok (resp) {
-    if (resp.data && resp.data.message) {
-      this.success(resp.data.message)
+    if (resp.originalData && resp.originalData.message) {
+      this.success(resp.originalData.message)
     }
 
     return Promise.resolve(resp)
   }
 
   bad (resp) {
-    this.parseErrors(resp.data || resp)
+    this.parseErrors(resp.originalData || resp)
 
     return Promise.resolve(resp)
   }
 
   apiErrors (resp, handler) {
-    if (!resp.data) return
+    console.log('Handling API errors', resp)
 
-    let { message, errors } = resp.data
+    // if (!resp.originalData || !resp.data.errors) return
 
-    if (errors) {
+    const data = resp.originalData ? resp.originalData : resp.data
+
+    if (!data) {
+      return
+    }
+
+    let { message, errors } = data
+
+    if (Array.isArray(errors)) {
+      message = errors.map(err => err).join(`\n`)
+    } else if (errors && Object.keys(errors).length > 0) {
       message = Object.keys(errors).map(err => {
         const msg = errors[err]
+        console.log('err: ', typeof err)
+        console.log('msg: ', msg)
 
         return `${titleize(err, '_')} ${msg}`
       }).join(`\n`)
