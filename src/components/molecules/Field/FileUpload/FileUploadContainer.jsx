@@ -4,7 +4,7 @@ import { compose, withHandlers, withPropsOnChange, withState } from 'recompose'
 
 export default compose(
   withState('previewId', 'setPreviewId', ({ name }) => `upload_${name}_${Date.now()}`),
-  withPropsOnChange(['items'], ({ name, value, branch, match }) => {
+  withPropsOnChange(['items', 'value'], ({ name, value, branch, match }) => {
     const { username, repo } = match.params
     if (value) {
       const sanitizedVal = encodeURI(value)

@@ -12,7 +12,7 @@ export default compose(
   }),
   withHandlers({
     asyncLoadRepos: () => (search) => {
-      return api.get(`repos`)
+      return api.get(`repos?q=${search}`)
         .then(({ data }) => {
           return {
             options: data['repos']
