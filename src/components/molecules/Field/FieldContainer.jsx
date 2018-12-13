@@ -7,7 +7,7 @@ import { endsWith } from '@bowtie/utils'
 import Input from './Input'
 import Select from './Select'
 import Checkbox from './Checkbox'
-// import DateTimeContainer from './DateTime'
+import DateTimeContainer from './DateTime'
 import ColorPicker from './ColorPicker'
 import FileUpload from './FileUpload'
 import MultiSelect from './MultiSelect'
@@ -33,12 +33,12 @@ const phoneCondition = ({ type }) => type === 'phone'
 const datePickerCondition = ({ type }) => type === 'datepicker'
 const timePickerCondition = ({ type }) => type === 'timepicker'
 const imageUploadCondition = ({ type }) => type === 'image'
-// const dateTimePickerCondition = ({ type, name }) => endsWith(name, ['_date', '_on', '_time', '_at']) || type === 'date' || type === 'time' || type === 'datetime'
+const dateTimePickerCondition = ({ type, name }) => endsWith(name, ['_date', '_on', '_time', '_at']) || type === 'date' || type === 'time' || type === 'datetime'
 
 export default compose(
   withEither(selectCondition, Select),
   withEither(checkboxCondition, Checkbox),
-  // withEither(dateTimePickerCondition, DateTimeContainer),
+  withEither(dateTimePickerCondition, DateTimeContainer),
   withEither(multiSelectCondition, MultiSelect),
   withEither(radioCondition, Radio),
   withEither(isColorConditionFn, ColorPicker),
