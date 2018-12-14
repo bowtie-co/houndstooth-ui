@@ -12,11 +12,13 @@
 import Main from './Main'
 import Repo from './Repo'
 import Collections from './Collections'
+import Users from './Users'
 import FileTree from './FileTree'
 
 export {
   Main,
   Repo,
   Collections,
-  FileTree
+  FileTree,
+  Users
 }

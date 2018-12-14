@@ -72,7 +72,7 @@ const SideMenu = (props) => {
 
       <NavLink
         active={activeTab === 'users'}
-        path={'/repos'}
+        path={`/repos/${username}/${repo}/_users`}
         onClick={() => setActiveTab('users')}
       >
 
