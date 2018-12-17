@@ -11,8 +11,6 @@ const buildAliases = (fromPaths) => {
 
     const srcFiles = fs.readdirSync(fullFromPath)
 
-    console.log(srcFiles)
-
     srcFiles.forEach(fileName => {
       const filePath = path.join(fullFromPath, fileName)
 
