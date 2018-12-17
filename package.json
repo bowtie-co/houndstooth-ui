@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@bowtie/api": "^0.5.0",
-    "@bowtie/react-scripts": "^2.1.4",
+    "@bowtie/react-scripts": "^2.1.5",
     "@bowtie/react-utils": "^0.1.1",
     "@bowtie/utils": "^0.3.0",
     "airbrake-js": "^1.1.2",
