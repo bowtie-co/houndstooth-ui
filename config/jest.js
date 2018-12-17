@@ -17,7 +17,7 @@ const mapAliasNames = (aliases) => {
 }
 
 module.exports = {
-  browser: true,
+  // browser: true,
   moduleNameMapper: Object.assign({
     '^libphonenumber-js$': 'libphonenumber-js'
   }, mapAliasNames(aliases))
