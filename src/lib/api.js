@@ -14,6 +14,8 @@ const api = new Api({
   authorization: 'Bearer'
 })
 
+storage.set('apiBaseUrl', api.baseUrl())
+
 api.authorize({
   // token: () => storage.get('id_token')
   token: () => storage.get('access_token')
