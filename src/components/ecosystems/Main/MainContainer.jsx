@@ -27,7 +27,7 @@ export const enhance = compose(
     setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
     setRepo: ({ repo }) => (payload) => ({ repo: payload }),
     setPages: ({ pages }) => (payload) => ({ pages: payload }),
-    setPageNumber: ({ pageNumber }) => (payload) => {
+    setPageNumber: ({ pageNumber }) => (payload = {}) => {
       const { next, prev } = payload
       if (next) {
         return { pageNumber: parseInt(next['page'], 10) - 1 }

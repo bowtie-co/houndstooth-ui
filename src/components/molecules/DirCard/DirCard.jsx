@@ -10,11 +10,12 @@ const DirCard = ({ dir, branch }) => {
   const { type, path, name } = dir
   const nameArray = name.split('.')
   const ext = nameArray.length > 1 ? nameArray[nameArray.length - 1] : null
+  const imgRoot = `images/${supportedIcons.includes(ext) ? ext : type}.svg`
   return (
     <Link
       to={{ pathname: `${type}`, search: `?path=${path}&ref=${branch}` }}
       className='repoDir'>
-      <img className='fileIcon' src={require(`images/${supportedIcons.includes(ext) ? ext : type}.svg`)} alt='' />
+      <img className='fileIcon' src={require(imgRoot)} alt='' />
       <Subtitle title={name} />
     </Link>
   )
