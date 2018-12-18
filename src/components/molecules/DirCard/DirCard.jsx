@@ -14,7 +14,7 @@ const DirCard = ({ dir, branch }) => {
     <Link
       to={{ pathname: `${type}`, search: `?path=${path}&ref=${branch}` }}
       className='repoDir'>
-      <img className='fileIcon' src={require(`images/${supportedIcons.includes(ext) ? ext : type}.svg`)} alt='' />
+      <img className='fileIcon' src={require(`./${supportedIcons.includes(ext) ? ext : type}.svg`)} alt='' />
       <Subtitle title={name} />
     </Link>
   )

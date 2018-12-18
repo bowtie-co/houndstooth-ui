@@ -14,6 +14,7 @@ export const enhance = compose(
   withStateHandlers(({ queryParams, match: { params: { username, repo } } }) => ({
     baseRoute: `repos/${username}/${repo}`,
     collections: null,
+    orgList: [],
     repoList: [],
     repo: {},
     isMainLoading: false,
@@ -22,10 +23,11 @@ export const enhance = compose(
   }), {
     setBaseRoute: ({ baseRoute }) => (payload) => ({ baseRoute: payload }),
     setCollections: ({ collections }) => (payload) => ({ collections: payload }),
+    setOrgList: ({ orgList }) => (payload) => ({ orgList: payload }),
     setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
     setRepo: ({ repo }) => (payload) => ({ repo: payload }),
     setPages: ({ pages }) => (payload) => ({ pages: payload }),
-    setPageNumber: ({ pageNumber }) => (payload) => {
+    setPageNumber: ({ pageNumber }) => (payload = {}) => {
       const { next, prev } = payload
       if (next) {
         return { pageNumber: parseInt(next['page'], 10) - 1 }
@@ -54,10 +56,16 @@ export const enhance = compose(
   withPropsOnChange(['pageNumber'], ({ getRepos }) => {
     getRepos()
   }),
-  withPropsOnChange(['match'], ({ match, setBaseRoute, setCollections }) => {
+  withPropsOnChange(['match'], ({ match, setBaseRoute, setCollections, setOrgList }) => {
     const { repo, username } = match.params
     !repo && setCollections(null)
     setBaseRoute(`repos/${username}/${repo}`)
+
+    api.get(`orgs?per_page=100`)
+      .then(({ data }) => {
+        setOrgList(data.orgs)
+      })
+      .catch(notifier.bad.bind(notifier))
   }),
   withEither(loadingConditionFn, Loading)
 )
