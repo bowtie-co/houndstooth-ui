@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 APP_ENV=staging
 
 if [ "$BRANCH" == "production" ]; then

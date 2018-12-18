@@ -1,26 +1,26 @@
 
-import { compose, withHandlers, withStateHandlers } from 'recompose'
+import { compose, withStateHandlers, lifecycle } from 'recompose'
 import { api, notifier } from 'lib'
 
 import RepoSelect from './RepoSelect'
 
 export default compose(
   withStateHandlers({
-    activeRepo: ''
+    activeRepo: '',
+    loadingRepos: true,
+    repoList: []
   }, {
-    setActiveRepo: () => (payload) => ({ activeRepo: payload })
+    setActiveRepo: () => (payload) => ({ activeRepo: payload }),
+    setLoadingRepos: () => (payload) => ({ loadingRepos: payload }),
+    setRepoList: () => (payload) => ({ repoList: payload })
   }),
-  withHandlers({
-    asyncLoadRepos: () => (search) => {
-      return api.get(`repos`)
-        .then(({ data }) => {
-          return {
-            options: data['repos']
-          }
-        })
-        .catch((resp) => {
-          notifier.bad(resp)
-        })
+  lifecycle({
+    async componentWillMount () {
+      const { setRepoList, setLoadingRepos } = this.props
+      setLoadingRepos(true)
+      const { data } = await api.get(`repos?per_page=100`).catch((resp) => { notifier.bad(resp) })
+      setRepoList(data.repos)
+      setLoadingRepos(false)
     }
   })
 )(RepoSelect)
