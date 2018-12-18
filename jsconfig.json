@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "allowSyntheticDefaultImports": false,
+    "baseUrl": "./",
+    "paths": {
+      "atoms/*": [ "src/components/atoms/*" ],
+      "ecosystems/*": [ "src/components/ecosystems/*" ],
+      "environments/*": [ "src/components/environments/*" ],
+      "molecules/*": [ "src/components/molecules/*" ],
+      "organisms/*": [ "src/components/organisms/*" ],
+      "models/*": [ "src/components/models/*" ],
+      "components/*": [ "src/components/*" ],
+      "helpers/*": [ "src/helpers/*" ],
+      "lib/*": [ "src/lib/*" ],
+      "Routes/*": [ "src/Routes/*" ],
+      "scss/*": [ "src/scss/*" ],
+      "src/*": [ "src/src/*" ]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}
