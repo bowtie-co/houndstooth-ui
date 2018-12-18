@@ -50,6 +50,7 @@ const SideMenu = (props) => {
               collections && collections.map((col, i) => {
                 return (
                   <NavLink
+                    key={i}
                     active={collection === col}
                     path={`/repos/${username}/${repo}/collections/${col}?${qs.stringify(queryParams, { encode: false })}`}
                   >
