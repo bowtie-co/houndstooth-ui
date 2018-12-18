@@ -1,15 +1,20 @@
-import React from 'react'
+/* eslint no-restricted-syntax: ['import'] */
+
+import React, { Suspense } from 'react'
 import PropTypes from 'prop-types'
-import { Card, TextEditor, Button } from 'atoms'
+import { Card, Button } from 'atoms'
+const TextEditor = React.lazy(() => import('atoms/TextEditor'))
 
 const FileSingle = ({ file, content, setContent, saveFile }) => {
   return (
     <Card>
-      <TextEditor
-        content={content}
-        name={file.name}
-        onChange={setContent}
-      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <TextEditor
+          content={content}
+          name={file.name}
+          onChange={setContent}
+        />
+      </Suspense>
       <Button onClick={() => saveFile(content)} >Save</Button>
     </Card>
   )
