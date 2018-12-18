@@ -59,12 +59,12 @@ export const enhance = compose(
   withPropsOnChange(['pageNumber'], ({ getRepos, setRepoList, setPages, setPageNumber, pageNumber }) => {
     const cachedRepoList = storage.getSession(`repo_list_page_${pageNumber}`)
 
-    if (cachedRepoList && cachedRepoList.length > 0) {
+    if (!cachedRepoList || cachedRepoList.length <= 0) {
+      getRepos()
+    } else {
       setRepoList(cachedRepoList['repos'])
       setPages(cachedRepoList['pages'])
       setPageNumber(cachedRepoList['pages'])
-    } else {
-      getRepos()
     }
   }),
   withPropsOnChange(['match'], ({ match, setBaseRoute, setCollections, setOrgList }) => {
