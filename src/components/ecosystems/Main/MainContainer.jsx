@@ -5,7 +5,7 @@ import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'rec
 import { withEither } from '@bowtie/react-utils'
 import Main from './Main'
 import { Loading } from 'atoms'
-import { api, notifier } from 'lib'
+import { api, notifier, storage } from 'lib'
 
 // conditional functions here:
 const loadingConditionFn = ({ isMainLoading, repoList }) => isMainLoading || repoList.length <= 0
@@ -47,14 +47,25 @@ export const enhance = compose(
         .then(({ data }) => {
           setPages(data['pages'])
           setPageNumber(data['pages'])
-          setRepoList(data.repos)
+
+          storage.setSession(`repo_list_page_${pageNumber || 1}`, data)
+          setRepoList(data['repos'])
+
           setMainLoading(false)
         })
         .catch(notifier.bad.bind(notifier))
     }
   }),
-  withPropsOnChange(['pageNumber'], ({ getRepos }) => {
-    getRepos()
+  withPropsOnChange(['pageNumber'], ({ getRepos, setRepoList, setPages, setPageNumber, pageNumber }) => {
+    const cachedRepoList = storage.getSession(`repo_list_page_${pageNumber}`)
+
+    if (cachedRepoList && cachedRepoList.length > 0) {
+      setRepoList(cachedRepoList['repos'])
+      setPages(cachedRepoList['pages'])
+      setPageNumber(cachedRepoList['pages'])
+    } else {
+      getRepos()
+    }
   }),
   withPropsOnChange(['match'], ({ match, setBaseRoute, setCollections, setOrgList }) => {
     const { repo, username } = match.params
