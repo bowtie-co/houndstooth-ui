@@ -54,6 +54,7 @@
   position: relative;
   border-right: 2px #d3d3d366 solid;
   box-shadow: #d3d3d366 2px 0px 8px;
+  transition: width 1s ease;
 }
 
 .isCollapsed, 
