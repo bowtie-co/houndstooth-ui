@@ -1,9 +1,7 @@
-/* eslint no-restricted-syntax: ['import'] */
-
 import React, { Suspense } from 'react'
 import PropTypes from 'prop-types'
 import { Card, Button } from 'atoms'
-const TextEditor = React.lazy(() => import('atoms/TextEditor'))
+import TextEditor from 'atoms/TextEditor'
 
 const FileSingle = ({ file, content, setContent, saveFile }) => {
   return (

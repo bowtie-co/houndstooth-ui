@@ -12,7 +12,6 @@ import ColorPicker from './ColorPicker'
 import FileUpload from './FileUpload'
 import MultiSelect from './MultiSelect'
 import Radio from './Radio'
-import DocumentContainer from './Document/DocumentContainer'
 import PhoneInput from './PhoneInput'
 import DatePicker from './DatePicker'
 import TimePicker from './TimePicker'
@@ -28,7 +27,6 @@ const checkboxCondition = ({ type, name, value }) => typeof value === 'boolean' 
 const radioCondition = ({ type }) => type === 'radio'
 const selectCondition = ({ type }) => type === 'select'
 const multiSelectCondition = ({ type }) => type === 'multiselect'
-const documentUploadCondition = ({ type }) => type === 'document'
 const phoneCondition = ({ type }) => type === 'phone'
 const datePickerCondition = ({ type }) => type === 'datepicker'
 const timePickerCondition = ({ type }) => type === 'timepicker'
@@ -43,7 +41,6 @@ export default compose(
   withEither(radioCondition, Radio),
   withEither(isColorConditionFn, ColorPicker),
   withEither(isFileConditionFn, FileUpload),
-  withEither(documentUploadCondition, DocumentContainer),
   withEither(phoneCondition, PhoneInput),
   withEither(datePickerCondition, DatePicker),
   withEither(timePickerCondition, TimePicker),
