@@ -110,12 +110,14 @@ class Notifier extends EventEmitter {
   }
 
   authorize () {
-    this.pubnub = new PubNub({
-      publishKey: process.env.REACT_APP_PUBNUB_PUBLISH_KEY,
-      subscribeKey: process.env.REACT_APP_PUBNUB_SUBSCRIBE_KEY,
-      authKey: this.user.auth_key,
-      ssl: true
-    })
+    if (process.env.REACT_APP_PUBNUB_PUBLISH_KEY && process.env.REACT_APP_PUBNUB_SUBSCRIBE_KEY) {
+      this.pubnub = new PubNub({
+        publishKey: process.env.REACT_APP_PUBNUB_PUBLISH_KEY,
+        subscribeKey: process.env.REACT_APP_PUBNUB_SUBSCRIBE_KEY,
+        authKey: this.user.auth_key,
+        ssl: true
+      })
+    }
   }
 
   listen () {
@@ -220,75 +222,23 @@ class Notifier extends EventEmitter {
   }
 
   ok (resp) {
-    if (resp.originalData && resp.originalData.message) {
-      this.success(resp.originalData.message)
+    const { data } = resp
+
+    if (data && data.message) {
+      this.success(data.message)
     }
 
     return Promise.resolve(resp)
   }
 
   bad (resp) {
-    this.parseErrors(resp.originalData || resp)
+    const { data } = resp
 
-    return Promise.resolve(resp)
-  }
-
-  apiErrors (resp, handler) {
-    console.log('Handling API errors', resp)
-
-    // if (!resp.originalData || !resp.data.errors) return
-
-    const data = resp.originalData ? resp.originalData : resp.data
-
-    if (!data) {
-      return
-    }
-
-    let { message, errors } = data
-
-    if (Array.isArray(errors)) {
-      message = errors.map(err => err).join(`\n`)
-    } else if (errors && Object.keys(errors).length > 0) {
-      message = Object.keys(errors).map(err => {
-        const msg = errors[err]
-        console.log('err: ', typeof err)
-        console.log('msg: ', msg)
-
-        return `${titleize(err, '_')} ${msg}`
-      }).join(`\n`)
-    }
-
-    if (message) {
-      this.error(message)
-    }
-
-    if (errors && typeof handler === 'function') {
-      handler(errors)
-    }
-  }
-
-  parseErrors (data) {
-    const errors = data.errors || data.error
-
-    if (data.message) {
+    if (data && data.message) {
       this.error(data.message)
     }
 
-    if (errors) {
-      if (Array.isArray(errors)) {
-        errors.forEach(notifier.error)
-      } else if (errors.message) {
-        this.error(errors.message)
-      } else if (typeof errors === 'object') {
-        Object.keys(errors).forEach(key => {
-          const msg = errors[key]
-
-          this.error(`[${key}] ${msg}`)
-        })
-      } else {
-        this.error(JSON.stringify(errors))
-      }
-    }
+    return Promise.resolve(resp)
   }
 }
 

@@ -136,9 +136,9 @@ export default compose(
             getItems()
             history.push(`${collectionsRoute}/${data.data.content['name']}`)
           })
-          .catch(({ data }) => {
+          .catch((resp) => {
             setCollectionLoading(false)
-            notifier.bad(data)
+            notifier.bad(resp)
           })
       } else {
         editItem(formData)
@@ -146,9 +146,9 @@ export default compose(
             notifier.success('Item updated successfully!')
           })
           .then(() => getItems())
-          .catch(({ data }) => {
+          .catch((resp) => {
             setCollectionLoading(false)
-            notifier.bad(data)
+            notifier.bad(resp)
           })
       }
 
