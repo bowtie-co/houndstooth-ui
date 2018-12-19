@@ -3,7 +3,6 @@ import uuid from 'uuid/v1'
 import { setTimeout } from 'timers'
 import PubNub from 'pubnub'
 import storage from './storage'
-import { titleize } from '@bowtie/utils'
 
 class Notifier extends EventEmitter {
   constructor () {
