@@ -10,7 +10,7 @@ if [ "$BRANCH" == "production" ]; then
   # GENERATE_SOURCEMAP=false
 fi
 
-npm install --production
+npm install
 
 npm test
 
