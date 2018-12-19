@@ -11,8 +11,7 @@ import { api, notifier, storage } from 'lib'
 const loadingConditionFn = ({ isMainLoading, repoList }) => isMainLoading || repoList.length <= 0
 
 export const enhance = compose(
-  withStateHandlers(({ queryParams, match: { params: { username, repo } } }) => ({
-    baseRoute: `repos/${username}/${repo}`,
+  withStateHandlers(({ queryParams }) => ({
     collections: null,
     orgList: [],
     repoList: [],
@@ -21,7 +20,6 @@ export const enhance = compose(
     pages: {},
     pageNumber: 1
   }), {
-    setBaseRoute: ({ baseRoute }) => (payload) => ({ baseRoute: payload }),
     setCollections: ({ collections }) => (payload) => ({ collections: payload }),
     setOrgList: ({ orgList }) => (payload) => ({ orgList: payload }),
     setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
@@ -47,9 +45,9 @@ export const enhance = compose(
         .then(({ data }) => {
           setPages(data['pages'])
           setPageNumber(data['pages'])
-
-          storage.setSession(`repo_list_page_${pageNumber || 1}`, data)
           setRepoList(data['repos'])
+
+          storage.set(`repo_list_page_${pageNumber || 1}`, data)
 
           setMainLoading(false)
         })
@@ -57,7 +55,7 @@ export const enhance = compose(
     }
   }),
   withPropsOnChange(['pageNumber'], ({ getRepos, setRepoList, setPages, setPageNumber, pageNumber }) => {
-    const cachedRepoList = storage.getSession(`repo_list_page_${pageNumber}`)
+    const cachedRepoList = storage.get(`repo_list_page_${pageNumber}`)
 
     if (!cachedRepoList || cachedRepoList.length <= 0) {
       getRepos()
@@ -67,10 +65,9 @@ export const enhance = compose(
       setPageNumber(cachedRepoList['pages'])
     }
   }),
-  withPropsOnChange(['match'], ({ match, setBaseRoute, setCollections, setOrgList }) => {
-    const { repo, username } = match.params
+  withPropsOnChange(['match'], ({ match, setCollections, setOrgList }) => {
+    const { repo } = match.params
     !repo && setCollections(null)
-    setBaseRoute(`repos/${username}/${repo}`)
 
     api.get(`orgs?per_page=100`)
       .then(({ data }) => {
@@ -78,6 +75,9 @@ export const enhance = compose(
       })
       .catch(notifier.bad.bind(notifier))
   }),
+  withPropsOnChange(['match'], ({ match: { params: { username, repo } } }) => ({
+    baseRoute: `repos/${username}/${repo}`
+  })),
   withEither(loadingConditionFn, Loading)
 )
 

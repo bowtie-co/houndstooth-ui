@@ -5,13 +5,13 @@ import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'rec
 import Repo from './Repo'
 // import { Loading } from 'atoms'
 import qs from 'qs'
-import { api, notifier } from 'lib'
+import { api, notifier, storage } from 'lib'
 
 // conditional functions here:
 // const loadingConditionalFn = ({ isRepoLoading }) => isRepoLoading
 
 export const enhance = compose(
-  withStateHandlers(({ queryParams, match: { params: { username, repo } } }) => ({
+  withStateHandlers(({ queryParams }) => ({
     branch: queryParams['ref'] || 'master',
     stagedFiles: [],
     dirList: [],
@@ -58,15 +58,26 @@ export const enhance = compose(
 
       setStagedFiles([])
     },
-    asyncLoadModel: ({ baseRoute }) => (model, search) => {
-      return api.get(`${baseRoute}/${model}`)
-        .then(({ data }) => {
-          console.log(`${model} DATA FROM ASYNC SELECT`, data)
-          return {
-            options: data[model]
-          }
-        })
-        .catch(notifier.bad.bind(notifier))
+    asyncLoadModel: (props) => (model, search) => {
+      const { baseRoute, match } = props
+      console.log('====================================')
+      console.log('branches baseRoute check', baseRoute, props)
+      console.log('====================================')
+      const storageKey = `${match.params['repo']}_${model}`
+
+      if (storage.get(storageKey)) {
+        return new Promise((resolve, reject) => resolve({ options: storage.get(storageKey) }))
+      } else {
+        return api.get(`${baseRoute}/${model}`)
+          .then(({ data }) => {
+            console.log(`${model} DATA FROM ASYNC SELECT`, data[model])
+            storage.set(model, data[model])
+            return {
+              options: data[model]
+            }
+          })
+          .catch(notifier.bad.bind(notifier))
+      }
     }
   }),
   withPropsOnChange(['baseRoute'], ({ match, setCollections, setRepoLoading, baseRoute }) => {

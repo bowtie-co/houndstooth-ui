@@ -20,7 +20,7 @@ export default compose(
     fileUploads: {},
     stagedFileUploads: []
   }), {
-    setBaseRoute: ({ collectionsRoute }) => (payload) => ({ collectionsRoute: payload }),
+    setCollectionBaseRoute: ({ collectionsRoute }) => (payload) => ({ collectionsRoute: payload }),
     setItems: ({ items }) => (payload) => ({ items: payload }),
     setDefaultFields: ({ defaultFields }) => (payload) => ({ defaultFields: payload }),
     setActiveItem: ({ activeItem }) => (payload) => ({ activeItem: payload }),
@@ -97,10 +97,10 @@ export default compose(
   }),
   withPropsOnChange(
     ({ match }, { match: nextMatch }) => match.params.collection !== nextMatch.params.collection,
-    ({ match, setBaseRoute, getItems, setActiveItem }) => {
+    ({ match, setCollectionBaseRoute, getItems, setActiveItem }) => {
       const { username, repo, collection } = match.params
       const newBaseRoute = `/repos/${username}/${repo}/collections/${collection || ''}`
-      setBaseRoute(newBaseRoute)
+      setCollectionBaseRoute(newBaseRoute)
       setActiveItem({})
       getItems(newBaseRoute)
     }

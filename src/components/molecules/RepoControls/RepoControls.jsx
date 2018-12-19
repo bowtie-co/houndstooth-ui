@@ -23,7 +23,7 @@ const RepoControls = (props) => {
           clearable={false}
           type={'select'}
           label={'Select a Branch'}
-          value={branch}
+          value={{ name: branch }}
           valueKey='name'
           labelKey='name'
           loadOptions={(search) => asyncLoadModel('branches', search)}
