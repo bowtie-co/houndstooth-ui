@@ -54,6 +54,12 @@ export const enhance = compose(
         .catch(notifier.bad.bind(notifier))
     }
   }),
+  withHandlers({
+    reloadRepos: ({ getRepos }) => () => {
+      storage.clear()
+      getRepos()
+    }
+  }),
   withPropsOnChange(['pageNumber'], ({ getRepos, setRepoList, setPages, setPageNumber, pageNumber }) => {
     const cachedRepoList = storage.get(`repo_list_page_${pageNumber}`)
 

@@ -15,7 +15,7 @@ import {
 import { Repo } from '..'
 
 const Main = (props) => {
-  const { isMainLoading, setMainLoading, repoList, pages, setPageNumber, pageNumber, ...rest } = props
+  const { isMainLoading, setMainLoading, repoList, pages, setPageNumber, pageNumber, reloadRepos, ...rest } = props
   return (
     <section>
       <Header {...props} />
@@ -25,7 +25,7 @@ const Main = (props) => {
           <Switch>
             <PrivateRoute
               exact
-              props={{ repoList, pages, setPageNumber, pageNumber }}
+              props={{ repoList, pages, setPageNumber, pageNumber, reloadRepos }}
               path={'/repos'}
               component={RepoList}
             />
