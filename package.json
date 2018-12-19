@@ -57,8 +57,7 @@
     "build": "craco build",
     "scan": "npm audit",
     "test": "craco test",
-    "posttest": "npm run lint && npm audit",
-    "test:watch": "craco test",
+    "ci": "npm run lint && npm audit && npm test",
     "lint": "standard",
     "lint:fix": "standard --fix"
   },
