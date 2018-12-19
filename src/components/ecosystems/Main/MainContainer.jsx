@@ -47,7 +47,10 @@ export const enhance = compose(
           setPageNumber(data['pages'])
           setRepoList(data['repos'])
 
-          storage.set(`repo_list_page_${pageNumber || 1}`, data)
+          const repos = storage.get('repos') || {}
+          const newRepos = Object.assign(repos, { [`page_${pageNumber || 1}`]: data })
+
+          storage.set(`repos`, newRepos)
 
           setMainLoading(false)
         })
@@ -56,12 +59,12 @@ export const enhance = compose(
   }),
   withHandlers({
     reloadRepos: ({ getRepos }) => () => {
-      storage.clear()
+      storage.remove('repos')
       getRepos()
     }
   }),
   withPropsOnChange(['pageNumber'], ({ getRepos, setRepoList, setPages, setPageNumber, pageNumber }) => {
-    const cachedRepoList = storage.get(`repo_list_page_${pageNumber}`)
+    const cachedRepoList = storage.get(`repos`) ? storage.get(`repos`)[`page_${pageNumber}`] : null
 
     if (!cachedRepoList || cachedRepoList.length <= 0) {
       getRepos()

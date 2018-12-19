@@ -60,9 +60,7 @@ export const enhance = compose(
     },
     asyncLoadModel: (props) => (model, search) => {
       const { baseRoute, match } = props
-      console.log('====================================')
-      console.log('branches baseRoute check', baseRoute, props)
-      console.log('====================================')
+
       const storageKey = `${match.params['repo']}_${model}`
 
       if (storage.get(storageKey)) {
@@ -71,7 +69,7 @@ export const enhance = compose(
         return api.get(`${baseRoute}/${model}`)
           .then(({ data }) => {
             console.log(`${model} DATA FROM ASYNC SELECT`, data[model])
-            storage.set(model, data[model])
+            storage.set(storageKey, data[model])
             return {
               options: data[model]
             }
