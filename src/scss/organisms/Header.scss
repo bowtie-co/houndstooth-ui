@@ -50,19 +50,52 @@
   }
 }
 
+.collapse-horizontal {
+  position: relative;
+  border-right: 2px #d3d3d366 solid;
+  box-shadow: #d3d3d366 2px 0px 8px;
+}
+
+.isCollapsed, 
+.collapsedWrapper {
+  width: 88px;
+}
+
+.isCollapsed {
+  overflow: hidden;
+  border-right: 2px #d3d3d366 solid;
+}
+
+.collapsable-arrow {
+  z-index: 4;
+  position: absolute;
+  border: 2px #d3d3d366 solid;
+  box-shadow: #d3d3d366 3px 3px 7px;
+  border-left: none;
+  right: -45px;
+  top: 31px;
+  width: 45px;
+  height: 47px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 .side-menu-section {
   padding-top: 17px;
-  min-width: 210px;
-  max-width: 210px;
+  width: 210px;
+  height: 100%;
+  // max-width: 210px;
   background-color: white;
-  border-right: 2px #d3d3d366 solid;
   margin-left: 21px;
   .collapsable-content {
     margin-top: 13px;
   }
   .nav-link {
     color: black;
-    padding: 21px;
+    padding: 15px 15px 15px 12px;
     &:hover,
     &.active {
       cursor: pointer;
@@ -78,6 +111,22 @@
         color: #6c757d8c;
       }
     }
+    .navlink.nested {
+      padding-left: 15px
+    }
+    .nav-link-title {
+      // font-family: Lato;
+      font-size: 16px;
+      font-weight: bold;
+    }
   }
 }
 
+
+.repo-list-header {
+  padding: 0 10px;
+  margin-bottom: 27px;
+  .title {
+    font-size: 30px;
+  }
+}
