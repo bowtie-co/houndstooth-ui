@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 import {
   Button,
   Row,
-  Col
+  Col,
+  Title
 } from 'atoms'
 import {
   Tabs,
@@ -48,11 +49,10 @@ export const EmptyState = (props) => {
 
 export const EmptyItem = (props) => {
   return (
-    <Row>
-      <Col className='tab-content-card' sm='4'>
-        <div>Select a collection to edit</div>
-      </Col>
-    </Row>
+    <div className='empty-item-wrapper'>
+      <Title>Hi! Please select a collection to edit. </Title>
+    </div>
+
   )
 }
 

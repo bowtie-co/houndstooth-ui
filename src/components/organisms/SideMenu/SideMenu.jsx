@@ -39,7 +39,7 @@ const SideMenu = (props) => {
           className={classnames('nav-link', { 'disabled': !collections || collections.length < 1, 'active': activeTab === 'collections' && collections && collections.length >= 1 })}
         >
 
-          <Row className='flex-center' onClick={() => collections.length > 0 && setActiveTab('collections')}>
+          <Row className='flex-center' onClick={() => collections && collections.length > 0 && setActiveTab('collections')}>
             <Col sm='3'>
               <Icon size='sm' iconName='folder' />
             </Col>
