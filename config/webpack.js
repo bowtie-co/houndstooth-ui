@@ -4,7 +4,9 @@ const webpack = require('webpack')
 
 const appPath = path.join(__dirname, '..')
 const srcPath = path.join(appPath, 'src')
-const buildPath = path.join(appPath, 'build')
+// const buildPath = path.join(appPath, 'build')
+const publicPath = path.join(appPath, 'public')
+const dllPath = path.join(publicPath, 'dll')
 
 const buildAliases = (fromPaths) => {
   const aliases = {}
@@ -32,7 +34,21 @@ module.exports = {
   plugins: [
     new webpack.DllReferencePlugin({
       context: appPath,
-      manifest: path.join(buildPath, 'vendor-manifest.json')
+      manifest: path.resolve(dllPath, 'vendor-manifest.json')
     })
   ]
+  // configure: (webpackConfig, { env, paths }) => {
+  //   const overrides = {}
+
+  //   if (env === 'production') {
+  //     overrides.plugins = [
+  //       new webpack.DllReferencePlugin({
+  //         context: paths.appPath,
+  //         manifest: path.join(paths.appBuild, 'dll', 'vendor-manifest.json')
+  //       })
+  //     ]
+  //   }
+
+  //   return Object.assign(webpackConfig, overrides)
+  // }
 }
