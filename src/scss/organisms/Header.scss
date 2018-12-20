@@ -25,9 +25,7 @@
       text-decoration: none;
       cursor: pointer;
       color: grey;
-      &:hover {
-        background-color: lightgrey;
-      }
+
       &.disabled:hover{
         cursor: default;
         color: grey;

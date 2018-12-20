@@ -6,10 +6,13 @@ import {
   Col,
   Icon
 } from 'atoms'
-import { FieldContainer } from 'molecules'
+import {
+  FieldContainer,
+  CollectionEditorButton
+} from 'molecules'
 
 const RepoControls = (props) => {
-  const { branch, changeBranch, isCommitable, asyncLoadModel, stagedFiles, match } = props
+  const { branch, changeBranch, isCommitable, asyncLoadModel, stagedFiles, match, ...rest } = props
   const { type } = match.params
   console.log('REPO NAV props', props)
   return (
@@ -35,12 +38,14 @@ const RepoControls = (props) => {
           />
         </div>
       </Col>
-      {
-        type !== 'collections' &&
-          <Col className='justify-content-end'>
-            <Button href={'commit'} disabled={!isCommitable}>Commit Changes</Button>
-          </Col>
-      }
+      <Col className='justify-content-end flex'>
+        {
+          type !== 'collections' &&
+          <Button href={'commit'} disabled={!isCommitable}>Commit Changes</Button>
+        }
+        <CollectionEditorButton {...rest} />
+      </Col>
+
     </Row>
   )
 }
