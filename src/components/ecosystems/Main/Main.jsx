@@ -30,7 +30,7 @@ const Main = (props) => {
             />
             <PrivateRoute
               props={rest}
-              path={'/repos/:username/:repo/:type?/:collection?'}
+              path={'/repos/:username/:repo/:type?/:collection?/:item?'}
               component={Repo}
             />
           </Switch>
