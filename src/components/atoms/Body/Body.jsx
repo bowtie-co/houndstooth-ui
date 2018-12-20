@@ -1,11 +1,13 @@
 import React from 'react'
-import { Col } from 'atoms'
+import { Container } from 'atoms'
 
 const Body = ({ children }) => {
   return (
-    <Col className='body-template' sm='10' xs='auto'>
-      {children}
-    </Col>
+    <Container fluid>
+      <div className='body-template'>
+        {children}
+      </div>
+    </Container>
   )
 }
 

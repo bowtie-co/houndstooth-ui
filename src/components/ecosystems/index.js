@@ -13,10 +13,12 @@ import Main from './Main'
 import Repo from './Repo'
 import Collections from './Collections'
 import FileTree from './FileTree'
+import Notifications from './Notifications'
 
 export {
   Main,
   Repo,
   Collections,
-  FileTree
+  FileTree,
+  Notifications
 }

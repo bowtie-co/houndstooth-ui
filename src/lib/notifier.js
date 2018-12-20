@@ -3,7 +3,6 @@ import uuid from 'uuid/v1'
 import { setTimeout } from 'timers'
 import PubNub from 'pubnub'
 import storage from './storage'
-import { titleize } from '@bowtie/utils'
 
 class Notifier extends EventEmitter {
   constructor () {
@@ -11,7 +10,7 @@ class Notifier extends EventEmitter {
 
     this.msgs = []
     this.user = storage.get('current_user')
-    this.timeout = 4000
+    this.timeout = 5000
     this.channels = {}
 
     const types = [
@@ -38,24 +37,38 @@ class Notifier extends EventEmitter {
     this.init()
 
     storage.on('current_user_changed', this.userChange.bind(this))
+    storage.on('clear', this.userChange.bind(this))
   }
 
   userChange (user) {
-    if (user.channels && JSON.stringify(this.channels) !== JSON.stringify(user.channels)) {
-      if (this.pubnub) this.pubnub.stop()
-      this.user = user
-      setTimeout(() => { this.init() }, 500)
+    if (!this.user || !user) {
+      this.resetPubnub()
     }
+
+    this.user = user
+    this.init()
   }
 
   init () {
+    if (!this.pubnub) this.resetPubnub()
+
     if (this.user) {
-      this.channels = this.user.channels
-      this.authorize()
-      this.subscribe()
+      if (this.user.channels && JSON.stringify(this.channels) !== JSON.stringify(this.user.channels)) {
+        this.channels = this.user.channels
+        this.subscribe()
+      }
     } else {
       // NO USER TO INIT NOTIFIER PUBNUB
       // console.warn('NO USER TO INIT NOTIFIER PUBNUB')
+    }
+  }
+
+  resetPubnub () {
+    this.channels = {}
+    if (this.pubnub) this.pubnub.destroy()
+    if (this.user) {
+      this.authorize()
+      this.listen()
     }
   }
 
@@ -68,16 +81,6 @@ class Notifier extends EventEmitter {
     console.log('NOTIFIER RECEIVED MESSAGE:', message)
 
     this.emit(message.channel, message)
-
-    // if (message.message.body) {
-    //   this.msg(message.message.body, message.message.type)
-    // }
-
-    if (message.message.conn_update) {
-      let changes = storage.get('current_user')
-      changes.channels = message.message.channels
-      storage.set('current_user', changes)
-    }
   }
 
   handlePresence (presence) {
@@ -106,13 +109,14 @@ class Notifier extends EventEmitter {
   }
 
   authorize () {
-    this.pubnub = new PubNub({
-      publishKey: process.env.REACT_APP_PUBNUB_PUBLISH_KEY,
-      subscribeKey: process.env.REACT_APP_PUBNUB_SUBSCRIBE_KEY,
-      authKey: this.user.auth_key,
-      ssl: true
-    })
-    // this.subscribe()
+    if (process.env.REACT_APP_PUBNUB_PUBLISH_KEY && process.env.REACT_APP_PUBNUB_SUBSCRIBE_KEY) {
+      this.pubnub = new PubNub({
+        publishKey: process.env.REACT_APP_PUBNUB_PUBLISH_KEY,
+        subscribeKey: process.env.REACT_APP_PUBNUB_SUBSCRIBE_KEY,
+        authKey: this.user.auth_key,
+        ssl: true
+      })
+    }
   }
 
   listen () {
@@ -134,8 +138,6 @@ class Notifier extends EventEmitter {
     this.pubnub.subscribe({
       channels: this.readChannels()
     })
-
-    this.listen()
   }
 
   unsubscribe () {
@@ -165,10 +167,6 @@ class Notifier extends EventEmitter {
 
     if (Array.isArray(saved)) {
       this.msgs = saved
-
-      if (this.msgs.length > 0) {
-        setTimeout(this.reset.bind(this), this.timeout)
-      }
     } else {
       console.warn('Bad saved messages format', saved)
     }
@@ -193,74 +191,53 @@ class Notifier extends EventEmitter {
 
     const color = this.colorMap[type] || type
 
-    this.msgs.push({
+    const msg = {
       id,
       body,
       type,
       color
-    })
+    }
+
+    this.msgs.push(msg)
 
     this.save()
   }
 
+  clearMsg (msg) {
+    const msgIndex = this.msgs.findIndex(m => m.id === msg.id)
+
+    if (msgIndex >= 0) {
+      this.msgs.splice(msgIndex, 1)
+      this.save()
+    } else {
+      console.log('Cannot clear unknown msg', msg)
+    }
+  }
+
+  readMsg (msg) {
+    setTimeout(() => {
+      this.clearMsg(msg)
+    }, this.timeout)
+  }
+
   ok (resp) {
-    if (resp.data && resp.data.message) {
-      this.success(resp.data.message)
+    const { data } = resp
+
+    if (data && data.message) {
+      this.success(data.message)
     }
 
     return Promise.resolve(resp)
   }
 
   bad (resp) {
-    this.parseErrors(resp.data || resp)
+    const { data } = resp
 
-    return Promise.resolve(resp)
-  }
-
-  apiErrors (resp, handler) {
-    if (!resp.data) return
-
-    let { message, errors } = resp.data
-
-    if (errors) {
-      message = Object.keys(errors).map(err => {
-        const msg = errors[err]
-
-        return `${titleize(err, '_')} ${msg}`
-      }).join(`\n`)
-    }
-
-    if (message) {
-      this.error(message)
-    }
-
-    if (errors && typeof handler === 'function') {
-      handler(errors)
-    }
-  }
-
-  parseErrors (data) {
-    const errors = data.errors || data.error
-
-    if (data.message) {
+    if (data && data.message) {
       this.error(data.message)
     }
 
-    if (errors) {
-      if (Array.isArray(errors)) {
-        errors.forEach(notifier.error)
-      } else if (errors.message) {
-        this.error(errors.message)
-      } else if (typeof errors === 'object') {
-        Object.keys(errors).forEach(key => {
-          const msg = errors[key]
-
-          this.error(`[${key}] ${msg}`)
-        })
-      } else {
-        this.error(JSON.stringify(errors))
-      }
-    }
+    return Promise.resolve(resp)
   }
 }
 

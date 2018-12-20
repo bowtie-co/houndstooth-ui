@@ -1,6 +1,6 @@
 
 import { compose, withStateHandlers, lifecycle } from 'recompose'
-import { api } from 'lib'
+import { api, notifier } from 'lib'
 
 import RepoSelect from './RepoSelect'
 
@@ -18,7 +18,7 @@ export default compose(
     async componentWillMount () {
       const { setRepoList, setLoadingRepos } = this.props
       setLoadingRepos(true)
-      const { data } = await api.get(`repos?per_page=100`)
+      const { data } = await api.get(`repos?per_page=100`).catch((resp) => { notifier.bad(resp) })
       setRepoList(data.repos)
       setLoadingRepos(false)
     }
