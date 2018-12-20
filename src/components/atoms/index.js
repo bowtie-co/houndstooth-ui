@@ -28,6 +28,7 @@ import ModalBody from './ModalBody'
 import Nav from './Nav'
 import Link from './Link'
 import SocialLink from './SocialLink'
+import CollapseHorizontal from './CollapseHorizontal'
 
 export {
   Avatar,
@@ -59,5 +60,6 @@ export {
   Title,
   Tooltip,
   Link,
-  TextEditor
+  TextEditor,
+  CollapseHorizontal
 }

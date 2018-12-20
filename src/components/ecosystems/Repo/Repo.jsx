@@ -27,6 +27,7 @@ const Repo = (props) => {
         />
         <Switch>
           <PrivateRoute
+            exact
             props={{ stagedFiles, pushToGithub, repo: match.params['repo'] }}
             path={`/repos/:username/:repo/commit`}
             component={CommitChanges}
@@ -38,7 +39,7 @@ const Repo = (props) => {
           />
           <PrivateRoute
             props={props}
-            path={`${match['url']}`}
+            path={`/repos/:username/:repo/:type(file|dir)`}
             component={FileTree}
           />
         </Switch>

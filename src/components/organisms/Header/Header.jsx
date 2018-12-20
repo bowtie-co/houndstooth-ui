@@ -8,6 +8,7 @@ import {
   Logout,
   Nav,
   Icon,
+  ExtLink,
   HoundstoothLogo
 } from 'atoms'
 
@@ -22,8 +23,10 @@ const Header = (props) => {
       </div>
       <div className='flex-grow'>
         <Nav className='nav-bar'>
-          <NavLink path={'/notifications/'}><Icon iconName='bell' color='white' size='sm' /></NavLink>
-          <NavLink path={'/settings/'}><Icon iconName='cog' color='white' size='sm' /></NavLink>
+          <NavLink to=''>
+            <ExtLink href='www.github.com' className='nav-link'><Icon className='fab fa-github' color='white' size='md' /></ExtLink>
+          </NavLink>
+          {/* <NavLink path={'/settings/'}><Icon iconName='cog' color='white' size='sm' /></NavLink> */}
           {
             auth.isAuthenticated()
               ? <Logout />
