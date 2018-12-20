@@ -21,11 +21,14 @@
     flex-grow: 1;
     padding: 10px;
     .nav-link{
-      width: 75px;
+      width: 90px;
+      height: 100%;
       text-decoration: none;
       cursor: pointer;
-      color: grey;
-
+      align-items: center;
+      font-size: 17px;
+      color: #ffffff;
+      display: flex;
       &.disabled:hover{
         cursor: default;
         color: grey;

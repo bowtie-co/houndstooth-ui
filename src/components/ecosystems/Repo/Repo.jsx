@@ -38,7 +38,7 @@ const Repo = (props) => {
           />
           <PrivateRoute
             props={props}
-            path={`${match['url']}`}
+            path={`/repos/:username/:repo/:type(file|dir)`}
             component={FileTree}
           />
         </Switch>
