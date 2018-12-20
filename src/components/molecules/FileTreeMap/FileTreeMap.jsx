@@ -7,16 +7,16 @@ import {
 } from 'atoms'
 
 const FileTreeMap = ({ queryParams, dirList, fileIcons, baseRoute, match, branch }) => {
-  const recursiveMap = (arr) => {
-    const path = arr.join('/')
-    const newPathParams = Object.assign({}, queryParams, { path })
+  const recursiveMap = (arr, path = []) => {
     const dir = arr.shift()
+    const newPath = [...path, dir]
+    const newPathParams = Object.assign({}, queryParams, { path: newPath.join('/') })
     const nameArray = dir.split('.')
     const ext = nameArray.length > 1 ? nameArray[nameArray.length - 1] : null
     const type = ext ? 'file' : 'dir'
     const iconClassName = fileIcons[ext] ? fileIcons[ext] : fileIcons[type]
-    // console.log('fuck path', path);
-    // console.log('fuck dir', dir);
+    console.log('fuck path', newPath)
+    console.log('fuck dir', dir)
 
     if (arr.length > 0) {
       return (
@@ -25,7 +25,7 @@ const FileTreeMap = ({ queryParams, dirList, fileIcons, baseRoute, match, branch
           <Link to={`/${baseRoute}/${match.params['type']}?${qs.stringify(newPathParams)}`}>
             <Icon className={iconClassName} color={'black'} size='sm' />{dir}
           </Link>
-          {recursiveMap(arr)}
+          {recursiveMap(arr, newPath)}
         </p>
       )
     } else {
