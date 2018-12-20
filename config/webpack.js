@@ -23,4 +23,6 @@ const buildAliases = (fromPaths) => {
   return aliases
 }
 
-module.exports = buildAliases([ '.', 'components' ])
+module.exports = {
+  alias: buildAliases([ '.', 'components' ])
+}
