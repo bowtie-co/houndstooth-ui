@@ -50,7 +50,10 @@ export const enhance = compose(
           setRepoList(data.repos)
           setMainLoading(false)
         })
-        .catch(notifier.bad.bind(notifier))
+        .catch((resp) => {
+          setMainLoading(false)
+          notifier.bad(resp)
+        })
     }
   }),
   withPropsOnChange(['pageNumber'], ({ getRepos }) => {

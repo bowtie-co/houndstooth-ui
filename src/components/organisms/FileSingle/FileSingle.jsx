@@ -1,18 +1,16 @@
-import React, { Suspense } from 'react'
+
+import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Button } from 'atoms'
-import TextEditor from 'atoms/TextEditor'
+import { Card, Button, TextEditor } from 'atoms'
 
 const FileSingle = ({ file, content, setContent, saveFile }) => {
   return (
     <Card>
-      <Suspense fallback={<div>Loading...</div>}>
-        <TextEditor
-          content={content}
-          name={file.name}
-          onChange={setContent}
-        />
-      </Suspense>
+      <TextEditor
+        content={content}
+        name={file.name}
+        onChange={setContent}
+      />
       <Button onClick={() => saveFile(content)} >Save</Button>
     </Card>
   )

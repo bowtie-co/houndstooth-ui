@@ -26,6 +26,7 @@ import Icon from './Icon'
 import Modal from './Modal'
 import ModalBody from './ModalBody'
 import Nav from './Nav'
+import Link from './Link'
 import SocialLink from './SocialLink'
 
 export {
@@ -57,5 +58,6 @@ export {
   Switch,
   Title,
   Tooltip,
+  Link,
   TextEditor
 }

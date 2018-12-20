@@ -3,6 +3,7 @@ import { auth } from 'lib'
 import { RepoSelect } from 'organisms'
 import {
   NavLink,
+  Link,
   Login,
   Logout,
   Nav,
@@ -13,9 +14,9 @@ import {
 const Header = (props) => {
   return (
     <section className='flex-row top-nav-section'>
-      <div className='flex' >
+      <Link to={'/repos'} className='flex'>
         <HoundstoothLogo color='white' />
-      </div>
+      </Link>
       <div sm='4' className='flex flex-center'>
         <RepoSelect {...props} />
       </div>

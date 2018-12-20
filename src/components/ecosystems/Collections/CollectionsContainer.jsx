@@ -126,7 +126,9 @@ export default compose(
       setCollectionLoading(true)
       if (match['params']['item'] === 'new') {
         createItem(formData)
-          .then(notifier.ok.bind(notifier))
+          .then(resp => {
+            notifier.success('Item created successfully!')
+          })
           .then(({ data }) => {
             if (items[0]['name'] === 'NEW FILE') {
               items.shift()
@@ -134,22 +136,35 @@ export default compose(
             getItems()
             history.push(`${collectionsRoute}/${data.data.content['name']}`)
           })
-          .catch(notifier.bad.bind(notifier))
+          .catch((resp) => {
+            setCollectionLoading(false)
+            notifier.bad(resp)
+          })
       } else {
         editItem(formData)
-          .then(notifier.ok.bind(notifier))
+          .then(resp => {
+            notifier.success('Item updated successfully!')
+          })
           .then(() => getItems())
-          .catch(notifier.bad.bind(notifier))
+          .catch((resp) => {
+            setCollectionLoading(false)
+            notifier.bad(resp)
+          })
       }
 
       // TODO: Improve order of executing upload route & item create to ensure both work?
       createFileUpload()
-        .then(notifier.ok.bind(notifier))
+        .then(resp => {
+          notifier.success('File upload successful!')
+        })
         .then(() => {
           getFileUploads()
           setStagedFileUploads([])
         })
-        .catch(notifier.bad.bind(notifier))
+        .catch((resp) => {
+          setCollectionLoading(false)
+          notifier.bad(resp)
+        })
     },
     deleteItem: ({ collectionsRoute, branch, match, history, activeItem, getItems }) => () => {
       const { item } = match.params
@@ -160,9 +175,13 @@ export default compose(
       api.delete(route)
         .then(resp => {
           getItems()
+          notifier.success('Item deleted!')
+
           history.push(collectionsRoute)
         })
-        .catch(notifier.bad.bind(notifier))
+        .catch((resp) => {
+          notifier.bad(resp)
+        })
     }
   }),
   lifecycle({
