@@ -1,6 +1,7 @@
+
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, TextEditor, Button } from 'atoms'
+import { Card, Button, TextEditor } from 'atoms'
 
 const FileSingle = ({ file, content, setContent, saveFile }) => {
   return (
