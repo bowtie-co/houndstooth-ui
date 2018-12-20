@@ -1,6 +1,6 @@
 
 import { withRouter } from 'react-router'
-import { compose, withProps, shouldUpdate } from 'recompose'
+import { compose, withProps, shouldUpdate, onlyUpdateForKeys } from 'recompose'
 import FileTreeMap from './FileTreeMap'
 
 export default compose(
@@ -16,5 +16,6 @@ export default compose(
       dir: 'fas fa-folder'
     }
   }),
+  onlyUpdateForKeys(['dirList']),
   shouldUpdate((props, { match: nextMatch }) => nextMatch.params['type'] !== 'file')
 )(FileTreeMap)
