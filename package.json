@@ -15,6 +15,7 @@
     "draftjs-to-html": "^0.8.4",
     "eventemitter2": "^5.0.1",
     "html-to-draftjs": "^1.4.0",
+    "jquery": "^3.3.1",
     "libphonenumber-js": "^1.2.15",
     "moment": "^2.22.2",
     "node-sass": "^4.11.0",
@@ -49,9 +50,14 @@
     "enzyme-shallow-until": "^1.0.1",
     "jest-enzyme": "^7.0.1",
     "source-map-explorer": "^1.6.0",
-    "standard": "^11.0.1"
+    "standard": "^11.0.1",
+    "terser-webpack-plugin": "^1.1.0",
+    "webpack-cli": "^3.1.2"
   },
   "scripts": {
+    "stuff": "craco --config craco.vendor.js",
+    "dll": "webpack --config vendor.dll.js",
+    "build:dll": "webpack --config config/webpack.dll.js",
     "analyze": "for j in build/static/js/*.chunk.js; do source-map-explorer $j --html > tmp/$(basename $j).html; done",
     "start": "craco start",
     "build": "craco build",
