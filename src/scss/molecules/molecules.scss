@@ -80,6 +80,17 @@ div.Select-menu-outer {
       align-items: center;
       justify-content: space-between;
       width: 250px;
+      &:hover {
+        padding: 5px 19px;
+        border: none;
+        color: white;
+        background-color: #cc330b;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 250px;
+      }
     }
   }
 
