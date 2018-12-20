@@ -64,7 +64,9 @@ const FileTreeMap = ({ queryParams, dirList, fileIcons, baseRoute, match, branch
       {
         tree.length > 0 &&
           <div>
-            <Icon iconName='folder' color={'black'} size='sm' /> ./
+            <Link to={`/${baseRoute}/dir`}>
+              <Icon iconName='folder' color={'black'} size='sm' /> ./
+            </Link>
             {recursiveMap(tree)}
           </div>
       }
