@@ -11,7 +11,7 @@ import { api, notifier } from 'lib'
 // const loadingConditionalFn = ({ isRepoLoading }) => isRepoLoading
 
 export const enhance = compose(
-  withStateHandlers(({ queryParams, match: { params: { username, repo } } }) => ({
+  withStateHandlers(({ queryParams }) => ({
     branch: queryParams['ref'] || 'master',
     stagedFiles: [],
     dirList: [],
