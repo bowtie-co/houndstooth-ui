@@ -1,6 +1,7 @@
 process.traceDeprecation = true
 process.env.APP_ENV = process.env.APP_ENV || 'development'
 
+require('dotenv').config({ path: `.env.${process.env.APP_ENV}.local` })
 require('dotenv').config({ path: `.env.${process.env.APP_ENV}` })
 
 const { webpack, jest } = require('./config')
