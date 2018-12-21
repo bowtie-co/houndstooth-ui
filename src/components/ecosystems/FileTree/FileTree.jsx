@@ -14,15 +14,14 @@ import {
 } from 'molecules'
 
 const FileTree = (props) => {
-  const { dirList, file, setFile, saveFile, branch } = props
-  console.log('dirList', dirList)
+  const { dirList, file, setFile, saveFile, setDirList, branch } = props
 
   return (
     <section className='flex-row'>
       <FileTreeMap {...props} />
       <Switch>
         <PrivateRoute
-          props={{ dirList, branch }}
+          props={{ dirList, setDirList, branch }}
           path={`/repos/:username/:repo/dir`}
           component={DirList}
         />
