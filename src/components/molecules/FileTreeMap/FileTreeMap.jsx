@@ -15,9 +15,6 @@ const FileTreeMap = ({ queryParams, dirList, fileIcons, baseRoute, match, branch
     const ext = nameArray.length > 1 ? nameArray[nameArray.length - 1] : null
     const type = ext ? 'file' : 'dir'
     const iconClassName = fileIcons[ext] ? fileIcons[ext] : fileIcons[type]
-    console.log('fuck path', newPath)
-    console.log('fuck dir', dir)
-
     if (arr.length > 0) {
       return (
         <p className='nested-dir'>
