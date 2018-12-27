@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const Title = ({ title, children }) => {
   return (
-    <h1>{ title || children }</h1>
+    <h1 className='title'>{ title || children }</h1>
   )
 }
 

@@ -74,7 +74,9 @@ export const enhance = compose(
               options: data[model]
             }
           })
-          .catch(notifier.bad.bind(notifier))
+          .catch((resp) => {
+            notifier.bad(resp)
+          })
       }
     }
   }),
@@ -112,7 +114,10 @@ export const enhance = compose(
           }
           setRepoLoading(false)
         })
-        .catch(notifier.bad.bind(notifier))
+        .catch((resp) => {
+          setRepoLoading(false)
+          notifier.bad(resp)
+        })
     }
   })
   // withEither(loadingConditionalFn, Loading)

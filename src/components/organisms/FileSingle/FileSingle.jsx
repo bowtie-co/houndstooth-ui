@@ -1,14 +1,15 @@
+
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, TextEditor, Button } from 'atoms'
+import { Card, Button, TextEditor } from 'atoms'
 
-const FileSingle = ({ file, content, setContent, saveFile }) => {
+const FileSingle = ({ file, content, handleContentChange, saveFile }) => {
   return (
     <Card>
       <TextEditor
         content={content}
         name={file.name}
-        onChange={setContent}
+        onChange={handleContentChange}
       />
       <Button onClick={() => saveFile(content)} >Save</Button>
     </Card>

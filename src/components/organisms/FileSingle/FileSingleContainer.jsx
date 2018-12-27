@@ -1,6 +1,5 @@
 /* global btoa */
-
-import { compose, withStateHandlers, lifecycle } from 'recompose'
+import { compose, withStateHandlers, lifecycle, withPropsOnChange, withHandlers } from 'recompose'
 import { withMaybe } from '@bowtie/react-utils'
 import FileSingle from './FileSingle'
 
@@ -11,11 +10,19 @@ export default compose(
   withStateHandlers(({ file }) => ({
     content: file['content']
   }), {
-    setContent: ({ content }) => (payload) => ({ content: btoa(payload) })
+    setContent: ({ content }) => (payload) => ({ content: payload })
+  }),
+  withHandlers({
+    handleContentChange: ({ setContent }) => (content) => {
+      setContent(btoa(content))
+    }
   }),
   lifecycle({
     componentWillUnmount () {
       this.props.setFile({})
     }
+  }),
+  withPropsOnChange(['file'], ({ file, setContent }) => {
+    setContent(file['content'])
   })
 )(FileSingle)

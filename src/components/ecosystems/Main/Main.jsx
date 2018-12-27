@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import {
   PrivateRoute,
   Switch,
-  Body,
-  Row
+  Body
 } from 'atoms'
 import {
   RepoList,
@@ -19,7 +18,7 @@ const Main = (props) => {
   return (
     <section>
       <Header {...props} />
-      <Row>
+      <div className='flex-row'>
         <SideMenu {...props} />
         <Body>
           <Switch>
@@ -31,13 +30,13 @@ const Main = (props) => {
             />
             <PrivateRoute
               props={rest}
-              path={'/repos/:username/:repo/:type?/:collection?'}
+              path={'/repos/:username/:repo/:type?/:collection?/:item?'}
               component={Repo}
             />
           </Switch>
         </Body>
-        <Footer />
-      </Row>
+      </div>
+      <Footer />
     </section>
   )
 }

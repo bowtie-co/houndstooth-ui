@@ -3,8 +3,13 @@ import { Form as FormRS } from 'reactstrap'
 
 const FormBT = ({ childrenWithExtraProp, onSubmit, formData, ...rest }) => {
   return (
-    <FormRS {...rest}>
-      { childrenWithExtraProp }
+    <FormRS
+      onSubmit={(e) => {
+        e.preventDefault()
+        onSubmit(formData, e)
+      }}
+      {...rest}>
+      {childrenWithExtraProp}
     </FormRS>
   )
 }

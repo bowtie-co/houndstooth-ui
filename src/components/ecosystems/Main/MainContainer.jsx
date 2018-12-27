@@ -54,7 +54,10 @@ export const enhance = compose(
 
           setMainLoading(false)
         })
-        .catch(notifier.bad.bind(notifier))
+        .catch((resp) => {
+          setMainLoading(false)
+          notifier.bad(resp)
+        })
     }
   }),
   withHandlers({

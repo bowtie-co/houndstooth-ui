@@ -22,7 +22,6 @@ const languages = {
 const TextEditor = ({ content, name, onChange }) => {
   const ext = name.match(/.*\.([^.]+)/) ? name.match(/.*\.([^.]+)/)[1] : 'md'
   const lang = languages[ext] || ext
-
   return (
     <AceEditor
       mode={lang}

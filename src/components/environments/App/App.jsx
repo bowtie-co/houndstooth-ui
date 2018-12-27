@@ -1,6 +1,6 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import { Main } from 'ecosystems'
+import { Main, Notifications } from 'ecosystems'
 import { Welcome } from 'molecules'
 import {
   Switch,
@@ -11,6 +11,8 @@ import {
 const App = (props) => {
   return (
     <section className='app'>
+      <Notifications />
+
       <Switch>
         <PublicRoute
           props={props}
