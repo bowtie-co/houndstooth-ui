@@ -39,8 +39,8 @@ export const EmptyState = (props) => {
   const { queryParams, baseRoute } = props
   return (
     <Row>
-      <Col className='tab-content-card' sm='4'>
-        <div>This project does not have collections. Please edit files directly user the File Editor.</div>
+      <Col className='tab-content-card empty' sm='8' md='4'>
+        <p><em>This project does not have collections. Please edit files directly user the File Editor.</em></p>
         <Button href={`/${baseRoute}/dir?ref=${queryParams['ref']}`}>File Editor</Button>
       </Col>
     </Row>
@@ -50,7 +50,7 @@ export const EmptyState = (props) => {
 export const EmptyItem = (props) => {
   return (
     <div className='empty-item-wrapper'>
-      <Title>Hi! Please select a collection to edit. </Title>
+      <Title>Please select a collection to start. </Title>
     </div>
 
   )

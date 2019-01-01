@@ -43,7 +43,7 @@ export const ItemForm = (props) => {
           setStagedFileUploads={setStagedFileUploads}
         />
       </Col>
-      <Col sm='6' className='tab-content-card'>
+      <Col sm='7' className='tab-content-card'>
         <WysiwygEditor
           item={item}
           content={activeItem['markdown']}

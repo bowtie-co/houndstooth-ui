@@ -3,6 +3,18 @@
 //--------------------------
 
 
+/* FONTS */
+
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
+@import url('https://use.fontawesome.com/releases/v5.2.0/css/all.css');
+//
+// @font-face {
+//   font-family: 'Gotham';
+//   font-style: normal;
+//   font-weight: 400;
+//   src: url('../assets/gotham-light.ttf');
+// }
+
 /* GENERAL */
 
 // breakpoints
@@ -18,9 +30,9 @@ $narrow-padding: 10px 20px;
 $xl-padding: 20px 40px;
 
 // Border radius
-$border-radius-base:        3px !default;
-$border-radius-large:       6px !default;
-$border-radius-small:       2px !default;
+$border-radius-base:        1px !default;
+$border-radius-large:       3px !default;
+$border-radius-small:       0px !default;
 
 // Padding
 $padding-large-vertical: 10px !default;
@@ -40,9 +52,21 @@ $line-height-large: 2.5 !default; // extra decimals for Win 8.1 Chrome
 $line-height-small: 1.5 !default;
 
 // Font sizes
-$font-size-base:          14px !default;
-$font-size-large:         ceil(($font-size-base * 1.25)) !default;
-$font-size-small:         ceil(($font-size-base * 0.85)) !default;
+$font-size-base: 15px !default;
+$font-size-large: ceil(($font-size-base * 1.25)) !default;
+$font-size-small: ceil(($font-size-base * 0.85)) !default;
+
+$heading-font: 'Lato'; /** h1, h2, h3, h4, h5 **/
+$heading-font-weight: 400;
+$heading-font-color: #000;
+
+$subheading-font: 'Lato'; /** h3, h4, h5 **/
+$subheading-font-weight: 400;
+$subheading-font-color: #222;
+
+$primary-font: 'Lato'; /** body, p **/
+$primary-font-weight: 400;
+$primary-font-color: #222;
 
 /* COLORS */
 

@@ -2,6 +2,7 @@
   position: absolute;
   display: flex;
   justify-content: center;
+  align-items: center;
   height: 100vh;
   width: 100%;
   top: 0;
@@ -9,5 +10,13 @@
   left: 0;
   right: 0;
   /* background-color: white; */
-  opacity: 0.75
+  /* opacity: 0.75; */
+}
+
+.loader {
+  width: 100px;
+  height: 100px;
+  align-self: center;
+  margin: 0 auto;
+  /* margin-left: calc(50vw - 50px); */
 }

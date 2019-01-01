@@ -147,6 +147,9 @@ dfn {
 h1 {
   font-size: 2em;
   margin: 0.67em 0;
+  &.title {
+    font-size: 20px;
+  }
 }
 
 //
