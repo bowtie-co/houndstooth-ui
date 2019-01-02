@@ -20,15 +20,17 @@ export const enhance = compose(
       onClick && onClick(name)
       setActiveTab(tabName)
     },
-    addNewItem: ({ history, collectionsRoute, items, setTabs }) => () => {
+    addNewItem: ({ history, match, items, setTabs }) => () => {
       if (items[0]['name'] !== 'NEW FILE') {
-        history.push(`${collectionsRoute}/new`)
+        const { username, repo, collection } = match.params
+        history.push(`/${username}/${repo}/collections/${collection}/new`)
       }
     },
-    closeTab: ({ items, history, collectionsRoute, setTabs }) => (tab) => {
+    closeTab: ({ items, history, setTabs, match }) => (tab) => {
       const newTabs = items.filter(t => t['name'] !== tab['name'])
       setTabs(newTabs)
-      history.push(`${collectionsRoute}/${newTabs[0]['name']}`)
+      const { username, repo, collection } = match.params
+      history.push(`/${username}/${repo}/collections/${collection}/${newTabs[0]['name']}`)
     }
   }),
   withPropsOnChange(['match'], ({ match, setActiveTab, items, setTabs }) => {
