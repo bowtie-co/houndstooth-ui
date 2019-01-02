@@ -5,8 +5,8 @@ const CollectionEditorButton = ({ location, match, branch = 'master' }) => {
   const { pathname } = location
   const { username, repo, collection, item } = match.params
   const onCollectionEditor = pathname.includes('/collection')
-  const fileRoute = item && collection ? `/repos/${username}/${repo}/file?path=_${collection}/${item}&ref=${branch}` : `/repos/${username}/${repo}/dir`
-  const collectionRoute = `/repos/${username}/${repo}/collections`
+  const fileRoute = item && collection ? `/${username}/${repo}/file?path=_${collection}/${item}&ref=${branch}` : `/${username}/${repo}/dir`
+  const collectionRoute = `/${username}/${repo}/collections`
   return (
     <Button
       href={onCollectionEditor ? fileRoute : collectionRoute}

@@ -11,7 +11,7 @@ const CollectionList = (props) => {
         collections.map((col, i) => {
           return (
             <Button
-              href={`/repos/${username}/${repo}/collections/${col}`}
+              href={`/${username}/${repo}/collections/${col}`}
               key={i}>
               {col}
             </Button>

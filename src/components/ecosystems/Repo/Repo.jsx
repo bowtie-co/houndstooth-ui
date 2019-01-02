@@ -29,23 +29,24 @@ const Repo = (props) => {
           <PrivateRoute
             exact
             props={{ stagedFiles, pushToGithub, repo: match.params['repo'] }}
-            path={`/repos/:username/:repo/commit`}
+            path={`/:username/:repo/commit`} // Use type or action path param?
             component={CommitChanges}
           />
           <PrivateRoute
             props={{ collections, queryParams, branch, baseRoute }}
-            path={`/repos/:username/:repo/:type(collections)/:collection?/:item?`}
+            // TODO: MOVE collection and item to query params?
+            path={`/:username/:repo/:type(collections)/:collection?/:item?`}
             component={Collections}
           />
           <PrivateRoute
             props={props}
-            path={`/repos/:username/:repo/:type(file|dir)`}
+            path={`/:username/:repo/:type(file|dir)`} // Use action or type with (browse | commit | edit) ?
             component={FileTree}
           />
         </Switch>
         <Prompt
           when={stagedFiles.length > 0}
-          message={location => location.pathname.startsWith(`/repos/${username}`) ? true : `You will lose uncommitted changes if you leave.`}
+          message={location => location.pathname.startsWith(`/${username}`) ? true : `You will lose uncommitted changes if you leave.`}
         />
       </Col>
     </Row>

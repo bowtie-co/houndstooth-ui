@@ -1,39 +1,48 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import {
   Col,
   Row,
-  Subtitle,
-  Button
+  Icon
 } from 'atoms'
+import { TabContent, Nav, NavItem, NavLink } from 'reactstrap'
 
-const ItemList = (props) => {
-  const { items, selectItem } = props
+const ItemList = ({ items = [], activeTab, handleClick, children, vertical = false, closeTab, addNewItem, ...rest }) => {
   return (
-    <Col>
-      <Row>
-        <Button onClick={() => selectItem()} >New Item</Button>
-        {
-          items.map((item, i) => <Button key={i} onClick={() => selectItem(item)}>{item.name}</Button>)
-        }
-      </Row>
-    </Col>
+    <section>
+      <div className='pointer addFile' onClick={addNewItem}>
+        <Icon iconName='plus-circle' /> Add File
+      </div>
+      <Nav tabs vertical={vertical}>
+        <Row>
+          <Col sm='2' className='tabs-vertical'>
+            {
+              items.map((item, i) => {
+                return (
+                  <NavItem key={i} className={classnames({ active: activeTab === item.name })}>
+                    {
+                      item.name === 'NEW FILE' &&
+                        <Icon iconName='times-circle' onClick={() => closeTab(item)} />
+                    }
+                    <NavLink
+                      onClick={() => handleClick(item.name)}
+                      className={classnames({ active: activeTab === item.name })}
+                    >
+                      {item.name}
+                    </NavLink>
+                  </NavItem>
+                )
+              })
+            }
+
+          </Col >
+          <TabContent activeTab={activeTab} className='col-sm-10'>
+            { children }
+          </TabContent>
+        </Row>
+      </Nav>
+    </section>
   )
-}
-
-/**********************************
-EMPTY STATE
-**********************************/
-
-export const EmptyState = () => <Subtitle title={'You must select a collection'} />
-
-/**********************************
-PROP TYPES
-**********************************/
-
-ItemList.propTypes = {
-  items: PropTypes.array,
-  selectItem: PropTypes.func
 }
 
 export default ItemList

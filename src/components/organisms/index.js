@@ -3,7 +3,6 @@ import Header from './Header'
 import Footer from './Footer'
 import Form from './Form'
 import RepoList from './RepoList'
-import Tabs from './Tabs'
 import DirList from './DirList'
 import FileSingle from './FileSingle'
 import CommitChanges from './CommitChanges'
@@ -29,6 +28,5 @@ export {
   ItemForm,
   RecursiveFields,
   WysiwygEditor,
-  SideMenu,
-  Tabs
+  SideMenu
 }

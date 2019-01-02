@@ -21,7 +21,7 @@ const SideMenu = (props) => {
         <NavLink
           onClick={() => setActiveTab('dashboard')}
           active={activeTab === 'dashboard'}
-          path={'/repos'}
+          path={'/'}
         >
 
           <Row className='flex-center'>
@@ -58,7 +58,7 @@ const SideMenu = (props) => {
                       key={i}
                       active={collection === col}
                       className='nested'
-                      path={`/repos/${username}/${repo}/collections/${col}?${qs.stringify(queryParams, { encode: false })}`}
+                      path={`/${username}/${repo}/collections/${col}?${qs.stringify(queryParams, { encode: false })}`}
                     >
                       <Row className='flex-center'>
                         <Col sm='3'>
@@ -81,7 +81,7 @@ const SideMenu = (props) => {
 
         <NavLink
           active={activeTab === 'users'}
-          path={'/repos'}
+          path={'/'}
           onClick={() => setActiveTab('users')}
         >
 

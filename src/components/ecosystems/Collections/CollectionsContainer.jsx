@@ -33,9 +33,10 @@ export default compose(
       const editedItem = Object.assign({}, activeItem, { name: e.target.value })
       setActiveItem(editedItem)
     },
-    selectItem: ({ history, collectionsRoute }) => (itemName) => {
+    selectItem: ({ history, match }) => (itemName) => {
       if (itemName) {
-        history.push(`${collectionsRoute}/${itemName}`)
+        const { username, repo, collection } = match.params
+        history.push(`/${username}/${repo}/collections/${collection || ''}/${itemName}`)
       }
     },
     getFileUploads: ({ match, setFileUploads, branch }) => () => {

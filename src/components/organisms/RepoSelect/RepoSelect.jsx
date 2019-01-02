@@ -21,7 +21,7 @@ const RepoSelect = (props) => {
       options={repoList}
       onChange={(e) => {
         console.log('e', e)
-        history.push({ pathname: `/repos/${e.target.value}/collections`, search: `?ref=${e.target.default_branch || 'master'}` })
+        history.push({ pathname: `/${e.target.value}/collections`, search: `?ref=${e.target.default_branch || 'master'}` })
       }}
     />
   )
