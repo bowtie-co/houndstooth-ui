@@ -15,7 +15,7 @@ import {
 } from '..'
 
 const Repo = (props) => {
-  const { match, stagedFiles, branch, baseRoute, pushToGithub, collections, queryParams } = props
+  const { match, stagedFiles, pushToGithub, collections } = props
   const { username } = match.params
   return (
     <Row>
@@ -33,7 +33,7 @@ const Repo = (props) => {
             component={CommitChanges}
           />
           <PrivateRoute
-            props={{ collections, queryParams, branch, baseRoute }}
+            props={props}
             // TODO: MOVE collection and item to query params?
             path={`/:username/:repo/:type(collections)/:collection?/:item?`}
             component={Collections}

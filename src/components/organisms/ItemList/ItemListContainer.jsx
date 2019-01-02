@@ -11,7 +11,7 @@ export const enhance = compose(
     items: items,
     activeTab: match.params['item']
   }), {
-    setTabs: () => (payload) => ({ items: payload }),
+    setItemTabs: () => (payload) => ({ items: payload }),
     setActiveTab: () => (payload) => ({ activeTab: payload })
   }),
   withHandlers({
@@ -20,23 +20,23 @@ export const enhance = compose(
       onClick && onClick(name)
       setActiveTab(tabName)
     },
-    addNewItem: ({ history, match, items, setTabs }) => () => {
+    addNewItem: ({ history, baseRoute, match, items, setItemTabs }) => () => {
       if (items[0]['name'] !== 'NEW FILE') {
-        const { username, repo, collection } = match.params
-        history.push(`/${username}/${repo}/collections/${collection}/new`)
+        const { collection } = match.params
+        history.push(`/${baseRoute}/collections/${collection}/new`)
       }
     },
-    closeTab: ({ items, history, setTabs, match }) => (tab) => {
+    closeTab: ({ baseRoute, items, history, setItemTabs, match }) => (tab) => {
       const newTabs = items.filter(t => t['name'] !== tab['name'])
-      setTabs(newTabs)
-      const { username, repo, collection } = match.params
-      history.push(`/${username}/${repo}/collections/${collection}/${newTabs[0]['name']}`)
+      setItemTabs(newTabs)
+      const { collection } = match.params
+      history.push(`/${baseRoute}/collections/${collection}/${newTabs[0]['name']}`)
     }
   }),
-  withPropsOnChange(['match'], ({ match, setActiveTab, items, setTabs }) => {
+  withPropsOnChange(['match'], ({ match, setActiveTab, items, setItemTabs }) => {
     if (match.params['item'] === 'new') {
       if (items[0]['name'] !== 'NEW FILE') {
-        setTabs([{ name: 'NEW FILE' }, ...items])
+        setItemTabs([{ name: 'NEW FILE' }, ...items])
       }
       setActiveTab('NEW FILE')
     } else {

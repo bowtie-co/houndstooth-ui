@@ -36,13 +36,12 @@ export const Collections = (props) => {
 /** *********** EMPTY STATE ********************/
 
 export const EmptyState = (props) => {
-  const { queryParams, match } = props
-  const { username, repo } = match.params
+  const { queryParams, baseRoute } = props
   return (
     <Row>
       <Col className='tab-content-card' sm='4'>
         <div>This project does not have collections. Please edit files directly user the File Editor.</div>
-        <Button href={`/${username}/${repo}/dir?ref=${queryParams['ref']}`}>File Editor</Button>
+        <Button href={`/${baseRoute}/dir?ref=${queryParams['ref']}`}>File Editor</Button>
       </Col>
     </Row>
   )

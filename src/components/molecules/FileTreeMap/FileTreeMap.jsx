@@ -1,15 +1,11 @@
 import React from 'react'
 import qs from 'qs'
-import PropTypes from 'prop-types'
 import {
   Icon,
   Link
 } from 'atoms'
 
-const FileTreeMap = ({ queryParams, dirList, fileIcons, match, branch }) => {
-  const { username, repo } = match.params
-  const route = `/${username}/${repo}`
-
+const FileTreeMap = ({ queryParams, dirList, fileIcons, match, baseRoute, branch }) => {
   const recursiveMap = (arr, path = []) => {
     const dir = arr.shift()
     const newPath = [...path, dir]
@@ -23,7 +19,7 @@ const FileTreeMap = ({ queryParams, dirList, fileIcons, match, branch }) => {
       return (
         <p className='nested-dir'>
           <span className='nested-lines' />
-          <Link to={`${route}/${match.params['type']}?${qs.stringify(newPathParams)}`}>
+          <Link to={`/${baseRoute}/${match.params['type']}?${qs.stringify(newPathParams)}`}>
             <Icon className={iconClassName} color={'black'} size='sm' />{dir}
           </Link>
           {recursiveMap(arr, newPath)}
@@ -65,7 +61,7 @@ const FileTreeMap = ({ queryParams, dirList, fileIcons, match, branch }) => {
       {
         tree.length > 0 &&
           <div>
-            <Link to={`${route}/dir`}>
+            <Link to={`/${baseRoute}/dir`}>
               <Icon iconName='folder' color={'black'} size='sm' /> ./
             </Link>
             {recursiveMap(tree)}
@@ -73,10 +69,6 @@ const FileTreeMap = ({ queryParams, dirList, fileIcons, match, branch }) => {
       }
     </div>
   )
-}
-
-FileTreeMap.propTypes = {
-  repo: PropTypes.object
 }
 
 export default FileTreeMap

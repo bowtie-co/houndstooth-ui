@@ -13,8 +13,8 @@ import {
 } from 'atoms'
 
 const SideMenu = (props) => {
-  const { queryParams, activeTab, setActiveTab, match, collections } = props
-  const { repo, username, collection } = match.params
+  const { baseRoute, queryParams, activeTab, setActiveTab, match, collections } = props
+  const { collection } = match.params
   return (
     <CollapseHorizontal>
       <Nav vertical className='side-menu-section'>
@@ -58,7 +58,7 @@ const SideMenu = (props) => {
                       key={i}
                       active={collection === col}
                       className='nested'
-                      path={`/${username}/${repo}/collections/${col}?${qs.stringify(queryParams, { encode: false })}`}
+                      path={`/${baseRoute}/collections/${col}?${qs.stringify(queryParams, { encode: false })}`}
                     >
                       <Row className='flex-center'>
                         <Col sm='3'>
@@ -117,7 +117,7 @@ const SideMenu = (props) => {
               active={['file', 'dir'].includes(type)}
               onClick={() => setActiveTab('file')}
               disabled={!repo && !username}
-              path={`/${baseRoute}/dir?ref=${queryParams['ref'] || 'master'}`}>
+              path={`/${baseApiRoute}/dir?ref=${queryParams['ref'] || 'master'}`}>
 
               <Row className='flex-center'>
                 <Col sm='3'>

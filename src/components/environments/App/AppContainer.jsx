@@ -6,7 +6,7 @@ import { withRouter } from 'react-router'
 import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
 import { Loading } from 'atoms'
-import { withQueryParams } from 'helpers'
+import { withQueryParams, withBaseRoutes } from 'helpers'
 import { api, notifier } from 'lib'
 
 // conditional functions here:
@@ -15,8 +15,8 @@ const loadingConditionFn = ({ isMainLoading, repoList }) => isMainLoading || rep
 export const enhance = compose(
   withRouter,
   withQueryParams,
-  withStateHandlers(({ queryParams, match: { params: { username, repo } } }) => ({
-    baseRoute: `repos/${username}/${repo}`,
+  withBaseRoutes,
+  withStateHandlers(() => ({
     collections: null,
     orgList: [],
     repoList: [],
@@ -25,7 +25,6 @@ export const enhance = compose(
     pages: {},
     pageNumber: 1
   }), {
-    setBaseRoute: ({ baseRoute }) => (payload) => ({ baseRoute: payload }),
     setCollections: ({ collections }) => (payload) => ({ collections: payload }),
     setOrgList: ({ orgList }) => (payload) => ({ orgList: payload }),
     setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
@@ -44,6 +43,7 @@ export const enhance = compose(
     setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
     setMainLoading: ({ isMainLoading }) => (payload) => ({ isMainLoading: payload })
   }),
+
   withHandlers({
     getRepos: ({ pageNumber, setMainLoading, setRepoList, setPages, setPageNumber }) => () => {
       setMainLoading(true)
@@ -63,11 +63,9 @@ export const enhance = compose(
   withPropsOnChange(['pageNumber'], ({ getRepos }) => {
     getRepos()
   }),
-  withPropsOnChange(['match'], ({ match, setBaseRoute, setCollections, setOrgList }) => {
-    const { repo, username } = match.params
+  withPropsOnChange(['match'], ({ match, setCollections, setOrgList }) => {
+    const { repo } = match.params
     !repo && setCollections(null)
-    setBaseRoute(`repos/${username}/${repo}`)
-
     api.get(`orgs?per_page=100`)
       .then(({ data }) => {
         setOrgList(data.orgs)

@@ -3,15 +3,14 @@ import PropTypes from 'prop-types'
 import { Col, Button } from 'atoms'
 
 const CollectionList = (props) => {
-  const { collections, match } = props
-  const { username, repo } = match.params
+  const { collections, baseRoute } = props
   return (
     <Col>
       {
         collections.map((col, i) => {
           return (
             <Button
-              href={`/${username}/${repo}/collections/${col}`}
+              href={`/${baseRoute}/collections/${col}`}
               key={i}>
               {col}
             </Button>
