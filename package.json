@@ -35,7 +35,7 @@
     "react-file-base64": "^1.0.3",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "^2.1.1",
+    "react-scripts": "^2.1.2",
     "react-select": "^1.2.1",
     "reactstrap": "^6.4.0",
     "recompose": "^0.27.1",
