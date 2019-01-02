@@ -1,5 +1,5 @@
 .loader {
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,14 +9,16 @@
   bottom: 0;
   left: 0;
   right: 0;
-  /* background-color: white; */
-  /* opacity: 0.75; */
+  background-color: white;
+  z-index: 30000;
+  opacity: 0.75;
 }
 
-.loader {
+.loaderimg {
   width: 100px;
   height: 100px;
   align-self: center;
   margin: 0 auto;
-  /* margin-left: calc(50vw - 50px); */
+  margin-top: -100px;
+  opacity: 0.95;
 }

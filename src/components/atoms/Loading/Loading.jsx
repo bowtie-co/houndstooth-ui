@@ -5,7 +5,7 @@ import 'scss/Loading.css'
 const Loading = () => {
   return (
     <div className='loader'>
-      <img src={loading} className='loader' alt='loading' />
+      <img src={loading} className='loaderimg' alt='loading' />
     </div>
   )
 }
