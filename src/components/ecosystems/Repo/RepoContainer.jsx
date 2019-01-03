@@ -43,8 +43,8 @@ export const enhance = compose(
       Object.assign(queryParams, { ref: e.target.value })
       history.push(`${match['url']}?${qs.stringify(queryParams, { encode: false })}`)
     },
-    pushToGithub: ({ branch, baseRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
-      const requestPath = `${baseRoute}/files/upsert?ref=${branch}`
+    pushToGithub: ({ branch, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
+      const requestPath = `${baseApiRoute}/files/upsert?ref=${branch}`
       const body = {
         message,
         files: stagedFiles.map(file => ({ path: file.path, content: file.content, encoding: file.encoding }))
@@ -58,8 +58,8 @@ export const enhance = compose(
 
       setStagedFiles([])
     },
-    asyncLoadModel: ({ baseRoute }) => (model, search) => {
-      return api.get(`${baseRoute}/${model}`)
+    asyncLoadModel: ({ baseApiRoute }) => (model, search) => {
+      return api.get(`${baseApiRoute}/${model}`)
         .then(({ data }) => {
           console.log(`${model} DATA FROM ASYNC SELECT`, data)
           return {
@@ -71,11 +71,10 @@ export const enhance = compose(
         })
     }
   }),
-  withPropsOnChange(['baseRoute'], ({ match, setCollections, setRepoLoading, baseRoute }) => {
+  withPropsOnChange(['baseApiRoute'], ({ setCollections, setRepoLoading, baseApiRoute }) => {
     setRepoLoading(true)
-    const { repo, username } = match.params
 
-    api.get(`repos/${username}/${repo}/collections`)
+    api.get(`${baseApiRoute}/collections`)
       .then(({ data }) => {
         const { collections } = data
         setCollections(Object.keys(collections))
@@ -83,11 +82,10 @@ export const enhance = compose(
       })
       .catch(() => setCollections([]))
   }),
-  withPropsOnChange(['location'], ({ match, queryParams, setDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
+  withPropsOnChange(['location'], ({ baseApiRoute, queryParams, setDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
     setBranch(queryParams['ref'] || 'master')
-    const { repo, username } = match.params
     const stringifiedParams = qs.stringify(queryParams)
-    const route = `repos/${username}/${repo}/files?${stringifiedParams}`
+    const route = `${baseApiRoute}/files?${stringifiedParams}`
     const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
 
     if (stagedFile) {

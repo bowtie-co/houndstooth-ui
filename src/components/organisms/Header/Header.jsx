@@ -15,7 +15,7 @@ import {
 const Header = (props) => {
   return (
     <section className='flex-row top-nav-section'>
-      <Link to={'/repos'} className='flex'>
+      <Link to={'/'} className='flex'>
         <HoundstoothLogo color='white' />
       </Link>
       <div sm='4' className='flex flex-center'>

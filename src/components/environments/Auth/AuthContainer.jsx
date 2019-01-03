@@ -8,7 +8,7 @@ import { auth, storage } from 'lib'
 export const enhance = compose(
   withHandlers({
     authCallback: ({ history }) => (formData) => {
-      const resumeRoute = storage.get('resumeRoute') || '/repos'
+      const resumeRoute = storage.get('resumeRoute') || '/'
 
       auth.handleCallback((err) => {
         if (err) {
