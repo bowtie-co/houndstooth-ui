@@ -11,7 +11,7 @@ const LoginRedirect = (props) => {
   storage.set('resumeRoute', props.location.pathname)
 
   return (
-    <Redirect to={'/login'} />
+    <Redirect to={'/welcome'} />
   )
 }
 

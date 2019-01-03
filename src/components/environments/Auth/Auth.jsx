@@ -1,6 +1,7 @@
 import React from 'react'
 import { Switch } from 'react-router-dom'
 import { PublicRoute } from 'atoms'
+import { Welcome } from 'molecules'
 
 const Auth = (props) => {
   const { authCallback, authLogin, authLogout, authRedirect } = props
@@ -21,6 +22,10 @@ const Auth = (props) => {
       <PublicRoute
         path='/logout'
         action={authLogout}
+      />
+      <PublicRoute
+        path='/welcome'
+        component={Welcome}
       />
     </Switch>
   )
