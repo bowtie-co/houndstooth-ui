@@ -14,7 +14,7 @@ import {
 
 const RepoCard = ({ repo }) => {
   return (
-    <Link to={{ pathname: `/repos/${repo.full_name}/collections`, search: `?ref=${repo.default_branch}` }} className='list-item'>
+    <Link to={{ pathname: `/${repo.full_name}/collections`, search: `?ref=${repo.default_branch}` }} className='list-item'>
       <Card>
         <CardTitle>{repo.name}</CardTitle>
         <CardBody>

@@ -1,35 +1,48 @@
 import React from 'react'
-import { Redirect } from 'react-router-dom'
-import { Main, Notifications } from 'ecosystems'
-import { Welcome } from 'molecules'
+import {
+  Repo,
+  Notifications
+} from 'ecosystems'
 import {
   Switch,
-  PublicRoute,
-  PrivateRoute
+  PrivateRoute,
+  Body
 } from 'atoms'
+
+import {
+  RepoList,
+  SideMenu,
+  Header,
+  Footer
+} from 'organisms'
 
 const App = (props) => {
   return (
     <section className='app'>
       <Notifications />
-
-      <Switch>
-        <PublicRoute
-          props={props}
-          path='/welcome'
-          component={Welcome}
-        />
-        <PrivateRoute
-          props={props}
-          path='/:model(repos)/:username?/:repo?/:type?/:collection?'
-          component={Main}
-        />
-        <PublicRoute
-          props={{ to: '/welcome' }}
-          path='/'
-          component={Redirect}
-        />
-      </Switch>
+      <Header {...props} />
+      <div className='flex-row'>
+        <SideMenu {...props} />
+        <Body>
+          <Switch>
+            <PrivateRoute
+              exact
+              props={props}
+              path='/'
+              component={RepoList}
+            />
+            <PrivateRoute
+              props={props}
+              // KEEP TYPE FOR delegating to FileEditor vs CollectionEditor
+              // Can we infer the :type from the file response?
+              // path='/:username/:repo/:action(commit|browse|collections)?' // handle collection in query params
+              path='/:username/:repo/:type?/:collection?/:item?' // handle collection in query params
+              component={Repo}
+            />
+          </Switch>
+        </Body>
+      </div>
+      <Footer />
     </section>
   )
 }

@@ -1,12 +1,11 @@
 import React from 'react'
 import qs from 'qs'
-import PropTypes from 'prop-types'
 import {
   Icon,
   Link
 } from 'atoms'
 
-const FileTreeMap = ({ queryParams, dirList, fileIcons, baseRoute, match, branch }) => {
+const FileTreeMap = ({ queryParams, dirList, fileIcons, match, baseRoute, branch }) => {
   const recursiveMap = (arr, path = []) => {
     const dir = arr.shift()
     const newPath = [...path, dir]
@@ -15,6 +14,7 @@ const FileTreeMap = ({ queryParams, dirList, fileIcons, baseRoute, match, branch
     const ext = nameArray.length > 1 ? nameArray[nameArray.length - 1] : null
     const type = ext ? 'file' : 'dir'
     const iconClassName = fileIcons[ext] ? fileIcons[ext] : fileIcons[type]
+
     if (arr.length > 0) {
       return (
         <p className='nested-dir'>
@@ -69,10 +69,6 @@ const FileTreeMap = ({ queryParams, dirList, fileIcons, baseRoute, match, branch
       }
     </div>
   )
-}
-
-FileTreeMap.propTypes = {
-  repo: PropTypes.object
 }
 
 export default FileTreeMap
