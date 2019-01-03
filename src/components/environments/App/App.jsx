@@ -21,7 +21,7 @@ const App = (props) => {
     <section className='app'>
       <Notifications />
       <Header {...props} />
-      <div className='flex-row'>
+      <div className='content-wrapper'>
         <SideMenu {...props} />
         <Body>
           <Switch>

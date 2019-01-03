@@ -9,4 +9,9 @@
     min-height: 83vh;
     padding: 42px;
   }
+  .content-wrapper{
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+  }
 }
