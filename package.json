@@ -62,7 +62,7 @@
     "start": "craco start",
     "build": "craco build",
     "scan": "npm audit",
-    "test": "craco test",
+    "test": "APP_ENV=test craco test",
     "ci": "npm run lint && npm test",
     "lint": "standard",
     "lint:fix": "standard --fix"
