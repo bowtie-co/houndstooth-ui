@@ -18,7 +18,7 @@ const Repo = (props) => {
   const { match, stagedFiles, pushToGithub, collections } = props
   const { username } = match.params
   return (
-    <Row>
+    <Row style={{ 'width': '100%' }}>
       <Col style={{ 'padding': '24px' }}>
         <RepoControls
           isCommitable={stagedFiles.length > 0}
