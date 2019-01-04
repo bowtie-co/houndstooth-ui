@@ -12,17 +12,19 @@ import { api, notifier } from 'lib'
 
 export const enhance = compose(
   withStateHandlers(({ queryParams }) => ({
+    branchList: [],
     branch: queryParams['ref'] || 'master',
     stagedFiles: [],
     dirList: [],
     file: {},
     isRepoLoading: false
   }), {
-    setDirList: ({ dirList }) => (payload) => ({ dirList: payload }),
-    setFile: ({ file }) => (payload) => ({ file: payload }),
-    setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
-    setBranch: ({ branch }) => (payload) => ({ branch: payload }),
-    setRepoLoading: ({ isRepoLoading }) => (payload) => ({ isRepoLoading: payload })
+    setBranchList: () => (payload) => ({ branchList: payload }),
+    setDirList: () => (payload) => ({ dirList: payload }),
+    setFile: () => (payload) => ({ file: payload }),
+    setStagedFiles: () => (payload) => ({ stagedFiles: payload }),
+    setBranch: () => (payload) => ({ branch: payload }),
+    setRepoLoading: () => (payload) => ({ isRepoLoading: payload })
   }),
   withHandlers({
     saveFile: ({ setFile, file, stagedFiles, setStagedFiles, queryParams }) => (content) => {
@@ -58,29 +60,34 @@ export const enhance = compose(
 
       setStagedFiles([])
     },
-    asyncLoadModel: ({ baseApiRoute }) => (model, search) => {
-      return api.get(`${baseApiRoute}/${model}`)
+    getBranchList: ({ setBranchList, baseApiRoute, setRepoLoading }) => () => {
+      api.get(`${baseApiRoute}/branches`)
         .then(({ data }) => {
-          console.log(`${model} DATA FROM ASYNC SELECT`, data)
-          return {
-            options: data[model]
-          }
+          console.log('====================================')
+          console.log('branches', data)
+          console.log('====================================')
+          setBranchList(data['branches'])
+          setRepoLoading(false)
         })
         .catch((resp) => {
+          setRepoLoading(false)
           notifier.bad(resp)
         })
+    },
+    getCollections: ({ setRepoLoading, setCollections, baseApiRoute }) => () => {
+      api.get(`${baseApiRoute}/collections`)
+        .then(({ data }) => {
+          const { collections } = data
+          setCollections(Object.keys(collections))
+          setRepoLoading(false)
+        })
+        .catch(() => setCollections([]))
     }
   }),
-  withPropsOnChange(['baseApiRoute'], ({ setCollections, setRepoLoading, baseApiRoute }) => {
+  withPropsOnChange(['baseApiRoute'], ({ getCollections, getBranchList, setRepoLoading, baseApiRoute }) => {
     setRepoLoading(true)
-
-    api.get(`${baseApiRoute}/collections`)
-      .then(({ data }) => {
-        const { collections } = data
-        setCollections(Object.keys(collections))
-        setRepoLoading(false)
-      })
-      .catch(() => setCollections([]))
+    getBranchList()
+    getCollections()
   }),
   withPropsOnChange(['location'], ({ baseApiRoute, queryParams, setDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
     setBranch(queryParams['ref'] || 'master')
