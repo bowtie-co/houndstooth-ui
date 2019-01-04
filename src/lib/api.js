@@ -24,7 +24,10 @@ api.authorize({
 const handleApiUnauthorized = (resp) => {
   notifier.pubnub && notifier.pubnub.stop()
   storage.clear()
-  window.location.reload()
+
+  if (window.location.pathname !== '/welcome') {
+    window.location = '/welcome'
+  }
 }
 
 // Handler for all non 2xx code api responses
