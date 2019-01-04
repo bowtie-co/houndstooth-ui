@@ -1,8 +1,17 @@
-/* global localStorage */
+/* global localStorage sessionStorage */
 
 import EventEmitter from 'eventemitter2'
 
 class Storage extends EventEmitter {
+  setSession (key, value) {
+    const flatValue = typeof value === 'object' ? JSON.stringify(value) : value
+
+    sessionStorage.setItem(key, flatValue)
+
+    this.emit('change', { key, value })
+    this.emit(`${key}_changed`, value)
+  }
+
   set (key, value) {
     const flatValue = typeof value === 'object' ? JSON.stringify(value) : value
 
@@ -14,6 +23,16 @@ class Storage extends EventEmitter {
 
   get (key) {
     const storedValue = localStorage.getItem(key)
+
+    try {
+      return JSON.parse(storedValue)
+    } catch (e) {
+      return storedValue
+    }
+  }
+
+  getSession (key) {
+    const storedValue = sessionStorage.getItem(key)
 
     try {
       return JSON.parse(storedValue)

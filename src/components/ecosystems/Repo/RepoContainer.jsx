@@ -1,28 +1,25 @@
 /* global alert  */
 
 import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
-// import { withEither } from '@bowtie/react-utils'
 import Repo from './Repo'
-// import { Loading } from 'atoms'
 import qs from 'qs'
-import { api, notifier } from 'lib'
-
-// conditional functions here:
-// const loadingConditionalFn = ({ isRepoLoading }) => isRepoLoading
+import { api, notifier, storage } from 'lib'
 
 export const enhance = compose(
   withStateHandlers(({ queryParams }) => ({
+    branchList: [],
     branch: queryParams['ref'] || 'master',
     stagedFiles: [],
     dirList: [],
     file: {},
     isRepoLoading: false
   }), {
-    setDirList: ({ dirList }) => (payload) => ({ dirList: payload }),
-    setFile: ({ file }) => (payload) => ({ file: payload }),
-    setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
-    setBranch: ({ branch }) => (payload) => ({ branch: payload }),
-    setRepoLoading: ({ isRepoLoading }) => (payload) => ({ isRepoLoading: payload })
+    setBranchList: () => (payload) => ({ branchList: payload }),
+    setDirList: () => (payload) => ({ dirList: payload }),
+    setFile: () => (payload) => ({ file: payload }),
+    setStagedFiles: () => (payload) => ({ stagedFiles: payload }),
+    setBranch: () => (payload) => ({ branch: payload }),
+    setRepoLoading: () => (payload) => ({ isRepoLoading: payload })
   }),
   withHandlers({
     saveFile: ({ setFile, file, stagedFiles, setStagedFiles, queryParams }) => (content) => {
@@ -58,29 +55,49 @@ export const enhance = compose(
 
       setStagedFiles([])
     },
-    asyncLoadModel: ({ baseApiRoute }) => (model, search) => {
-      return api.get(`${baseApiRoute}/${model}`)
+    getBranchList: ({ setBranchList, baseApiRoute, setRepoLoading, match }) => () => {
+      const storageKey = `${match.params['repo']}_branchList`
+      const cachedBranchesList = storage.get(`branches`) ? storage.get(`branches`)[storageKey] : null
+      console.log('cached branches list: ', cachedBranchesList)
+
+      if (!cachedBranchesList || cachedBranchesList.length <= 0) {
+        console.log('branches from Github')
+        setRepoLoading(true)
+        api.get(`${baseApiRoute}/branches`)
+          .then(({ data }) => {
+            const storageBranches = storage.get('branches') || {}
+            const newBranches = Object.assign(storageBranches, { [storageKey]: data['branches'] })
+
+            storage.set(`branches`, newBranches)
+            setBranchList(data['branches'])
+            setRepoLoading(false)
+          })
+          .catch((resp) => {
+            setRepoLoading(false)
+            notifier.bad(resp)
+          })
+      } else {
+        console.log('branches from storage')
+        setBranchList(cachedBranchesList)
+      }
+    },
+    getCollections: ({ setRepoLoading, setCollections, baseApiRoute }) => () => {
+      setRepoLoading(true)
+      api.get(`${baseApiRoute}/collections`)
         .then(({ data }) => {
-          console.log(`${model} DATA FROM ASYNC SELECT`, data)
-          return {
-            options: data[model]
-          }
+          const { collections } = data
+          setCollections(Object.keys(collections))
+          setRepoLoading(false)
         })
-        .catch((resp) => {
-          notifier.bad(resp)
+        .catch(() => {
+          setRepoLoading(false)
+          setCollections([])
         })
     }
   }),
-  withPropsOnChange(['baseApiRoute'], ({ setCollections, setRepoLoading, baseApiRoute }) => {
-    setRepoLoading(true)
-
-    api.get(`${baseApiRoute}/collections`)
-      .then(({ data }) => {
-        const { collections } = data
-        setCollections(Object.keys(collections))
-        setRepoLoading(false)
-      })
-      .catch(() => setCollections([]))
+  withPropsOnChange(['baseApiRoute'], ({ getCollections, getBranchList, setRepoLoading, baseApiRoute }) => {
+    getBranchList()
+    getCollections()
   }),
   withPropsOnChange(['location'], ({ baseApiRoute, queryParams, setDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
     setBranch(queryParams['ref'] || 'master')
@@ -109,7 +126,6 @@ export const enhance = compose(
         })
     }
   })
-  // withEither(loadingConditionalFn, Loading)
 )
 
 export default enhance(Repo)
