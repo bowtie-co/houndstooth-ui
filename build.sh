@@ -2,12 +2,14 @@
 
 set -e
 
-APP_ENV=staging
+APP_ENV=preview
 GENERATE_SOURCEMAP=true
 
 if [ "$BRANCH" == "production" ]; then
   APP_ENV=production
   # GENERATE_SOURCEMAP=false
+elif [ "$BRANCH" == "master" ]; then
+  APP_ENV=staging
 fi
 
 npm install
