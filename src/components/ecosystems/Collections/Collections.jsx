@@ -8,7 +8,7 @@ import {
   Title
 } from 'atoms'
 import {
-  Tabs,
+  ItemList,
   ItemForm
 } from 'organisms'
 
@@ -17,9 +17,9 @@ export const Collections = (props) => {
   return (
     <section>
       <div className='collections-section'>
-        <Tabs
+        <ItemList
           onClick={selectItem}
-          tabs={items}
+          items={items}
           vertical
           {...rest}
         >
@@ -27,7 +27,7 @@ export const Collections = (props) => {
             {...props}
           />
 
-        </Tabs>
+        </ItemList>
       </div>
     </section>
   )

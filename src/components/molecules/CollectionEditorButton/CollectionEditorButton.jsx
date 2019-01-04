@@ -1,12 +1,12 @@
 import React from 'react'
 import { Button } from 'atoms'
 
-const CollectionEditorButton = ({ location, match, branch = 'master' }) => {
+const CollectionEditorButton = ({ location, match, baseRoute, branch = 'master' }) => {
   const { pathname } = location
   const { username, repo, collection, item } = match.params
   const onCollectionEditor = pathname.includes('/collection')
-  const fileRoute = item && collection ? `/repos/${username}/${repo}/file?path=_${collection}/${item}&ref=${branch}` : `/repos/${username}/${repo}/dir`
-  const collectionRoute = `/repos/${username}/${repo}/collections`
+  const fileRoute = item && collection ? `/${baseRoute}/file?path=_${collection}/${item}&ref=${branch}` : `/${baseRoute}/dir`
+  const collectionRoute = `/${baseRoute}/collections`
   return (
     <Button
       href={onCollectionEditor ? fileRoute : collectionRoute}
@@ -16,17 +16,17 @@ const CollectionEditorButton = ({ location, match, branch = 'master' }) => {
   )
 }
 
-// const CollectionEditorButton = ({ baseRoute, location, match }) => {
+// const CollectionEditorButton = ({ baseApiRoute, location, match }) => {
 //   const { pathname } = location
 //   const { username, repo } = match.params
 //   const onCollectionEditor = pathname.includes('/collection')
 //   return (
 //     <Button
-//       href={onCollectionEditor ? `${baseRoute}/dir` : `${baseRoute}/collections`}
+//       href={onCollectionEditor ? `${baseApiRoute}/dir` : `${baseApiRoute}/collections`}
 //       disabled={!repo && !username}>
 //       {onCollectionEditor ? 'View File Editor' : 'View Collection Editor'}
 //     </Button>
-//     // <Button href={`/${baseRoute}/dir?ref=${queryParams['ref'] || 'master'}`} disabled={!repo && !username}>File Editor</Button>
+//     // <Button href={`/${baseApiRoute}/dir?ref=${queryParams['ref'] || 'master'}`} disabled={!repo && !username}>File Editor</Button>
 //   )
 // }
 
