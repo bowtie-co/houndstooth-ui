@@ -1,17 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withMaybe } from '@bowtie/react-utils'
-import { Row, Col, Title } from 'atoms'
+import { Row, Col, Title, Icon } from 'atoms'
 import { RepoCard, Pagination } from 'molecules'
 
 const nullConditionFn = ({ repoList }) => repoList.length <= 0
 
-const RepoList = ({ repoList, pages, setPageNumber, pageNumber }) => {
+const RepoList = ({ repoList, pages, setPageNumber, pageNumber, reloadReposAndBranches }) => {
   return (
     <section>
       <div className='repo-list-header flex-row space-between'>
         <Title>Hello! Please select a repository.</Title>
-        {/* <div>Search</div> */}
+        <div>
+          <Icon iconName='sync-alt' size='sm' onClick={reloadReposAndBranches} />
+        </div>
       </div>
       <Row>
         {

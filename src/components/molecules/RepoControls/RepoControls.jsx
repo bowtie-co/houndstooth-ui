@@ -12,7 +12,7 @@ import {
 } from 'molecules'
 
 const RepoControls = (props) => {
-  const { branch, changeBranch, isCommitable, asyncLoadModel, stagedFiles, match, ...rest } = props
+  const { branch, changeBranch, isCommitable, asyncLoadModel, stagedFiles, match, branchList, reloadReposAndBranches, ...rest } = props
   const { type } = match.params
   console.log('REPO NAV props', props)
   return (
@@ -25,15 +25,14 @@ const RepoControls = (props) => {
             Select a Branch:
           </div>
           <FieldContainer
-            async
             horizontal
             disabled={stagedFiles.length > 0}
             clearable={false}
             type={'select'}
-            value={branch}
+            value={{ name: branch }}
             valueKey='name'
             labelKey='name'
-            loadOptions={(search) => asyncLoadModel('branches', search)}
+            options={branchList}
             onChange={changeBranch}
           />
         </div>
@@ -45,7 +44,9 @@ const RepoControls = (props) => {
         }
         <CollectionEditorButton {...rest} />
       </Col>
-
+      <div>
+        <Icon iconName='sync-alt' size='sm' onClick={reloadReposAndBranches} />
+      </div>
     </Row>
   )
 }

@@ -7,7 +7,7 @@ import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'rec
 import { withEither } from '@bowtie/react-utils'
 import { Loading } from 'atoms'
 import { withQueryParams, withBaseRoutes } from 'helpers'
-import { api, notifier } from 'lib'
+import { api, notifier, storage } from 'lib'
 
 // conditional functions here:
 const loadingConditionFn = ({ isMainLoading, repoList }) => isMainLoading || repoList.length <= 0
@@ -51,7 +51,13 @@ export const enhance = compose(
         .then(({ data }) => {
           setPages(data['pages'])
           setPageNumber(data['pages'])
-          setRepoList(data.repos)
+          setRepoList(data['repos'])
+
+          const repos = storage.get('repos') || {}
+          const newRepos = Object.assign(repos, { [`page_${pageNumber || 1}`]: data })
+
+          storage.set(`repos`, newRepos)
+
           setMainLoading(false)
         })
         .catch((resp) => {
@@ -60,8 +66,23 @@ export const enhance = compose(
         })
     }
   }),
-  withPropsOnChange(['pageNumber'], ({ getRepos }) => {
-    getRepos()
+  withHandlers({
+    reloadReposAndBranches: ({ getRepos }) => () => {
+      storage.remove('repos')
+      storage.remove('branches')
+      getRepos()
+    }
+  }),
+  withPropsOnChange(['pageNumber'], ({ getRepos, pageNumber, setRepoList, setPages, setPageNumber }) => {
+    const cachedRepoList = storage.get(`repos`) ? storage.get(`repos`)[`page_${pageNumber}`] : null
+
+    if (!cachedRepoList || cachedRepoList.length <= 0) {
+      getRepos()
+    } else {
+      setRepoList(cachedRepoList['repos'])
+      setPages(cachedRepoList['pages'])
+      setPageNumber(cachedRepoList['pages'])
+    }
   }),
   withPropsOnChange(['match'], ({ match, setCollections, setOrgList }) => {
     const { repo } = match.params
