@@ -1,14 +1,9 @@
 /* global alert  */
 
 import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
-// import { withEither } from '@bowtie/react-utils'
 import Repo from './Repo'
-// import { Loading } from 'atoms'
 import qs from 'qs'
-import { api, notifier } from 'lib'
-
-// conditional functions here:
-// const loadingConditionalFn = ({ isRepoLoading }) => isRepoLoading
+import { api, notifier, storage } from 'lib'
 
 export const enhance = compose(
   withStateHandlers(({ queryParams }) => ({
@@ -60,32 +55,47 @@ export const enhance = compose(
 
       setStagedFiles([])
     },
-    getBranchList: ({ setBranchList, baseApiRoute, setRepoLoading }) => () => {
-      api.get(`${baseApiRoute}/branches`)
-        .then(({ data }) => {
-          console.log('====================================')
-          console.log('branches', data)
-          console.log('====================================')
-          setBranchList(data['branches'])
-          setRepoLoading(false)
-        })
-        .catch((resp) => {
-          setRepoLoading(false)
-          notifier.bad(resp)
-        })
+    getBranchList: ({ setBranchList, baseApiRoute, setRepoLoading, match }) => () => {
+      const storageKey = `${match.params['repo']}_branchList`
+      const cachedBranchesList = storage.get(`branches`) ? storage.get(`branches`)[storageKey] : null
+      console.log('cached branches list: ', cachedBranchesList)
+
+      if (!cachedBranchesList || cachedBranchesList.length <= 0) {
+        console.log('branches from Github')
+        setRepoLoading(true)
+        api.get(`${baseApiRoute}/branches`)
+          .then(({ data }) => {
+            const storageBranches = storage.get('branches') || {}
+            const newBranches = Object.assign(storageBranches, { [storageKey]: data['branches'] })
+
+            storage.set(`branches`, newBranches)
+            setBranchList(data['branches'])
+            setRepoLoading(false)
+          })
+          .catch((resp) => {
+            setRepoLoading(false)
+            notifier.bad(resp)
+          })
+      } else {
+        console.log('branches from storage')
+        setBranchList(cachedBranchesList)
+      }
     },
     getCollections: ({ setRepoLoading, setCollections, baseApiRoute }) => () => {
+      setRepoLoading(true)
       api.get(`${baseApiRoute}/collections`)
         .then(({ data }) => {
           const { collections } = data
           setCollections(Object.keys(collections))
           setRepoLoading(false)
         })
-        .catch(() => setCollections([]))
+        .catch(() => {
+          setRepoLoading(false)
+          setCollections([])
+        })
     }
   }),
   withPropsOnChange(['baseApiRoute'], ({ getCollections, getBranchList, setRepoLoading, baseApiRoute }) => {
-    setRepoLoading(true)
     getBranchList()
     getCollections()
   }),
@@ -116,7 +126,6 @@ export const enhance = compose(
         })
     }
   })
-  // withEither(loadingConditionalFn, Loading)
 )
 
 export default enhance(Repo)
