@@ -5,7 +5,7 @@ import { Button, TextEditor } from 'atoms'
 
 const FileSingle = ({ file, content, handleContentChange, saveFile }) => {
   return (
-    <div style={{ 'padding': '20px 0', 'width':'100%' }}>
+    <div style={{ 'padding': '20px 0', 'width': '100%' }}>
       <TextEditor
         content={content}
         name={file.name}

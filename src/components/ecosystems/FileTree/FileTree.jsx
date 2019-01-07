@@ -19,7 +19,7 @@ const FileTree = (props) => {
   return (
     <section className='flex-row'>
       <div className='file-tree'>
-      <FileTreeMap {...props} />
+        <FileTreeMap {...props} />
       </div>
       <Switch>
         <PrivateRoute
