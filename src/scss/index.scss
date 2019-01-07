@@ -16,6 +16,10 @@
 
 #root{
   height: 100%;
+  font-size: $font-size-base;
+  font-weight: $primary-font-weight;
+  font-family: $primary-font, helvetica, sans-serif;
+  color: $primary-font-color;
 }
 
 .pointer:hover {
@@ -75,10 +79,10 @@
 
 .truncate-multi {
   overflow: hidden;
-  position: relative; 
+  position: relative;
   line-height: 1.2em;
-  max-height: 3.6em; 
-  text-align: justify;  
+  max-height: 3.6em;
+  text-align: justify;
   margin-right: -1em;
   padding-right: 1em;
 }

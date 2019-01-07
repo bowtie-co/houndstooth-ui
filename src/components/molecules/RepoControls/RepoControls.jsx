@@ -20,9 +20,9 @@ const RepoControls = (props) => {
       {/* <BackButton> back </BackButton> */}
       <Col>
         <div className='flex-row align-center'>
-          <div className='bold' style={{ marginRight: '21px' }}>
+          <div className='bold' style={{ marginRight: '10px' }}>
             <Icon iconName='code-branch' />
-            Select a Branch:
+            Branch:
           </div>
           <FieldContainer
             horizontal
@@ -37,10 +37,10 @@ const RepoControls = (props) => {
           />
         </div>
       </Col>
-      <Col className='justify-content-end flex'>
+      <Col className='justify-content-end flex align-items-center btn-group'>
         {
           type !== 'collections' &&
-          <Button href={'commit'} disabled={!isCommitable}>Commit Changes</Button>
+          <Button href={'commit'} className='btn-sm' color='primary' style={{ marginRight: '10px' }} disabled={!isCommitable}>Commit Changes</Button>
         }
         <CollectionEditorButton {...rest} />
       </Col>

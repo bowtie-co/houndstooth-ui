@@ -6,7 +6,11 @@
     display: flex;
     flex-direction: row;
     flex-grow: 1;
-    min-height: 83vh;
-    padding: 42px;
+    padding: 40px 0 40px 36px;
+  }
+  .content-wrapper{
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
   }
 }

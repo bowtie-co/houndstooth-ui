@@ -19,6 +19,10 @@
   }
 }
 
+.file-tree {
+  padding: 20px 20px 20px 0;
+}
+
 .pagination {
   display: flex;
   list-style: none;
@@ -36,6 +40,39 @@
 
 .Select-control {
   min-width: 200px;
+  height: 40px !important;
+  border-radius: 0 !important;
+  border: 1px solid #c2c2c2 !important;
+  &:focus, &:active {
+    border-color: #d62b00 !important;
+    outline: 0 !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 53, 0s,.25) !important;
+  }
+  .select-input input {
+    &:focus, &:active {
+      background-color: rgba(255, 53, 0s,.25) !important;
+      outline: 0 !important;
+    }
+  }
+}
+.Select-menu-outer div{
+  background-color: white;
+  &.is-focused {
+    background-color: rgba(255, 53, 0s,.25) !important;
+  }
+  //background-color: rgba(255, 53, 0s,.5) !important;
+  &:focus, &:active, &:hover {
+    background-color: rgba(255, 53, 0s,.25) !important;
+    outline: 0 !important;
+  }
+}
+
+.file-select {
+  background-color: rgba(150, 160, 180,.25);
+  padding: 15px;
+  margin: 0 0 0 2em;
+  text-align: center;
+  max-width: 200px;
 }
 
 div.Select-menu-outer {
@@ -70,7 +107,7 @@ div.Select-menu-outer {
         color: transparent;
       }
     }
-    button.btn{ 
+    button.btn{
       padding: 5px 19px;
       border: none;
       color: white;
@@ -99,7 +136,25 @@ div.Select-menu-outer {
 .field-group{
   .form-group {
     label {
-      width: 93%;
+      //width: 93%;
+      width: 100%;
     }
   }
+  .form-control {
+    height: 40px;
+    border-radius: 0;
+    border: 1px solid #c2c2c2;
+    &:focus, &:active {
+      border-color: #d62b00;
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem rgba(255, 53, 0s,.25);
+    }
+  }
+}
+.form-check-label {}
+.form-check-input {
+	position: absolute;
+	margin-top: .125rem;
+	margin-left: 10px !important;
+  zoom: 1.5;
 }

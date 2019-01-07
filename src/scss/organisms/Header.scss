@@ -1,5 +1,5 @@
 .top-nav-section {
-  text-align: center;  
+  text-align: center;
   background-color: #333333;
 
   .form-group {
@@ -47,7 +47,7 @@
       &:focus{
         box-shadow: transparent;
       }
-    }    
+    }
   }
 }
 
@@ -58,9 +58,9 @@
   transition: width 1s ease;
 }
 
-.isCollapsed, 
+.isCollapsed,
 .collapsedWrapper {
-  width: 88px;
+  width: 84px;
 }
 
 .isCollapsed {
@@ -117,9 +117,10 @@
       padding-left: 15px
     }
     .nav-link-title {
-      // font-family: Lato;
-      font-size: 16px;
+      font-family: $primary-font;
+      font-size: 14px;
       font-weight: bold;
+      margin-left: -5px;
     }
   }
 }
@@ -129,6 +130,6 @@
   padding: 0 10px;
   margin-bottom: 27px;
   .title {
-    font-size: 30px;
+    font-size: 20px;
   }
 }

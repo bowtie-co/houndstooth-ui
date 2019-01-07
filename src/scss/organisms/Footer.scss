@@ -3,13 +3,17 @@
 .footer-section{
   background-image: url(../images/HT_footer_background.jpg);
   background-color: #333333;
-  min-height: 215px;
+  min-height: 140px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  padding: 20px 15px;
   .copyright{
     color: white;
+  }
+  img.logo-md {
+    max-height: 30px;
+    margin: 10px 20px; 
   }
 }

@@ -25,6 +25,7 @@ const TextEditor = ({ content, name, onChange }) => {
   return (
     <AceEditor
       mode={lang}
+      width={'100%'}
       theme='monokai'
       name={`file-editor-${name}`}
       // onLoad={this.onLoad}

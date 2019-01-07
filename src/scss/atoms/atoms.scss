@@ -1,20 +1,29 @@
 
 .avatar {
-	height: 55px;
+	height: 45px;
 	border-radius: 50%;
-	margin: 6px 25px;
+	margin: 8px 25px;
 	margin-left: 0;
-} 
+}
 
 .card {
 	margin: 10px;
-	color: black;
-	width: 383px;
-	.card-title {
+	color: #333;
+	width: 270px;
+	min-width: 270px;
+	border-radius: $border-radius-base !important;
+	border: 1px solid #eee;
+	font-weight: 300 !important;
+	.card-title, h5.card-title {
 		flex: 1 1 auto;
-		padding: 1.25rem;
+		padding: .5rem 1rem;
+		font-size: 1.1em;
 		background-color: #f0f0f0;
-	}   
+		font-weight: 400;
+	}
+	.repo-name {
+		font-weight: 400;
+	}
 }
 
 .summary {
@@ -51,13 +60,9 @@ a.link:hover {
 }
 
 label span {
-	font-size: 16px;
-    font-weight: 300;
-    /* font-style: normal; */
-    /* font-stretch: normal; */
-    /* line-height: normal; */
-    /* letter-spacing: normal; */
-    color: #515151;
+	font-size: 15px;
+  font-weight: 300;
+  color: #515151;
 }
 .input-group-addon {
 	border: 1px lightgrey solid;
