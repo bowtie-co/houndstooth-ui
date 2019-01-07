@@ -20,9 +20,9 @@ const RepoControls = (props) => {
       {/* <BackButton> back </BackButton> */}
       <Col>
         <div className='flex-row align-center'>
-          <div className='bold' style={{ marginRight: '21px' }}>
+          <div className='bold' style={{ marginRight: '10px' }}>
             <Icon iconName='code-branch' />
-            Select a Branch:
+            Branch:
           </div>
           <FieldContainer
             horizontal

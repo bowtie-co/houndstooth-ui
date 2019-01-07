@@ -9,9 +9,18 @@
 }
 
 .collections-section {
-  margin: 16px;
+  margin: 15px 0;
   padding: 0;
-  
+  .nav {
+    .nav-link {
+      padding: .5rem;
+      @media (max-width: $narrow-width-max) {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
 }
 
 .empty-item-wrapper {
@@ -20,7 +29,7 @@
   display: flex;
   justify-content:center;
   align-items:center;
-} 
+}
 
 .nested-dir {
 margin-left: 19px;
@@ -37,7 +46,7 @@ margin-left: 19px;
       border-bottom: 2px black solid;
       position: absolute;
       top: -19px;
-      left: -5px;   
+      left: -5px;
     }
   }
   .nested-lines{

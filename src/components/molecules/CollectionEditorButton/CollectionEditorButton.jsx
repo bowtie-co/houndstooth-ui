@@ -9,6 +9,7 @@ const CollectionEditorButton = ({ location, match, baseRoute, branch = 'master' 
   const collectionRoute = `/${baseRoute}/collections`
   return (
     <Button
+      className='btn-sm'
       href={onCollectionEditor ? fileRoute : collectionRoute}
       disabled={!repo && !username}>
       { onCollectionEditor ? 'File Editor' : 'Collection Editor' }
