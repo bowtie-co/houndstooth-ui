@@ -37,10 +37,10 @@ const RepoControls = (props) => {
           />
         </div>
       </Col>
-      <Col className='justify-content-end flex'>
+      <Col className='justify-content-end flex align-items-center btn-group'>
         {
           type !== 'collections' &&
-          <Button href={'commit'} disabled={!isCommitable}>Commit Changes</Button>
+          <Button href={'commit'} className='btn-sm' style={{ marginRight: '10px' }} disabled={!isCommitable}>Commit Changes</Button>
         }
         <CollectionEditorButton {...rest} />
       </Col>
