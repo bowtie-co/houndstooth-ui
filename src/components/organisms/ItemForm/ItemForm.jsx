@@ -43,7 +43,7 @@ export const ItemForm = (props) => {
           setStagedFileUploads={setStagedFileUploads}
         />
       </Col>
-      <Col sm='6' className='tab-content-card'>
+      <Col sm='7' className='tab-content-card'>
         <WysiwygEditor
           item={item}
           content={activeItem['markdown']}
@@ -60,8 +60,8 @@ export const ItemForm = (props) => {
 export const EmptyState = (props) => {
   return (
     <Row>
-      <Col className='tab-content-card' sm='4'>
-        <div>Select a file to edit</div>
+      <Col className='tab-content-card' sm='12' style={{ 'border': '0', 'width': '100%', 'box-shadow': 'none' }}>
+        <div className='file-select'><em>Select a file to edit</em></div>
       </Col>
 
     </Row>

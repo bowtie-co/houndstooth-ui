@@ -8,11 +8,11 @@ const Routes = () => {
     <BrowserRouter>
       <Switch>
         <PublicRoute
-          path='/(callback|redirect|login|logout)'
+          path='/(callback|redirect|login|logout|welcome)'
           component={AuthContainer}
         />
         <PublicRoute
-          path='/'
+          path='/:username?/:repo?/:type?/:collection?'
           component={AppContainer}
         />
       </Switch>

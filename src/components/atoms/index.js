@@ -26,7 +26,9 @@ import Icon from './Icon'
 import Modal from './Modal'
 import ModalBody from './ModalBody'
 import Nav from './Nav'
+import Link from './Link'
 import SocialLink from './SocialLink'
+import CollapseHorizontal from './CollapseHorizontal'
 
 export {
   Avatar,
@@ -57,5 +59,7 @@ export {
   Switch,
   Title,
   Tooltip,
-  TextEditor
+  Link,
+  TextEditor,
+  CollapseHorizontal
 }

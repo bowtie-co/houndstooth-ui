@@ -1,5 +1,5 @@
 
-.row {  
+.row {
   .nav-tabs {
     border-bottom: none;
     .tabs-vertical {
@@ -35,16 +35,20 @@
       }
     }
   }
-  
+
   .tab-content-card {
     box-shadow:  2px 5px 14px -4px rgba(0, 0, 0, 0.50);
     border: 1px #c5c5c5 solid;
     padding: 16px;
-    margin-left: -2px;
-    margin-right: 22px;
-    min-height: 432px;
+    // margin-left: -2px;
+    // margin-right: 22px;
+    min-height: 420px;
+    &.empty {
+      border: none;
+      box-shadow: none;
+    }
   }
-}	
+}
 
 .addFile {
   padding-bottom: 20px;

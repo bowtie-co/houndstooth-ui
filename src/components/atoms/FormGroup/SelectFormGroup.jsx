@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 const SelectFormGroup = ({ id, label, title, errorMessage, helper, children, horizontal = false, floatLabel = false, check = false, required }) => {
   return (
-    <FormGroupRS style={{'margin': '0'}}>
+    <FormGroupRS style={{ 'margin': '0' }}>
       <div className={`flex-${horizontal ? 'row' : 'col'}`}>
         {label && <div sm='auto' className='flex flex-center  select-form-group-container'>{label}</div> }
         {children}

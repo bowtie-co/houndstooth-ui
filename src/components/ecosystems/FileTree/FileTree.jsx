@@ -9,22 +9,31 @@ import {
   DirList,
   FileSingle
 } from 'organisms'
+import {
+  FileTreeMap
+} from 'molecules'
 
 const FileTree = (props) => {
-  const { dirList, file, setFile, saveFile, branch } = props
+  const { dirList, file, setFile, saveFile, setDirList, branch } = props
+
   return (
-    <Switch>
-      <PrivateRoute
-        props={{ dirList, branch }}
-        path={`/repos/:username/:repo/dir`}
-        component={DirList}
-      />
-      <PrivateRoute
-        props={{ file, setFile, saveFile }}
-        path={`/repos/:username/:repo/file`}
-        component={FileSingle}
-      />
-    </Switch>
+    <section className='flex-row'>
+      <div className='file-tree'>
+        <FileTreeMap {...props} />
+      </div>
+      <Switch>
+        <PrivateRoute
+          props={{ dirList, setDirList, branch }}
+          path={`/:username/:repo/dir`}
+          component={DirList}
+        />
+        <PrivateRoute
+          props={{ file, setFile, saveFile }}
+          path={`/:username/:repo/file`}
+          component={FileSingle}
+        />
+      </Switch>
+    </section>
   )
 }
 

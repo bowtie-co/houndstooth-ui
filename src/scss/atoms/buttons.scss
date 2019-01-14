@@ -109,12 +109,16 @@ button.btn {
     min-height: 44px;
     &.btn-secondary{
       background-color: white;
-      border: 2px #ff3500 solid;
-      color: #ff3500;
+      border: 2px black solid;
+      color: black;
       &.disabled{
         color: lightgrey;
         border: 2px lightgrey solid;
       }
+    }
+    &.btn-secondary:hover {
+      border: 2px #ff3500 solid;
+      color: #ff3500;
     }
   }
 

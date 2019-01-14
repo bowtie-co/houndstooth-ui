@@ -9,8 +9,8 @@ const FormGroup = ({ id, label, title, errorMessage, helper, children, floatLabe
       { radioTitle }
       {helper ? <p className='helpertext'>{helper}</p> : ''}
       <Label for={id} check={check} className={`${floatLabel ? 'has-float-label' : ''} ${required ? 'required' : 'optional'}`}>
-        { children }
         <span>{label}</span>
+        { children }
       </Label>
       <FormText>
         {errorMessage}

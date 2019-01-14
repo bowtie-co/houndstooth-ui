@@ -1,5 +1,5 @@
 const path = require('path')
-const aliases = require('./aliases')
+const { alias: aliases } = require('./webpack')
 const basePath = path.join(__dirname, '..', 'src')
 
 const mapAliasNames = (aliases) => {
@@ -17,8 +17,10 @@ const mapAliasNames = (aliases) => {
 }
 
 module.exports = {
-  // browser: true,
-  moduleNameMapper: Object.assign({
-    '^libphonenumber-js$': 'libphonenumber-js'
-  }, mapAliasNames(aliases))
+  configure: {
+    moduleNameMapper: Object.assign({
+      '^libphonenumber-js$': 'libphonenumber-js',
+      '\\.worker.js': '<rootDir>/__mocks__/workerMock.js'
+    }, mapAliasNames(aliases))
+  }
 }

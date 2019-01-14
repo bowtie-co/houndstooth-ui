@@ -1,10 +1,13 @@
 import React from 'react'
+import {
+  Card as CardRR
+} from 'reactstrap'
 
-const Card = ({ children }) => {
+const Card = ({ children, className }) => {
   return (
-    <section className='card'>
+    <CardRR>
       { children }
-    </section>
+    </CardRR>
   )
 }
 

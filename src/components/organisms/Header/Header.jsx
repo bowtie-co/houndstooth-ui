@@ -3,26 +3,30 @@ import { auth } from 'lib'
 import { RepoSelect } from 'organisms'
 import {
   NavLink,
+  Link,
   Login,
   Logout,
   Nav,
   Icon,
+  ExtLink,
   HoundstoothLogo
 } from 'atoms'
 
 const Header = (props) => {
   return (
     <section className='flex-row top-nav-section'>
-      <div className='flex' >
+      <Link to={'/'} className='flex'>
         <HoundstoothLogo color='white' />
-      </div>
+      </Link>
       <div sm='4' className='flex flex-center'>
         <RepoSelect {...props} />
       </div>
       <div className='flex-grow'>
         <Nav className='nav-bar'>
-          <NavLink path={'/notifications/'}><Icon iconName='bell' color='white' size='sm' /></NavLink>
-          <NavLink path={'/settings/'}><Icon iconName='cog' color='white' size='sm' /></NavLink>
+          <NavLink to=''>
+            <ExtLink href='www.github.com' className='nav-link'><Icon className='fab fa-github' color='white' size='md' /></ExtLink>
+          </NavLink>
+          {/* <NavLink path={'/settings/'}><Icon iconName='cog' color='white' size='sm' /></NavLink> */}
           {
             auth.isAuthenticated()
               ? <Logout />

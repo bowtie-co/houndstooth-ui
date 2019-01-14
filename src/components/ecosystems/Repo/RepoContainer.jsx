@@ -1,28 +1,25 @@
 /* global alert  */
 
 import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
-// import { withEither } from '@bowtie/react-utils'
 import Repo from './Repo'
-// import { Loading } from 'atoms'
 import qs from 'qs'
-import { api, notifier } from 'lib'
-
-// conditional functions here:
-// const loadingConditionalFn = ({ isRepoLoading }) => isRepoLoading
+import { api, notifier, storage } from 'lib'
 
 export const enhance = compose(
-  withStateHandlers(({ queryParams, match: { params: { username, repo } } }) => ({
+  withStateHandlers(({ queryParams }) => ({
+    branchList: [],
     branch: queryParams['ref'] || 'master',
     stagedFiles: [],
     dirList: [],
     file: {},
     isRepoLoading: false
   }), {
-    setDirList: ({ dirList }) => (payload) => ({ dirList: payload }),
-    setFile: ({ file }) => (payload) => ({ file: payload }),
-    setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
-    setBranch: ({ branch }) => (payload) => ({ branch: payload }),
-    setRepoLoading: ({ isRepoLoading }) => (payload) => ({ isRepoLoading: payload })
+    setBranchList: () => (payload) => ({ branchList: payload }),
+    setDirList: () => (payload) => ({ dirList: payload }),
+    setFile: () => (payload) => ({ file: payload }),
+    setStagedFiles: () => (payload) => ({ stagedFiles: payload }),
+    setBranch: () => (payload) => ({ branch: payload }),
+    setRepoLoading: () => (payload) => ({ isRepoLoading: payload })
   }),
   withHandlers({
     saveFile: ({ setFile, file, stagedFiles, setStagedFiles, queryParams }) => (content) => {
@@ -43,8 +40,8 @@ export const enhance = compose(
       Object.assign(queryParams, { ref: e.target.value })
       history.push(`${match['url']}?${qs.stringify(queryParams, { encode: false })}`)
     },
-    pushToGithub: ({ branch, baseRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
-      const requestPath = `${baseRoute}/files/upsert?ref=${branch}`
+    pushToGithub: ({ branch, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
+      const requestPath = `${baseApiRoute}/files/upsert?ref=${branch}`
       const body = {
         message,
         files: stagedFiles.map(file => ({ path: file.path, content: file.content, encoding: file.encoding }))
@@ -58,34 +55,54 @@ export const enhance = compose(
 
       setStagedFiles([])
     },
-    asyncLoadModel: ({ baseRoute }) => (model, search) => {
-      return api.get(`${baseRoute}/${model}`)
+    getBranchList: ({ setBranchList, baseApiRoute, setRepoLoading, match }) => () => {
+      const storageKey = `${match.params['repo']}_branchList`
+      const cachedBranchesList = storage.get(`branches`) ? storage.get(`branches`)[storageKey] : null
+      console.log('cached branches list: ', cachedBranchesList)
+
+      if (!cachedBranchesList || cachedBranchesList.length <= 0) {
+        console.log('branches from Github')
+        setRepoLoading(true)
+        api.get(`${baseApiRoute}/branches`)
+          .then(({ data }) => {
+            const storageBranches = storage.get('branches') || {}
+            const newBranches = Object.assign(storageBranches, { [storageKey]: data['branches'] })
+
+            storage.set(`branches`, newBranches)
+            setBranchList(data['branches'])
+            setRepoLoading(false)
+          })
+          .catch((resp) => {
+            setRepoLoading(false)
+            notifier.bad(resp)
+          })
+      } else {
+        console.log('branches from storage')
+        setBranchList(cachedBranchesList)
+      }
+    },
+    getCollections: ({ setRepoLoading, setCollections, baseApiRoute }) => () => {
+      setRepoLoading(true)
+      api.get(`${baseApiRoute}/collections`)
         .then(({ data }) => {
-          console.log(`${model} DATA FROM ASYNC SELECT`, data)
-          return {
-            options: data[model]
-          }
+          const { collections } = data
+          setCollections(Object.keys(collections))
+          setRepoLoading(false)
         })
-        .catch(notifier.bad.bind(notifier))
+        .catch(() => {
+          setRepoLoading(false)
+          setCollections([])
+        })
     }
   }),
-  withPropsOnChange(['baseRoute'], ({ match, setCollections, setRepoLoading, baseRoute }) => {
-    setRepoLoading(true)
-    const { repo, username } = match.params
-
-    api.get(`repos/${username}/${repo}/collections`)
-      .then(({ data }) => {
-        const { collections } = data
-        setCollections(Object.keys(collections))
-        setRepoLoading(false)
-      })
-      .catch(() => setCollections([]))
+  withPropsOnChange(['baseApiRoute'], ({ getCollections, getBranchList, setRepoLoading, baseApiRoute }) => {
+    getBranchList()
+    getCollections()
   }),
-  withPropsOnChange(['location'], ({ match, queryParams, setDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
+  withPropsOnChange(['location'], ({ baseApiRoute, queryParams, setDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
     setBranch(queryParams['ref'] || 'master')
-    const { repo, username } = match.params
     const stringifiedParams = qs.stringify(queryParams)
-    const route = `repos/${username}/${repo}/files?${stringifiedParams}`
+    const route = `${baseApiRoute}/files?${stringifiedParams}`
     const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
 
     if (stagedFile) {
@@ -103,10 +120,12 @@ export const enhance = compose(
           }
           setRepoLoading(false)
         })
-        .catch(notifier.bad.bind(notifier))
+        .catch((resp) => {
+          setRepoLoading(false)
+          notifier.bad(resp)
+        })
     }
   })
-  // withEither(loadingConditionalFn, Loading)
 )
 
 export default enhance(Repo)

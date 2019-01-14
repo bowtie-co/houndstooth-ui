@@ -9,7 +9,53 @@
 }
 
 .collections-section {
-  margin: 16px;
+  margin: 15px 0;
   padding: 0;
-  
+  .nav {
+    .nav-link {
+      padding: .5rem;
+      @media (max-width: $narrow-width-max) {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
+
+.empty-item-wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.nested-dir {
+margin-left: 19px;
+    padding: 7px 0;
+    position: relative;
+  .dir-list-file-tree{
+    padding: 0px 0;
+    position: relative;
+    margin-bottom: 7px;
+    .nested-lines{
+      width: 18px;
+      height: 32px;
+      border-left: 2px black solid;
+      border-bottom: 2px black solid;
+      position: absolute;
+      top: -19px;
+      left: -5px;
+    }
+  }
+  .nested-lines{
+        width: 12px;
+    height: 26px;
+    border-left: 2px black solid;
+    border-bottom: 2px black solid;
+    position: absolute;
+    top: -6px;
+    left: -3px;
+  }
 }
