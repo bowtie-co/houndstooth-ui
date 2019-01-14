@@ -1,22 +1,55 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  Row
+  Title,
+  TH,
+  THead,
+  ExtLink
 } from 'atoms'
 import {
-  Header,
-  Footer
+  Table
 } from 'organisms'
 
 const Users = (props) => {
-  // const { users } = props
+  const { users, match, ...rest } = props
+  const { repo } = match.params
   return (
     <section>
-      <Header {...props} />
-      <Row>
+      <Title>Users</Title>
+      <p>Registered users for {repo}</p>
+      <Table {...rest} >
+        <THead>
+          <TH>Name</TH>
+          <TH>Github</TH>
+          <TH>Type</TH>
+        </THead>
+        <tbody>
+          {
+            users.length > 0
+              ? users.map((u, i) => {
+                console.log('user', u)
 
-        <Footer />
-      </Row>
+                return (
+                  <tr>
+                    <td>
+                      {u.login}
+                    </td>
+                    <td>
+                      <ExtLink href={u.html_url}>{u.html_url}</ExtLink>
+                    </td>
+                    <td>
+                      {u.type}
+                    </td>
+                  </tr>
+                )
+              })
+              : <tr>
+                <td colspan='6'>There are no Users for this repo.</td>
+              </tr>
+          }
+        </tbody>
+
+      </Table>
     </section>
   )
 }

@@ -28,8 +28,9 @@ const Repo = (props) => {
         />
         <Switch>
           <PrivateRoute
+            exact
             props={props}
-            path={`/repos/:username/:repo/(_users)`}
+            path={`/:username/:repo/users`}
             component={Users}
           />
           <PrivateRoute

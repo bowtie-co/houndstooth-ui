@@ -14,7 +14,7 @@ import {
 
 const SideMenu = (props) => {
   const { baseRoute, queryParams, activeTab, setActiveTab, match, collections } = props
-  const { collection } = match.params
+  const { collection, repo, username } = match.params
   return (
     <CollapseHorizontal>
       <Nav vertical className='side-menu-section'>
@@ -81,8 +81,9 @@ const SideMenu = (props) => {
 
         <NavLink
           active={activeTab === 'users'}
-          path={`/${baseRoute}/_users`}
+          path={`/${baseRoute}/users`}
           onClick={() => setActiveTab('users')}
+          disabled={!repo && !username}
         >
 
           <Row className='flex-center' >
