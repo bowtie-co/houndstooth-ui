@@ -58,7 +58,6 @@ export const enhance = compose(
     getBranchList: ({ setBranchList, baseApiRoute, setRepoLoading, match }) => () => {
       const storageKey = `${match.params['repo']}_branchList`
       const cachedBranchesList = storage.get(`branches`) ? storage.get(`branches`)[storageKey] : null
-      console.log('cached branches list: ', cachedBranchesList)
 
       if (!cachedBranchesList || cachedBranchesList.length <= 0) {
         console.log('branches from Github')
@@ -105,25 +104,28 @@ export const enhance = compose(
     const route = `${baseApiRoute}/files?${stringifiedParams}`
     const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
 
+    console.log('dirList route', route);
     if (stagedFile) {
       setFile(stagedFile)
     } else {
       setRepoLoading(true)
       api.get(route)
-        .then(({ data }) => {
-          if (data['files']) {
+      .then(({ data }) => {
+        console.log('dirList files', data);
+        if (data['files']) {
           // sorts the directory to include folders before files.
-            data['files'].sort(a => a.type === 'file' ? 1 : -1)
-            setDirList(data['files'])
-          } else if (data['file']) {
-            setFile(data['file'])
-          }
-          setRepoLoading(false)
-        })
-        .catch((resp) => {
-          setRepoLoading(false)
-          notifier.bad(resp)
-        })
+          data['files'].sort(a => a.type === 'file' ? 1 : -1)
+          
+          setDirList(data['files'])
+        } else if (data['file']) {
+          setFile(data['file'])
+        }
+        setRepoLoading(false)
+      })
+      .catch((resp) => {
+        setRepoLoading(false)
+        notifier.bad(resp)
+      })
     }
   })
 )

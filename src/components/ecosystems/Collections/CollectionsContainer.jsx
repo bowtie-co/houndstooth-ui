@@ -31,10 +31,10 @@ export default compose(
       const editedItem = Object.assign({}, activeItem, { name: e.target.value })
       setActiveItem(editedItem)
     },
-    selectItem: ({ history, baseRoute, match }) => (itemName) => {
+    selectItem: ({ history, baseRoute, match, branch }) => (itemName) => {
       if (itemName) {
         const { collection } = match.params
-        history.push(`/${baseRoute}/collections/${collection || ''}/${itemName}`)
+        history.push(`/${baseRoute}/collections/${collection || ''}/${itemName}?path=_${collection}/${itemName}&ref=${branch}`)
       }
     },
     getFileUploads: ({ match, setFileUploads, branch }) => () => {
