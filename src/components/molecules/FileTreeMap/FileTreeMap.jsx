@@ -65,7 +65,6 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
             dirList.map(filePath => {
               const filePathArr = filePath.split('/')
               const fileName = filePathArr[filePathArr.length - 1]
-              console.log('dirList fileName', fileName, filePath)
 
               const fileExtArr = fileName.split('.')
               const fileExt = fileExtArr.length > 1 ? fileExtArr[fileExtArr.length - 1] : null

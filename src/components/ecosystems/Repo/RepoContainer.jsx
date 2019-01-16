@@ -100,7 +100,6 @@ export const enhance = compose(
       const route = `${baseApiRoute}/files?${stringifiedParams}`
       api.get(route)
         .then(({ data }) => {
-          console.log('dirList files', data)
           if (data['files']) {
             // sorts the directory to include folders before files.
             data['files'].sort(a => a.type === 'file' ? 1 : -1)
