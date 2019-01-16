@@ -11,7 +11,8 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
     const dir = pathArr.shift()
     const newPathArr = [...pointerArr, dir]
     const newTreeObj = typeof treeObj[newPathArr.join('/')] === 'object' ? treeObj[newPathArr.join('/')] : treeObj
-    const dirList = Object.keys(newTreeObj).sort(a => a.type === 'file' ? 1 : -1)
+    // sorted dirList. If the split array has more than one, we assume it's a file.
+    const dirList = Object.keys(newTreeObj).sort(a => a.split('.').length > 1 ? 1 : -1)
     const newPathParams = Object.assign({}, queryParams, { path: newPathArr.join('/') })
 
     // variables for extention detection
