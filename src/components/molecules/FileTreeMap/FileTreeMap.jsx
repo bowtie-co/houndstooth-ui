@@ -6,12 +6,16 @@ import {
 } from 'atoms'
 
 const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch }) => {
-
   const recursiveMap = (treeObj = {}, path, pointerArr = []) => {
+    // construct an array from path, and shift off the last item in array, which is the current directory we are handling
     const pathArr = path.split('/')
     const dir = pathArr.shift()
+
+    // construct the new path to use link to
     const newPathArr = [...pointerArr, dir]
-    const newTreeObj = typeof treeObj[newPathArr.join('/')] === 'object' ? treeObj[newPathArr.join('/')] : treeObj
+    const type = typeof treeObj[newPathArr.join('/')] === 'object' ? 'dir' : 'file'
+    const newTreeObj = type === 'dir' ? treeObj[newPathArr.join('/')] : treeObj
+
     // sorted dirList. If the split array has more than one, we assume it's a file.
     const dirList = Object.keys(newTreeObj).sort(a => a.split('.').length > 1 ? 1 : -1)
     const newPathParams = Object.assign({}, queryParams, { path: newPathArr.join('/') })
@@ -19,20 +23,21 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
     // variables for extention detection
     const nameArray = dir.split('.')
     const ext = nameArray.length > 1 ? nameArray[nameArray.length - 1] : null
-    const type = ext ? 'file' : 'dir'
     const iconClassName = fileIcons[ext] ? fileIcons[ext] : fileIcons[type]
 
     if (pathArr.length > 0) {
+      // If there are more nested items, then display link to current directory and recursively map remaining links.
       return (
         <p className='nested-dir'>
           <span className='nested-lines' />
-          <Link to={`/${baseRoute}/${match.params['type']}?${qs.stringify(newPathParams)}`}>
+          <Link to={`/${baseRoute}/${type}?${qs.stringify(newPathParams)}`}>
             <Icon className={iconClassName} color={'black'} size='sm' />{dir}
           </Link>
           {recursiveMap(newTreeObj, pathArr.join('/'), newPathArr)}
         </p>
       )
-    } else if (match.params['type'] === 'dir') {
+    } else if (type === 'dir') {
+      // if this is the last item in the path AND it is a directory, then display the link and list out everything inside the directory as a .nested-dir
       return (
         <p className='nested-dir'>
           <span className='nested-lines' />
@@ -61,6 +66,7 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
         </p>
       )
     } else {
+      // if the item is a file, then map through everything in the parent directory to display siblining files/dir.
       return (
         <p className='nested-dir'>
           {

@@ -45,7 +45,7 @@ describe('File Tree Mapping', () => {
     const routerProps = {
       match: {
         params: {
-          type: 'file',
+          type: 'file'
           // path: 'file3/subfile1'
         }
       }
