@@ -76,7 +76,7 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
 
               const fileExtArr = fileName.split('.')
               const fileExt = fileExtArr.length > 1 ? fileExtArr[fileExtArr.length - 1] : null
-              const fileType = fileExtArr.length > 1 ? 'file' : 'dir'
+              const fileType = typeof treeObj[filePath] === 'object' ? 'dir' : 'file'
               return (
                 <p className='dir-list-file-tree'>
                   <Link to={{ pathname: `${fileType}`, search: `?path=${filePath}&ref=${branch}` }}>
