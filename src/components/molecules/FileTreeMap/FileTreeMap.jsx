@@ -6,6 +6,7 @@ import {
 } from 'atoms'
 
 const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch }) => {
+
   const recursiveMap = (treeObj = {}, path, pointerArr = []) => {
     const pathArr = path.split('/')
     const dir = pathArr.shift()

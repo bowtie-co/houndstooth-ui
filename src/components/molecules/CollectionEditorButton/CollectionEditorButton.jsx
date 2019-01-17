@@ -1,10 +1,10 @@
 import React from 'react'
 import { Button } from 'atoms'
 
-const CollectionEditorButton = ({ location, match, baseRoute, branch = 'master' }) => {
+const CollectionEditorButton = ({ location, match, baseRoute, queryParams, branch = 'master' }) => {
   const { pathname } = location
   const { username, repo, collection, item } = match.params
-  const onCollectionEditor = pathname.includes('/collection')
+  const onCollectionEditor = collection ? true : false
   const fileRoute = item && collection ? `/${baseRoute}/file?path=_${collection}/${item}&ref=${branch}` : `/${baseRoute}/dir`
   const collectionRoute = `/${baseRoute}/collections`
   return (
