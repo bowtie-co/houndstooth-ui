@@ -68,7 +68,8 @@ describe('File Tree Mapping', () => {
 
     const wrapper = getWrapper(props, routerProps).until(FileTreeMap)
 
-    expect(wrapper.find(FileTreeMap).find('.nested-dir').length).toBe(2)
-    expect(wrapper.find(FileTreeMap).find('.dir-list-file-tree').length).toBe(1)
+    console.log('askldajfkdasjfkldjafklajfkldajkldjfkldsjfkldsjfkldjskfljasl', wrapper.find(FileTreeMap))
+    expect(wrapper.find('.nested-dir').length).toBe(2)
+    expect(wrapper.find('.dir-list-file-tree').length).toBe(1)
   })
 })
