@@ -9,8 +9,6 @@ import FileTreeMapContainer from './FileTreeMapContainer'
 import FileTreeMap from './FileTreeMap'
 
 describe('File Tree Mapping', () => {
-  const getWrapper = (props, routerProps) => shallowWrap(<FileTreeMapContainer {...props} />, routerProps)
-
   it('renders without crashing', () => {
     const routerProps = {
       match: {
@@ -36,7 +34,7 @@ describe('File Tree Mapping', () => {
       branch: 'master'
     }
 
-    const wrapper = getWrapper(props, routerProps).until(FileTreeMap)
+    const wrapper = shallowWrap(<FileTreeMapContainer {...props} />, routerProps).until(FileTreeMap)
 
     expect(wrapper.find(FileTreeMap).length).toBe(1)
   })
@@ -62,13 +60,13 @@ describe('File Tree Mapping', () => {
           'file3/subfile3': ''
         }
       },
-      baseApiRoute: '/tbrandle/repo/',
+      baseRoute: '/tbrandle/repo/',
       branch: 'master'
     }
 
-    const wrapper = getWrapper(props, routerProps).until(FileTreeMap)
+    const wrapper = shallowWrap(<FileTreeMapContainer {...props} />, routerProps).until(FileTreeMap)
 
-    console.log('askldajfkdasjfkldjafklajfkldajkldjfkldsjfkldsjfkldjskfljasl', wrapper.find(FileTreeMap))
+    console.log('wrappers props', wrapper.debug())
     expect(wrapper.find('.nested-dir').length).toBe(2)
     expect(wrapper.find('.dir-list-file-tree').length).toBe(1)
   })
