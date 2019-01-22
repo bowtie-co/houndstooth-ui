@@ -46,14 +46,14 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
           </Link>
           <p className='nested-dir'>
             {
-              dirList.map(filePath => {
+              dirList.map((filePath, i) => {
                 const filePathArr = filePath.split('/')
                 const fileName = filePathArr[filePathArr.length - 1]
                 const fileExtArr = fileName.split('.')
                 const fileExt = fileExtArr.length > 1 ? fileExtArr[fileExtArr.length - 1] : null
                 const fileType = fileExtArr.length > 1 ? 'file' : 'dir'
                 return (
-                  <p className='dir-list-file-tree'>
+                  <p className='dir-list-file-tree' key={i}>
                     <Link to={{ pathname: `${fileType}`, search: `?path=${filePath}&ref=${branch}` }}>
                       <span className='nested-lines' />
                       <Icon className={fileIcons[fileExt] ? fileIcons[fileExt] : fileIcons[fileType]} color={'black'} size='sm' />{fileName}
@@ -70,7 +70,7 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
       return (
         <p className='nested-dir'>
           {
-            dirList.map(filePath => {
+            dirList.map((filePath, i) => {
               const filePathArr = filePath.split('/')
               const fileName = filePathArr[filePathArr.length - 1]
 
@@ -78,7 +78,7 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
               const fileExt = fileExtArr.length > 1 ? fileExtArr[fileExtArr.length - 1] : null
               const fileType = typeof treeObj[filePath] === 'object' ? 'dir' : 'file'
               return (
-                <p className='dir-list-file-tree'>
+                <p className='dir-list-file-tree' key={i}>
                   <Link to={{ pathname: `${fileType}`, search: `?path=${filePath}&ref=${branch}` }}>
                     <span className='nested-lines' />
                     <Icon className={fileIcons[fileExt] ? fileIcons[fileExt] : fileIcons[fileType]} color={'black'} size='sm' />{fileName}

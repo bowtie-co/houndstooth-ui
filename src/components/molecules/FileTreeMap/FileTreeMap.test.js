@@ -66,7 +66,7 @@ describe('File Tree Mapping', () => {
 
     const wrapper = shallowWrap(<FileTreeMapContainer {...props} />, routerProps).until(FileTreeMap)
 
-    console.log('wrappers props', wrapper.debug())
+    console.log('wrappers props', wrapper.html())
     expect(wrapper.find('.nested-dir').length).toBe(2)
     expect(wrapper.find('.dir-list-file-tree').length).toBe(1)
   })
