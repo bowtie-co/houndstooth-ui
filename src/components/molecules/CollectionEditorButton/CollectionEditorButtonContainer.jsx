@@ -16,12 +16,12 @@ export default compose(
     const collArr = path.match(/_([^/]+)/)
     const collPathArr = path.match(/_([^]+)/)
 
-    const isCollection = collArr[1] ? collections.includes(collArr[1]) : false
+    const isCollection = collArr && collArr[1] ? collections.includes(collArr[1]) : false
     const onCollectionEditor = !!collection
 
     // TODO: Need to remove the underscore from the collection for construct the correct path.
 
-    const collectionRoute = `/${baseRoute}/collections/${isCollection ? collPathArr[1] : ''}?path=${path}`
+    const collectionRoute = `/${baseRoute}/collections/${isCollection && collPathArr && collPathArr[1] ? collPathArr[1] : ''}?path=${path}`
     const fileRoute = item && collection ? `/${baseRoute}/file?path=_${collection}/${item}&ref=${branch}` : `/${baseRoute}/dir`
 
     return {
