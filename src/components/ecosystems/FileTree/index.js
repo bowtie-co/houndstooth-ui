@@ -1,1 +1,1 @@
-export { default } from './FileTreeContainer'
+export { default } from './FileTree'

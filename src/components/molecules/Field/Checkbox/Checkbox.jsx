@@ -1,19 +1,16 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Input } from 'reactstrap'
 import { FormGroup } from 'atoms'
 
-const Checkbox = ({ id, value, onChange, ...rest }) => {
-  const { setFormData, setStagedFileUploads, stagedFileUploads, fileUploads, ...sanitizedProps } = rest
+const Checkbox = (props) => {
+  const { onChange, ...sanitizedProps } = props
+  const { edited, className = '', handleChange, value, ...rest } = props
+
   return (
-    <FormGroup className='marLeft' {...sanitizedProps}>
-      <Input id={id} type='checkbox' checked={!!value} onChange={() => onChange({ target: { value: !value } })} {...sanitizedProps} />
+    <FormGroup className={`marLeft ${className} ${edited ? 'success-highlight' : ''}`} check {...rest}>
+      <Input type='checkbox' onChange={handleChange} checked={value} {...sanitizedProps} />
     </FormGroup>
   )
-}
-
-Checkbox.propTypes = {
-  onChange: PropTypes.func
 }
 
 export default Checkbox

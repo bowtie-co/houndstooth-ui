@@ -6,11 +6,13 @@ const airbrake = new AirbrakeClient({
 })
 
 airbrake.addFilter((notice) => {
-  notice.context.environment = process.env.REACT_APP_ENV || 'development'
-  notice.context.version = process.env.REACT_APP_VERSION || '0'
+  if (notice) {
+    notice.context.environment = process.env.REACT_APP_ENV || 'development'
+    notice.context.version = process.env.REACT_APP_VERSION || '0'
 
-  if (notice.context.environment === 'development') {
-    notice.context.severity = 'warn'
+    if (notice.context.environment === 'development') {
+      notice.context.severity = 'warn'
+    }
   }
 
   return notice

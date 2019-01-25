@@ -1,35 +1,25 @@
 /* global alert  */
 
-import { compose, withStateHandlers, withHandlers, withPropsOnChange, lifecycle } from 'recompose'
-import { withEither } from '@bowtie/react-utils'
+import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
 import Repo from './Repo'
-import { Loading } from 'atoms'
-
 import qs from 'qs'
-import { api, notifier } from 'lib'
-
-// conditional functions here:
-const loadingConditionalFn = ({ isRepoLoading }) => isRepoLoading
+import { api, notifier, storage } from 'lib'
 
 export const enhance = compose(
-  withStateHandlers(({ queryParams, match: { params: { username, repo } } }) => ({
-    baseRoute: `repos/${username}/${repo}`,
+  withStateHandlers(({ queryParams }) => ({
     branchList: [],
     branch: queryParams['ref'],
     stagedFiles: [],
     dirList: [],
     file: {},
-    collections: [],
     isRepoLoading: false
   }), {
-    setBaseRoute: ({ baseRoute }) => (payload) => ({ baseRoute: payload }),
-    setDirList: ({ dirList }) => (payload) => ({ dirList: payload }),
-    setFile: ({ file }) => (payload) => ({ file: payload }),
-    setCollections: ({ collections }) => (payload) => ({ collections: payload }),
-    setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
-    setBranchList: ({ branchList }) => (payload) => ({ branchList: payload }),
-    setBranch: ({ branch }) => (payload) => ({ branch: payload }),
-    setRepoLoading: ({ isRepoLoading }) => (payload) => ({ isRepoLoading: payload })
+    setBranchList: () => (payload) => ({ branchList: payload }),
+    setDirList: () => (payload) => ({ dirList: payload }),
+    setFile: () => (payload) => ({ file: payload }),
+    setStagedFiles: () => (payload) => ({ stagedFiles: payload }),
+    setBranch: () => (payload) => ({ branch: payload }),
+    setRepoLoading: () => (payload) => ({ isRepoLoading: payload })
   }),
   withHandlers({
     saveFile: ({ setFile, file, stagedFiles, setStagedFiles, queryParams }) => (content) => {
@@ -46,11 +36,12 @@ export const enhance = compose(
       setFile(newFile)
       setStagedFiles(newState)
     },
-    changeBranch: ({ history }) => (e) => {
-      history.push(`?ref=${e.target.value}`)
+    changeBranch: ({ history, queryParams, match }) => (e) => {
+      Object.assign(queryParams, { ref: e.target.value })
+      history.push(`${match['url']}?${qs.stringify(queryParams, { encode: false })}`)
     },
-    pushToGithub: ({ branch, baseRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
-      const requestPath = `${baseRoute}/files/upsert?ref=${branch}`
+    pushToGithub: ({ branch, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
+      const requestPath = `${baseApiRoute}/files/upsert?ref=${branch}`
       const body = {
         message,
         files: stagedFiles.map(file => ({ path: file.path, content: file.content, encoding: file.encoding }))
@@ -63,30 +54,55 @@ export const enhance = compose(
         })
 
       setStagedFiles([])
-    }
-  }),
-  lifecycle({
-    componentWillMount () {
-      const { setBranchList, setCollections, baseRoute, setRepoLoading } = this.props
-      setRepoLoading(true)
-      api.get(`${baseRoute}/collections`)
-        .then(({ data }) => {
-          setCollections(Object.keys(data['collections']))
-          setRepoLoading(false)
-        })
+    },
+    getBranchList: ({ setBranchList, baseApiRoute, setRepoLoading, match }) => () => {
+      const storageKey = `${match.params['repo']}_branchList`
+      const cachedBranchesList = storage.get(`branches`) ? storage.get(`branches`)[storageKey] : null
+      console.log('cached branches list: ', cachedBranchesList)
 
-      api.get(`${baseRoute}/branches`)
+      if (!cachedBranchesList || cachedBranchesList.length <= 0) {
+        console.log('branches from Github')
+        setRepoLoading(true)
+        api.get(`${baseApiRoute}/branches`)
+          .then(({ data }) => {
+            const storageBranches = storage.get('branches') || {}
+            const newBranches = Object.assign(storageBranches, { [storageKey]: data['branches'] })
+
+            storage.set(`branches`, newBranches)
+            setBranchList(data['branches'])
+            setRepoLoading(false)
+          })
+          .catch((resp) => {
+            setRepoLoading(false)
+            notifier.bad(resp)
+          })
+      } else {
+        console.log('branches from storage')
+        setBranchList(cachedBranchesList)
+      }
+    },
+    getCollections: ({ setRepoLoading, setCollections, baseApiRoute }) => () => {
+      setRepoLoading(true)
+      api.get(`${baseApiRoute}/collections`)
         .then(({ data }) => {
-          setBranchList(data.branches)
+          const { collections } = data
+          setCollections(Object.keys(collections))
           setRepoLoading(false)
         })
-        .catch(notifier.bad.bind(notifier))
+        .catch(() => {
+          setRepoLoading(false)
+          setCollections([])
+        })
     }
   }),
-  withPropsOnChange(['queryParams'], ({ baseRoute, queryParams, setDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
+  withPropsOnChange(['baseApiRoute'], ({ getCollections, getBranchList, setRepoLoading, baseApiRoute }) => {
+    getBranchList()
+    getCollections()
+  }),
+  withPropsOnChange(['location'], ({ baseApiRoute, queryParams, setDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
     setBranch(queryParams['ref'] || 'master')
     const stringifiedParams = qs.stringify(queryParams)
-    const route = `${baseRoute}/files?${stringifiedParams}`
+    const route = `${baseApiRoute}/files?${stringifiedParams}`
     const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
 
     if (stagedFile) {
@@ -104,10 +120,12 @@ export const enhance = compose(
           }
           setRepoLoading(false)
         })
-        .catch(notifier.bad.bind(notifier))
+        .catch((resp) => {
+          setRepoLoading(false)
+          notifier.bad(resp)
+        })
     }
-  }),
-  withEither(loadingConditionalFn, Loading)
+  })
 )
 
 export default enhance(Repo)

@@ -1,0 +1,16 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  .body-template {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    padding: 40px 0 40px 36px;
+  }
+  .content-wrapper{
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+  }
+}

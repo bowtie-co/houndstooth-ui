@@ -1,0 +1,14 @@
+.wysiwyg-section {
+  min-height: 400px;
+  height: 100%;
+  border: none;
+  .demo-wrapper {
+    min-height: 400px;
+    height: 100%;
+  }
+  .demo-editor {
+    height: 93%;
+    min-height: 321px;
+    padding: 6px 23px;
+  }
+}

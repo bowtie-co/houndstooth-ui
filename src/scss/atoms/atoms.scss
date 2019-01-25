@@ -1,20 +1,70 @@
 
 .avatar {
-	height: 90px;
+	height: 45px;
 	border-radius: 50%;
-	margin: 6px 25px;
+	margin: 8px 25px;
 	margin-left: 0;
-} 
+}
 
 .card {
-	display: flex;
-	justify-content: space-around;
-	flex-wrap: wrap;
-  .list-item{
-    padding: 26px;
-    border: 1px lightgrey solid;
-    height: 400px;
-    width: 30%;
-		margin: 10px;
-	}		
+	margin: 10px;
+	color: #333;
+	width: 270px;
+	min-width: 270px;
+	border-radius: $border-radius-base !important;
+	border: 1px solid #eee;
+	font-weight: 300 !important;
+	.card-title, h5.card-title {
+		flex: 1 1 auto;
+		padding: .5rem 1rem;
+		font-size: 1.1em;
+		background-color: #f0f0f0;
+		font-weight: 400;
+	}
+	.repo-name {
+		font-weight: 400;
+	}
+}
+
+.summary {
+	min-height: 60px;
+}
+
+
+.fa-icon-sm{
+  display: inline;
+  margin: 6px;
+}
+
+.logo-sm {
+	height: 29px;
+	margin: 4px 10px;
+}
+.logo-md {
+	height: 41px;
+	margin: 15px 19px;
+}
+.logo-lg {
+	height: 85px;
+	margin: 15px 19px;
+}
+
+a.link,
+a.link:hover {
+	text-decoration: none;
+}
+
+.subtitle {
+	color: black;
+	font-size: 18px;
+}
+
+label span {
+	font-size: 15px;
+  font-weight: 300;
+  color: #515151;
+}
+.input-group-addon {
+	border: 1px lightgrey solid;
+	border-right: none;
 }

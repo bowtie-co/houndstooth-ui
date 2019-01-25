@@ -1,10 +1,11 @@
 import React from 'react'
 import FileBase64 from 'react-file-base64'
 import { titleize } from '@bowtie/utils'
+import { FormGroup } from 'atoms'
 
 const FileUpload = ({ value, handleFileUpload, fileUrl, name, previewId }) => {
   return (
-    <div>
+    <FormGroup>
       <img style={{ maxWidth: '300px', display: `${value ? 'block' : 'none'}` }} id={previewId} src={fileUrl} alt='' />
       <p>{titleize(name, '_')}</p>
       <p>{value}</p>
@@ -12,7 +13,7 @@ const FileUpload = ({ value, handleFileUpload, fileUrl, name, previewId }) => {
         multiple={false}
         onDone={handleFileUpload}
       />
-    </div>
+    </FormGroup>
   )
 }
 

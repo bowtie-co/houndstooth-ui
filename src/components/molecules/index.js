@@ -1,21 +1,23 @@
 import Search from './Search'
-import Brand from './Brand'
 import RepoCard from './RepoCard'
 import FieldContainer from './Field'
 import LastUpdated from './LastUpdated'
 import DirCard from './DirCard'
-import RepoNav from './RepoNav'
+import Pagination from './Pagination'
+import RepoControls from './RepoControls'
 import Welcome from './Welcome'
 import CollectionEditorButton from './CollectionEditorButton'
+import FileTreeMap from './FileTreeMap'
 
 export {
   Search,
-  Brand,
   FieldContainer,
   RepoCard,
   LastUpdated,
   DirCard,
-  RepoNav,
+  RepoControls,
   CollectionEditorButton,
-  Welcome
+  FileTreeMap,
+  Welcome,
+  Pagination
 }

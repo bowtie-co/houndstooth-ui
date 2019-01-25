@@ -4,11 +4,11 @@ import {
   FormGroup
 } from 'atoms'
 
-const Input = ({ id, value, ...rest }) => {
-  const { setFormData, setStagedFileUploads, stagedFileUploads, fileUploads, ...sanitizedProps } = rest
+const Input = (props) => {
+  const { value, edited, className = '', ...rest } = props
   return (
-    <FormGroup floatLabel {...sanitizedProps}>
-      <InputRS value={value || ''} id={id} {...sanitizedProps} />
+    <FormGroup className={`${className} ${edited ? 'success-highlight' : ''}`} {...rest}>
+      <InputRS value={value || ''} {...rest} />
     </FormGroup>
   )
 }

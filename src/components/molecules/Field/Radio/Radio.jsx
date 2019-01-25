@@ -1,37 +1,42 @@
+/* eslint-disable eqeqeq */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Label, Input } from 'reactstrap'
-import { FormGroup } from 'atoms'
+import { FormGroup, Icon, Row, Col } from 'atoms'
 
-const RadioField = ({ id, options, name, onChange, checked, label, ...rest }) => {
-  const { setFormData, setStagedFileUploads, stagedFileUploads, fileUploads, ...sanitizedProps } = rest
+const RadioField = ({ id, options, name, onChange, edited, className = '', ...rest }) => {
+  if (rest.value == 'false') {
+    rest.value = false
+  } else if (rest.value == 'true') {
+    rest.value = true
+  }
+
   return (
-    <FormGroup className='customRadio' title={label} {...sanitizedProps}>
-      {options.map(option =>
-        <Label check key={option.label}>
-          <Input
-            id={id}
-            value={option.value}
-            type='radio'
-            name={name}
-            onChange={onChange}
-            checked={checked === option.value}
-          />
-          <i className='fa fa-circle-o fa-2x' /><i className='fa fa-dot-circle-o fa-2x' />
-          <span>{option.label}</span>
-        </Label>
-      )}
+    <FormGroup radio className={`${className} ${edited ? 'success-highlight' : ''}`} {...rest}>
+      <Row>
+        {options.map((option, i) => {
+          return (<Col key={i}>
+            <Label check for={id}>
+              <Input
+                id={id}
+                value={option.value}
+                type='radio'
+                name={name}
+                onChange={onChange}
+                checked={rest.value === option.value}
+              />
+              {
+                rest.value === option.value
+                  ? <Icon iconName='dot-circle' size={'sm'} fill={false} />
+                  : <Icon iconName='circle' size={'sm'} fill={false} />
+              }
+              <span>{option.label}</span>
+            </Label>
+          </Col>)
+        }
+        )}
+      </Row>
     </FormGroup>
   )
-}
-
-RadioField.propTypes = {
-  id: PropTypes.string,
-  options: PropTypes.array,
-  name: PropTypes.string,
-  onChange: PropTypes.func,
-  checked: PropTypes.bool,
-  label: PropTypes.string
 }
 
 export default RadioField

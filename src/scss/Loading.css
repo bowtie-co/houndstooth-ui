@@ -1,13 +1,24 @@
 .loader {
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: center;
+  align-items: center;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   background-color: white;
-  opacity: 0.75
+  z-index: 30000;
+  opacity: 0.75;
+}
+
+.loaderimg {
+  width: 100px;
+  height: 100px;
+  align-self: center;
+  margin: 0 auto;
+  margin-top: -100px;
+  opacity: 0.95;
 }

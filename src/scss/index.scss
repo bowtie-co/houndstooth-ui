@@ -1,34 +1,107 @@
 @import './reset.scss';
 @import './variables.scss';
 @import './partials/float-label.scss';
-@import './environments/App.scss';
-@import './ecosystems/Description.scss';
-@import './ecosystems/Main.scss';
+@import './environments/environments.scss';
+@import './ecosystems/_notifications.scss';
+@import './ecosystems/ecosystems.scss';
 @import './organisms/CommitChanges.scss';
 @import './organisms/Header.scss';
 @import './organisms/Footer.scss';
-@import './organisms/TodoList.scss';
-@import './organisms/TodoDetail.scss';
+@import './organisms/Tabs.scss';
 @import './organisms/RecursiveFields.scss';
+@import './organisms/Wysiwyg.scss';
 @import './molecules/molecules';
 @import './atoms/buttons.scss';
 @import './atoms/atoms.scss';
 
 #root{
   height: 100%;
+  font-size: $font-size-base;
+  font-weight: $primary-font-weight;
+  font-family: $primary-font, helvetica, sans-serif;
+  color: $primary-font-color;
 }
 
-.app {
-  display: flex;
-  flex-direction: column;
-  .body-template {
-    flex-grow: 1;
-    min-height: 70vh;
-  }
+.pointer:hover {
+  cursor: pointer;
 }
 
 .space-between {
-  display: flex;
+  // display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center {
+  align-items: center;
+  justify-content: center;
+}
+
+.align-end {
+  align-items: flex-end;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-content-end {
+  justify-content: flex-end;
+}
+
+.justify-content-start {
+  justify-content: flex-start;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.truncate-multi {
+  overflow: hidden;
+  position: relative;
+  line-height: 1.2em;
+  max-height: 3.6em;
+  text-align: justify;
+  margin-right: -1em;
+  padding-right: 1em;
+}
+.truncate-multi:before {
+  content: '...';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.truncate-multi:after {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 1em;
+  height: 1em;
+  margin-top: 0.2em;
+  background: white;
+}
+
+.bold {
+  font-weight: bold;
 }

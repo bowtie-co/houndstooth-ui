@@ -2,18 +2,26 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   Col,
-  Title
+  Title,
+  Row
 } from 'atoms'
-import { FieldContainer } from 'molecules'
-import { RecursiveFields, WysiwygEditor } from '..'
 
-const ItemForm = (props) => {
-  const { activeItem, handleFormSubmit, editFileName, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads } = props
+import {
+  FieldContainer
+} from 'molecules'
+
+import {
+  RecursiveFields,
+  WysiwygEditor
+} from '..'
+
+export const ItemForm = (props) => {
+  const { activeItem, handleFormSubmit, editFileName, deleteItem, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads } = props
   const { item } = match.params
   console.log('Item form props: ', activeItem.fields)
   return (
-    <section>
-      <Col>
+    <Row>
+      <Col sm='5' className='tab-content-card'>
         {
           item === 'new'
             ? <FieldContainer
@@ -29,17 +37,34 @@ const ItemForm = (props) => {
           fields={activeItem['fields']}
           match={match}
           onSubmit={handleFormSubmit}
+          deleteItem={deleteItem}
           fileUploads={fileUploads}
           stagedFileUploads={stagedFileUploads}
           setStagedFileUploads={setStagedFileUploads}
         />
+      </Col>
+      <Col sm='7' className='tab-content-card'>
         <WysiwygEditor
           item={item}
           content={activeItem['markdown']}
           handleEditorChange={handleMarkdownChange}
         />
       </Col>
-    </section>
+    </Row>
+
+  )
+}
+
+/** ************** EMPTY STATE ************** */
+
+export const EmptyState = (props) => {
+  return (
+    <Row>
+      <Col className='tab-content-card' sm='12' style={{ 'border': '0', 'width': '100%', 'box-shadow': 'none' }}>
+        <div className='file-select'><em>Select a file to edit</em></div>
+      </Col>
+
+    </Row>
   )
 }
 
@@ -52,5 +77,3 @@ ItemForm.propTypes = {
   handleMarkdownChange: PropTypes.func,
   setStagedFileUploads: PropTypes.func
 }
-
-export default ItemForm
