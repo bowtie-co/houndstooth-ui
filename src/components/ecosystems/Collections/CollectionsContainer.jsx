@@ -79,31 +79,33 @@ export default compose(
       return api.post(route, updatedItem)
     },
     createFileUpload: ({ stagedFileUploads, baseApiRoute, getFileUploads, setStagedFileUploads, setCollectionLoading }) => () => {
-      const newFiles = stagedFileUploads.map(file => {
-        const updatedFile = {
-          path: file.name,
-          content: file.base64.split('base64,')[1],
-          encoding: 'base64'
-        }
-        return updatedFile
-      })
+      if (stagedFileUploads.length > 0) {
+        const newFiles = stagedFileUploads.map(file => {
+          const updatedFile = {
+            path: file.name,
+            content: file.base64.split('base64,')[1],
+            encoding: 'base64'
+          }
+          return updatedFile
+        })
 
-      const body = {
-        files: newFiles,
-        message: 'File Upload'
+        const body = {
+          files: newFiles,
+          message: 'File Upload'
+        }
+        api.post(`${baseApiRoute}/files/upsert`, body)
+          .then(resp => {
+            notifier.success('File upload successful!')
+          })
+          .then(() => {
+            getFileUploads()
+            setStagedFileUploads([])
+          })
+          .catch((resp) => {
+            setCollectionLoading(false)
+            notifier.bad(resp)
+          })
       }
-      api.post(`${baseApiRoute}/files/upsert`, body)
-        .then(resp => {
-          notifier.success('File upload successful!')
-        })
-        .then(() => {
-          getFileUploads()
-          setStagedFileUploads([])
-        })
-        .catch((resp) => {
-          setCollectionLoading(false)
-          notifier.bad(resp)
-        })
     },
     handleMarkdownChange: ({ activeItem, setActiveItem }) => (content) => {
       const updated = Object.assign({}, activeItem, { markdown: content })
