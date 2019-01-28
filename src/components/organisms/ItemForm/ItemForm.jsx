@@ -12,7 +12,7 @@ import {
 
 import {
   RecursiveFields,
-  WysiwygEditor
+  TinyMCE
 } from '..'
 
 export const ItemForm = (props) => {
@@ -44,11 +44,16 @@ export const ItemForm = (props) => {
         />
       </Col>
       <Col sm='7' className='tab-content-card'>
-        <WysiwygEditor
+        <TinyMCE
           item={item}
           content={activeItem['markdown']}
           handleEditorChange={handleMarkdownChange}
         />
+        {/* <WysiwygEditor
+          item={item}
+          content={activeItem['markdown']}
+          handleEditorChange={handleMarkdownChange}
+        /> */}
       </Col>
     </Row>
 
