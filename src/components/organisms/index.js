@@ -13,6 +13,7 @@ import RecursiveFields from './RecursiveFields'
 import SideMenu from './SideMenu'
 import WysiwygEditor from './WysiwygEditor'
 import Table from './Table'
+import TinyMCE from './TinyMCE'
 
 export {
   Header,
@@ -28,5 +29,6 @@ export {
   RecursiveFields,
   WysiwygEditor,
   Table,
+  TinyMCE,
   SideMenu
 }

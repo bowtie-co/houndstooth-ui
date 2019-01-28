@@ -2,13 +2,13 @@
   min-height: 400px;
   height: 100%;
   border: none;
-  .demo-wrapper {
-    min-height: 400px;
-    height: 100%;
+  
+  iframe,
+  .mce-container-body,
+  .mce-tinymce.mce-container.mce-panel {
+    height: 100%
   }
-  .demo-editor {
-    height: 93%;
-    min-height: 321px;
-    padding: 6px 23px;
+  .mce-edit-area.mce-container.mce-panel.mce-stack-layout-item {
+    height: 90%
   }
 }

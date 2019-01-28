@@ -9,6 +9,7 @@ export default compose(
   withPropsOnChange(['match'], ({ match: { params: { username, repo, collection } } }) => ({
     baseApiRoute: `repos/${username}/${repo}`,
     baseRoute: `${username}/${repo}`,
-    collectionsApiRoute: `repos/${username}/${repo}/collections/${collection || ''}`
+    collectionsApiRoute: `repos/${username}/${repo}/collections/${collection || ''}`,
+    collectionsRoute: `${username}/${repo}/collections/${collection || ''}`
   }))
 )
