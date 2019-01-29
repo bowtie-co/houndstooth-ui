@@ -18,6 +18,7 @@ export default compose(
     async componentWillMount () {
       const { setRepoList, setLoadingRepos } = this.props
       setLoadingRepos(true)
+      
       const { data } = await api.get(`repos?per_page=100`).catch((resp) => { notifier.bad(resp) })
       setRepoList(data.repos)
       setLoadingRepos(false)
