@@ -31,10 +31,12 @@ export const enhance = compose(
         .catch(notifier.bad.bind(notifier))
     }
   }),
-  withPropsOnChange(['match'], ({ getContributors, getCollaborators }) => {
-    getContributors()
-    getCollaborators()
-  })
+  withPropsOnChange(
+    ({ match }, { match: nextMatch }) => match.params['repo'] !== nextMatch.params['repo'],
+    ({ getContributors, getCollaborators }) => {
+      getContributors()
+      getCollaborators()
+    })
 )
 
 export default enhance(Users)
