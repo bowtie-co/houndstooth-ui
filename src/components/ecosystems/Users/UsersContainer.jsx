@@ -19,7 +19,6 @@ export const enhance = compose(
     getContributors: ({ setContributors, setPages, baseApiRoute, match }) => () => {
       api.get(`${baseApiRoute}/contributors?per_page=100`)
         .then(({ data }) => {
-          setPages(data['pages'])
           setContributors(data['contributors'])
         })
         .catch(notifier.bad.bind(notifier))
@@ -27,7 +26,6 @@ export const enhance = compose(
     getCollaborators: ({ setCollaboratorIds, setPages, baseApiRoute, match }) => () => {
       api.get(`${baseApiRoute}/collaborators?per_page=100`)
         .then(({ data }) => {
-          setPages(data['pages'])
           setCollaboratorIds(data['collaborators'].map(u => u['id']))
         })
         .catch(notifier.bad.bind(notifier))
