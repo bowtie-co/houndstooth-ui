@@ -7,24 +7,35 @@ import { api, notifier } from 'lib'
 
 export const enhance = compose(
   withStateHandlers({
-    users: [],
+    contributors: [], // users that have NOT committed code to the repo
+    collaboratorIds: [], // user that HAVE committed code to repo
     pages: {}
   }, {
-    setUsers: ({ users }) => (payload) => ({ users: payload }),
-    setPages: ({ pages }) => (payload) => ({ pages: payload })
+    setContributors: () => (payload) => ({ contributors: payload }),
+    setCollaboratorIds: () => (payload) => ({ collaboratorIds: payload }),
+    setPages: () => (payload) => ({ pages: payload })
   }),
   withHandlers({
-    getUsers: ({ setUsers, setPages, baseApiRoute, match }) => () => {
-      api.get(`${baseApiRoute}/contributors`)
+    getContributors: ({ setContributors, setPages, baseApiRoute, match }) => () => {
+      api.get(`${baseApiRoute}/contributors?per_page=100`)
         .then(({ data }) => {
           setPages(data['pages'])
-          setUsers(data['contributors'])
+          setContributors(data['contributors'])
+        })
+        .catch(notifier.bad.bind(notifier))
+    },
+    getCollaborators: ({ setCollaboratorIds, setPages, baseApiRoute, match }) => () => {
+      api.get(`${baseApiRoute}/collaborators?per_page=100`)
+        .then(({ data }) => {
+          setPages(data['pages'])
+          setCollaboratorIds(data['collaborators'].map(u => u['id']))
         })
         .catch(notifier.bad.bind(notifier))
     }
   }),
-  withPropsOnChange(['match'], ({ getUsers }) => {
-    getUsers()
+  withPropsOnChange(['match'], ({ getContributors, getCollaborators }) => {
+    getContributors()
+    getCollaborators()
   })
 )
 

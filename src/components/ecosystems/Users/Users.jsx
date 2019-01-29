@@ -4,14 +4,15 @@ import {
   Title,
   TH,
   THead,
-  ExtLink
+  ExtLink,
+  Icon
 } from 'atoms'
 import {
   Table
 } from 'organisms'
 
 const Users = (props) => {
-  const { users, match, ...rest } = props
+  const { contributors, collaboratorIds, match, ...rest } = props
   const { repo } = match.params
   return (
     <section>
@@ -25,20 +26,19 @@ const Users = (props) => {
         </THead>
         <tbody>
           {
-            users.length > 0
-              ? users.map((u, i) => {
-                console.log('user', u)
-
+            contributors.length > 0
+              ? contributors.map((u, i) => {
+                const isCollaborator = collaboratorIds.includes(u['id'])
                 return (
                   <tr>
                     <td>
-                      {u.login}
+                      {isCollaborator ? <Icon iconName={'user-edit'} /> : <Icon iconName={'user'} />}{u.login}
                     </td>
                     <td>
                       <ExtLink href={u.html_url}>{u.html_url}</ExtLink>
                     </td>
                     <td>
-                      {u.type}
+                      {isCollaborator ? 'Collaborator' : u.type}
                     </td>
                   </tr>
                 )
