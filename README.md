@@ -69,3 +69,4 @@ CI=true app yarn test
   - To run against local oauth:
     - `REACT_APP_AUTHORIZE_URL=http://localhost:5000/dev/oauth/authorize`
     - `REACT_APP_CALLBACK_URL=http://localhost:5000/dev/oauth/callback`
+
