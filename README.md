@@ -1,4 +1,7 @@
-Houndstooth
+[![Maintainability](https://api.codeclimate.com/v1/badges/17e180d74ac7e1fe8bb7/maintainability)](https://codeclimate.com/repos/5c50951ef5fffb7846004347/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/17e180d74ac7e1fe8bb7/test_coverage)](https://codeclimate.com/repos/5c50951ef5fffb7846004347/test_coverage)
+
+Houndstooth UI
 ---
 
 - [Getting Started](#getting-started)
@@ -8,12 +11,15 @@ Houndstooth
 - [Testing](#testing)
   - [Linting](#linting)
   - [Unit Tests](#unit-tests)
+  - [Code Coverage](#code-coverage)
 - [Advanced](#advanced)
   - [Local Services](#local-services)
 ## Getting Started
 
 #### Requirements
-- Install [Yarn](https://yarnpkg.com/en/docs/install#mac-stable) `>= 1.5.0`
+- Install [NodeJS](https://nodejs.org/en/download/) `>= 8.x`
+- Install [NPM](https://nodejs.org/en/download/) `>= 6.x`
+  - `npm install --global npm`
 
 #### Installation
 - Install git `pre-push` hook
@@ -21,16 +27,16 @@ Houndstooth
 ln -s ../../bin/pre-push .git/hooks
 ```
 
-- Install node_modules (using yarn)
+- Install node_modules
 ```bash
-yarn install
+npm install
 ```
 
 #### Usage
 
 - Start the React App
 ```bash
-yarn start
+npm start
 ```
 
 - [Visit local instance](http://localhost:3000)
@@ -41,22 +47,33 @@ yarn start
 
 - Just lint the code and show warnings
 ```bash
-yarn lint
+npm run lint
 ```
 - Lint code and attempt to fix simple issues
 ```bash
-yarn lint:fix
+npm run lint:fix
 ```
 
 #### Unit Tests
 
 - Run ReactJS test suite (interactive)
 ```bash
-yarn test
+npm test
 ```
 - Run ReactJS test suite (CI mode - not interactive)
 ```bash
-CI=true app yarn test
+CI=true npm test
+```
+
+#### Code Coverage
+
+- Prep CodeClimate build reporter before build/tests
+```bash
+bin/cc-test-reporter before-build
+```
+- Format and upload coverage to CodeClimate
+```bash
+bin/cc-test-reporter after-build
 ```
 
 ## Advanced
