@@ -1,0 +1,7 @@
+*               @5290charlie
+
+/package.json   @tbrandle
+/__mocks__/**   @tbrandle
+/src/**         @tbrandle
+/src/scss/**    @chadperson
+/public/**      @tbrandle @chadperson
