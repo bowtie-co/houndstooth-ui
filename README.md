@@ -1,3 +1,4 @@
+[![Build](https://app.razorsite.co/projects/houndstooth/badge)](https://app.razorsite.co/projects/houndstooth/builds/latest)
 [![Maintainability](https://api.codeclimate.com/v1/badges/17e180d74ac7e1fe8bb7/maintainability)](https://codeclimate.com/repos/5c50951ef5fffb7846004347/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/17e180d74ac7e1fe8bb7/test_coverage)](https://codeclimate.com/repos/5c50951ef5fffb7846004347/test_coverage)
 
