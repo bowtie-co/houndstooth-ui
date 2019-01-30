@@ -79,7 +79,7 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
               const fileType = typeof treeObj[filePath] === 'object' ? 'dir' : 'file'
               return (
                 <p className='dir-list-file-tree' key={i}>
-                  <Link to={{ pathname: `${fileType}`, search: `?path=${filePath}&ref=${branch}` }} className={filePath === queryParams['path'] ? 'active' : 'not-active'}>
+                  <Link to={{ pathname: `${fileType}`, search: `?path=${filePath}&ref=${branch}` }} className={filePath === queryParams['path'] ? 'active bold' : 'not-active'}>
                     <span className='nested-lines' />
                     <Icon className={fileIcons[fileExt] ? fileIcons[fileExt] : fileIcons[fileType]} color={'black'} size='sm' />{fileName}
                   </Link>
@@ -93,10 +93,10 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
   }
 
   return (
-    <div>
+    <div className='file-tree-map-section'>
       {
         queryParams['path'] &&
-          <div className='nested-dir'>
+          <div>
             <Link to={`/${baseRoute}/dir`} className={'bold parent-link'}>
               <Icon iconName='folder' color={'black'} size='sm' /> ./
             </Link>
