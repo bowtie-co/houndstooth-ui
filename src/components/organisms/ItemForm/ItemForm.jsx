@@ -21,39 +21,43 @@ export const ItemForm = (props) => {
   console.log('Item form props: ', activeItem.fields)
   return (
     <Row>
-      <Col sm='5' className='tab-content-card'>
-        {
-          item === 'new'
-            ? <FieldContainer
-              type='text'
-              label={'File name'}
-              name={'file_name'}
-              onChange={editFileName}
-              value={activeItem['name']}
-            />
-            : <Title title={item} />
-        }
-        <RecursiveFields
-          fields={activeItem['fields']}
-          match={match}
-          onSubmit={handleFormSubmit}
-          deleteItem={deleteItem}
-          fileUploads={fileUploads}
-          stagedFileUploads={stagedFileUploads}
-          setStagedFileUploads={setStagedFileUploads}
-        />
+      <Col sm='5'>
+        <div className='tab-content-card'>
+          {
+            item === 'new'
+              ? <FieldContainer
+                type='text'
+                label={'File name'}
+                name={'file_name'}
+                onChange={editFileName}
+                value={activeItem['name']}
+              />
+              : <Title title={item} />
+          }
+          <RecursiveFields
+            fields={activeItem['fields']}
+            match={match}
+            onSubmit={handleFormSubmit}
+            deleteItem={deleteItem}
+            fileUploads={fileUploads}
+            stagedFileUploads={stagedFileUploads}
+            setStagedFileUploads={setStagedFileUploads}
+          />
+        </div>
       </Col>
-      <Col sm='7' className='tab-content-card'>
-        <TinyMCE
-          item={item}
-          content={activeItem['markdown']}
-          handleEditorChange={handleMarkdownChange}
-        />
-        {/* <WysiwygEditor
-          item={item}
-          content={activeItem['markdown']}
-          handleEditorChange={handleMarkdownChange}
-        /> */}
+      <Col sm='7'>
+        <div className='tab-content-card'>
+          <TinyMCE
+            item={item}
+            content={activeItem['markdown']}
+            handleEditorChange={handleMarkdownChange}
+          />
+          {/* <WysiwygEditor
+            item={item}
+            content={activeItem['markdown']}
+            handleEditorChange={handleMarkdownChange}
+          /> */}
+        </div>
       </Col>
     </Row>
 

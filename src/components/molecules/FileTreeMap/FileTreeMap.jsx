@@ -4,6 +4,7 @@ import {
   Icon,
   Link
 } from 'atoms'
+import DirectoryList from './DirectoryList'
 
 const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch }) => {
   const recursiveMap = (treeObj = {}, path, pointerArr = []) => {
@@ -30,7 +31,7 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
       return (
         <p className='nested-dir'>
           <span className='nested-lines' />
-          <Link to={`/${baseRoute}/${type}?${qs.stringify(newPathParams)}`}>
+          <Link to={`/${baseRoute}/${type}?${qs.stringify(newPathParams)}`} className={'bold parent-link'}>
             <Icon className={iconClassName} color={'black'} size='sm' />{dir}
           </Link>
           {recursiveMap(newTreeObj, pathArr.join('/'), newPathArr)}
@@ -41,63 +42,36 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
       return (
         <p className='nested-dir'>
           <span className='nested-lines' />
-          <Link to={`${match['url']}?${qs.stringify(newPathParams)}`}>
+          <Link to={`${match['url']}?${qs.stringify(newPathParams)}`} className={'bold parent-link'}>
             <Icon className={iconClassName} color={'black'} size='sm' />{dir}
           </Link>
-          <p className='nested-dir'>
-            {
-              dirList.map((filePath, i) => {
-                const filePathArr = filePath.split('/')
-                const fileName = filePathArr[filePathArr.length - 1]
-                const fileExtArr = fileName.split('.')
-                const fileExt = fileExtArr.length > 1 ? fileExtArr[fileExtArr.length - 1] : null
-                const fileType = fileExtArr.length > 1 ? 'file' : 'dir'
-                return (
-                  <p className='dir-list-file-tree' key={i}>
-                    <Link to={{ pathname: `${fileType}`, search: `?path=${filePath}&ref=${branch}` }}>
-                      <span className='nested-lines' />
-                      <Icon className={fileIcons[fileExt] ? fileIcons[fileExt] : fileIcons[fileType]} color={'black'} size='sm' />{fileName}
-                    </Link>
-                  </p>
-                )
-              })
-            }
-          </p>
+          <DirectoryList
+            dirList={dirList}
+            branch={branch}
+            fileIcons={fileIcons}
+            queryParams={queryParams}
+          />
         </p>
       )
     } else {
       // if the item is a file, then map through everything in the parent directory to display siblining files/dir.
       return (
-        <p className='nested-dir'>
-          {
-            dirList.map((filePath, i) => {
-              const filePathArr = filePath.split('/')
-              const fileName = filePathArr[filePathArr.length - 1]
-
-              const fileExtArr = fileName.split('.')
-              const fileExt = fileExtArr.length > 1 ? fileExtArr[fileExtArr.length - 1] : null
-              const fileType = typeof treeObj[filePath] === 'object' ? 'dir' : 'file'
-              return (
-                <p className='dir-list-file-tree' key={i}>
-                  <Link to={{ pathname: `${fileType}`, search: `?path=${filePath}&ref=${branch}` }}>
-                    <span className='nested-lines' />
-                    <Icon className={fileIcons[fileExt] ? fileIcons[fileExt] : fileIcons[fileType]} color={'black'} size='sm' />{fileName}
-                  </Link>
-                </p>
-              )
-            })
-          }
-        </p>
+        <DirectoryList
+          dirList={dirList}
+          branch={branch}
+          fileIcons={fileIcons}
+          queryParams={queryParams}
+        />
       )
     }
   }
 
   return (
-    <div>
+    <div className='file-tree-map-section'>
       {
         queryParams['path'] &&
           <div>
-            <Link to={`/${baseRoute}/dir`}>
+            <Link to={`/${baseRoute}/dir`} className={'bold parent-link'}>
               <Icon iconName='folder' color={'black'} size='sm' /> ./
             </Link>
             {recursiveMap(tree, queryParams['path'])}
