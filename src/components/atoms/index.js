@@ -4,13 +4,12 @@ import Logout from './Logout'
 import Title from './Title'
 import Button from './Button'
 import FormGroup from './FormGroup'
-import HoundstoothLogo from './HoundstoothLogo'
+import Logo from './Logo'
 import NavLink from './NavLink'
 import Subtitle from './Subtitle'
 import PublicRoute from './PublicRoute'
 import PrivateRoute from './PrivateRoute'
 import Summary from './Summary'
-import BowtieLogo from './BowtieLogo'
 import Body from './Body'
 import Avatar from './Avatar'
 import Switch from './Switch'
@@ -36,7 +35,6 @@ export {
   Avatar,
   BackButton,
   Body,
-  BowtieLogo,
   Button,
   Card,
   Col,
@@ -50,7 +48,7 @@ export {
   SocialLink,
   Container,
   FormGroup,
-  HoundstoothLogo,
+  Logo,
   Loading,
   Login,
   Logout,
