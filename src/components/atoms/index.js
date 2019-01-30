@@ -4,7 +4,7 @@ import Logout from './Logout'
 import Title from './Title'
 import Button from './Button'
 import FormGroup from './FormGroup'
-import HoundstoothLogo from './HoundstoothLogo'
+import Logo from './Logo'
 import NavLink from './NavLink'
 import Subtitle from './Subtitle'
 import PublicRoute from './PublicRoute'
@@ -50,7 +50,7 @@ export {
   SocialLink,
   Container,
   FormGroup,
-  HoundstoothLogo,
+  Logo,
   Loading,
   Login,
   Logout,
