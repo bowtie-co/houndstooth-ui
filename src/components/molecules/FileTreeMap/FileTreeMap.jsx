@@ -5,6 +5,22 @@ import {
   Link
 } from 'atoms'
 
+const ChildDirItem = ({ filePath, fileIcons, queryParams, branch }) => {
+  const filePathArr = filePath.split('/')
+  const fileName = filePathArr[filePathArr.length - 1]
+  const fileExtArr = fileName.split('.')
+  const fileExt = fileExtArr.length > 1 ? fileExtArr[fileExtArr.length - 1] : null
+  const fileType = fileExtArr.length > 1 ? 'file' : 'dir'
+  return (
+    <p className='dir-list-file-tree'>
+      <Link to={{ pathname: `${fileType}`, search: `?path=${filePath}&ref=${branch}` }} className={filePath === queryParams['path'] ? 'active' : 'not-active'}>
+        <span className='nested-lines' />
+        <Icon className={fileIcons[fileExt] ? fileIcons[fileExt] : fileIcons[fileType]} color={'black'} size='sm' />{fileName}
+      </Link>
+    </p>
+  )
+}
+
 const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch }) => {
   const recursiveMap = (treeObj = {}, path, pointerArr = []) => {
     // construct an array from path, and shift off the last item in array, which is the current directory we are handling
@@ -46,21 +62,15 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
           </Link>
           <p className='nested-dir'>
             {
-              dirList.map((filePath, i) => {
-                const filePathArr = filePath.split('/')
-                const fileName = filePathArr[filePathArr.length - 1]
-                const fileExtArr = fileName.split('.')
-                const fileExt = fileExtArr.length > 1 ? fileExtArr[fileExtArr.length - 1] : null
-                const fileType = fileExtArr.length > 1 ? 'file' : 'dir'
-                return (
-                  <p className='dir-list-file-tree' key={i}>
-                    <Link to={{ pathname: `${fileType}`, search: `?path=${filePath}&ref=${branch}` }} className={filePath === queryParams['path'] ? 'active' : 'not-active'}>
-                      <span className='nested-lines' />
-                      <Icon className={fileIcons[fileExt] ? fileIcons[fileExt] : fileIcons[fileType]} color={'black'} size='sm' />{fileName}
-                    </Link>
-                  </p>
-                )
-              })
+              dirList.map((filePath, i) => (
+                <ChildDirItem
+                  key={i}
+                  filePath={filePath}
+                  queryParams={queryParams}
+                  fileIcons={fileIcons}
+                  branch={branch}
+                />
+              ))
             }
           </p>
         </p>
@@ -70,22 +80,15 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
       return (
         <p className='nested-dir'>
           {
-            dirList.map((filePath, i) => {
-              const filePathArr = filePath.split('/')
-              const fileName = filePathArr[filePathArr.length - 1]
-
-              const fileExtArr = fileName.split('.')
-              const fileExt = fileExtArr.length > 1 ? fileExtArr[fileExtArr.length - 1] : null
-              const fileType = typeof treeObj[filePath] === 'object' ? 'dir' : 'file'
-              return (
-                <p className='dir-list-file-tree' key={i}>
-                  <Link to={{ pathname: `${fileType}`, search: `?path=${filePath}&ref=${branch}` }} className={filePath === queryParams['path'] ? 'active bold' : 'not-active'}>
-                    <span className='nested-lines' />
-                    <Icon className={fileIcons[fileExt] ? fileIcons[fileExt] : fileIcons[fileType]} color={'black'} size='sm' />{fileName}
-                  </Link>
-                </p>
-              )
-            })
+            dirList.map((filePath, i) => (
+              <ChildDirItem
+                key={i}
+                filePath={filePath}
+                queryParams={queryParams}
+                fileIcons={fileIcons}
+                branch={branch}
+              />
+            ))
           }
         </p>
       )
