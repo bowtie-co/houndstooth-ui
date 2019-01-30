@@ -1,4 +1,4 @@
-/* global localStorage sessionStorage */
+/* global localStorage */
 
 import EventEmitter from 'eventemitter2'
 

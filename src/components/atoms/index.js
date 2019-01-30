@@ -10,7 +10,6 @@ import Subtitle from './Subtitle'
 import PublicRoute from './PublicRoute'
 import PrivateRoute from './PrivateRoute'
 import Summary from './Summary'
-import BowtieLogo from './BowtieLogo'
 import Body from './Body'
 import Avatar from './Avatar'
 import Switch from './Switch'
@@ -36,7 +35,6 @@ export {
   Avatar,
   BackButton,
   Body,
-  BowtieLogo,
   Button,
   Card,
   Col,

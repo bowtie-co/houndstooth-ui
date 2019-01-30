@@ -1,5 +1,6 @@
 import React from 'react'
-import { BowtieLogo, Icon } from 'atoms'
+import { Icon } from 'atoms'
+import { BowtieLogo } from 'molecules'
 
 const Footer = (props) => {
   return (
