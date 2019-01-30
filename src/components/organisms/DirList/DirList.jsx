@@ -9,7 +9,6 @@ const nullConditionFn = ({ dirList }) => dirList.length === 0
 
 /** ********* base component **********/
 const DirList = ({ dirList, branch }) => {
-  console.log('dirList branch :', branch)
   return (
     <Row>
       {

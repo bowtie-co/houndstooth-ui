@@ -14,7 +14,6 @@ import {
 const RepoControls = (props) => {
   const { branch, changeBranch, isCommitable, asyncLoadModel, stagedFiles, match, branchList, reloadReposAndBranches, ...rest } = props
   const { type } = match.params
-  console.log('REPO NAV props', props)
   return (
     <Row className='space-between file-tree-navigation'>
       {/* <BackButton> back </BackButton> */}

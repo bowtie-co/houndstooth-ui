@@ -18,7 +18,6 @@ import {
 export const ItemForm = (props) => {
   const { activeItem, handleFormSubmit, editFileName, deleteItem, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads } = props
   const { item } = match.params
-  console.log('Item form props: ', activeItem.fields)
   return (
     <Row>
       <Col sm='5'>

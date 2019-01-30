@@ -4,7 +4,7 @@ import PrivateComponentContainer from './PrivateComponentContainer'
 import PropTypes from 'prop-types'
 
 const PrivateRoute = ({ props: passedProps, path, component, ...rest }) => {
-  console.log('PrivateRoute props: ', passedProps)
+  // console.log('PrivateRoute props: ', passedProps)
   return (
     <Route
       {...rest}

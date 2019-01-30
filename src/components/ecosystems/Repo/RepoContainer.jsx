@@ -52,7 +52,6 @@ export const enhance = compose(
       api.post(requestPath, body)
         .then(response => {
           setRepoLoading(false)
-          console.log('response: ', response)
         })
 
       setStagedFiles([])
@@ -62,7 +61,6 @@ export const enhance = compose(
       const cachedBranchesList = storage.get(`branches`) ? storage.get(`branches`)[storageKey] : null
 
       if (!cachedBranchesList || cachedBranchesList.length <= 0) {
-        console.log('branches from Github')
         setRepoLoading(true)
         api.get(`${baseApiRoute}/branches`)
           .then(({ data }) => {
@@ -78,7 +76,6 @@ export const enhance = compose(
             notifier.bad(resp)
           })
       } else {
-        console.log('branches from storage')
         setBranchList(cachedBranchesList)
       }
     },
@@ -119,7 +116,6 @@ export const enhance = compose(
       const route = `${baseApiRoute}/files?&tree=true&recursive=true`
       api.get(route)
         .then(({ data }) => {
-          console.log('dirList tree: ', data)
           setTree(data)
         })
         .catch((resp) => {
@@ -128,8 +124,6 @@ export const enhance = compose(
     }
   }),
   withPropsOnChange(['baseApiRoute'], ({ getCollections, getTree, getBranchList, setRepoLoading, baseApiRoute }) => {
-    console.log('baseApiRoute')
-
     getBranchList()
     getCollections()
     getTree()

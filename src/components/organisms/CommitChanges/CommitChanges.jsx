@@ -9,7 +9,6 @@ import {
 
 const CommitChanges = (props) => {
   const { stagedFiles, repo, message, setMessage, pushToGithub } = props
-  console.log('Message', message)
   return (
     <Col className='commit-changes-section'>
       <Title>Files to commit for {repo}:</Title>

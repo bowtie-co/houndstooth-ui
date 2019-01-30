@@ -49,7 +49,6 @@ export default compose(
         setCollectionLoading(true)
         api.get(collectionsApiRoute)
           .then(({ data }) => {
-            console.log('data in collections: ', data)
             setItems(data['collection']['items'])
             setDefaultFields({ fields: data['collection']['fields'] })
             setCollectionLoading(false)
@@ -74,8 +73,6 @@ export default compose(
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       const message = 'Create file'
       const route = `${collectionsApiRoute}/items?ref=${branch || 'master'}&message=${message}`
-      console.log('updated item: ', updatedItem)
-      console.log('route: ', route)
       return api.post(route, updatedItem)
     },
     createFileUpload: ({ stagedFileUploads, baseApiRoute, getFileUploads, setStagedFileUploads, setCollectionLoading }) => () => {
@@ -123,7 +120,6 @@ export default compose(
     if (match['params']['item'] === 'new') {
       setActiveItem(defaultFields)
     } else {
-      console.log('finding item', match['params']['item'], items)
       const currentItem = items.find(i => i.name === match['params']['item'])
 
       if (currentItem) {
@@ -186,7 +182,6 @@ export default compose(
       const { sha } = activeItem
       const message = 'Delete file'
       const route = `${collectionsApiRoute}/items/${item}?ref=${branch || 'master'}&message=${message}&sha=${sha}`
-      console.log('route: ', route)
       api.delete(route)
         .then(resp => {
           getItems()

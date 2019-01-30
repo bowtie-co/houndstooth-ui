@@ -37,7 +37,7 @@ export const enhance = compose(
       const resumeRoute = storage.get('resumeRoute')
 
       if (resumeRoute && resumeRoute === location.pathname) {
-        console.log('route has been resumed!', resumeRoute)
+        // console.log('route has been resumed!', resumeRoute)
         storage.remove('resumeRoute')
       }
     }

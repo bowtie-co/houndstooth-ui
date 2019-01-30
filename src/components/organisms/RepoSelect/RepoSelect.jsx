@@ -19,7 +19,6 @@ const RepoSelect = (props) => {
       disabled={loadingRepos}
       options={repoList}
       onChange={(e) => {
-        console.log('e', e)
         history.push({ pathname: `/${e.target.value}/collections`, search: `?ref=${e.target.default_branch || 'master'}` })
       }}
     />
