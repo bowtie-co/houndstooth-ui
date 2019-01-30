@@ -12,10 +12,12 @@ export const enhance = compose(
     stagedFiles: [],
     dirList: [],
     file: {},
+    tree: {},
     isRepoLoading: false
   }), {
     setBranchList: () => (payload) => ({ branchList: payload }),
     setDirList: () => (payload) => ({ dirList: payload }),
+    setTree: () => (payload) => ({ tree: payload }),
     setFile: () => (payload) => ({ file: payload }),
     setStagedFiles: () => (payload) => ({ stagedFiles: payload }),
     setBranch: () => (payload) => ({ branch: payload }),
@@ -58,7 +60,6 @@ export const enhance = compose(
     getBranchList: ({ setBranchList, baseApiRoute, setRepoLoading, match }) => () => {
       const storageKey = `${match.params['repo']}_branchList`
       const cachedBranchesList = storage.get(`branches`) ? storage.get(`branches`)[storageKey] : null
-      console.log('cached branches list: ', cachedBranchesList)
 
       if (!cachedBranchesList || cachedBranchesList.length <= 0) {
         console.log('branches from Github')
@@ -93,27 +94,16 @@ export const enhance = compose(
           setRepoLoading(false)
           setCollections([])
         })
-    }
-  }),
-  withPropsOnChange(['baseApiRoute'], ({ getCollections, getBranchList, setRepoLoading, baseApiRoute }) => {
-    getBranchList()
-    getCollections()
-  }),
-  withPropsOnChange(['location'], ({ baseApiRoute, queryParams, setDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
-    setBranch(queryParams['ref'] || 'master')
-    const stringifiedParams = qs.stringify(queryParams)
-    const route = `${baseApiRoute}/files?${stringifiedParams}`
-    const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
-
-    if (stagedFile) {
-      setFile(stagedFile)
-    } else {
-      setRepoLoading(true)
+    },
+    getDirList: ({ baseApiRoute, queryParams, setDirList, setFile, setRepoLoading }) => () => {
+      const stringifiedParams = qs.stringify(queryParams)
+      const route = `${baseApiRoute}/files?${stringifiedParams}`
       api.get(route)
         .then(({ data }) => {
           if (data['files']) {
-          // sorts the directory to include folders before files.
+            // sorts the directory to include folders before files.
             data['files'].sort(a => a.type === 'file' ? 1 : -1)
+
             setDirList(data['files'])
           } else if (data['file']) {
             setFile(data['file'])
@@ -124,6 +114,35 @@ export const enhance = compose(
           setRepoLoading(false)
           notifier.bad(resp)
         })
+    },
+    getTree: ({ baseApiRoute, queryParams, setTree }) => () => {
+      const route = `${baseApiRoute}/files?&tree=true&recursive=true`
+      api.get(route)
+        .then(({ data }) => {
+          console.log('dirList tree: ', data)
+          setTree(data)
+        })
+        .catch((resp) => {
+          notifier.bad(resp)
+        })
+    }
+  }),
+  withPropsOnChange(['baseApiRoute'], ({ getCollections, getTree, getBranchList, setRepoLoading, baseApiRoute }) => {
+    console.log('baseApiRoute')
+
+    getBranchList()
+    getCollections()
+    getTree()
+  }),
+  withPropsOnChange(['location'], ({ baseApiRoute, queryParams, getDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
+    setBranch(queryParams['ref'] || 'master')
+
+    const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
+    if (stagedFile) {
+      setFile(stagedFile)
+    } else {
+      setRepoLoading(true)
+      getDirList()
     }
   })
 )
