@@ -18,6 +18,7 @@ const mapAliasNames = (aliases) => {
 
 module.exports = {
   configure: {
+    collectCoverage: true,
     moduleNameMapper: Object.assign({
       '^libphonenumber-js$': 'libphonenumber-js',
       '\\.worker.js': '<rootDir>/__mocks__/workerMock.js'
