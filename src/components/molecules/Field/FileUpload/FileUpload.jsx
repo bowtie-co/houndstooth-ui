@@ -8,7 +8,7 @@ const FileUpload = ({ value, handleFileUpload, fileUrl, name, previewId }) => {
     <FormGroup>
       <img style={{ maxWidth: '300px', display: `${value ? 'block' : 'none'}` }} id={previewId} src={fileUrl} alt='' />
       <p>{titleize(name, '_')}</p>
-      <p>{value}</p>
+      <p className='truncate'>{value}</p>
       <FileBase64
         multiple={false}
         onDone={handleFileUpload}
