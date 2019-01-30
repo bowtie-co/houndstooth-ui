@@ -30,7 +30,7 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
       return (
         <p className='nested-dir'>
           <span className='nested-lines' />
-          <Link to={`/${baseRoute}/${type}?${qs.stringify(newPathParams)}`}>
+          <Link to={`/${baseRoute}/${type}?${qs.stringify(newPathParams)}`} className={'bold parent-link'}>
             <Icon className={iconClassName} color={'black'} size='sm' />{dir}
           </Link>
           {recursiveMap(newTreeObj, pathArr.join('/'), newPathArr)}
@@ -41,7 +41,7 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
       return (
         <p className='nested-dir'>
           <span className='nested-lines' />
-          <Link to={`${match['url']}?${qs.stringify(newPathParams)}`}>
+          <Link to={`${match['url']}?${qs.stringify(newPathParams)}`} className={'bold parent-link'}>
             <Icon className={iconClassName} color={'black'} size='sm' />{dir}
           </Link>
           <p className='nested-dir'>
@@ -54,7 +54,7 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
                 const fileType = fileExtArr.length > 1 ? 'file' : 'dir'
                 return (
                   <p className='dir-list-file-tree' key={i}>
-                    <Link to={{ pathname: `${fileType}`, search: `?path=${filePath}&ref=${branch}` }}>
+                    <Link to={{ pathname: `${fileType}`, search: `?path=${filePath}&ref=${branch}` }} className={filePath === queryParams['path'] ? 'active' : 'not-active'}>
                       <span className='nested-lines' />
                       <Icon className={fileIcons[fileExt] ? fileIcons[fileExt] : fileIcons[fileType]} color={'black'} size='sm' />{fileName}
                     </Link>
@@ -79,7 +79,7 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
               const fileType = typeof treeObj[filePath] === 'object' ? 'dir' : 'file'
               return (
                 <p className='dir-list-file-tree' key={i}>
-                  <Link to={{ pathname: `${fileType}`, search: `?path=${filePath}&ref=${branch}` }}>
+                  <Link to={{ pathname: `${fileType}`, search: `?path=${filePath}&ref=${branch}` }} className={filePath === queryParams['path'] ? 'active' : 'not-active'}>
                     <span className='nested-lines' />
                     <Icon className={fileIcons[fileExt] ? fileIcons[fileExt] : fileIcons[fileType]} color={'black'} size='sm' />{fileName}
                   </Link>
@@ -96,8 +96,8 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
     <div>
       {
         queryParams['path'] &&
-          <div>
-            <Link to={`/${baseRoute}/dir`}>
+          <div className='nested-dir'>
+            <Link to={`/${baseRoute}/dir`} className={'bold parent-link'}>
               <Icon iconName='folder' color={'black'} size='sm' /> ./
             </Link>
             {recursiveMap(tree, queryParams['path'])}

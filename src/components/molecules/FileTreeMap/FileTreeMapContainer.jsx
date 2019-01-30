@@ -1,12 +1,12 @@
-import { withRouter } from 'react-router'
-import { compose, withProps, shouldUpdate, onlyUpdateForKeys } from 'recompose'
+import { withQueryParams } from 'helpers'
+import { compose, withProps, onlyUpdateForKeys } from 'recompose'
 import { withMaybe } from '@bowtie/react-utils'
 import FileTreeMap from './FileTreeMap'
 
 const nullConditionalFn = ({ tree }) => Object.keys(tree).length === 0
 
 export default compose(
-  withRouter,
+  withQueryParams,
   withProps({
     fileIcons: {
       css: 'fab fa-css3',
@@ -19,6 +19,5 @@ export default compose(
     }
   }),
   onlyUpdateForKeys(['tree', 'match']),
-  withMaybe(nullConditionalFn),
-  shouldUpdate((props, { match: nextMatch }) => nextMatch.params['type'] !== 'file')
+  withMaybe(nullConditionalFn)
 )(FileTreeMap)

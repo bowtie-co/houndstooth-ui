@@ -32,9 +32,12 @@
 }
 
 .nested-dir {
-margin-left: 19px;
-    padding: 7px 0;
-    position: relative;
+  margin-left: 19px;
+  padding: 7px 0;
+  position: relative;
+  a.parent-link{
+    color: black;
+  }
   .dir-list-file-tree{
     padding: 0px 0;
     position: relative;
@@ -47,6 +50,12 @@ margin-left: 19px;
       position: absolute;
       top: -19px;
       left: -5px;
+    }
+    a.active {
+      color: #ff3400;
+    }
+    a.not-active {
+      color: #aeb3b8;
     }
   }
   .nested-lines{
