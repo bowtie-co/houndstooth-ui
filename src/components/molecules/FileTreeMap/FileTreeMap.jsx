@@ -1,10 +1,10 @@
 import React from 'react'
 import qs from 'qs'
-import ChildDirListItem from './ChildDirListItem'
 import {
   Icon,
   Link
 } from 'atoms'
+import DirectoryList from './DirectoryList'
 
 const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch }) => {
   const recursiveMap = (treeObj = {}, path, pointerArr = []) => {
@@ -45,37 +45,23 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
           <Link to={`${match['url']}?${qs.stringify(newPathParams)}`} className={'bold parent-link'}>
             <Icon className={iconClassName} color={'black'} size='sm' />{dir}
           </Link>
-          <p className='nested-dir'>
-            {
-              dirList.map((filePath, i) => (
-                <ChildDirListItem
-                  key={i}
-                  filePath={filePath}
-                  queryParams={queryParams}
-                  fileIcons={fileIcons}
-                  branch={branch}
-                />
-              ))
-            }
-          </p>
+          <DirectoryList
+            dirList={dirList}
+            branch={branch}
+            fileIcons={fileIcons}
+            queryParams={queryParams}
+          />
         </p>
       )
     } else {
       // if the item is a file, then map through everything in the parent directory to display siblining files/dir.
       return (
-        <p className='nested-dir'>
-          {
-            dirList.map((filePath, i) => (
-              <ChildDirListItem
-                key={i}
-                filePath={filePath}
-                queryParams={queryParams}
-                fileIcons={fileIcons}
-                branch={branch}
-              />
-            ))
-          }
-        </p>
+        <DirectoryList
+          dirList={dirList}
+          branch={branch}
+          fileIcons={fileIcons}
+          queryParams={queryParams}
+        />
       )
     }
   }
