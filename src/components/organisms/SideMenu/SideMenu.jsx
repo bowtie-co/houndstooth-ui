@@ -85,7 +85,6 @@ const SideMenu = (props) => {
           onClick={() => setActiveTab('users')}
           disabled={!repo && !username}
         >
-
           <Row className='flex-center' >
             <Col sm='3'>
               <Icon size='sm' iconName='user' />
@@ -97,42 +96,6 @@ const SideMenu = (props) => {
             </Col>
           </Row>
         </NavLink>
-
-        {/* <div
-          className={classnames('nav-link', { 'active': ['file', 'dir', 'advanced_settings'].includes(activeTab) })}
-          onClick={() => setActiveTab('advanced_settings')}
-        >
-
-          <Row className='flex-center'>
-            <Col sm='3'>
-              <Icon size='sm' iconName='cogs' />
-            </Col>
-            <Col sm='9'>
-              <div className='nav-link-title'>
-              Advanced Settings
-              </div>
-            </Col>
-          </Row>
-          <Collapse isOpen={['file', 'dir', 'advanced_settings'].includes(activeTab)}>
-            <NavLink
-              active={['file', 'dir'].includes(type)}
-              onClick={() => setActiveTab('file')}
-              disabled={!repo && !username}
-              path={`/${baseApiRoute}/dir?ref=${queryParams['ref'] || 'master'}`}>
-
-              <Row className='flex-center'>
-                <Col sm='3'>
-                  <Icon size='sm' iconName='folder' fill={false} />
-                </Col>
-                <Col sm='9'>
-                  <div className='nav-link-title'>
-                  File Editor
-                  </div>
-                </Col>
-              </Row>
-            </NavLink>
-          </Collapse>
-        </div> */}
       </Nav>
     </CollapseHorizontal>
   )
