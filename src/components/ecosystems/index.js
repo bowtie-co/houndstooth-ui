@@ -11,6 +11,7 @@
 
 import Repo from './Repo'
 import Collections from './Collections'
+import Users from './Users'
 import FileTree from './FileTree'
 import Notifications from './Notifications'
 
@@ -18,5 +19,6 @@ export {
   Repo,
   Collections,
   FileTree,
+  Users,
   Notifications
 }

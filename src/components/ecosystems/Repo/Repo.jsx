@@ -11,7 +11,8 @@ import { RepoControls } from 'molecules'
 import { CommitChanges } from 'organisms'
 import {
   FileTree,
-  Collections
+  Collections,
+  Users
 } from '..'
 
 const Repo = (props) => {
@@ -26,6 +27,12 @@ const Repo = (props) => {
           {...props}
         />
         <Switch>
+          <PrivateRoute
+            exact
+            props={props}
+            path={`/:username/:repo/users`}
+            component={Users}
+          />
           <PrivateRoute
             exact
             props={{ stagedFiles, pushToGithub, repo: match.params['repo'] }}

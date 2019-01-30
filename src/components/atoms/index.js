@@ -26,6 +26,8 @@ import Icon from './Icon'
 import Modal from './Modal'
 import ModalBody from './ModalBody'
 import Nav from './Nav'
+import TH from './TH'
+import THead from './THead'
 import Link from './Link'
 import SocialLink from './SocialLink'
 import CollapseHorizontal from './CollapseHorizontal'
@@ -43,6 +45,8 @@ export {
   Modal,
   ModalBody,
   Nav,
+  TH,
+  THead,
   SocialLink,
   Container,
   FormGroup,
