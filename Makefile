@@ -10,7 +10,7 @@ build:
 	npm run build
 
 test:
-	npm run test
+	npm test
 
 reset:
 	rm -rf node_modules && npm install
