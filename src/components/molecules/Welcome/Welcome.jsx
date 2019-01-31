@@ -1,13 +1,15 @@
 import React from 'react'
 import {
-  BowtieLogo,
-  HoundstoothLogo,
-  // Subtitle,
   Row,
   Col,
   Button,
-  Icon
+  Icon,
+  ExtLink
 } from 'atoms'
+import {
+  BowtieLogo,
+  HoundstoothLogo
+} from 'molecules'
 
 const Welcome = () => {
   return (
@@ -17,13 +19,13 @@ const Welcome = () => {
           <HoundstoothLogo size='lg' />
         </Col>
         <Col className='flex flex-center' sm='12'>
-          by <BowtieLogo color='black' size='sm' />
+          by
+          <ExtLink href='https://bowtie.co/'>
+            <BowtieLogo color='black' size='sm' />
+          </ExtLink>
         </Col>
-        {/* <Col className='flex flex-center column-2' sm='12'>
-          <Subtitle title={'LOGIN'} />
-        </Col> */}
         <Col className='flex flex-center column-3' sm='12'>
-          <Button href={'/login'}>
+          <Button className='btn-login' href={'/login'}>
             <Icon className={'fab fa-github'} size='md' />
             <div>Login with Github</div>
           </Button>

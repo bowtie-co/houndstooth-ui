@@ -1,14 +1,14 @@
 import React from 'react'
 import { Button } from 'atoms'
 
-const CollectionEditorButton = ({ location, match }) => {
-  const { pathname } = location
+const CollectionEditorButton = ({ match, onCollectionEditor, fileRoute, collectionRoute }) => {
   const { username, repo } = match.params
-  const onCollectionEditor = pathname.includes('/collection')
   return (
     <Button
-      href={onCollectionEditor ? `/repos/${username}/${repo}/dir` : `/repos/${username}/${repo}/collections`}>
-      { onCollectionEditor ? 'View File Editor' : 'View Collection Editor' }
+      className='btn-sm'
+      href={onCollectionEditor ? fileRoute : collectionRoute}
+      disabled={!repo && !username}>
+      { onCollectionEditor ? 'File Editor' : 'Collection Editor' }
     </Button>
   )
 }

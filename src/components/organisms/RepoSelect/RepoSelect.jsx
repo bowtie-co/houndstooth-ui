@@ -5,22 +5,21 @@ import {
 } from 'molecules'
 
 const RepoSelect = (props) => {
-  const { match, asyncLoadRepos, history } = props
-  const { repo, username } = match.params
+  const { baseRoute, loadingRepos, history, repoList } = props
   return (
     <FieldContainer
-      async
+      // async
       className='repo-select'
       clearable={false}
       name='something'
       type={'select'}
-      value={`${username}/${repo}`}
+      value={`${baseRoute}`}
       valueKey={'full_name'}
       labelKey='full_name'
-      loadOptions={(search) => asyncLoadRepos(search)}
+      disabled={loadingRepos}
+      options={repoList}
       onChange={(e) => {
-        console.log('e', e)
-        history.push({ pathname: `/repos/${e.target.value}/collections`, search: `?ref=${e.target.default_branch || 'master'}` })
+        history.push({ pathname: `/${e.target.value}/collections`, search: `?ref=${e.target.default_branch || 'master'}` })
       }}
     />
   )

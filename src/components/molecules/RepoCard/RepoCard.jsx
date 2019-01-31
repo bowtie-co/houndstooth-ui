@@ -1,26 +1,34 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import {
   Avatar,
-  Subtitle,
-  Summary
+  Summary,
+  Card,
+  Link
 } from 'atoms'
 import { LastUpdated } from 'molecules'
+import {
+  CardTitle,
+  CardBody
+} from 'reactstrap'
 
 const RepoCard = ({ repo }) => {
   return (
-    <Link to={{ pathname: `/repos/${repo.full_name}/collections`, search: `?ref=${repo.default_branch}` }} className='list-item' >
-      <div className='repoNameWrapper'>
-        <Subtitle title={repo.name} />
-        <Subtitle title={repo.private ? 'private' : 'public'} />
-      </div>
-      <div className='ownerWrapper'>
-        <Avatar img={repo.owner.avatar_url} />
-        <Subtitle title={repo.owner.login} />
-      </div>
-      <LastUpdated time={repo.updated_at} />
-      <Summary content={`Description: ${repo.description || 'N/A'}`} />
+
+    <Link to={{ pathname: `/${repo.full_name}/collections`, search: `?ref=${repo.default_branch}` }} className='list-item'>
+      <Card className='repo-card'>
+        <CardTitle>{repo.name}</CardTitle>
+        <CardBody>
+          <div className='flex-row align-center'>
+            <Avatar img={repo.owner.avatar_url} />
+            <div className='repo-name'>{repo.owner.login}</div>
+          </div>
+          <Summary>
+            <div className='truncate-multi'>{repo.description || 'N/A'}</div>
+          </Summary>
+          <LastUpdated time={repo.updated_at} />
+        </CardBody>
+      </Card>
     </Link >
   )
 }

@@ -106,6 +106,7 @@ a {
 
 a:active,
 a:hover, a:focus {
+  text-decoration: none;
   outline: 0;
   outline: none;
 }
@@ -146,6 +147,9 @@ dfn {
 h1 {
   font-size: 2em;
   margin: 0.67em 0;
+  &.title {
+    font-size: 20px;
+  }
 }
 
 //

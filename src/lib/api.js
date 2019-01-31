@@ -14,6 +14,8 @@ const api = new Api({
   authorization: 'Bearer'
 })
 
+storage.set('apiBaseUrl', api.baseUrl())
+
 api.authorize({
   // token: () => storage.get('id_token')
   token: () => storage.get('access_token')
@@ -22,7 +24,10 @@ api.authorize({
 const handleApiUnauthorized = (resp) => {
   notifier.pubnub && notifier.pubnub.stop()
   storage.clear()
-  window.location.reload()
+
+  if (window.location.pathname !== '/welcome') {
+    window.location = '/welcome'
+  }
 }
 
 // Handler for all non 2xx code api responses

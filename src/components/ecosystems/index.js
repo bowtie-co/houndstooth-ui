@@ -9,14 +9,16 @@
  * nested ecosystem— Let the parents do the talking.
  */
 
-import Main from './Main'
 import Repo from './Repo'
 import Collections from './Collections'
+import Users from './Users'
 import FileTree from './FileTree'
+import Notifications from './Notifications'
 
 export {
-  Main,
   Repo,
   Collections,
-  FileTree
+  FileTree,
+  Users,
+  Notifications
 }

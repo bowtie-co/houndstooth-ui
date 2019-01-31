@@ -11,14 +11,15 @@ import { RepoControls } from 'molecules'
 import { CommitChanges } from 'organisms'
 import {
   FileTree,
-  Collections
+  Collections,
+  Users
 } from '..'
 
 const Repo = (props) => {
-  const { match, stagedFiles, branch, baseRoute, pushToGithub, collections, queryParams } = props
+  const { match, stagedFiles, pushToGithub, collections } = props
   const { username } = match.params
   return (
-    <Row>
+    <Row style={{ 'width': '100%' }}>
       <Col style={{ 'padding': '24px' }}>
         <RepoControls
           isCommitable={stagedFiles.length > 0}
@@ -27,24 +28,32 @@ const Repo = (props) => {
         />
         <Switch>
           <PrivateRoute
+            exact
+            props={props}
+            path={`/:username/:repo/users`}
+            component={Users}
+          />
+          <PrivateRoute
+            exact
             props={{ stagedFiles, pushToGithub, repo: match.params['repo'] }}
-            path={`/repos/:username/:repo/commit`}
+            path={`/:username/:repo/commit`} // Use type or action path param?
             component={CommitChanges}
           />
           <PrivateRoute
-            props={{ collections, queryParams, branch, baseRoute }}
-            path={`/repos/:username/:repo/:type(collections)/:collection?/:item?`}
+            props={props}
+            // TODO: MOVE collection and item to query params?
+            path={`/:username/:repo/:type(collections)/:collection?/:item?`}
             component={Collections}
           />
           <PrivateRoute
             props={props}
-            path={`${match['url']}`}
+            path={`/:username/:repo/:type(file|dir)`} // Use action or type with (browse | commit | edit) ?
             component={FileTree}
           />
         </Switch>
         <Prompt
           when={stagedFiles.length > 0}
-          message={location => location.pathname.startsWith(`/repos/${username}`) ? true : `You will lose uncommitted changes if you leave.`}
+          message={location => location.pathname.startsWith(`/${username}`) ? true : `You will lose uncommitted changes if you leave.`}
         />
       </Col>
     </Row>

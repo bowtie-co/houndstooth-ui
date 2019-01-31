@@ -4,7 +4,7 @@ import {
   Tooltip
 } from 'atoms'
 
-const Icon = ({ className, size = 'xsmall', fill = true, iconName, color, id, tooltip, ...rest }) => {
+const Icon = ({ className, size = 'xs', fill = true, iconName, color, id, tooltip, ...rest }) => {
   const sizes = {
     xs: '',
     sm: 'lg',

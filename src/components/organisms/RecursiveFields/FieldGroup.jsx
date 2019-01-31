@@ -8,7 +8,7 @@ const FieldGroup = (props) => {
 
   return (
     <div className='field-group'>
-      {title && <p>{title}</p>}
+      {title && <p className='bold'>{title}</p>}
       {fieldKeys.map(key =>
         <FieldSingle
           key={key}

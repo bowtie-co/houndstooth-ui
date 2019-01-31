@@ -1,7 +1,14 @@
 .wysiwyg-section {
+  min-height: 400px;
   height: 100%;
-  .demo-wrapper.rdw-editor-wrapper {
-    height: 100%;
+  border: none;
+  
+  iframe,
+  .mce-container-body,
+  .mce-tinymce.mce-container.mce-panel {
+    height: 100%
   }
-
+  .mce-edit-area.mce-container.mce-panel.mce-stack-layout-item {
+    height: 90%
+  }
 }

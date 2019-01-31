@@ -7,6 +7,9 @@ import Pagination from './Pagination'
 import RepoControls from './RepoControls'
 import Welcome from './Welcome'
 import CollectionEditorButton from './CollectionEditorButton'
+import FileTreeMap from './FileTreeMap'
+import BowtieLogo from './BowtieLogo'
+import HoundstoothLogo from './HoundstoothLogo'
 
 export {
   Search,
@@ -16,6 +19,9 @@ export {
   DirCard,
   RepoControls,
   CollectionEditorButton,
+  FileTreeMap,
   Welcome,
-  Pagination
+  Pagination,
+  BowtieLogo,
+  HoundstoothLogo
 }
