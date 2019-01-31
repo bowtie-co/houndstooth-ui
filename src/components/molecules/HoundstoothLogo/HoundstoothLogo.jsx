@@ -5,7 +5,7 @@ import { Logo } from 'atoms'
 
 const HoundstoothLogo = ({ color = 'black', ...rest }) => {
   return (
-    <Logo src={color === 'white' ? logoWhite : logoBlack} />
+    <Logo src={color === 'white' ? logoWhite : logoBlack} {...rest} />
   )
 }
 

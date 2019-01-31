@@ -5,7 +5,7 @@ import logoBlack from './bowtie_logo.png'
 
 const BowtieLogo = ({ color = 'white', ...rest }) => {
   return (
-    <Logo src={color === 'white' ? logoWhite : logoBlack} />
+    <Logo src={color === 'white' ? logoWhite : logoBlack} {...rest} />
   )
 }
 
