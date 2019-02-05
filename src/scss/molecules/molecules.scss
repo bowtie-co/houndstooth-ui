@@ -135,6 +135,10 @@ div.Select-menu-outer {
 }
 
 .field-group{
+  margin: 5px 0;
+  padding: 10px;
+  border: 1px dashed #cecece;
+
   .form-group {
     label {
       //width: 93%;
@@ -142,7 +146,7 @@ div.Select-menu-outer {
     }
   }
   .form-control {
-    height: 40px;
+    // height: 40px;
     border-radius: 0;
     border: 1px solid #c2c2c2;
     &:focus, &:active {
