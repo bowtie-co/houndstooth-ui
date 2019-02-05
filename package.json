@@ -56,8 +56,6 @@
     "webpack-cli": "^3.1.2"
   },
   "scripts": {
-    "stuff": "craco --config craco.vendor.js",
-    "dll": "webpack --config vendor.dll.js",
     "build:dll": "webpack --config config/webpack.dll.js",
     "analyze": "for j in build/static/js/*.chunk.js; do source-map-explorer $j --html > tmp/$(basename $j).html; done",
     "start": "craco start",

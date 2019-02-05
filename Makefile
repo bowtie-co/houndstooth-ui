@@ -1,19 +1,29 @@
-project_name = houndstooth
+project_name = houndstooth-ui
 
-install: 
+setup: init rebuild
+up: start
+restart: install start
+rebuild: reset
+
+init:
+	([ ! -e .git/hooks/pre-push ] || rm .git/hooks/pre-push) && ln -s ../../bin/pre-push .git/hooks
+
+clean:
+	rm -rf node_modules
+
+install:
 	npm install
 
 start:
 	npm start
-	
+
 build:
 	npm run build
 
 test:
 	npm test
 
-reset:
-	rm -rf node_modules && npm install
+reset: clean install
 
 lint:
 	npm run lint
@@ -21,11 +31,18 @@ lint:
 fix:
 	npm run lint:fix
 
-audit:
-	npm audit
+analyze:
+	npm run analyze
 
-dll:
-	npm run dll
+scan:
+	npm audit
 
 build-dll:
 	npm run build:dll
+
+ci-reset: reset
+
+ci-test:
+	CI=true npm run ci
+
+ci: ci-reset ci-test
