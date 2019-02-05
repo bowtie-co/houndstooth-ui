@@ -1,5 +1,5 @@
 
-import { compose, withState, withHandlers } from 'recompose'
+import { compose, withState, withHandlers, withPropsOnChange } from 'recompose'
 import TinyMCE from './TinyMCE'
 // import htmlToDraft from 'html-to-draftjs'
 // import draftToHtml from 'draftjs-to-html'
@@ -13,5 +13,8 @@ export default compose(
       handleEditorChange(newContent)
       setEditorContent(newContent)
     }
+  }),
+  withPropsOnChange(['content'], ({ content, setEditorContent }) => {
+    setEditorContent(content)
   })
 )(TinyMCE)
