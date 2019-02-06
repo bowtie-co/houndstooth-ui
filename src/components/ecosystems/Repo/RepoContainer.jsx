@@ -97,8 +97,6 @@ export const enhance = compose(
         })
     },
     getDirList: ({ match, baseApiRoute, queryParams, setDirList, setFile, setRepoLoading, collections }) => () => {
-      console.log('getting dir list with match', match, collections)
-
       if (!match['params']['collection']) {
         const stringifiedParams = qs.stringify(queryParams)
         const route = `${baseApiRoute}/files?${stringifiedParams}`
