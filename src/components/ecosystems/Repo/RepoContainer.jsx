@@ -13,7 +13,9 @@ export const enhance = compose(
     dirList: [],
     file: {},
     tree: {},
-    isRepoLoading: false
+    isRepoLoading: false,
+    collectionName: '',
+    collectionPath: ''
   }), {
     setBranchList: () => (payload) => ({ branchList: payload }),
     setDirList: () => (payload) => ({ dirList: payload }),
@@ -21,7 +23,9 @@ export const enhance = compose(
     setFile: () => (payload) => ({ file: payload }),
     setStagedFiles: () => (payload) => ({ stagedFiles: payload }),
     setBranch: () => (payload) => ({ branch: payload }),
-    setRepoLoading: () => (payload) => ({ isRepoLoading: payload })
+    setRepoLoading: () => (payload) => ({ isRepoLoading: payload }),
+    setCollectionName: ({ collectionName }) => (payload) => ({ collectionName: payload }),
+    setCollectionPath: ({ collectionPath }) => (payload) => ({ collectionPath: payload })
   }),
   withHandlers({
     saveFile: ({ setFile, file, stagedFiles, setStagedFiles, queryParams }) => (content) => {
@@ -92,25 +96,30 @@ export const enhance = compose(
           setCollections([])
         })
     },
-    getDirList: ({ baseApiRoute, queryParams, setDirList, setFile, setRepoLoading }) => () => {
-      const stringifiedParams = qs.stringify(queryParams)
-      const route = `${baseApiRoute}/files?${stringifiedParams}`
-      api.get(route)
-        .then(({ data }) => {
-          if (data['files']) {
-            // sorts the directory to include folders before files.
-            data['files'].sort(a => a.type === 'file' ? 1 : -1)
+    getDirList: ({ match, baseApiRoute, queryParams, setDirList, setFile, setRepoLoading, collections }) => () => {
+      console.log('getting dir list with match', match, collections)
 
-            setDirList(data['files'])
-          } else if (data['file']) {
-            setFile(data['file'])
-          }
-          setRepoLoading(false)
-        })
-        .catch((resp) => {
-          setRepoLoading(false)
-          notifier.bad(resp)
-        })
+      if (!match['params']['collection']) {
+        const stringifiedParams = qs.stringify(queryParams)
+        const route = `${baseApiRoute}/files?${stringifiedParams}`
+
+        api.get(route)
+          .then(({ data }) => {
+            if (data['files']) {
+              // sorts the directory to include folders before files.
+              data['files'].sort(a => a.type === 'file' ? 1 : -1)
+
+              setDirList(data['files'])
+            } else if (data['file']) {
+              setFile(data['file'])
+            }
+            setRepoLoading(false)
+          })
+          .catch((resp) => {
+            setRepoLoading(false)
+            notifier.bad(resp)
+          })
+      }
     },
     getTree: ({ baseApiRoute, queryParams, setTree }) => () => {
       const route = `${baseApiRoute}/files?&tree=true&recursive=true`
