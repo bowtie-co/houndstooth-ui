@@ -8,7 +8,7 @@ import 'brace/mode/javascript'
 import 'brace/mode/html'
 import 'brace/mode/css'
 import 'brace/mode/ruby'
-import 'brace/theme/monokai'
+import 'brace/theme/terminal'
 
 const languages = {
   js: 'javascript',
@@ -26,13 +26,17 @@ const TextEditor = ({ content, name, onChange }) => {
     <AceEditor
       mode={lang}
       width={'100%'}
-      theme='monokai'
+      maxLines={'Infinity'}
+      focus={true}
+      className={'file-editor'}
+      wrapEnabled={true}
+      theme='terminal'
       name={`file-editor-${name}`}
       // onLoad={this.onLoad}
+      editorProps={{$blockScrolling: true}}
       onChange={(newValue) => onChange(newValue)}
-      fontSize={14}
+      fontSize={15}
       showPrintMargin
-      // style={{ width: '100%', height: '100%' }}
       showGutter
       highlightActiveLine
       value={atob(content)}

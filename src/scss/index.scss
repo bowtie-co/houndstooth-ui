@@ -105,3 +105,10 @@
 .bold {
   font-weight: bold;
 }
+
+.ace_editor.file-editor {
+  height: 100%;
+	//height: calc(100% - 100px)!important;
+	min-height:400px;
+  max-height: unset;
+}

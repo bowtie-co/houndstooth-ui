@@ -17,7 +17,7 @@ const DirectoryList = ({ dirList, branch, fileIcons, queryParams }) => (
           <p className='dir-list-file-tree' key={i}>
             <Link to={{ pathname: `${fileType}`, search: `?path=${filePath}&ref=${branch}` }} className={filePath === queryParams['path'] ? 'active' : 'not-active'}>
               <span className='nested-lines' />
-              <Icon className={fileIcons[fileExt] ? fileIcons[fileExt] : fileIcons[fileType]} color={'black'} size='sm' />{fileName}
+              <p className='filename truncate'><Icon className={fileIcons[fileExt] ? fileIcons[fileExt] : fileIcons[fileType]} color={'black'} size='sm' />{fileName}</p>
             </Link>
           </p>
         )
