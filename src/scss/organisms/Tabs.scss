@@ -12,6 +12,7 @@
         display: flex;
         justify-content: flex-start;
         padding-left: 10px;
+        word-break: break-word;
         &.active{
           border-left: 3px #ff3500 solid;
           border-right: none;

@@ -43,7 +43,7 @@ export default compose(
       //   .then(({ data: fileUploads }) => setFileUploads(fileUploads))
       //   .catch(notifier.bad.bind(notifier))
     },
-    getItems: ({ collectionsApiRoute, match, setItems, setDefaultFields, setCollectionLoading }) => () => {
+    getItems: ({ collectionsApiRoute, match, setItems, setDefaultFields, setCollectionLoading, setCollectionName, setCollectionPath }) => () => {
       const { collection } = match.params
       if (collection) {
         setCollectionLoading(true)
@@ -51,6 +51,8 @@ export default compose(
           .then(({ data }) => {
             setItems(data['collection']['items'])
             setDefaultFields({ fields: data['collection']['fields'] })
+            setCollectionName(data['collection']['name'])
+            setCollectionPath(data['collection']['path'])
             setCollectionLoading(false)
           })
           .catch((resp) => {

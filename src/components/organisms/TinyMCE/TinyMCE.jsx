@@ -10,10 +10,15 @@ const TinyMCE = (props) => {
   return (
     <div className='wysiwyg-section'>
       <Editor
-        inline
+        // inline
         init={{
           height: '100%',
-          file_picker_types: 'file image media',
+          plugins: 'link image code media hr lists fullscreen',
+          menubar: 'false',
+          toolbar1: 'undo redo | fontselect fontsizeselect | link media image',
+          toolbar2: 'formatselect bold italic underline superscript hr | alignleft aligncenter alignright | bullist | removeformat | fullscreen code',
+          content_style: 'img {max-width: 100%;}',
+          // file_picker_types: 'file image media',
           images_upload_handler: (blobInfo, success, failure) => {
             console.log(Object.keys(blobInfo), blobInfo.id(), blobInfo.filename(), blobInfo.blobUri(), blobInfo.uri())
             console.log('handle blob', blobInfo.name(), blobInfo.base64())
@@ -36,8 +41,8 @@ const TinyMCE = (props) => {
         apiKey={'kpkfdogbexo2stz9zphjxq28zit6i9tch0ox4vlu1meo75hn'}
         value={editorContent}
         onEditorChange={onChange}
-        plugins={'code image imagetools'}
-        toolbar={'code image preview imageoptions media'}
+        // plugins={'code image imagetools'}
+        // toolbar={'code image preview imageoptions media'}
       />
     </div>
   )

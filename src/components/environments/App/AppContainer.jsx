@@ -88,15 +88,15 @@ export const enhance = compose(
       setPageNumber(cachedRepoList['pages'])
     }
   }),
-  withPropsOnChange(['match'], ({ match, setCollections, setOrgList }) => {
-    const { repo } = match.params
-    !repo && setCollections(null)
-    api.get(`orgs?per_page=100`)
-      .then(({ data }) => {
-        setOrgList(data.orgs)
-      })
-      .catch(notifier.bad.bind(notifier))
-  }),
+  // withPropsOnChange(['match'], ({ match, setCollections, setOrgList }) => {
+  //   const { repo } = match.params
+  //   !repo && setCollections(null)
+  //   api.get(`orgs?per_page=100`)
+  //     .then(({ data }) => {
+  //       setOrgList(data.orgs)
+  //     })
+  //     .catch(notifier.bad.bind(notifier))
+  // }),
   withEither(loadingConditionFn, Loading)
 )
 
