@@ -1,13 +1,19 @@
 /* global FileReader encodeURI */
+import qs from 'qs'
 import FileUpload from './FileUpload'
 import { compose, withHandlers, withPropsOnChange, withState } from 'recompose'
 
 export default compose(
   withState('previewId', 'setPreviewId', ({ name }) => `upload_${name}_${Date.now()}`),
-  withPropsOnChange(['items', 'value'], ({ name, value, branch, baseRoute }) => {
+  withPropsOnChange(['items', 'value'], ({ name, value, branch, match }) => {
+    const { username, repo } = match['params']
+    const baseRoute = `${username}/${repo}`
+    const queryParams = qs.parse(window.location.search)
+
     if (value) {
-      const sanitizedVal = encodeURI(value)
-      const fileUrl = `https://raw.githubusercontent.com/${baseRoute}/master/${sanitizedVal}`
+      // TODO: Ask Tim why this was here...
+      // const sanitizedVal = encodeURI(value)
+      const fileUrl = `https://raw.githubusercontent.com/${baseRoute}/${queryParams['ref'] || 'master'}/${value}`
       return { fileUrl }
     }
   }),
