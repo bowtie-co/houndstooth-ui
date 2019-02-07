@@ -71,6 +71,10 @@
   justify-content: flex-start;
 }
 
+.break-word {
+  word-break: break-word;
+}
+
 .truncate {
   white-space: nowrap;
   overflow: hidden;

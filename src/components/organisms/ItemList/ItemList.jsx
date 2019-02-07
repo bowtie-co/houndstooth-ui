@@ -15,7 +15,7 @@ const ItemList = ({ items = [], activeTab, handleClick, children, vertical = fal
       </div>
       <Nav tabs vertical={vertical}>
         <Row>
-          <Col sm='2' className='tabs-vertical'>
+          <Col sm='3' md='2' lg='2' xl='1' className='tabs-vertical'>
             {
               items.map((item, i) => {
                 return (
@@ -35,8 +35,8 @@ const ItemList = ({ items = [], activeTab, handleClick, children, vertical = fal
               })
             }
 
-          </Col >
-          <TabContent activeTab={activeTab} className='col-sm-10'>
+          </Col>
+          <TabContent activeTab={activeTab} className='col-sm-9 col-md-10 col-lg-10 col-xl-11'>
             { children }
           </TabContent>
         </Row>

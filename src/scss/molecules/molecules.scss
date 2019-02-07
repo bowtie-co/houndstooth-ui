@@ -137,8 +137,7 @@ div.Select-menu-outer {
 .field-group{
   margin: 5px 0;
   padding: 10px;
-  border: 1px dashed #cecece;
-
+  //border: 1px dashed #cecece;
   .form-group {
     label {
       //width: 93%;
@@ -153,6 +152,18 @@ div.Select-menu-outer {
       border-color: #d62b00;
       outline: 0;
       box-shadow: 0 0 0 0.2rem rgba(255, 53, 0s,.25);
+    }
+  }
+}
+.field-group > .field-group {
+  border: 1px dashed #cecece;
+  .field-group {
+    background: #f9f9f9;
+    border: 1px dashed #dedede;
+    //border: none;
+    .field-group {
+      border: 1px dashed #eee;
+      background: #fdfdfd;
     }
   }
 }
