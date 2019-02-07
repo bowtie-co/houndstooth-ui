@@ -7,9 +7,10 @@ const FileSingle = ({ file, content, handleContentChange, saveFile }) => {
   return (
     <div style={{ 'padding': '20px 0', 'width': '100%' }}>
       <div className='d-flex align-items-center justify-content-between'>
-      <h2>{file.name}</h2>
-      <Button onClick={() => saveFile(content)} className='btn-sm' style={{ 'margin': '10px 0', 'padding': '0.5em 3em',
-        'min-height': '24px' }}>Save</Button>
+        <h2>{file.name}</h2>
+        <Button onClick={() => saveFile(content)} className='btn-sm' style={{ 'margin': '10px 0',
+          'padding': '0.5em 3em',
+          'min-height': '24px' }}>Save</Button>
       </div>
       <TextEditor
         content={content}

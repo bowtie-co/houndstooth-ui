@@ -27,9 +27,9 @@ const TextEditor = ({ content, name, onChange }) => {
       mode={lang}
       width={'100%'}
       maxLines={'Infinity'}
-      focus={true}
+      focus
       className={'file-editor'}
-      wrapEnabled={true}
+      wrapEnabled
       theme='terminal'
       name={`file-editor-${name}`}
       // onLoad={this.onLoad}
