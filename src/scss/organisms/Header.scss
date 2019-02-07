@@ -60,7 +60,7 @@
 
 .isCollapsed,
 .collapsedWrapper {
-  width: 84px;
+  width: 72px;
 }
 
 .isCollapsed {
@@ -74,10 +74,10 @@
   border: 2px #d3d3d366 solid;
   box-shadow: #d3d3d366 3px 3px 7px;
   border-left: none;
-  right: -45px;
-  top: 31px;
-  width: 45px;
-  height: 47px;
+  right: -44px;
+  top: 24px;
+  width: 44px;
+  height: 44px;
   background-color: white;
   display: flex;
   justify-content: center;
@@ -86,12 +86,12 @@
 
 
 .side-menu-section {
-  padding-top: 17px;
+  padding-top: 10px;
   width: 210px;
   height: 100%;
   // max-width: 210px;
   background-color: white;
-  margin-left: 21px;
+  margin-left: 10px;
   .collapsable-content {
     margin-top: 13px;
   }

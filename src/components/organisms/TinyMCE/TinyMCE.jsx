@@ -9,7 +9,12 @@ const TinyMCE = (props) => {
     <div className='wysiwyg-section'>
       <Editor
         init={{
-          height: '100%'
+          height: '100%',
+          plugins: 'link image code media hr lists fullscreen',
+          menubar: 'false',
+          toolbar1: 'undo redo | fontselect fontsizeselect | link media image',
+          toolbar2: 'formatselect bold italic underline superscript hr | alignleft aligncenter alignright | bullist | removeformat | fullscreen code',
+          content_style: 'img {max-width: 100%;}'
         }}
         apiKey={'kpkfdogbexo2stz9zphjxq28zit6i9tch0ox4vlu1meo75hn'}
         value={editorContent}
