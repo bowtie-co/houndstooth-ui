@@ -12,7 +12,7 @@ const TinyMCE = (props) => {
         inline
         init={{
           height: '100%',
-          plugins: 'link image code hr lists fullscreen',
+          plugins: 'link image code hr lists fullscreen media',
           menubar: 'false',
           toolbar1: 'undo redo | fontselect fontsizeselect | link media image',
           toolbar2: 'formatselect bold italic underline superscript hr | alignleft aligncenter alignright | bullist | removeformat | fullscreen code',

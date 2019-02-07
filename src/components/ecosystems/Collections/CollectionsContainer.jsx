@@ -63,7 +63,8 @@ export default compose(
     },
     editItem: ({ collectionsApiRoute, branch, activeItem, match }) => (formData) => {
       const { item } = match.params
-      const message = 'Edit file'
+      // console.log('editing active item', activeItem, item)
+      const message = `[HT] Edited item: ${activeItem.path}`
       const route = `${collectionsApiRoute}/items/${item}?ref=${branch || 'master'}&sha=${activeItem['sha']}&message=${message}`
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       return api.put(route, updatedItem)
@@ -73,7 +74,7 @@ export default compose(
         activeItem['name'] = `${activeItem['name']}.md`
       }
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
-      const message = 'Create file'
+      const message = `[HT] Created item: ${activeItem.name}`
       const route = `${collectionsApiRoute}/items?ref=${branch || 'master'}&message=${message}`
       return api.post(route, updatedItem)
     },
@@ -90,7 +91,7 @@ export default compose(
 
         const body = {
           files: newFiles,
-          message: 'File Upload'
+          message: `[HT] Uploaded ${newFiles.length} file(s)`
         }
         api.post(`${baseApiRoute}/files/upsert`, body)
           .then(resp => {

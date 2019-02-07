@@ -26,7 +26,7 @@ export default compose(
 
       const body = {
         files: [ file ],
-        message: `Upload file: ${file.path}`
+        message: `[HT] Uploaded file: ${file.path}`
       }
 
       api.post(`${baseApiRoute}/files/upsert`, body).then(resp => {
