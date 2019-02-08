@@ -13,6 +13,7 @@ export const enhance = compose(
     dirList: [],
     file: {},
     tree: {},
+    config: {},
     isRepoLoading: false,
     collectionName: '',
     collectionPath: ''
@@ -23,6 +24,7 @@ export const enhance = compose(
     setFile: () => (payload) => ({ file: payload }),
     setStagedFiles: () => (payload) => ({ stagedFiles: payload }),
     setBranch: () => (payload) => ({ branch: payload }),
+    setConfig: () => (payload) => ({ config: payload }),
     setRepoLoading: () => (payload) => ({ isRepoLoading: payload }),
     setCollectionName: ({ collectionName }) => (payload) => ({ collectionName: payload }),
     setCollectionPath: ({ collectionPath }) => (payload) => ({ collectionPath: payload })
@@ -83,10 +85,11 @@ export const enhance = compose(
         setBranchList(cachedBranchesList)
       }
     },
-    getCollections: ({ setRepoLoading, setCollections, baseApiRoute }) => () => {
+    getCollections: ({ setRepoLoading, setCollections, setConfig, baseApiRoute }) => () => {
       setRepoLoading(true)
       api.get(`${baseApiRoute}/collections`)
         .then(({ data }) => {
+          setConfig(data)
           const { collections } = data
           setCollections(Object.keys(collections))
           setRepoLoading(false)

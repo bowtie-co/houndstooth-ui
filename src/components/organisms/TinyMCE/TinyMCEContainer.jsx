@@ -14,10 +14,7 @@ export default compose(
       handleEditorChange(newContent)
       setEditorContent(newContent)
     },
-    onUpload: ({ baseRoute, baseApiRoute, queryParams }) => (blobInfo, success, failure) => {
-      console.log(Object.keys(blobInfo), blobInfo.id(), blobInfo.filename(), blobInfo.blobUri(), blobInfo.uri())
-      console.log('handle blob', blobInfo.name(), blobInfo.base64())
-
+    onUpload: ({ baseApiRoute, buildUploadUrl }) => (blobInfo, success, failure) => {
       const file = {
         path: `upload/${blobInfo.filename()}`,
         content: blobInfo.base64(),
@@ -30,7 +27,7 @@ export default compose(
       }
 
       api.post(`${baseApiRoute}/files/upsert`, body).then(resp => {
-        const fileUrl = `https://raw.githubusercontent.com/${baseRoute}/${queryParams['ref'] || 'master'}/${file.path}`
+        const fileUrl = buildUploadUrl(file.path)
         notifier.success(`Uploaded file: ${file.path}`)
         success(fileUrl)
       }).catch(err => {

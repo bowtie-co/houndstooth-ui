@@ -2,7 +2,7 @@
 import { compose, withStateHandlers, withPropsOnChange, withHandlers, lifecycle } from 'recompose'
 import { withEither, withMaybe } from '@bowtie/react-utils'
 import { Collections, EmptyState, EmptyItem } from './Collections'
-import { api, notifier } from 'lib'
+import { api, notifier, storage } from 'lib'
 import { Loading } from 'atoms'
 
 const nullConditionFn = ({ collections }) => !collections
@@ -27,6 +27,18 @@ export default compose(
     setStagedFileUploads: ({ stagedFileUploads }) => (payload) => ({ stagedFileUploads: payload })
   }),
   withHandlers({
+    buildUploadUrl: ({ config, baseRoute, queryParams }) => (filePath, useToken = false) => {
+      // const baseUrl = config.url || `https://raw.githubusercontent.com/${baseRoute}/${queryParams['ref'] || 'master'}`
+      const baseUrl = `https://raw.githubusercontent.com/${baseRoute}/${queryParams['ref'] || 'master'}`
+
+      let fileUrl = `${baseUrl}/${filePath}`
+
+      if (useToken) {
+        fileUrl += `?token=${storage.get('access_token')}`
+      }
+
+      return fileUrl.replace(/\/+/g, '/')
+    },
     editFileName: ({ setActiveItem, activeItem }) => (e) => {
       const editedItem = Object.assign({}, activeItem, { name: e.target.value })
       setActiveItem(editedItem)
@@ -49,6 +61,7 @@ export default compose(
         setCollectionLoading(true)
         api.get(collectionsApiRoute)
           .then(({ data }) => {
+            console.log('get collections data from route', collectionsApiRoute, data)
             setItems(data['collection']['items'])
             setDefaultFields({ fields: data['collection']['fields'] })
             setCollectionName(data['collection']['name'])
@@ -93,18 +106,21 @@ export default compose(
           files: newFiles,
           message: `[HT] Uploaded ${newFiles.length} file(s)`
         }
-        api.post(`${baseApiRoute}/files/upsert`, body)
-          .then(resp => {
-            notifier.success('File upload successful!')
-          })
-          .then(() => {
-            getFileUploads()
-            setStagedFileUploads([])
-          })
-          .catch((resp) => {
-            setCollectionLoading(false)
-            notifier.bad(resp)
-          })
+
+        return api.post(`${baseApiRoute}/files/upsert`, body)
+        // .then(resp => {
+        //   notifier.success('File upload successful!')
+        // })
+        // .then(() => {
+        //   getFileUploads()
+        //   setStagedFileUploads([])
+        // })
+        // .catch((resp) => {
+        //   setCollectionLoading(false)
+        //   notifier.bad(resp)
+        // })
+      } else {
+        return Promise.resolve()
       }
     },
     handleMarkdownChange: ({ activeItem, setActiveItem }) => (content) => {
@@ -129,42 +145,66 @@ export default compose(
         setActiveItem(currentItem)
       } else {
         setActiveItem({})
-        console.log(`Unable to load item: ${match['params']['item']}`)
+        // console.log(`Unable to load item: ${match['params']['item']}`)
       }
     }
   }),
   withHandlers({
     handleFormSubmit: ({ collectionsRoute, items, createItem, history, editItem, createFileUpload, getItems, getFileUploads, match, setCollectionLoading, setStagedFileUploads }) => (formData) => {
       setCollectionLoading(true)
-      if (match['params']['item'] === 'new') {
-        createItem(formData)
-          .then(({ data }) => {
-            notifier.success('Item created successfully!')
-            if (items[0]['name'] === 'NEW FILE') {
-              items.shift()
-            }
-            createFileUpload()
-            getItems()
-            history.push(`/${collectionsRoute}/${data.data.content['name']}`)
-          })
-          .catch((resp) => {
-            setCollectionLoading(false)
-            notifier.bad(resp)
-          })
-      } else {
-        editItem(formData)
-          .then(resp => {
-            notifier.success('Item updated successfully!')
-          })
-          .then(() => {
-            getItems()
-            createFileUpload()
-          })
-          .catch((resp) => {
-            setCollectionLoading(false)
-            notifier.bad(resp)
-          })
-      }
+
+      const isNewItem = match['params']['item'] === 'new'
+      const upsertItem = isNewItem ? createItem : editItem
+
+      createFileUpload().then(() => upsertItem(formData).then(({ data }) => {
+        if (items.length > 0 && items[0]['name'] === 'NEW FILE') {
+          items.shift()
+        }
+
+        getItems()
+        // getFileUploads()
+        setStagedFileUploads([])
+        setCollectionLoading(false)
+
+        if (isNewItem) {
+          history.push(`/${collectionsRoute}/${data.data.content['name']}`)
+        }
+      })).then((resp) => {
+        notifier.success(`Item ${isNewItem ? 'created' : 'edited'}`)
+      }).catch((resp) => {
+        setCollectionLoading(false)
+        notifier.bad(resp)
+      })
+
+      // if (match['params']['item'] === 'new') {
+      //   createItem(formData)
+      //     .then(({ data }) => {
+      //       notifier.success('Item created successfully!')
+      //       if (items[0]['name'] === 'NEW FILE') {
+      //         items.shift()
+      //       }
+      //       createFileUpload()
+      //       getItems()
+      //       history.push(`/${collectionsRoute}/${data.data.content['name']}`)
+      //     })
+      //     .catch((resp) => {
+      //       setCollectionLoading(false)
+      //       notifier.bad(resp)
+      //     })
+      // } else {
+      //   editItem(formData)
+      //     .then(resp => {
+      //       notifier.success('Item updated successfully!')
+      //     })
+      //     .then(() => {
+      //       getItems()
+      //       createFileUpload()
+      //     })
+      //     .catch((resp) => {
+      //       setCollectionLoading(false)
+      //       notifier.bad(resp)
+      //     })
+      // }
 
       // TODO: Improve order of executing upload route & item create to ensure both work?
       // createFileUpload()

@@ -41,6 +41,7 @@ export const ItemForm = (props) => {
             fileUploads={fileUploads}
             stagedFileUploads={stagedFileUploads}
             setStagedFileUploads={setStagedFileUploads}
+            {...rest}
           />
         </div>
       </Col>
