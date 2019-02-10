@@ -11,7 +11,7 @@ export default compose(
       // const sanitizedVal = encodeURI(value)
 
       return {
-        fileUrl: buildUploadUrl(value, true) // TODO: Use "true" for private repo?
+        fileUrl: buildUploadUrl(value)
       }
     }
   }),
