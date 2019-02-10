@@ -6,13 +6,8 @@ export default compose(
   withState('previewId', 'setPreviewId', ({ name }) => `upload_${name}_${Date.now()}`),
   withState('isLoadingFileUrl', 'setIsLoadingFileUrl', false),
   withPropsOnChange(['items', 'value'], ({ value, buildUploadUrl }) => {
-    if (value) {
-      // TODO: Ask Tim why this was here...
-      // const sanitizedVal = encodeURI(value)
-
-      return {
-        fileUrl: buildUploadUrl(value)
-      }
+    return {
+      fileUrl: value ? buildUploadUrl(value) : null
     }
   }),
   withHandlers({
@@ -29,6 +24,7 @@ export default compose(
     handleFileUpload: ({ onChange, name: fieldKey, setStagedFileUploads, stagedFileUploads, imagePreview }) => (file) => {
       imagePreview(file)
       const shouldUpdateStaged = stagedFileUploads.some(stagedFile => stagedFile['fieldKey'] === fieldKey)
+      // TODO: @timbrandle do we need the "Date.now()" in the filename? might work better not to ...
       // const filePath = `upload/${file['type']}/${Date.now()}_${fieldKey}_${file['name']}`
       const filePath = `upload/${file['type']}/${fieldKey}_${file['name']}`
       const updatedFile = Object.assign(file, { fieldKey, name: filePath })
@@ -39,7 +35,6 @@ export default compose(
 
       // Add "/" prefix for filePath in form state, but not for path to upload file to github!
       onChange({ target: { value: `/${filePath}` } })
-      // onChange({ target: { value: filePath } })
       setStagedFileUploads(newState)
     }
   })

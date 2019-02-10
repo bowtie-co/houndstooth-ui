@@ -61,7 +61,6 @@ export default compose(
         setCollectionLoading(true)
         api.get(collectionsApiRoute)
           .then(({ data }) => {
-            console.log('get collections data from route', collectionsApiRoute, data)
             setItems(data['collection']['items'])
             setDefaultFields({ fields: data['collection']['fields'] })
             setCollectionName(data['collection']['name'])
@@ -108,17 +107,6 @@ export default compose(
         }
 
         return api.post(`${baseApiRoute}/files/upsert`, body)
-        // .then(resp => {
-        //   notifier.success('File upload successful!')
-        // })
-        // .then(() => {
-        //   getFileUploads()
-        //   setStagedFileUploads([])
-        // })
-        // .catch((resp) => {
-        //   setCollectionLoading(false)
-        //   notifier.bad(resp)
-        // })
       } else {
         return Promise.resolve()
       }
@@ -145,7 +133,6 @@ export default compose(
         setActiveItem(currentItem)
       } else {
         setActiveItem({})
-        // console.log(`Unable to load item: ${match['params']['item']}`)
       }
     }
   }),
@@ -175,50 +162,6 @@ export default compose(
         setCollectionLoading(false)
         notifier.bad(resp)
       })
-
-      // if (match['params']['item'] === 'new') {
-      //   createItem(formData)
-      //     .then(({ data }) => {
-      //       notifier.success('Item created successfully!')
-      //       if (items[0]['name'] === 'NEW FILE') {
-      //         items.shift()
-      //       }
-      //       createFileUpload()
-      //       getItems()
-      //       history.push(`/${collectionsRoute}/${data.data.content['name']}`)
-      //     })
-      //     .catch((resp) => {
-      //       setCollectionLoading(false)
-      //       notifier.bad(resp)
-      //     })
-      // } else {
-      //   editItem(formData)
-      //     .then(resp => {
-      //       notifier.success('Item updated successfully!')
-      //     })
-      //     .then(() => {
-      //       getItems()
-      //       createFileUpload()
-      //     })
-      //     .catch((resp) => {
-      //       setCollectionLoading(false)
-      //       notifier.bad(resp)
-      //     })
-      // }
-
-      // TODO: Improve order of executing upload route & item create to ensure both work?
-      // createFileUpload()
-      //   .then(resp => {
-      //     notifier.success('File upload successful!')
-      //   })
-      //   .then(() => {
-      //     getFileUploads()
-      //     setStagedFileUploads([])
-      //   })
-      //   .catch((resp) => {
-      //     setCollectionLoading(false)
-      //     notifier.bad(resp)
-      //   })
     },
     deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems }) => () => {
       const { item } = match.params
