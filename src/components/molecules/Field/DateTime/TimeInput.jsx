@@ -6,10 +6,13 @@ import { FormGroup } from 'atoms'
 
 const TimeInput = (props) => {
   const { value, name, onDateTimeChange, ...rest } = props
+  console.log('====================================')
+  console.log('time value:', value)
+  console.log('====================================')
   return (
     <FormGroup floatLabel {...rest}>
       <Datetime
-        defaultValue={value || ''}
+        value={value || ''}
         inputProps={{ placeholder: name }}
         timeFormat
         dateFormat={false}

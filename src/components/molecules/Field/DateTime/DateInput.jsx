@@ -6,6 +6,9 @@ import { FormGroup } from 'atoms'
 
 const DateInput = (props) => {
   const { value, name, onDateTimeChange, ...rest } = props
+  console.log('====================================')
+  console.log('date value:', value)
+  console.log('====================================')
   return (
     <FormGroup floatLabel {...rest}>
       <Datetime
