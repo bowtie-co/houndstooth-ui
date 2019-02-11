@@ -16,11 +16,11 @@ import {
 } from '..'
 
 export const ItemForm = (props) => {
-  const { activeItem, handleFormSubmit, editFileName, deleteItem, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads } = props
+  const { activeItem, handleFormSubmit, editFileName, deleteItem, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads, ...rest } = props
   const { item } = match.params
   return (
     <Row>
-      <Col sm='5'>
+      <Col sm='12' md='5' lg='5' xl='3'>
         <div className='tab-content-card'>
           {
             item === 'new'
@@ -31,7 +31,7 @@ export const ItemForm = (props) => {
                 onChange={editFileName}
                 value={activeItem['name']}
               />
-              : <Title title={item} />
+              : <Title title={item} className='break-word' />
           }
           <RecursiveFields
             fields={activeItem['fields']}
@@ -41,15 +41,17 @@ export const ItemForm = (props) => {
             fileUploads={fileUploads}
             stagedFileUploads={stagedFileUploads}
             setStagedFileUploads={setStagedFileUploads}
+            {...rest}
           />
         </div>
       </Col>
-      <Col sm='7'>
+      <Col sm='12' md='7' lg='7' xl='9'>
         <div className='tab-content-card'>
           <TinyMCE
             item={item}
             content={activeItem['markdown']}
             handleEditorChange={handleMarkdownChange}
+            {...rest}
           />
           {/* <WysiwygEditor
             item={item}

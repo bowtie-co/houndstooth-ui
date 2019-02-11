@@ -16,6 +16,7 @@ import PhoneInput from './PhoneInput'
 import DatePicker from './DatePicker'
 import TimePicker from './TimePicker'
 import ImageUpload from './ImageUpload'
+import TextArea from './TextArea'
 
 // const buttonCondition = ({ type }) => type === 'button' || type === 'submit'
 
@@ -32,6 +33,7 @@ const datePickerCondition = ({ type }) => type === 'datepicker'
 const timePickerCondition = ({ type }) => type === 'timepicker'
 const imageUploadCondition = ({ type }) => type === 'image'
 const dateTimePickerCondition = ({ type, name }) => endsWith(name, ['_date', '_on', '_time', '_at']) || type === 'date' || type === 'time' || type === 'datetime'
+const textAreaCondition = ({ type, name }) => [ 'text', 'content', 'body' ].includes(name) || endsWith(name, ['_body', '_content']) || type === 'text' || type === 'textarea'
 
 export default compose(
   withEither(selectCondition, Select),
@@ -44,5 +46,6 @@ export default compose(
   withEither(phoneCondition, PhoneInput),
   withEither(datePickerCondition, DatePicker),
   withEither(timePickerCondition, TimePicker),
-  withEither(imageUploadCondition, ImageUpload)
+  withEither(imageUploadCondition, ImageUpload),
+  withEither(textAreaCondition, TextArea)
 )(Input)

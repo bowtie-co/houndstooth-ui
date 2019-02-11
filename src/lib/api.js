@@ -22,8 +22,9 @@ api.authorize({
 })
 
 const handleApiUnauthorized = (resp) => {
-  notifier.pubnub && notifier.pubnub.stop()
   storage.clear()
+  storage.set('resumeRoute', `${window.location.pathname}${window.location.search}`)
+  notifier.pubnub && notifier.pubnub.stop()
 
   if (window.location.pathname !== '/welcome') {
     window.location = '/welcome'
