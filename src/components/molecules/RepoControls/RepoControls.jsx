@@ -42,7 +42,9 @@ const RepoControls = (props) => {
           type !== 'collections' && stagedFiles.length > 0 &&
           <Button href={'commit'} className='btn-sm' color='primary' style={{ marginRight: '10px' }} disabled={!isCommitable}>Commit Changes <Badge color='danger'>{stagedFiles.length}</Badge></Button>
         }
-        <CollectionEditorButton {...rest} />
+        {
+          type !== 'users' && <CollectionEditorButton {...rest} />
+        }
       </Col>
       <div>
         <Icon iconName='sync-alt' size='sm' onClick={reloadReposAndBranches} />
