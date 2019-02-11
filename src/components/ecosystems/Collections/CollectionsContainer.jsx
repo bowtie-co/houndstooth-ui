@@ -80,7 +80,7 @@ export default compose(
         api.get(collectionsApiRoute)
           .then(({ data }) => {
             setItems(data['collection']['items'])
-            setDefaultFields({ fields: data['collection']['fields'] })
+            setDefaultFields({ fields: data['collection']['fields'], markdown: '' })
             setCollectionName(data['collection']['name'])
             setCollectionPath(data['collection']['path'])
             setCollectionLoading(false)
@@ -185,6 +185,7 @@ export default compose(
       const { item } = match.params
       const { sha } = activeItem
       const message = 'Delete file'
+      
       const route = `${collectionsApiRoute}/items/${item}?ref=${branch || 'master'}&message=${message}&sha=${sha}`
       api.delete(route)
         .then(resp => {
