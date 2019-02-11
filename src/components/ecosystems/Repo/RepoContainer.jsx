@@ -33,7 +33,7 @@ export const enhance = compose(
       const newFile = Object.assign({}, file, { content })
       const filePath = queryParams['path']
 
-      const shouldUpdateStaged = stagedFiles.some(file => file.name === filePath)
+      const shouldUpdateStaged = stagedFiles.some(file => file['path'] === filePath)
 
       const newState = shouldUpdateStaged
         ? stagedFiles.map(file => file.name === newFile.name ? newFile : file)
@@ -51,7 +51,7 @@ export const enhance = compose(
       Object.assign(queryParams, { ref: e.target.value })
       history.push(`${match['url']}?${qs.stringify(queryParams, { encode: false })}`)
     },
-    pushToGithub: ({ branch, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
+    pushToGithub: ({ branch, history, baseRoute, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
       const requestPath = `${baseApiRoute}/files/upsert?ref=${branch}`
       const body = {
         message,
@@ -62,9 +62,10 @@ export const enhance = compose(
         .then(response => {
           notifier.success('Files have been successfully committed to GitHub.')
           setRepoLoading(false)
+          setStagedFiles([])
+          history.push(baseRoute)
         })
-
-      setStagedFiles([])
+        .catch(notifier.bad.bind(notifier))
     },
     getBranchList: ({ setBranchList, baseApiRoute, setRepoLoading, match }) => () => {
       const storageKey = `${match.params['repo']}_branchList`
