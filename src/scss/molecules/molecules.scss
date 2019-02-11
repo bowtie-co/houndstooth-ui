@@ -67,6 +67,57 @@
     outline: 0 !important;
   }
 }
+.file-upload {
+  width: 100%;
+  max-width: 300px;
+  // background-color: #f7f7f7;
+  // background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Ctitle%3Ehoundstooth%3C/title%3E%3Cg fill='%23dedede' fill-opacity='0.35' fill-rule='evenodd'%3E%3Cpath d='M0 18h6l6-6v6h6l-6 6H0M24 18v6h-6M24 0l-6 6h-6l6-6M12 0v6L0 18v-6l6-6H0V0'/%3E%3C/g%3E%3C/svg%3E");
+  background-color: #f5f5f5;
+  background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Ctitle%3Ehoundstooth%3C/title%3E%3Cg fill='%23d7d6d5' fill-opacity='0.29' fill-rule='evenodd'%3E%3Cpath d='M0 18h6l6-6v6h6l-6 6H0M24 18v6h-6M24 0l-6 6h-6l6-6M12 0v6L0 18v-6l6-6H0V0'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+
+
+.inputfile{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  .file-upload{
+    // height:44px;
+    width:100%;
+    // border-radius: 22px;
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    border:1px solid #FFFFFF;
+    overflow:hidden;
+    background-image: linear-gradient(to bottom, #eee 50%, #FFFFFF 50%);
+    background-size: 100% 200%;
+    transition: all .25s;
+    color: #FFFFFF;
+    font-size:100px;
+    input[type='file']{
+      height:44px;
+      width:100%;
+      position:absolute;
+      top:0;
+      left:0;
+      opacity:0;
+      cursor:pointer;
+    }
+    .fa {
+      font-size: 1rem;
+    }
+    &:hover{
+      background-position: 0 -100%;
+      color:#ff3500;
+      border:1px solid #ff3500;
+    }
+  }
+}
 
 .file-select {
   background-color: rgba(150, 160, 180,.25);
