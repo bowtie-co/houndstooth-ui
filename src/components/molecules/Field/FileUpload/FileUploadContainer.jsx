@@ -1,30 +1,34 @@
 /* global FileReader encodeURI */
-import qs from 'qs'
 import FileUpload from './FileUpload'
 import { compose, withHandlers, withPropsOnChange, withState } from 'recompose'
 
 export default compose(
   withState('previewId', 'setPreviewId', ({ name }) => `upload_${name}_${Date.now()}`),
-  withPropsOnChange(['items', 'value'], ({ name, value, branch, match }) => {
-    const { username, repo } = match['params']
-    const baseRoute = `${username}/${repo}`
-    const queryParams = qs.parse(window.location.search)
-
+  withState('previewUrl', 'setPreviewUrl', '/loading.svg'),
+  withState('isLoadingFileUrl', 'setIsLoadingFileUrl', false),
+  withPropsOnChange(['value'], ({ value, getFileDownloadUrl, setIsLoadingFileUrl, setPreviewUrl }) => {
     if (value) {
-      // TODO: Ask Tim why this was here...
-      // const sanitizedVal = encodeURI(value)
-      const fileUrl = `https://raw.githubusercontent.com/${baseRoute}/${queryParams['ref'] || 'master'}/${value}`
-      return { fileUrl }
+      setIsLoadingFileUrl(true)
+
+      getFileDownloadUrl(value).then(fileUrl => {
+        console.log('got file download url', fileUrl)
+        setPreviewUrl(fileUrl)
+        setIsLoadingFileUrl(false)
+      }).catch(err => {
+        console.error('failed getting file download url!', err)
+        setIsLoadingFileUrl(false)
+      })
     }
   }),
   withHandlers({
-    imagePreview: ({ previewId }) => (file) => {
-      const reader = new FileReader()
-      reader.onload = () => {
-        var output = document.getElementById(previewId)
-        output.src = reader.result
+    imagePreview: ({ previewId, setPreviewUrl }) => (file) => {
+      if (typeof file === 'object') {
+        const reader = new FileReader()
+        reader.onload = () => {
+          setPreviewUrl(reader.result)
+        }
+        reader.readAsDataURL(file['file'])
       }
-      reader.readAsDataURL(file['file'])
     }
   }),
   withHandlers({
@@ -38,7 +42,8 @@ export default compose(
         ? stagedFileUploads.map(upload => upload['fieldKey'] === updatedFile['fieldKey'] ? updatedFile : upload)
         : [...stagedFileUploads, updatedFile]
 
-      onChange({ target: { value: filePath } })
+      // Add "/" prefix for filePath in form state, but not for path to upload file to github!
+      onChange({ target: { value: `/${filePath}` } })
       setStagedFileUploads(newState)
     }
   })

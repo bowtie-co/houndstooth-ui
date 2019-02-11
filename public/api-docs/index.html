@@ -60,7 +60,7 @@
     <script>
     window.onload = function() {
       const apiBaseUrl = localStorage.getItem('apiBaseUrl') || 'http://localhost:4000/dev/api/v1'
-      const specDefUrl = apiBaseUrl + 'spec.yml'
+      const specDefUrl = apiBaseUrl + 'spec.json'
 
       // Begin Swagger UI call region
       const ui = SwaggerUIBundle({
