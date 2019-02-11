@@ -8,7 +8,7 @@ import { api, notifier } from 'lib'
 // import showdown from 'showdown'
 
 export default compose(
-  withState('editorContent', 'setEditorContent', ({ content }) => content),
+  withState('editorContent', 'setEditorContent', ({ content = '' }) => content),
   withHandlers({
     onChange: ({ handleEditorChange, setEditorContent }) => (newContent) => {
       handleEditorChange(newContent)
@@ -37,7 +37,7 @@ export default compose(
       })
     }
   }),
-  withPropsOnChange(['content'], ({ content, setEditorContent }) => {
+  withPropsOnChange(['content'], ({ content = '', setEditorContent }) => {
     setEditorContent(content)
   })
 )(TinyMCE)

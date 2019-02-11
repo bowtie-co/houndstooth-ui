@@ -53,11 +53,6 @@ export const ItemForm = (props) => {
             handleEditorChange={handleMarkdownChange}
             {...rest}
           />
-          {/* <WysiwygEditor
-            item={item}
-            content={activeItem['markdown']}
-            handleEditorChange={handleMarkdownChange}
-          /> */}
         </div>
       </Col>
     </Row>
