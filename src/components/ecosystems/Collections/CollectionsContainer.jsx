@@ -80,12 +80,14 @@ export default compose(
         api.get(collectionsApiRoute)
           .then(({ data }) => {
             setItems(data['collection']['items'])
-            setDefaultFields({ fields: data['collection']['fields'] })
+            setDefaultFields({ fields: data['collection']['fields'], markdown: '' })
             setCollectionName(data['collection']['name'])
             setCollectionPath(data['collection']['path'])
             setCollectionLoading(false)
+            console.log('get items complete')
           })
           .catch((resp) => {
+            setItems([])
             setCollectionLoading(false)
             notifier.bad(resp)
           })
@@ -161,30 +163,33 @@ export default compose(
       const isNewItem = match['params']['item'] === 'new'
       const upsertItem = isNewItem ? createItem : editItem
 
-      createFileUpload().then(() => upsertItem(formData).then(({ data }) => {
-        if (items.length > 0 && items[0]['name'] === 'NEW FILE') {
-          items.shift()
-        }
+      createFileUpload()
+        .then(() => upsertItem(formData)
+          .then(({ data }) => {
+            if (items.length > 0 && items[0]['name'] === 'NEW FILE') {
+              items.shift()
+            }
 
-        getItems()
-        // getFileUploads()
-        setStagedFileUploads([])
-        setCollectionLoading(false)
+            getItems()
+            setStagedFileUploads([])
 
-        if (isNewItem) {
-          history.push(`/${collectionsRoute}/${data.data.content['name']}`)
-        }
-      })).then((resp) => {
-        notifier.success(`Item ${isNewItem ? 'created' : 'edited'}`)
-      }).catch((resp) => {
-        setCollectionLoading(false)
-        notifier.bad(resp)
-      })
+            if (isNewItem) {
+              history.push(`/${collectionsRoute}/${data.data.content['name']}`)
+            }
+          }))
+        .then((resp) => {
+          notifier.success(`Item ${isNewItem ? 'created' : 'edited'}`)
+        })
+        .catch((resp) => {
+          setCollectionLoading(false)
+          notifier.bad(resp)
+        })
     },
     deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems }) => () => {
       const { item } = match.params
       const { sha } = activeItem
       const message = 'Delete file'
+
       const route = `${collectionsApiRoute}/items/${item}?ref=${branch || 'master'}&message=${message}&sha=${sha}`
       api.delete(route)
         .then(resp => {
