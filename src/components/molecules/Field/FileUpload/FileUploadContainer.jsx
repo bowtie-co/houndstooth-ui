@@ -4,29 +4,38 @@ import { compose, withHandlers, withPropsOnChange, withState } from 'recompose'
 
 export default compose(
   withState('previewId', 'setPreviewId', ({ name }) => `upload_${name}_${Date.now()}`),
+  withState('previewUrl', 'setPreviewUrl', '/loading.svg'),
   withState('isLoadingFileUrl', 'setIsLoadingFileUrl', false),
-  withPropsOnChange(['items', 'value'], ({ value, buildUploadUrl }) => {
-    return {
-      fileUrl: value ? buildUploadUrl(value) : null
+  withPropsOnChange(['value'], ({ value, getFileDownloadUrl, setIsLoadingFileUrl, setPreviewUrl }) => {
+    if (value) {
+      setIsLoadingFileUrl(true)
+
+      getFileDownloadUrl(value).then(fileUrl => {
+        console.log('got file download url', fileUrl)
+        setPreviewUrl(fileUrl)
+        setIsLoadingFileUrl(false)
+      }).catch(err => {
+        console.error('failed getting file download url!', err)
+        setIsLoadingFileUrl(false)
+      })
     }
   }),
   withHandlers({
-    imagePreview: ({ previewId }) => (file) => {
-      const reader = new FileReader()
-      reader.onload = () => {
-        var output = document.getElementById(previewId)
-        output.src = reader.result
+    imagePreview: ({ previewId, setPreviewUrl }) => (file) => {
+      if (typeof file === 'object') {
+        const reader = new FileReader()
+        reader.onload = () => {
+          setPreviewUrl(reader.result)
+        }
+        reader.readAsDataURL(file['file'])
       }
-      reader.readAsDataURL(file['file'])
     }
   }),
   withHandlers({
     handleFileUpload: ({ onChange, name: fieldKey, setStagedFileUploads, stagedFileUploads, imagePreview }) => (file) => {
       imagePreview(file)
       const shouldUpdateStaged = stagedFileUploads.some(stagedFile => stagedFile['fieldKey'] === fieldKey)
-      // TODO: @timbrandle do we need the "Date.now()" in the filename? might work better not to ...
-      // const filePath = `upload/${file['type']}/${Date.now()}_${fieldKey}_${file['name']}`
-      const filePath = `upload/${file['type']}/${fieldKey}_${file['name']}`
+      const filePath = `upload/${file['type']}/${Date.now()}_${fieldKey}_${file['name']}`
       const updatedFile = Object.assign(file, { fieldKey, name: filePath })
 
       const newState = shouldUpdateStaged
@@ -38,32 +47,4 @@ export default compose(
       setStagedFileUploads(newState)
     }
   })
-  // withPropsOnChange([ 'fileUrl' ], ({ fileUrl, setIsLoadingFileUrl }) => {
-  //   setIsLoadingFileUrl(true)
-
-  //   const loadFileUrl = (attempt = 1) => {
-  //     console.log('load image from fileUrl:', fileUrl)
-
-  //     if (attempt >= 10) {
-  //       console.error('BAIL! Reached max attempts to reload image!')
-  //       return
-  //     }
-
-  //     fetch(fileUrl, { method: 'GET', mode: 'cors', cache: 'reload', headers: { 'Cache-Control': 'no-cahe' } }).then(resp => {
-  //       console.log('fetched image url', fileUrl)
-  //       console.log(resp)
-
-  //       if (resp.status < 400) {
-  //         setIsLoadingFileUrl(false)
-  //       } else {
-  //         console.warn('Received ', resp.status, 'for upload, keep trying ...')
-  //         setTimeout(() => loadFileUrl(attempt + 1), 5000)
-  //       }
-  //     }).catch(err => {
-  //       console.error('fetch error loading image', err)
-  //     })
-  //   }
-
-  //   loadFileUrl()
-  // })
 )(FileUpload)

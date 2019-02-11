@@ -14,7 +14,7 @@ export default compose(
       handleEditorChange(newContent)
       setEditorContent(newContent)
     },
-    onUpload: ({ baseApiRoute, buildUploadUrl }) => (blobInfo, success, failure) => {
+    onUpload: ({ baseApiRoute, getFileDownloadUrl }) => (blobInfo, success, failure) => {
       const file = {
         path: `upload/${blobInfo.filename()}`,
         content: blobInfo.base64(),
@@ -27,9 +27,10 @@ export default compose(
       }
 
       api.post(`${baseApiRoute}/files/upsert`, body).then(resp => {
-        const fileUrl = buildUploadUrl(file.path)
-        notifier.success(`Uploaded file: ${file.path}`)
-        success(fileUrl)
+        getFileDownloadUrl(file.path).then(fileUrl => {
+          notifier.success(`Uploaded file: ${file.path}`)
+          success(fileUrl)
+        })
       }).catch(err => {
         notifier.bad(err)
         failure(err)

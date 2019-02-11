@@ -1,8 +1,9 @@
 
+import qs from 'qs'
 import { compose, withStateHandlers, withPropsOnChange, withHandlers, lifecycle } from 'recompose'
 import { withEither, withMaybe } from '@bowtie/react-utils'
 import { Collections, EmptyState, EmptyItem } from './Collections'
-import { api, notifier, storage } from 'lib'
+import { api, notifier } from 'lib'
 import { Loading } from 'atoms'
 
 const nullConditionFn = ({ collections }) => !collections
@@ -27,17 +28,34 @@ export default compose(
     setStagedFileUploads: ({ stagedFileUploads }) => (payload) => ({ stagedFileUploads: payload })
   }),
   withHandlers({
-    buildUploadUrl: ({ config, baseRoute, queryParams }) => (filePath, useToken = false) => {
-      // const baseUrl = config.url || `https://raw.githubusercontent.com/${baseRoute}/${queryParams['ref'] || 'master'}`
-      const baseUrl = `https://raw.githubusercontent.com/${baseRoute}/${queryParams['ref'] || 'master'}`
+    getFileDownloadUrl: ({ baseApiRoute, queryParams }) => (path) => {
+      const defaultUrl = '/loading.svg'
 
-      let fileUrl = `${baseUrl}/${filePath}`
-
-      if (useToken) {
-        fileUrl += `?token=${storage.get('access_token')}`
+      if (!path || path.trim() === '') {
+        return Promise.resolve(defaultUrl)
       }
 
-      return fileUrl.replace(/\/+/g, '/')
+      const params = {
+        // Remove leading slash for github path reference
+        path: path.replace(/^\//, ''),
+        ref: queryParams['ref']
+      }
+
+      return new Promise(
+        (resolve, reject) => {
+          api.get(`${baseApiRoute}/files?${qs.stringify(params)}`).then(({ data }) => {
+            const { file } = data
+
+            console.log('looking up download url for path', path, file)
+
+            if (file && file['download_url']) {
+              resolve(file['download_url'])
+            } else {
+              resolve(defaultUrl)
+            }
+          }).catch(reject)
+        }
+      )
     },
     editFileName: ({ setActiveItem, activeItem }) => (e) => {
       const editedItem = Object.assign({}, activeItem, { name: e.target.value })
