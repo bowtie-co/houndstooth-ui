@@ -2,7 +2,11 @@
 import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
 import Repo from './Repo'
 import qs from 'qs'
+import { withEither } from '@bowtie/react-utils'
 import { api, notifier, storage } from 'lib'
+import { Loading } from 'atoms'
+
+const conditionLoadingFn = ({ isRepoLoading }) => isRepoLoading
 
 export const enhance = compose(
   withStateHandlers(({ queryParams }) => ({
@@ -63,7 +67,7 @@ export const enhance = compose(
           notifier.success('Files have been successfully committed to GitHub.')
           setRepoLoading(false)
           setStagedFiles([])
-          history.push(baseRoute)
+          history.push(`/${baseRoute}/dir`)
         })
         .catch(notifier.bad.bind(notifier))
     },
@@ -150,10 +154,11 @@ export const enhance = compose(
     if (stagedFile) {
       setFile(stagedFile)
     } else {
-      setRepoLoading(true)
+      // setRepoLoading(true)
       getDirList()
     }
-  })
+  }),
+  withEither(conditionLoadingFn, Loading)
 )
 
 export default enhance(Repo)
