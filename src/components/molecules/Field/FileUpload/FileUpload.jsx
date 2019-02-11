@@ -21,13 +21,13 @@ const FileUpload = (props) => {
       )}
 
       <br />
-      <div className="inputfile">
-        <div className="file-upload">
+      <div className='inputfile'>
+        <div className='file-upload'>
           <FileBase64
             multiple={false}
             onDone={handleFileUpload}
           />
-          <div className='btn btn-sm btn-upload'><i className="fa fa-arrow-up"></i> Choose File</div>
+          <div className='btn btn-sm btn-upload'><i className='fa fa-arrow-up' /> Choose File</div>
         </div>
       </div>
     </FormGroup>
