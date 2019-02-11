@@ -9,7 +9,7 @@ const TinyMCE = (props) => {
   return (
     <div className='wysiwyg-section'>
       <Editor
-        inline
+        // inline
         init={{
           height: '100%',
           plugins: 'link image code hr lists fullscreen media',
