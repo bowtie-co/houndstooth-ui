@@ -84,6 +84,7 @@ export default compose(
             setCollectionName(data['collection']['name'])
             setCollectionPath(data['collection']['path'])
             setCollectionLoading(false)
+            console.log('get items complete')
           })
           .catch((resp) => {
             setItems([])
@@ -170,9 +171,7 @@ export default compose(
             }
 
             getItems()
-            // getFileUploads()
             setStagedFileUploads([])
-            setCollectionLoading(false)
 
             if (isNewItem) {
               history.push(`/${collectionsRoute}/${data.data.content['name']}`)
