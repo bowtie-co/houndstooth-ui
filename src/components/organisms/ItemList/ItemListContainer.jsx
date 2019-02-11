@@ -21,7 +21,7 @@ export const enhance = compose(
       setActiveTab(tabName)
     },
     addNewItem: ({ history, baseRoute, match, itemsTabs, setItemTabs }) => () => {
-      if (itemsTabs[0]['name'] !== 'NEW FILE') {
+      if (itemsTabs.length === 0 || itemsTabs[0]['name'] !== 'NEW FILE') {
         const { collection } = match.params
         history.push(`/${baseRoute}/collections/${collection}/new`)
       }
@@ -30,12 +30,12 @@ export const enhance = compose(
       const newTabs = itemsTabs.filter(t => t['name'] !== tab['name'])
       setItemTabs(newTabs)
       const { collection } = match.params
-      history.push(`/${baseRoute}/collections/${collection}/${newTabs[0]['name']}`)
+      history.push(`/${baseRoute}/collections/${collection}/${newTabs.length > 0 ? newTabs[0]['name'] : ''}`)
     }
   }),
   withPropsOnChange(['match'], ({ match, setActiveTab, itemsTabs, setItemTabs }) => {
     if (match.params['item'] === 'new') {
-      if (itemsTabs[0] && itemsTabs[0]['name'] !== 'NEW FILE') {
+      if (itemsTabs.length === 0 || itemsTabs[0]['name'] !== 'NEW FILE') {
         setItemTabs([{ name: 'NEW FILE' }, ...itemsTabs])
       }
       setActiveTab('NEW FILE')
