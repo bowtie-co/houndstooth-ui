@@ -43,6 +43,10 @@ export const enhance = compose(
       setFile(newFile)
       setStagedFiles(newState)
     },
+    removeStagedFile: ({ stagedFiles, setStagedFiles }) => (path) => {
+      const newStagedFiles = [...stagedFiles].filter(file => file['path'] !== path)
+      setStagedFiles(newStagedFiles)
+    },
     changeBranch: ({ history, queryParams, match }) => (e) => {
       Object.assign(queryParams, { ref: e.target.value })
       history.push(`${match['url']}?${qs.stringify(queryParams, { encode: false })}`)

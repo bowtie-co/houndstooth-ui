@@ -4,16 +4,22 @@ import { Link } from 'react-router-dom'
 import {
   Col,
   Button,
-  Title
+  Title,
+  Icon
 } from 'atoms'
 
 const CommitChanges = (props) => {
-  const { stagedFiles, repo, message, setMessage, pushToGithub } = props
+  const { stagedFiles, repo, message, setMessage, pushToGithub, removeStagedFile } = props
   return (
     <Col className='commit-changes-section'>
       <Title>Files to commit for {repo}:</Title>
       {
-        stagedFiles.map(file => <Link to={`file?path=${file.path}`}>{file.name}</Link>)
+        stagedFiles.map(file => (
+          <div>
+            <Icon iconName={'window-close'} onClick={() => removeStagedFile(file['path'])} />
+            <Link to={`file?path=${file.path}`}>{file.name}</Link>
+          </div>
+        ))
       }
       <textarea
         onChange={(e) => setMessage(e.target.value)}
