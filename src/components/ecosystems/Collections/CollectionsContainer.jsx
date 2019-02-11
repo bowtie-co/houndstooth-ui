@@ -86,6 +86,7 @@ export default compose(
             setCollectionLoading(false)
           })
           .catch((resp) => {
+            setItems([])
             setCollectionLoading(false)
             notifier.bad(resp)
           })
@@ -161,25 +162,29 @@ export default compose(
       const isNewItem = match['params']['item'] === 'new'
       const upsertItem = isNewItem ? createItem : editItem
 
-      createFileUpload().then(() => upsertItem(formData).then(({ data }) => {
-        if (items.length > 0 && items[0]['name'] === 'NEW FILE') {
-          items.shift()
-        }
+      createFileUpload()
+        .then(() => upsertItem(formData)
+          .then(({ data }) => {
+            if (items.length > 0 && items[0]['name'] === 'NEW FILE') {
+              items.shift()
+            }
 
-        getItems()
-        // getFileUploads()
-        setStagedFileUploads([])
-        setCollectionLoading(false)
+            getItems()
+            // getFileUploads()
+            setStagedFileUploads([])
+            setCollectionLoading(false)
 
-        if (isNewItem) {
-          history.push(`/${collectionsRoute}/${data.data.content['name']}`)
-        }
-      })).then((resp) => {
-        notifier.success(`Item ${isNewItem ? 'created' : 'edited'}`)
-      }).catch((resp) => {
-        setCollectionLoading(false)
-        notifier.bad(resp)
-      })
+            if (isNewItem) {
+              history.push(`/${collectionsRoute}/${data.data.content['name']}`)
+            }
+          }))
+        .then((resp) => {
+          notifier.success(`Item ${isNewItem ? 'created' : 'edited'}`)
+        })
+        .catch((resp) => {
+          setCollectionLoading(false)
+          notifier.bad(resp)
+        })
     },
     deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems }) => () => {
       const { item } = match.params
