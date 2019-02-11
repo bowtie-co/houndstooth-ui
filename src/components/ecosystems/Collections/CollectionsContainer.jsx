@@ -185,7 +185,7 @@ export default compose(
       const { item } = match.params
       const { sha } = activeItem
       const message = 'Delete file'
-      
+
       const route = `${collectionsApiRoute}/items/${item}?ref=${branch || 'master'}&message=${message}&sha=${sha}`
       api.delete(route)
         .then(resp => {
