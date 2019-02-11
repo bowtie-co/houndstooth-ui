@@ -1,4 +1,3 @@
-/* global alert  */
 
 import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
 import Repo from './Repo'
@@ -40,7 +39,7 @@ export const enhance = compose(
         ? stagedFiles.map(file => file.name === newFile.name ? newFile : file)
         : [...stagedFiles, newFile]
 
-      alert('Your file has been successfully staged.')
+      notifier.success('Your file has been successfully staged.')
       setFile(newFile)
       setStagedFiles(newState)
     },
@@ -57,6 +56,7 @@ export const enhance = compose(
       setRepoLoading(true)
       api.post(requestPath, body)
         .then(response => {
+          notifier.success('Files have been successfully committed to GitHub.')
           setRepoLoading(false)
         })
 

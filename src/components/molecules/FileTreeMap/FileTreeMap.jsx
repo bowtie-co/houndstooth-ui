@@ -6,7 +6,7 @@ import {
 } from 'atoms'
 import DirectoryList from './DirectoryList'
 
-const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch }) => {
+const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch, stagedFiles }) => {
   const recursiveMap = (treeObj = {}, path, pointerArr = []) => {
     // construct an array from path, and shift off the last item in array, which is the current directory we are handling
     const pathArr = path.split('/')
@@ -50,6 +50,7 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
             branch={branch}
             fileIcons={fileIcons}
             queryParams={queryParams}
+            stagedFiles={stagedFiles}
           />
         </p>
       )
@@ -61,6 +62,7 @@ const FileTreeMap = ({ queryParams, tree, fileIcons, match, baseRoute, branch })
           branch={branch}
           fileIcons={fileIcons}
           queryParams={queryParams}
+          stagedFiles={stagedFiles}
         />
       )
     }

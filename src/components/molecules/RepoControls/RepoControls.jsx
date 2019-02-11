@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Badge } from 'reactstrap'
 import {
   Row,
   Button,
@@ -38,8 +39,8 @@ const RepoControls = (props) => {
       </Col>
       <Col className='justify-content-end flex align-items-center btn-group'>
         {
-          type !== 'collections' &&
-          <Button href={'commit'} className='btn-sm' color='primary' style={{ marginRight: '10px' }} disabled={!isCommitable}>Commit Changes</Button>
+          type !== 'collections' && stagedFiles.length > 0 &&
+          <Button href={'commit'} className='btn-sm' color='primary' style={{ marginRight: '10px' }} disabled={!isCommitable}>Commit Changes <Badge color='danger'>{stagedFiles.length}</Badge></Button>
         }
         <CollectionEditorButton {...rest} />
       </Col>
