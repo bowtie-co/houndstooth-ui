@@ -7,11 +7,11 @@ import { compose, withHandlers, withStateHandlers, withPropsOnChange } from 'rec
 
 export const enhance = compose(
   withRouter,
-  withStateHandlers(({ match, items }) => ({
-    items: items,
+  withStateHandlers(({ match, items = [] }) => ({
+    itemsTabs: items,
     activeTab: match.params['item']
   }), {
-    setItemTabs: () => (payload) => ({ items: payload }),
+    setItemTabs: () => (payload) => ({ itemsTabs: payload }),
     setActiveTab: () => (payload) => ({ activeTab: payload })
   }),
   withHandlers({
@@ -20,29 +20,34 @@ export const enhance = compose(
       onClick && onClick(name)
       setActiveTab(tabName)
     },
-    addNewItem: ({ history, baseRoute, match, items, setItemTabs }) => () => {
-      if (items[0]['name'] !== 'NEW FILE') {
+    addNewItem: ({ history, baseRoute, match, itemsTabs, setItemTabs }) => () => {
+      if (itemsTabs.length === 0 || itemsTabs[0]['name'] !== 'NEW FILE') {
         const { collection } = match.params
         history.push(`/${baseRoute}/collections/${collection}/new`)
       }
     },
-    closeTab: ({ baseRoute, items, history, setItemTabs, match }) => (tab) => {
-      const newTabs = items.filter(t => t['name'] !== tab['name'])
+    closeTab: ({ baseRoute, itemsTabs, history, setItemTabs, match }) => (tab) => {
+      const newTabs = itemsTabs.filter(t => t['name'] !== tab['name'])
       setItemTabs(newTabs)
       const { collection } = match.params
-      history.push(`/${baseRoute}/collections/${collection}/${newTabs[0]['name']}`)
+      history.push(`/${baseRoute}/collections/${collection}/${newTabs.length > 0 ? newTabs[0]['name'] : ''}`)
     }
   }),
-  withPropsOnChange(['match'], ({ match, setActiveTab, items, setItemTabs }) => {
+  withPropsOnChange(['match'], ({ match, setActiveTab, itemsTabs, setItemTabs }) => {
     if (match.params['item'] === 'new') {
-      if (items[0]['name'] !== 'NEW FILE') {
-        setItemTabs([{ name: 'NEW FILE' }, ...items])
+      if (itemsTabs.length === 0 || itemsTabs[0]['name'] !== 'NEW FILE') {
+        setItemTabs([{ name: 'NEW FILE' }, ...itemsTabs])
       }
       setActiveTab('NEW FILE')
     } else {
       setActiveTab(match.params['item'])
     }
-  })
+  }),
+  withPropsOnChange(
+    ({ items, match }, { items: nextItems, match: nextMatch }) => items.length !== nextItems.length || match.params['collection'] !== nextMatch.params['collection'],
+    ({ items, setItemTabs }) => {
+      setItemTabs([...items])
+    })
 )
 
 export default enhance(ItemList)

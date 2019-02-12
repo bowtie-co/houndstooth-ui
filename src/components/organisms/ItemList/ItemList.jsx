@@ -7,7 +7,7 @@ import {
 } from 'atoms'
 import { TabContent, Nav, NavItem, NavLink } from 'reactstrap'
 
-const ItemList = ({ items = [], activeTab, handleClick, children, vertical = false, closeTab, addNewItem, ...rest }) => {
+const ItemList = ({ itemsTabs = [], activeTab, handleClick, children, vertical = false, closeTab, addNewItem, ...rest }) => {
   return (
     <section>
       <div className='pointer addFile' onClick={addNewItem}>
@@ -17,7 +17,7 @@ const ItemList = ({ items = [], activeTab, handleClick, children, vertical = fal
         <Row>
           <Col sm='3' md='2' lg='2' xl='1' className='tabs-vertical'>
             {
-              items.map((item, i) => {
+              itemsTabs.map((item, i) => {
                 return (
                   <NavItem key={i} className={classnames({ active: activeTab === item.name })}>
                     {
