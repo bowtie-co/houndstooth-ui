@@ -86,7 +86,7 @@
   align-items:center;
   justify-content:center;
   .file-upload{
-    // height:44px;
+    height:100%;
     width:100%;
     // border-radius: 22px;
     position:relative;
@@ -100,6 +100,7 @@
     transition: all .25s;
     color: #FFFFFF;
     font-size:100px;
+    cursor: pointer;
     input[type='file']{
       height:44px;
       width:100%;
@@ -116,6 +117,13 @@
       background-position: 0 -100%;
       color:#ff3500;
       border:1px solid #ff3500;
+      cursor: pointer;
+    }
+    .btn-upload {
+      width: 100%;
+      height: 100%;
+      line-height: 1.75;
+      z-index: 2;
     }
   }
 }
