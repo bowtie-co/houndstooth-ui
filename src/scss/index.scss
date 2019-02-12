@@ -116,7 +116,9 @@
 	min-height:400px;
   max-height: unset;
 }
-
+.no-staged, .staged, .commit-message {
+  margin: 1em 0;
+}
 .badge.badge-danger {
   border-radius: 50%;
 }

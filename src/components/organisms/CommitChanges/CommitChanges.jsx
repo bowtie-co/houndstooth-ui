@@ -11,7 +11,7 @@ import {
 const CommitChanges = (props) => {
   const { stagedFiles, repo, message, setMessage, pushToGithub, removeStagedFile } = props
   return (
-    <Col className='commit-changes-section'>
+    <Col className='commit-changes-section staged'>
       <Title>Files to commit for {repo}:</Title>
       {
         stagedFiles.map(file => (

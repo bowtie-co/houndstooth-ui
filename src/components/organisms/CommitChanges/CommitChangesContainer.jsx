@@ -6,7 +6,7 @@ import { Title } from 'atoms'
 import CommitChanges from './CommitChanges'
 
 const emptyStateConditionFn = ({ stagedFiles }) => stagedFiles.length === 0
-const noStagedFiles = ({ repo }) => <Title>You have no staged files for {repo}.</Title>
+const noStagedFiles = ({ repo }) => <div className='no-staged'><Title>You have no staged files for {repo}.</Title></div>
 
 export default compose(
   withEither(emptyStateConditionFn, noStagedFiles),
