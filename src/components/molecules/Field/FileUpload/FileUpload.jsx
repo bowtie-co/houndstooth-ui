@@ -15,16 +15,21 @@ const FileUpload = (props) => {
         <img
           src={previewUrl}
           alt={name}
-          style={{ maxWidth: '300px', display: `${value ? 'block' : 'none'}` }}
+          style={{ display: `${value ? 'block' : 'none'}` }}
+          className='file-upload'
         />
       )}
 
       <br />
-
-      <FileBase64
-        multiple={false}
-        onDone={handleFileUpload}
-      />
+      <div className='inputfile'>
+        <div className='file-upload'>
+          <FileBase64
+            multiple={false}
+            onDone={handleFileUpload}
+          />
+          <div className='btn btn-sm btn-upload'><i className='fa fa-arrow-up' /> Choose File</div>
+        </div>
+      </div>
     </FormGroup>
   )
 }
