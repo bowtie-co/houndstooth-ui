@@ -4,7 +4,7 @@ import { titleize } from '@bowtie/utils'
 import { FormGroup } from 'atoms'
 
 const FileUpload = (props) => {
-  const { name, value, handleFileUpload, previewUrl } = props
+  const { name, value, handleFileUpload, previewUrl, deleteImage } = props
 
   return (
     <FormGroup>
