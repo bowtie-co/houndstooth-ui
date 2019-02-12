@@ -56,20 +56,24 @@ export const enhance = compose(
       history.push(`${match['url']}?${qs.stringify(queryParams, { encode: false })}`)
     },
     pushToGithub: ({ branch, history, baseRoute, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
-      const requestPath = `${baseApiRoute}/files/upsert?ref=${branch}`
-      const body = {
-        message,
-        files: stagedFiles.map(file => ({ path: file.path, content: file.content, encoding: file.encoding }))
+      if (message) {
+        const requestPath = `${baseApiRoute}/files/upsert?ref=${branch}`
+        const body = {
+          message,
+          files: stagedFiles.map(file => ({ path: file.path, content: file.content, encoding: file.encoding }))
+        }
+        setRepoLoading(true)
+        api.post(requestPath, body)
+          .then(response => {
+            notifier.success('Files have been successfully committed to GitHub.')
+            setRepoLoading(false)
+            setStagedFiles([])
+            history.push(`/${baseRoute}/dir`)
+          })
+          .catch(notifier.bad.bind(notifier))
+      } else {
+        notifier.msg('Please add a commit message.', 'error')
       }
-      setRepoLoading(true)
-      api.post(requestPath, body)
-        .then(response => {
-          notifier.success('Files have been successfully committed to GitHub.')
-          setRepoLoading(false)
-          setStagedFiles([])
-          history.push(`/${baseRoute}/dir`)
-        })
-        .catch(notifier.bad.bind(notifier))
     },
     getBranchList: ({ setBranchList, baseApiRoute, setRepoLoading, match }) => () => {
       const storageKey = `${match.params['repo']}_branchList`
