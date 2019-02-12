@@ -16,7 +16,7 @@ import {
 } from '..'
 
 const Repo = (props) => {
-  const { match, stagedFiles, pushToGithub, collections } = props
+  const { match, stagedFiles, pushToGithub, collections, removeStagedFile } = props
   const { username } = match.params
   return (
     <Row style={{ 'width': '100%' }}>
@@ -35,7 +35,7 @@ const Repo = (props) => {
           />
           <PrivateRoute
             exact
-            props={{ stagedFiles, pushToGithub, repo: match.params['repo'] }}
+            props={{ stagedFiles, pushToGithub, repo: match.params['repo'], removeStagedFile }}
             path={`/:username/:repo/commit`} // Use type or action path param?
             component={CommitChanges}
           />
