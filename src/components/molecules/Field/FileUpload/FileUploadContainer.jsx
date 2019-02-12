@@ -31,7 +31,7 @@ export default compose(
       }
     },
     deleteImage: ({ onChange, name }) => () => {
-      onChange({ target: { name, value: null }})
+      onChange({ target: { name, value: null } })
     }
   }),
   withHandlers({
