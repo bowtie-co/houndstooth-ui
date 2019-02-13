@@ -100,7 +100,6 @@ export default compose(
             setCollectionName(data['collection']['name'])
             setCollectionPath(data['collection']['path'])
             setCollectionLoading(false)
-            console.log('get items complete')
           })
           .catch((resp) => {
             setItems([])
@@ -111,16 +110,19 @@ export default compose(
     },
     editItem: ({ collectionsApiRoute, branch, activeItem, match }) => (formData) => {
       const { item } = match.params
-      // console.log('editing active item', activeItem, item)
       const message = `[HT] Edited item: ${activeItem.path}`
       const route = `${collectionsApiRoute}/items/${item}?ref=${branch || 'master'}&sha=${activeItem['sha']}&message=${message}`
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       return api.put(route, updatedItem)
     },
     createItem: ({ collectionsApiRoute, branch, match, activeItem }) => (formData) => {
-      if (activeItem['name'].split('.').length <= 1) {
+
+      
+
+      if (activeItem['name'] && activeItem['name'].split('.').length <= 1) {
         activeItem['name'] = `${activeItem['name']}.md`
       }
+      
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       const message = `[HT] Created item: ${activeItem.name}`
       const route = `${collectionsApiRoute}/items?ref=${branch || 'master'}&message=${message}`
@@ -190,6 +192,7 @@ export default compose(
       createFileUpload()
         .then(() => upsertItem(formData)
           .then(({ data }) => {
+            console.log('item resolve from upsert');
             if (items.length > 0 && items[0]['name'] === 'NEW FILE') {
               items.shift()
             }
