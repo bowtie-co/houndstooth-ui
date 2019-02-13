@@ -29,6 +29,9 @@ export default compose(
         }
         reader.readAsDataURL(file['file'])
       }
+    },
+    deleteImage: ({ onChange, name }) => () => {
+      onChange({ target: { name, value: null } })
     }
   }),
   withHandlers({
