@@ -14,10 +14,13 @@ import {
 
 const RepoControls = (props) => {
   const { branch, changeBranch, isCommitable, asyncLoadModel, stagedFiles, match, branchList, reloadReposAndBranches, ...rest } = props
-  const { type } = match.params
+  const { type, repo } = match.params
   return (
     <Row className='space-between file-tree-navigation'>
       {/* <BackButton> back </BackButton> */}
+      <Col sm={12}>
+        <h2>{repo}</h2>
+      </Col>
       <Col>
         <div className='flex-row align-center'>
           <div className='bold' style={{ marginRight: '10px' }}>
