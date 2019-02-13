@@ -21,6 +21,7 @@ const FileUpload = (props) => {
           <img
             src={previewUrl}
             alt={name}
+            onError={(e) => { e.target.src = '/loading.svg' }}
             style={{ display: `${value ? 'block' : 'none'}` }}
             className='file-upload'
           />
