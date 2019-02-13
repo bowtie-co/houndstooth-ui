@@ -116,13 +116,10 @@ export default compose(
       return api.put(route, updatedItem)
     },
     createItem: ({ collectionsApiRoute, branch, match, activeItem }) => (formData) => {
-
-      
-
       if (activeItem['name'] && activeItem['name'].split('.').length <= 1) {
         activeItem['name'] = `${activeItem['name']}.md`
       }
-      
+
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       const message = `[HT] Created item: ${activeItem.name}`
       const route = `${collectionsApiRoute}/items?ref=${branch || 'master'}&message=${message}`
@@ -192,7 +189,7 @@ export default compose(
       createFileUpload()
         .then(() => upsertItem(formData)
           .then(({ data }) => {
-            console.log('item resolve from upsert');
+            console.log('item resolve from upsert')
             if (items.length > 0 && items[0]['name'] === 'NEW FILE') {
               items.shift()
             }
