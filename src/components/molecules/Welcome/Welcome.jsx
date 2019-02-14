@@ -1,14 +1,15 @@
 import React from 'react'
 import {
-  BowtieLogo,
-  HoundstoothLogo,
-  // Subtitle,
   Row,
   Col,
   Button,
   Icon,
   ExtLink
 } from 'atoms'
+import {
+  BowtieLogo,
+  HoundstoothLogo
+} from 'molecules'
 
 const Welcome = () => {
   return (

@@ -71,6 +71,10 @@
   justify-content: flex-start;
 }
 
+.break-word {
+  word-break: break-word;
+}
+
 .truncate {
   white-space: nowrap;
   overflow: hidden;
@@ -104,4 +108,17 @@
 
 .bold {
   font-weight: bold;
+}
+
+.ace_editor.file-editor {
+  height: 100%;
+	//height: calc(100% - 100px)!important;
+	min-height:400px;
+  max-height: unset;
+}
+.no-staged, .staged, .commit-message {
+  margin: 1em 0;
+}
+.badge.badge-danger {
+  border-radius: 50%;
 }

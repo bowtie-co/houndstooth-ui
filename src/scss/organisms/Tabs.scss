@@ -7,11 +7,13 @@
       z-index: 1;
       .nav-item {
         background-color: #f0f0f0;
-        color: #c5c5c5;
+        color: #a5a5a5;
         border: 1px #c5c5c5 solid;
         display: flex;
         justify-content: flex-start;
         padding-left: 10px;
+        word-break: break-word;
+        font-size: .9em;
         &.active{
           border-left: 3px #ff3500 solid;
           border-right: none;
@@ -40,9 +42,9 @@
     box-shadow:  2px 5px 14px -4px rgba(0, 0, 0, 0.50);
     border: 1px #c5c5c5 solid;
     padding: 16px;
-    // margin-left: -2px;
-    // margin-right: 22px;
+    height: 100%;
     min-height: 420px;
+    margin-left: -16.3px;
     &.empty {
       border: none;
       box-shadow: none;

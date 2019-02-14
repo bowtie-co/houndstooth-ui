@@ -8,9 +8,11 @@ import {
   Logout,
   Nav,
   Icon,
-  ExtLink,
-  HoundstoothLogo
+  ExtLink
 } from 'atoms'
+import {
+  HoundstoothLogo
+} from 'molecules'
 
 const Header = (props) => {
   return (

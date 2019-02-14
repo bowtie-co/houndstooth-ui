@@ -1,4 +1,5 @@
 import React from 'react'
+import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import {
   Tooltip
@@ -18,7 +19,7 @@ const Icon = ({ className, size = 'xs', fill = true, iconName, color, id, toolti
 
   const faClass = className || `fa${fill ? 's' : 'r'} fa-${iconName}`
   return (
-    <div className='fa-icon-sm pointer' {...rest}>
+    <div className={classnames({ 'cursor-pointer': rest['onClick'] }, 'fa-icon-sm')} {...rest}>
       <i className={`${faClass} fa-${sizes[size]}`} style={{ 'color': color }} id={tooltipId} />
       {
         tooltip &&

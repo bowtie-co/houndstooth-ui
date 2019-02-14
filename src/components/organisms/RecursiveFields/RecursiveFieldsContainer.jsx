@@ -29,7 +29,6 @@ export default compose(
     }
   }),
   withPropsOnChange(['fields'], ({ setFormData, fields }) => {
-    console.log('inside props on change', fields)
     setFormData(fields)
   })
 )(RecursiveFields)

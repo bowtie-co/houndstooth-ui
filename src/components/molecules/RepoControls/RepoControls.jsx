@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Badge } from 'reactstrap'
 import {
   Row,
   Button,
@@ -13,11 +14,13 @@ import {
 
 const RepoControls = (props) => {
   const { branch, changeBranch, isCommitable, asyncLoadModel, stagedFiles, match, branchList, reloadReposAndBranches, ...rest } = props
-  const { type } = match.params
-  console.log('REPO NAV props', props)
+  const { type, repo } = match.params
   return (
     <Row className='space-between file-tree-navigation'>
       {/* <BackButton> back </BackButton> */}
+      <Col sm={12}>
+        <h2>{repo}</h2>
+      </Col>
       <Col>
         <div className='flex-row align-center'>
           <div className='bold' style={{ marginRight: '10px' }}>
@@ -39,10 +42,12 @@ const RepoControls = (props) => {
       </Col>
       <Col className='justify-content-end flex align-items-center btn-group'>
         {
-          type !== 'collections' &&
-          <Button href={'commit'} className='btn-sm' color='primary' style={{ marginRight: '10px' }} disabled={!isCommitable}>Commit Changes</Button>
+          type !== 'collections' && stagedFiles.length > 0 &&
+          <Button href={'commit'} className='btn-sm' color='primary' style={{ marginRight: '10px' }} disabled={!isCommitable}>Commit Changes <Badge color='danger'>{stagedFiles.length}</Badge></Button>
         }
-        <CollectionEditorButton {...rest} />
+        {
+          type !== 'users' && <CollectionEditorButton {...rest} />
+        }
       </Col>
       <div>
         <Icon iconName='sync-alt' size='sm' onClick={reloadReposAndBranches} />

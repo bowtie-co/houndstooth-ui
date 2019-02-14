@@ -12,43 +12,48 @@ import {
 
 import {
   RecursiveFields,
-  WysiwygEditor
+  TinyMCE
 } from '..'
 
 export const ItemForm = (props) => {
-  const { activeItem, handleFormSubmit, editFileName, deleteItem, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads } = props
+  const { activeItem, handleFormSubmit, editFileName, deleteItem, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads, ...rest } = props
   const { item } = match.params
-  console.log('Item form props: ', activeItem.fields)
   return (
     <Row>
-      <Col sm='5' className='tab-content-card'>
-        {
-          item === 'new'
-            ? <FieldContainer
-              type='text'
-              label={'File name'}
-              name={'file_name'}
-              onChange={editFileName}
-              value={activeItem['name']}
-            />
-            : <Title title={item} />
-        }
-        <RecursiveFields
-          fields={activeItem['fields']}
-          match={match}
-          onSubmit={handleFormSubmit}
-          deleteItem={deleteItem}
-          fileUploads={fileUploads}
-          stagedFileUploads={stagedFileUploads}
-          setStagedFileUploads={setStagedFileUploads}
-        />
+      <Col sm='12' md='5' lg='5' xl='3'>
+        <div className='tab-content-card'>
+          {
+            item === 'new'
+              ? <FieldContainer
+                type='text'
+                label={'File name'}
+                name={'file_name'}
+                onChange={editFileName}
+                value={activeItem['name']}
+              />
+              : <Title title={item} className='break-word' />
+          }
+          <RecursiveFields
+            fields={activeItem['fields']}
+            match={match}
+            onSubmit={handleFormSubmit}
+            deleteItem={deleteItem}
+            fileUploads={fileUploads}
+            stagedFileUploads={stagedFileUploads}
+            setStagedFileUploads={setStagedFileUploads}
+            {...rest}
+          />
+        </div>
       </Col>
-      <Col sm='7' className='tab-content-card'>
-        <WysiwygEditor
-          item={item}
-          content={activeItem['markdown']}
-          handleEditorChange={handleMarkdownChange}
-        />
+      <Col sm='12' md='7' lg='7' xl='9'>
+        <div className='tab-content-card'>
+          <TinyMCE
+            item={item}
+            content={activeItem['markdown']}
+            handleEditorChange={handleMarkdownChange}
+            {...rest}
+          />
+        </div>
       </Col>
     </Row>
 

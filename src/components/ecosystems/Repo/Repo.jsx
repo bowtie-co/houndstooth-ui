@@ -11,15 +11,16 @@ import { RepoControls } from 'molecules'
 import { CommitChanges } from 'organisms'
 import {
   FileTree,
-  Collections
+  Collections,
+  Users
 } from '..'
 
 const Repo = (props) => {
-  const { match, stagedFiles, pushToGithub, collections } = props
+  const { match, stagedFiles, pushToGithub, collections, removeStagedFile } = props
   const { username } = match.params
   return (
     <Row style={{ 'width': '100%' }}>
-      <Col style={{ 'padding': '24px' }}>
+      <Col style={{ 'padding': '20px 0 20px 20px' }}>
         <RepoControls
           isCommitable={stagedFiles.length > 0}
           isCollectionable={collections && collections.length > 0}
@@ -28,7 +29,13 @@ const Repo = (props) => {
         <Switch>
           <PrivateRoute
             exact
-            props={{ stagedFiles, pushToGithub, repo: match.params['repo'] }}
+            props={props}
+            path={`/:username/:repo/users`}
+            component={Users}
+          />
+          <PrivateRoute
+            exact
+            props={{ stagedFiles, pushToGithub, repo: match.params['repo'], removeStagedFile }}
             path={`/:username/:repo/commit`} // Use type or action path param?
             component={CommitChanges}
           />

@@ -12,6 +12,8 @@ import ItemForm from './ItemForm'
 import RecursiveFields from './RecursiveFields'
 import SideMenu from './SideMenu'
 import WysiwygEditor from './WysiwygEditor'
+import Table from './Table'
+import TinyMCE from './TinyMCE'
 
 export {
   Header,
@@ -26,5 +28,7 @@ export {
   ItemForm,
   RecursiveFields,
   WysiwygEditor,
+  Table,
+  TinyMCE,
   SideMenu
 }

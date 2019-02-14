@@ -31,13 +31,17 @@ export const enhance = compose(
     setRepo: ({ repo }) => (payload) => ({ repo: payload }),
     setPages: ({ pages }) => (payload) => ({ pages: payload }),
     setPageNumber: ({ pageNumber }) => (payload = {}) => {
-      const { next, prev } = payload
-      if (next) {
-        return { pageNumber: parseInt(next['page'], 10) - 1 }
-      } else if (prev) {
-        return { pageNumber: parseInt(prev['page'], 10) + 1 }
+      if (payload !== null) {
+        const { next, prev } = payload
+        if (next) {
+          return { pageNumber: parseInt(next['page']) - 1 }
+        } else if (prev) {
+          return { pageNumber: parseInt(prev['page']) + 1 }
+        } else {
+          return { pageNumber: parseInt(payload) }
+        }
       } else {
-        return { pageNumber: parseInt(payload, 10) }
+        return { pageNumber: 1 }
       }
     },
     setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
@@ -84,15 +88,15 @@ export const enhance = compose(
       setPageNumber(cachedRepoList['pages'])
     }
   }),
-  withPropsOnChange(['match'], ({ match, setCollections, setOrgList }) => {
-    const { repo } = match.params
-    !repo && setCollections(null)
-    api.get(`orgs?per_page=100`)
-      .then(({ data }) => {
-        setOrgList(data.orgs)
-      })
-      .catch(notifier.bad.bind(notifier))
-  }),
+  // withPropsOnChange(['match'], ({ match, setCollections, setOrgList }) => {
+  //   const { repo } = match.params
+  //   !repo && setCollections(null)
+  //   api.get(`orgs?per_page=100`)
+  //     .then(({ data }) => {
+  //       setOrgList(data.orgs)
+  //     })
+  //     .catch(notifier.bad.bind(notifier))
+  // }),
   withEither(loadingConditionFn, Loading)
 )
 

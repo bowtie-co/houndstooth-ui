@@ -1,4 +1,5 @@
 
+import qs from 'qs'
 import { compose, withStateHandlers, withPropsOnChange, withHandlers, lifecycle } from 'recompose'
 import { withEither, withMaybe } from '@bowtie/react-utils'
 import { Collections, EmptyState, EmptyItem } from './Collections'
@@ -27,14 +28,43 @@ export default compose(
     setStagedFileUploads: ({ stagedFileUploads }) => (payload) => ({ stagedFileUploads: payload })
   }),
   withHandlers({
+    getFileDownloadUrl: ({ baseApiRoute, queryParams }) => (path) => {
+      const defaultUrl = '/loading.svg'
+
+      if (!path || path.trim() === '') {
+        return Promise.resolve(defaultUrl)
+      }
+
+      const params = {
+        // Remove leading slash for github path reference
+        path: path.replace(/^\//, ''),
+        ref: queryParams['ref']
+      }
+
+      return new Promise(
+        (resolve, reject) => {
+          api.get(`${baseApiRoute}/files?${qs.stringify(params)}`).then(({ data }) => {
+            const { file } = data
+
+            console.log('looking up download url for path', path, file)
+
+            if (file && file['download_url']) {
+              resolve(file['download_url'])
+            } else {
+              resolve(defaultUrl)
+            }
+          }).catch(reject)
+        }
+      )
+    },
     editFileName: ({ setActiveItem, activeItem }) => (e) => {
       const editedItem = Object.assign({}, activeItem, { name: e.target.value })
       setActiveItem(editedItem)
     },
-    selectItem: ({ history, baseRoute, match }) => (itemName) => {
+    selectItem: ({ history, baseRoute, match, branch }) => (itemName) => {
       if (itemName) {
         const { collection } = match.params
-        history.push(`/${baseRoute}/collections/${collection || ''}/${itemName}`)
+        history.push(`/${baseRoute}/collections/${collection || ''}/${itemName}?path=_${collection}/${itemName}&ref=${branch}`)
       }
     },
     getFileUploads: ({ match, setFileUploads, branch }) => () => {
@@ -43,18 +73,21 @@ export default compose(
       //   .then(({ data: fileUploads }) => setFileUploads(fileUploads))
       //   .catch(notifier.bad.bind(notifier))
     },
-    getItems: ({ collectionsApiRoute, match, setItems, setDefaultFields, setCollectionLoading }) => () => {
+    getItems: ({ collectionsApiRoute, match, setItems, setDefaultFields, setCollectionLoading, setCollectionName, setCollectionPath }) => () => {
       const { collection } = match.params
       if (collection) {
         setCollectionLoading(true)
         api.get(collectionsApiRoute)
           .then(({ data }) => {
-            console.log('data in collections: ', data)
             setItems(data['collection']['items'])
-            setDefaultFields({ fields: data['collection']['fields'] })
+            setDefaultFields({ fields: data['collection']['fields'], markdown: '' })
+            setCollectionName(data['collection']['name'])
+            setCollectionPath(data['collection']['path'])
             setCollectionLoading(false)
+            console.log('get items complete')
           })
           .catch((resp) => {
+            setItems([])
             setCollectionLoading(false)
             notifier.bad(resp)
           })
@@ -62,34 +95,41 @@ export default compose(
     },
     editItem: ({ collectionsApiRoute, branch, activeItem, match }) => (formData) => {
       const { item } = match.params
-      const message = 'Edit file'
+      // console.log('editing active item', activeItem, item)
+      const message = `[HT] Edited item: ${activeItem.path}`
       const route = `${collectionsApiRoute}/items/${item}?ref=${branch || 'master'}&sha=${activeItem['sha']}&message=${message}`
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       return api.put(route, updatedItem)
     },
     createItem: ({ collectionsApiRoute, branch, match, activeItem }) => (formData) => {
+      if (activeItem['name'].split('.').length <= 1) {
+        activeItem['name'] = `${activeItem['name']}.md`
+      }
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
-      const message = 'Create file'
+      const message = `[HT] Created item: ${activeItem.name}`
       const route = `${collectionsApiRoute}/items?ref=${branch || 'master'}&message=${message}`
-      console.log('updated item: ', updatedItem)
-      console.log('route: ', route)
       return api.post(route, updatedItem)
     },
-    createFileUpload: ({ stagedFileUploads, baseApiRoute }) => () => {
-      const newFiles = stagedFileUploads.map(file => {
-        const updatedFile = {
-          path: file.name,
-          content: file.base64.split('base64,')[1],
-          encoding: 'base64'
-        }
-        return updatedFile
-      })
+    createFileUpload: ({ stagedFileUploads, baseApiRoute, getFileUploads, setStagedFileUploads, setCollectionLoading }) => () => {
+      if (stagedFileUploads.length > 0) {
+        const newFiles = stagedFileUploads.map(file => {
+          const updatedFile = {
+            path: file.name,
+            content: file.base64.split('base64,')[1],
+            encoding: 'base64'
+          }
+          return updatedFile
+        })
 
-      const body = {
-        files: newFiles,
-        message: 'File Upload'
+        const body = {
+          files: newFiles,
+          message: `[HT] Uploaded ${newFiles.length} file(s)`
+        }
+
+        return api.post(`${baseApiRoute}/files/upsert`, body)
+      } else {
+        return Promise.resolve()
       }
-      return api.post(`${baseApiRoute}/files/upsert`, body)
     },
     handleMarkdownChange: ({ activeItem, setActiveItem }) => (content) => {
       const updated = Object.assign({}, activeItem, { markdown: content })
@@ -107,56 +147,38 @@ export default compose(
     if (match['params']['item'] === 'new') {
       setActiveItem(defaultFields)
     } else {
-      console.log('finding item', match['params']['item'], items)
       const currentItem = items.find(i => i.name === match['params']['item'])
 
       if (currentItem) {
         setActiveItem(currentItem)
       } else {
         setActiveItem({})
-        console.log(`Unable to load item: ${match['params']['item']}`)
       }
     }
   }),
   withHandlers({
-    handleFormSubmit: ({ collectionsApiRoute, items, createItem, history, editItem, createFileUpload, getItems, getFileUploads, match, setCollectionLoading, setStagedFileUploads }) => (formData) => {
+    handleFormSubmit: ({ collectionsRoute, items, createItem, history, editItem, createFileUpload, getItems, getFileUploads, match, setCollectionLoading, setStagedFileUploads }) => (formData) => {
       setCollectionLoading(true)
-      if (match['params']['item'] === 'new') {
-        createItem(formData)
-          .then(resp => {
-            notifier.success('Item created successfully!')
-          })
+
+      const isNewItem = match['params']['item'] === 'new'
+      const upsertItem = isNewItem ? createItem : editItem
+
+      createFileUpload()
+        .then(() => upsertItem(formData)
           .then(({ data }) => {
-            if (items[0]['name'] === 'NEW FILE') {
+            if (items.length > 0 && items[0]['name'] === 'NEW FILE') {
               items.shift()
             }
-            getItems()
-            history.push(`${collectionsApiRoute}/${data.data.content['name']}`)
-          })
-          .catch((resp) => {
-            setCollectionLoading(false)
-            notifier.bad(resp)
-          })
-      } else {
-        editItem(formData)
-          .then(resp => {
-            notifier.success('Item updated successfully!')
-          })
-          .then(() => getItems())
-          .catch((resp) => {
-            setCollectionLoading(false)
-            notifier.bad(resp)
-          })
-      }
 
-      // TODO: Improve order of executing upload route & item create to ensure both work?
-      createFileUpload()
-        .then(resp => {
-          notifier.success('File upload successful!')
-        })
-        .then(() => {
-          getFileUploads()
-          setStagedFileUploads([])
+            getItems()
+            setStagedFileUploads([])
+
+            if (isNewItem) {
+              history.push(`/${collectionsRoute}/${data.data.content['name']}`)
+            }
+          }))
+        .then((resp) => {
+          notifier.success(`Item ${isNewItem ? 'created' : 'edited'}`)
         })
         .catch((resp) => {
           setCollectionLoading(false)
@@ -167,8 +189,8 @@ export default compose(
       const { item } = match.params
       const { sha } = activeItem
       const message = 'Delete file'
+
       const route = `${collectionsApiRoute}/items/${item}?ref=${branch || 'master'}&message=${message}&sha=${sha}`
-      console.log('route: ', route)
       api.delete(route)
         .then(resp => {
           getItems()
