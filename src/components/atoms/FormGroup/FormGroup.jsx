@@ -13,7 +13,7 @@ const FormGroup = ({ id, label, title, errorMessage, helper, children, floatLabe
         { children }
       </Label>
       <FormText>
-        {errorMessage}
+        <span style={{ color: 'red' }}>{errorMessage}</span>
       </FormText>
     </FormGroupRS>
   )

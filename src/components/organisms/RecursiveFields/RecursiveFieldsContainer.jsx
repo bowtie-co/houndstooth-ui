@@ -30,5 +30,8 @@ export default compose(
   }),
   withPropsOnChange(['fields'], ({ setFormData, fields }) => {
     setFormData(fields)
+  }),
+  withPropsOnChange(['defaultFormData'], ({ setFormData, defaultFormData }) => {
+    defaultFormData && setFormData(defaultFormData)
   })
 )(RecursiveFields)

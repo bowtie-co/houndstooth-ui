@@ -2,6 +2,7 @@
 import React from 'react'
 import AceEditor from 'react-ace'
 import PropTypes from 'prop-types'
+import { lists } from 'helpers'
 
 import 'brace/mode/markdown'
 import 'brace/mode/javascript'
@@ -10,17 +11,9 @@ import 'brace/mode/css'
 import 'brace/mode/ruby'
 import 'brace/theme/terminal'
 
-const languages = {
-  js: 'javascript',
-  jsx: 'javascript',
-  rb: 'ruby',
-  ru: 'ruby',
-  md: 'markdown',
-  py: 'python'
-}
-
 const TextEditor = ({ content, name, onChange }) => {
   const ext = name.match(/.*\.([^.]+)/) ? name.match(/.*\.([^.]+)/)[1] : 'md'
+  const { languages } = lists
   const lang = languages[ext] || ext
   return (
     <AceEditor
