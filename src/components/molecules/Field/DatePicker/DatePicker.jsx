@@ -1,48 +1,36 @@
 import React from 'react'
-import DatePicker from 'react-datepicker'
+import PropTypes from 'prop-types'
 import moment from 'moment'
+import { withState } from 'recompose'
+
+import { SingleDatePicker } from 'react-dates'
+import 'react-dates/initialize'
+import 'react-dates/lib/css/_datepicker.css'
+
 import { FormGroup } from 'atoms'
-import 'react-datepicker/dist/react-datepicker.css'
 
-const dateFormat = 'MM/DD/YYYY'
-
-const allowedDateInputFormats = [
-  'DDMMMMY',
-  'MMMMDDY',
-  'MMDDY',
-  'DDMMY'
-]
-
-const DatePickerField = ({ col, selected, onChange, name, value, onDateBlur, min = 90, max = 30, edited, className = '', ...rest }) => {
-  let selectedValue = typeof selected === 'string' ? moment(selected) : (selected || null)
-
-  if (selectedValue !== null && (!selectedValue._isAMomentObject || !selectedValue._isValid)) {
-    selectedValue = null
-  }
+const DatePickerField = (props) => {
+  const { value, name, onChange, focused, setFocused, ...rest } = props
   return (
-    <FormGroup className={`${className} ${edited ? 'success-highlight' : ''}`} {...rest}>
-      <DatePicker
-        className='form-control'
-        selected={selectedValue}
-        onChange={(date) => {
-          name && onChange({ target: { name, value: date } })
-        }}
-        dateFormat={dateFormat}
-        placeholderText={dateFormat}
-        minDate={moment().subtract(min, 'year')}
-        maxDate={moment().add(max, 'year')}
-        showMonthDropdown
-        showYearDropdown
-        scrollableMonthYearDropdown
-        dropdownMode='select'
-        onBlur={(e) => {
-          const parsedDate = moment(e.target.value, allowedDateInputFormats)
-          onChange({ target: { name, value: parsedDate } })
-        }}
-        {...rest}
+    <FormGroup floatLabel {...rest}>
+      <SingleDatePicker
+        date={value ? moment(value) : ''} // momentPropTypes.momentObj or null
+        placeholder={'MM/DD/YYYY'}
+        onDateChange={(event) => onChange({ target: { value: event ? event.format('MM/DD/YYYY') : event } })} // PropTypes.func.isRequired
+        focused={focused} // PropTypes.bool
+        onFocusChange={({ focused }) => setFocused(focused)} // PropTypes.func.isRequired
+        id={Date.now()} // PropTypes.string.isRequired,
+        isOutsideRange={() => false}
+        regular
+        block
       />
     </FormGroup>
   )
 }
 
-export default DatePickerField
+DatePickerField.propTypes = {
+  value: PropTypes.string,
+  name: PropTypes.string,
+  onChange: PropTypes.func
+}
+export default withState('focused', 'setFocused', false)(DatePickerField)

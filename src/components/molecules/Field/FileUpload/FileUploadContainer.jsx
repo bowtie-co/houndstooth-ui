@@ -16,6 +16,15 @@ export default compose(
         setIsLoadingFileUrl(false)
       }).catch(err => {
         console.error('failed getting file download url!', err)
+
+        const fileExt = value.split('.')[1]
+
+        if (fileExt === 'pdf') {
+          setPreviewUrl('pdf')
+        } else if (err['status'] === 403) {
+          setPreviewUrl('largeFile')
+        }
+
         setIsLoadingFileUrl(false)
       })
     }
@@ -25,10 +34,13 @@ export default compose(
       if (typeof file === 'object') {
         const reader = new FileReader()
         reader.onload = () => {
-          setPreviewUrl(reader.result)
+          setPreviewUrl(file['type'] === 'application/pdf' ? 'pdf' : reader.result)
         }
         reader.readAsDataURL(file['file'])
       }
+    },
+    deleteImage: ({ onChange, name }) => () => {
+      onChange({ target: { name, value: null } })
     }
   }),
   withHandlers({
