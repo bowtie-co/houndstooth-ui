@@ -18,14 +18,16 @@ export default compose(
     activeItem: {},
     isCollectionLoading: false,
     fileUploads: {},
-    stagedFileUploads: []
+    stagedFileUploads: [],
+    defaultFormData: null
   }, {
     setItems: ({ items }) => (payload) => ({ items: payload }),
     setDefaultFields: ({ defaultFields }) => (payload) => ({ defaultFields: payload }),
     setActiveItem: ({ activeItem }) => (payload) => ({ activeItem: payload }),
     setCollectionLoading: ({ isCollectionLoading }) => (payload) => ({ isCollectionLoading: payload }),
     setFileUploads: ({ fileUploads }) => (payload) => ({ fileUploads: payload }),
-    setStagedFileUploads: ({ stagedFileUploads }) => (payload) => ({ stagedFileUploads: payload })
+    setStagedFileUploads: ({ stagedFileUploads }) => (payload) => ({ stagedFileUploads: payload }),
+    setDefaultFormData: ({ defaultFormData }) => (payload) => ({ defaultFormData: payload })
   }),
   withHandlers({
     buildFileUrl: ({ config, baseApiRoute, queryParams }) => (path) => {
@@ -180,7 +182,7 @@ export default compose(
     }
   }),
   withHandlers({
-    handleFormSubmit: ({ collectionsRoute, items, createItem, history, editItem, createFileUpload, getItems, getFileUploads, match, setCollectionLoading, setStagedFileUploads }) => (formData) => {
+    handleFormSubmit: ({ collectionsRoute, items, createItem, history, editItem, createFileUpload, getItems, getFileUploads, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData }) => (formData) => {
       setCollectionLoading(true)
 
       const isNewItem = match['params']['item'] === 'new'
@@ -204,6 +206,7 @@ export default compose(
           notifier.success(`Item ${isNewItem ? 'created' : 'edited'}`)
         })
         .catch((resp) => {
+          setDefaultFormData(formData)
           setCollectionLoading(false)
           notifier.bad(resp)
         })
