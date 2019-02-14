@@ -189,7 +189,6 @@ export default compose(
       createFileUpload()
         .then(() => upsertItem(formData)
           .then(({ data }) => {
-            console.log('item resolve from upsert')
             if (items.length > 0 && items[0]['name'] === 'NEW FILE') {
               items.shift()
             }

@@ -7,7 +7,6 @@ export default compose(
   withState('previewUrl', 'setPreviewUrl', '/loading.svg'),
   withState('isLoadingFileUrl', 'setIsLoadingFileUrl', false),
   withPropsOnChange(['value'], ({ value, getFileDownloadUrl, setIsLoadingFileUrl, setPreviewUrl }) => {
-    console.log('value', value)
     if (value) {
       setIsLoadingFileUrl(true)
 
@@ -35,7 +34,6 @@ export default compose(
       if (typeof file === 'object') {
         const reader = new FileReader()
         reader.onload = () => {
-          console.log('reader result', file)
           setPreviewUrl(file['type'] === 'application/pdf' ? 'pdf' : reader.result)
         }
         reader.readAsDataURL(file['file'])
@@ -47,8 +45,6 @@ export default compose(
   }),
   withHandlers({
     handleFileUpload: ({ onChange, name: fieldKey, setStagedFileUploads, stagedFileUploads, imagePreview }) => (file) => {
-      console.log('file', file)
-
       imagePreview(file)
       const shouldUpdateStaged = stagedFileUploads.some(stagedFile => stagedFile['fieldKey'] === fieldKey)
       const filePath = `upload/${file['type']}/${Date.now()}_${fieldKey}_${file['name']}`
