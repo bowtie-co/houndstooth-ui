@@ -3,7 +3,7 @@ import qs from 'qs'
 import { compose, withStateHandlers, withPropsOnChange, withHandlers, lifecycle } from 'recompose'
 import { withEither, withMaybe } from '@bowtie/react-utils'
 import { Collections, EmptyState, EmptyItem } from './Collections'
-import { api, notifier } from 'lib'
+import { api, notifier, octokit } from 'lib'
 import { Loading } from 'atoms'
 
 const nullConditionFn = ({ collections }) => !collections
@@ -30,7 +30,7 @@ export default compose(
     setDefaultFormData: ({ defaultFormData }) => (payload) => ({ defaultFormData: payload })
   }),
   withHandlers({
-    getFileDownloadUrl: ({ baseApiRoute, queryParams }) => (path) => {
+    buildFileUrl: ({ config, baseApiRoute, queryParams }) => (path) => {
       const defaultUrl = '/loading.svg'
 
       if (!path || path.trim() === '') {
@@ -41,6 +41,10 @@ export default compose(
         // Remove leading slash for github path reference
         path: path.replace(/^\//, ''),
         ref: queryParams['ref']
+      }
+
+      if (config['url'] && config['url'].trim() !== '') {
+        return Promise.resolve(`${config['url']}/${params['path']}`)
       }
 
       return new Promise(
@@ -58,6 +62,18 @@ export default compose(
           }).catch(reject)
         }
       )
+    }
+  }),
+  withHandlers({
+    getFileDownloadUrl: ({ buildFileUrl }) => (path) => {
+      // const defaultUrl = '/loading.svg'
+      return buildFileUrl(path)
+      // return buildFileUrl(path).then(url => {
+      //   fetch(url, { mode: 'cors', cache: 'no-cache' }).then(resp => {
+      //     console.log('test url resp', resp)
+      //   })
+      //   return url
+      // })
     },
     editFileName: ({ setActiveItem, activeItem }) => (e) => {
       const editedItem = Object.assign({}, activeItem, { name: e.target.value })
@@ -86,7 +102,6 @@ export default compose(
             setCollectionName(data['collection']['name'])
             setCollectionPath(data['collection']['path'])
             setCollectionLoading(false)
-            console.log('get items complete')
           })
           .catch((resp) => {
             setItems([])
@@ -97,38 +112,46 @@ export default compose(
     },
     editItem: ({ collectionsApiRoute, branch, activeItem, match }) => (formData) => {
       const { item } = match.params
-      // console.log('editing active item', activeItem, item)
       const message = `[HT] Edited item: ${activeItem.path}`
       const route = `${collectionsApiRoute}/items/${item}?ref=${branch || 'master'}&sha=${activeItem['sha']}&message=${message}`
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       return api.put(route, updatedItem)
     },
     createItem: ({ collectionsApiRoute, branch, match, activeItem }) => (formData) => {
-      if (activeItem['name'].split('.').length <= 1) {
+      if (activeItem['name'] && activeItem['name'].split('.').length <= 1) {
         activeItem['name'] = `${activeItem['name']}.md`
       }
+
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       const message = `[HT] Created item: ${activeItem.name}`
       const route = `${collectionsApiRoute}/items?ref=${branch || 'master'}&message=${message}`
       return api.post(route, updatedItem)
     },
-    createFileUpload: ({ stagedFileUploads, baseApiRoute, getFileUploads, setStagedFileUploads, setCollectionLoading }) => () => {
+    createFileUpload: ({ match, stagedFileUploads, baseApiRoute, getFileUploads, setStagedFileUploads, setCollectionLoading }) => () => {
       if (stagedFileUploads.length > 0) {
         const newFiles = stagedFileUploads.map(file => {
           const updatedFile = {
             path: file.name,
             content: file.base64.split('base64,')[1],
-            encoding: 'base64'
+            message: `[HT] Uploaded ${file.name}`,
+            encoding: 'base64',
+            owner: match['params']['username'],
+            repo: match['params']['repo']
           }
+
           return updatedFile
         })
 
-        const body = {
-          files: newFiles,
-          message: `[HT] Uploaded ${newFiles.length} file(s)`
-        }
+        return newFiles.reduce((promiseChain, file) => {
+          return promiseChain.then(() => octokit.repos.createFile(file))
+        }, Promise.resolve(newFiles))
 
-        return api.post(`${baseApiRoute}/files/upsert`, body)
+        // const body = {
+        //   files: newFiles,
+        //   message: `[HT] Uploaded ${newFiles.length} file(s)`
+        // }
+
+        // return api.post(`${baseApiRoute}/files/upsert`, body)
       } else {
         return Promise.resolve()
       }
