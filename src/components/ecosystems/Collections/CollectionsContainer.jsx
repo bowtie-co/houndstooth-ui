@@ -44,7 +44,7 @@ export default compose(
       }
 
       if (config['url'] && config['url'].trim() !== '') {
-        return Promise.resolve(`${config['url']}/${params['path']}`)
+        return Promise.resolve(`${config['url']}/${params['path']}`.replace(/^\//, ''))
       }
 
       return new Promise(
