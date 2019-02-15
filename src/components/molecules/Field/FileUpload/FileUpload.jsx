@@ -22,19 +22,11 @@ const FileUpload = (props) => {
 
       <FormGroup errorMessage={errorMessages[previewUrl]}>
         {
-          previewUrl && fileIcons[previewUrl] ? (
-            <div style={{ display: `${value ? 'flex' : 'none'}` }} className='flex-center'>
-              { /^https?:\/\//.test(value) ? (
-                  <ExtLink href={value}>
-                    <Icon iconName={fileIcons[previewUrl]} size='xxl' />
-                  </ExtLink>
-                ) : (
-                  <Icon iconName={fileIcons[previewUrl]} size='xxl' />
-                )
-              }
+          previewUrl && fileIcons[previewUrl]
+            ? <div style={{ display: `${value ? 'flex' : 'none'}` }} className='flex-center'>
+              <Icon iconName={fileIcons[previewUrl]} size='xxl' />
             </div>
-          ) : (
-            <div style={{ display: `${value ? 'flex' : 'none'}` }} className='flex-center'>
+            : <div style={{ display: `${value ? 'flex' : 'none'}` }} className='flex-center'>
               <img
                 src={previewUrl}
                 alt={name}
@@ -42,7 +34,6 @@ const FileUpload = (props) => {
                 className='file-upload'
               />
             </div>
-          )
         }
 
         <br />
