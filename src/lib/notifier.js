@@ -11,7 +11,11 @@ class Notifier extends EventEmitter {
     this.msgs = []
     this.user = storage.get('current_user')
     this.timeout = 5000
-    this.channels = {}
+    this.channels = {
+      ro: [
+        'repos.*'
+      ]
+    }
 
     const types = [
       'error',
@@ -80,6 +84,12 @@ class Notifier extends EventEmitter {
     // var msg = message.message; // The Payload
     console.log('NOTIFIER RECEIVED MESSAGE:', message)
 
+    const { body, type } = message.message
+
+    if (body && type) {
+      this.msg(body, type)
+    }
+
     this.emit(message.channel, message)
   }
 
@@ -113,7 +123,7 @@ class Notifier extends EventEmitter {
       this.pubnub = new PubNub({
         publishKey: process.env.REACT_APP_PUBNUB_PUBLISH_KEY,
         subscribeKey: process.env.REACT_APP_PUBNUB_SUBSCRIBE_KEY,
-        authKey: this.user.auth_key,
+        authKey: 'abc123',
         ssl: true
       })
     }
