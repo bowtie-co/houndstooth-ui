@@ -91,11 +91,11 @@ export default compose(
       //   .then(({ data: fileUploads }) => setFileUploads(fileUploads))
       //   .catch(notifier.bad.bind(notifier))
     },
-    getItems: ({ collectionsApiRoute, match, setItems, setDefaultFields, setCollectionLoading, setCollectionName, setCollectionPath }) => () => {
+    getItems: ({ collectionsApiRoute, match, setItems, setDefaultFields, setCollectionLoading, setCollectionName, setCollectionPath, branch }) => () => {
       const { collection } = match.params
       if (collection) {
         setCollectionLoading(true)
-        api.get(collectionsApiRoute)
+        api.get(`${collectionsApiRoute}?ref=${branch}`)
           .then(({ data }) => {
             setItems(data['collection']['items'])
             setDefaultFields({ fields: data['collection']['fields'], markdown: '' })
@@ -162,7 +162,7 @@ export default compose(
     }
   }),
   withPropsOnChange(
-    ({ match }, { match: nextMatch }) => match.params.collection !== nextMatch.params.collection,
+    ({ match, branch }, { match: nextMatch, branch: nextBranch }) => match.params.collection !== nextMatch.params.collection || branch !== nextBranch,
     ({ getItems, setActiveItem }) => {
       setActiveItem({})
       getItems()

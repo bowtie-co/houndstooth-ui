@@ -9,9 +9,9 @@ import { Loading } from 'atoms'
 const conditionLoadingFn = ({ isRepoLoading }) => isRepoLoading
 
 export const enhance = compose(
-  withStateHandlers(({ queryParams }) => ({
+  withStateHandlers(({ queryParams, repo }) => ({
     branchList: [],
-    branch: queryParams['ref'],
+    branch: repo['default_branch'],
     stagedFiles: [],
     dirList: [],
     file: {},
@@ -68,7 +68,7 @@ export const enhance = compose(
             notifier.success('Files have been successfully committed to GitHub.')
             setRepoLoading(false)
             setStagedFiles([])
-            history.push(`/${baseRoute}/dir`)
+            // history.push(`/${baseRoute}/dir`)
           })
           .catch(notifier.bad.bind(notifier))
       } else {
@@ -146,10 +146,11 @@ export const enhance = compose(
         })
     }
   }),
-  withPropsOnChange(['baseApiRoute'], ({ getCollections, getTree, getBranchList, setRepoLoading, baseApiRoute }) => {
+  withPropsOnChange(['baseApiRoute'], ({ getCollections, getTree, getRepo, getBranchList, setRepoLoading, baseApiRoute }) => {
     getBranchList()
     getCollections()
     getTree()
+    getRepo()
   }),
   withPropsOnChange(['location'], ({ baseApiRoute, queryParams, getDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
     setBranch(queryParams['ref'] || 'master')

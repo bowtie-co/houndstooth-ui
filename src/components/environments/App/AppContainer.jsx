@@ -68,6 +68,12 @@ export const enhance = compose(
           setMainLoading(false)
           notifier.bad(resp)
         })
+    },
+    getRepo: ({ baseApiRoute, setRepo }) => () => {
+      api.get(baseApiRoute)
+        .then(({ data }) => {
+          setRepo(data['repo'])
+        })
     }
   }),
   withHandlers({
