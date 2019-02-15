@@ -156,12 +156,13 @@ export const enhance = compose(
     getTree()
     getRepo()
   }),
-  withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, stagedFiles, setRepoLoading, setOwner, setRepo }) => {
+  withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, branch, stagedFiles, setRepoLoading, setOwner, setRepo }) => {
     const { username, repo } = match['params']
 
     setRepo(repo)
     setOwner(username)
-    setBranch(queryParams['ref'] || 'master')
+
+    setBranch(queryParams['ref'] || branch)
 
     const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
     if (stagedFile) {
