@@ -123,7 +123,7 @@ class Notifier extends EventEmitter {
       this.pubnub = new PubNub({
         publishKey: process.env.REACT_APP_PUBNUB_PUBLISH_KEY,
         subscribeKey: process.env.REACT_APP_PUBNUB_SUBSCRIBE_KEY,
-        authKey: 'abc123',
+        authKey: process.env.REACT_APP_PUBNUB_AUTH_KEY,
         ssl: true
       })
     }
