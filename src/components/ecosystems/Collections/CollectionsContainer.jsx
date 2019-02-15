@@ -44,7 +44,8 @@ export default compose(
       }
 
       if (config['url'] && config['url'].trim() !== '') {
-        return Promise.resolve(`${config['url']}/${params['path']}`.replace(/^\//, ''))
+        const siteUrl = config['url'].replace(/\/$/, '')
+        return Promise.resolve(`${siteUrl}/${params['path'].replace(/\/+/g, '/')}`)
       }
 
       return new Promise(
@@ -66,13 +67,19 @@ export default compose(
   }),
   withHandlers({
     getFileDownloadUrl: ({ buildFileUrl }) => (path) => {
-      // const defaultUrl = '/loading.svg'
       return buildFileUrl(path)
+
+      // const defaultUrl = '/loading.svg'
       // return buildFileUrl(path).then(url => {
-      //   fetch(url, { mode: 'cors', cache: 'no-cache' }).then(resp => {
+      //   return fetch(url, { mode: 'cors', cache: 'no-cache' }).then(resp => {
       //     console.log('test url resp', resp)
+
+      //     if (resp.status >= 400) {
+      //       return defaultUrl
+      //     } else {
+      //       return url
+      //     }
       //   })
-      //   return url
       // })
     },
     editFileName: ({ setActiveItem, activeItem }) => (e) => {

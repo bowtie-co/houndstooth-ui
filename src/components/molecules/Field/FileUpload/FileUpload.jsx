@@ -3,10 +3,10 @@ import FileBase64 from 'react-file-base64'
 import { lists } from 'helpers'
 
 import { titleize } from '@bowtie/utils'
-import { FormGroup, Icon } from 'atoms'
+import { FormGroup, Icon, ExtLink } from 'atoms'
 
 const FileUpload = (props) => {
-  const { name, value, handleFileUpload, previewUrl, deleteImage } = props
+  const { name, value, handleFileUpload, previewUrl, deleteImage, fileUrl } = props
   const { fileIcons, errorMessages } = lists
   return (
     <div>
@@ -16,13 +16,25 @@ const FileUpload = (props) => {
           <Icon onClick={deleteImage} iconName={'trash'} />
         }
       </p>
-      <p className='truncate'>{value}</p>
-      <FormGroup errorMessage={errorMessages[previewUrl]}>
+      <p className='truncate'>
+        { fileUrl && /^https?:\/\//.test(fileUrl) ? <ExtLink href={fileUrl}>{value}</ExtLink> : value }
+      </p>
 
+      <FormGroup errorMessage={errorMessages[previewUrl]}>
         {
-          previewUrl && fileIcons[previewUrl]
-            ? <div style={{ display: `${value ? 'flex' : 'none'}` }} className='flex-center'><Icon iconName={fileIcons[previewUrl]} size='xxl' /></div>
-            : <div style={{ display: `${value ? 'flex' : 'none'}` }} className='flex-center'>
+          previewUrl && fileIcons[previewUrl] ? (
+            <div style={{ display: `${value ? 'flex' : 'none'}` }} className='flex-center'>
+              { /^https?:\/\//.test(value) ? (
+                  <ExtLink href={value}>
+                    <Icon iconName={fileIcons[previewUrl]} size='xxl' />
+                  </ExtLink>
+                ) : (
+                  <Icon iconName={fileIcons[previewUrl]} size='xxl' />
+                )
+              }
+            </div>
+          ) : (
+            <div style={{ display: `${value ? 'flex' : 'none'}` }} className='flex-center'>
               <img
                 src={previewUrl}
                 alt={name}
@@ -30,7 +42,7 @@ const FileUpload = (props) => {
                 className='file-upload'
               />
             </div>
-
+          )
         }
 
         <br />
