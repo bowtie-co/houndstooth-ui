@@ -20,7 +20,7 @@ export const enhance = compose(
     collections: null,
     orgList: [],
     repoList: [],
-    repo: {},
+    activeRepo: {},
     isMainLoading: false,
     pages: {},
     pageNumber: 1
@@ -28,7 +28,7 @@ export const enhance = compose(
     setCollections: ({ collections }) => (payload) => ({ collections: payload }),
     setOrgList: ({ orgList }) => (payload) => ({ orgList: payload }),
     setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
-    setRepo: ({ repo }) => (payload) => ({ repo: payload }),
+    setActiveRepo: ({ repo }) => (payload) => ({ activeRepo: payload }),
     setPages: ({ pages }) => (payload) => ({ pages: payload }),
     setPageNumber: ({ pageNumber }) => (payload = {}) => {
       if (payload !== null) {
@@ -69,10 +69,10 @@ export const enhance = compose(
           notifier.bad(resp)
         })
     },
-    getRepo: ({ baseApiRoute, setRepo }) => () => {
+    getRepo: ({ baseApiRoute, setActiveRepo }) => () => {
       api.get(baseApiRoute)
         .then(({ data }) => {
-          setRepo(data['repo'])
+          setActiveRepo(data['repo'])
         })
     }
   }),
