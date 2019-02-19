@@ -7,17 +7,7 @@ import FieldGroup from './FieldGroup'
 const FieldSingle = (props) => {
   const { name, field, handleChange, location = '', ...rest } = props
   const currentLocation = location === '' ? name : `${location}.${name}`
-  if (Array.isArray(field)) {
-    return (
-      <FieldGroup
-        title={titleize(name, '_')}
-        fields={{}}
-        location={currentLocation}
-        handleChange={handleChange}
-        {...rest}
-      />
-    )
-  } else if (field && typeof field === 'object') {
+  if (field && typeof field === 'object' && !Array.isArray(field)) {
     return (
       <FieldGroup
         title={titleize(name, '_')}
@@ -28,6 +18,11 @@ const FieldSingle = (props) => {
       />
     )
   } else {
+    if (Array.isArray(field) && (field.length === 0 || typeof field[0] === 'string')) {
+      rest['creatable'] = true
+      rest['options'] = field.map(i => ({ value: i, label: i }))
+    }
+
     return (
       <FieldContainer
         key={name}
