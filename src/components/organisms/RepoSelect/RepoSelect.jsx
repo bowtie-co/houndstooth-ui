@@ -5,7 +5,7 @@ import {
 } from 'molecules'
 
 const RepoSelect = (props) => {
-  const { baseRoute, loadingRepos, history, repoList } = props
+  const { baseRoute, loadingRepos, history, asyncRepoList } = props
   return (
     <FieldContainer
       // async
@@ -17,7 +17,7 @@ const RepoSelect = (props) => {
       valueKey={'full_name'}
       labelKey='full_name'
       disabled={loadingRepos}
-      options={repoList}
+      options={asyncRepoList}
       onChange={(e) => {
         history.push({ pathname: `/${e.target.value}/collections`, search: `?ref=${e.target.default_branch || 'master'}` })
       }}
