@@ -13,6 +13,7 @@ const RepoSelect = (props) => {
       clearable={false}
       name='something'
       type={'select'}
+      placeholder={loadingRepos ? 'Loading ...' : 'Select Repo'}
       value={`${baseRoute}`}
       valueKey={'full_name'}
       labelKey='full_name'
