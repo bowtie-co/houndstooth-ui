@@ -71,6 +71,7 @@ export const enhance = compose(
   }),
   withHandlers({
     reloadReposAndBranches: ({ getRepos }) => () => {
+      storage.remove('all_repos')
       storage.remove('repos')
       storage.remove('branches')
       getRepos()
