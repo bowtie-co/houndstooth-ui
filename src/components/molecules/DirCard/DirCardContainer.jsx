@@ -14,6 +14,7 @@ export default compose(
 
       const reader = new FileReader()
       reader.onload = (event) => {
+
         const fileToStage = {
           content: event.target['result'],
           path: `${dir['path']}/${file['name']}`,
