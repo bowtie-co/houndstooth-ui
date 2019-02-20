@@ -8,11 +8,11 @@ import { DirCard } from 'molecules'
 const nullConditionFn = ({ dirList }) => dirList.length === 0
 
 /** ********* base component **********/
-const DirList = ({ dirList, branch }) => {
+const DirList = ({ dirList, ...rest }) => {
   return (
     <Row>
       {
-        dirList.map((dir, i) => <DirCard dir={dir} key={i} branch={branch} />)
+        dirList.map((dir, i) => <DirCard dir={dir} key={i} {...rest} />)
       }
     </Row>
   )
@@ -21,6 +21,5 @@ const DirList = ({ dirList, branch }) => {
 export default withMaybe(nullConditionFn)(DirList)
 
 DirList.propTypes = {
-  branch: PropTypes.string,
   dirList: PropTypes.array
 }

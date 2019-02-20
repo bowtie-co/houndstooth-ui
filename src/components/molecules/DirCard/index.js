@@ -1,1 +1,1 @@
-export { default } from './DirCard'
+export { default } from './DirCardContainer'

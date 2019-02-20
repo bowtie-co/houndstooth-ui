@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Dropzone from 'react-dropzone'
+
 import { Link } from 'react-router-dom'
 import {
   Subtitle,
   Icon
 } from 'atoms'
 
-const DirCard = ({ dir, branch }) => {
+const DirCard = ({ dir, branch, handleDrop }) => {
   const fileIcons = {
     css: 'fab fa-css3',
     scss: 'fab fa-sass',
@@ -22,10 +24,19 @@ const DirCard = ({ dir, branch }) => {
   return (
     <Link
       to={{ pathname: `${type}`, search: `?path=${path}&ref=${branch}` }}
-      className='repoDir'>
-      <Icon className={fileIcons[ext] ? fileIcons[ext] : fileIcons[type]} color={'black'} size='md' />
-      <Subtitle title={name} />
+      className='repoDir'
+    >
+      <Dropzone
+        className='flex-col flex-center'
+        disableClick
+        onClick={evt => evt.preventDefault()}
+        onDrop={handleDrop}
+      >
+        <Icon className={fileIcons[ext] ? fileIcons[ext] : fileIcons[type]} color={'black'} size='md' />
+        <Subtitle title={name} />
+      </Dropzone>
     </Link>
+
   )
 }
 
