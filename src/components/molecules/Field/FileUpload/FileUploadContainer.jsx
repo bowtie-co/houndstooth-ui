@@ -1,26 +1,35 @@
 /* global FileReader encodeURI */
 import FileUpload from './FileUpload'
 import { compose, withHandlers, withPropsOnChange, withState } from 'recompose'
+import { lists } from 'helpers'
 
 export default compose(
   withState('previewId', 'setPreviewId', ({ name }) => `upload_${name}_${Date.now()}`),
   withState('previewUrl', 'setPreviewUrl', '/loading.svg'),
+  withState('fileUrl', 'setFileUrl'),
   withState('isLoadingFileUrl', 'setIsLoadingFileUrl', false),
-  withPropsOnChange(['value'], ({ value, getFileDownloadUrl, setIsLoadingFileUrl, setPreviewUrl }) => {
+  withPropsOnChange(['value'], ({ value, getFileDownloadUrl, setIsLoadingFileUrl, setPreviewUrl, setFileUrl }) => {
     if (value) {
       setIsLoadingFileUrl(true)
 
+      const fileParts = value.split('.')
+      const fileExt = fileParts[fileParts.length - 1]
+
       getFileDownloadUrl(value).then(fileUrl => {
         console.log('got file download url', fileUrl)
-        setPreviewUrl(fileUrl)
+        setFileUrl(fileUrl)
         setIsLoadingFileUrl(false)
+
+        if (Object.keys(lists['fileIcons']).includes(fileExt)) {
+          setPreviewUrl(fileExt)
+        } else {
+          setPreviewUrl(fileUrl)
+        }
       }).catch(err => {
         console.error('failed getting file download url!', err)
 
-        const fileExt = value.split('.')[1]
-
-        if (fileExt === 'pdf') {
-          setPreviewUrl('pdf')
+        if (Object.keys(lists['fileIcons']).includes(fileExt)) {
+          setPreviewUrl(fileExt)
         } else if (err['status'] === 403) {
           setPreviewUrl('largeFile')
         }

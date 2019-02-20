@@ -9,7 +9,9 @@ import { Loading } from 'atoms'
 const conditionLoadingFn = ({ isRepoLoading }) => isRepoLoading
 
 export const enhance = compose(
-  withStateHandlers(({ queryParams }) => ({
+  withStateHandlers(({ match, queryParams }) => ({
+    owner: match['params']['username'] || '',
+    repo: match['params']['repo'] || '',
     branchList: [],
     branch: queryParams['ref'] || 'master',
     stagedFiles: [],
@@ -21,6 +23,8 @@ export const enhance = compose(
     collectionName: '',
     collectionPath: ''
   }), {
+    setOwner: () => (payload) => ({ owner: payload }),
+    setRepo: () => (payload) => ({ repo: payload }),
     setBranchList: () => (payload) => ({ branchList: payload }),
     setDirList: () => (payload) => ({ dirList: payload }),
     setTree: () => (payload) => ({ tree: payload }),
@@ -151,7 +155,11 @@ export const enhance = compose(
     getCollections()
     getTree()
   }),
-  withPropsOnChange(['location'], ({ baseApiRoute, queryParams, getDirList, setFile, setBranch, stagedFiles, setRepoLoading }) => {
+  withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, stagedFiles, setRepoLoading, setOwner, setRepo }) => {
+    const { username, repo } = match['params']
+
+    setRepo(repo)
+    setOwner(username)
     setBranch(queryParams['ref'] || 'master')
 
     const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
@@ -161,6 +169,9 @@ export const enhance = compose(
       // setRepoLoading(true)
       getDirList()
     }
+  }),
+  withPropsOnChange([ 'owner', 'repo', 'config' ], ({ owner, repo }) => {
+    notifier.userChange({ channels: { ro: [ `repos.${owner}-${repo}` ] } })
   }),
   withEither(conditionLoadingFn, Loading)
 )
