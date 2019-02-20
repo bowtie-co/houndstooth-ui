@@ -1,10 +1,11 @@
 /* global FileReader */
 import DirCard from './DirCard'
 import { compose, withHandlers } from 'recompose'
+import { notifier } from 'lib/index';
 
 export default compose(
   withHandlers({
-    handleDrop: ({ dir, setStagedFiles, stagedFiles }) => (files) => {
+    handleDrop: ({ dir, setStagedFiles, stagedFiles, getDirList }) => (files) => {
       console.log('FILE:', files[0])
       const file = files[0]
 
@@ -28,6 +29,8 @@ export default compose(
         }
 
         setStagedFiles([...stagedFiles, fileToStage])
+        getDirList()
+        notifier.success(`You have added a file to ${fileToStage['path']}`)
       }
 
       reader.readAsDataURL(file)

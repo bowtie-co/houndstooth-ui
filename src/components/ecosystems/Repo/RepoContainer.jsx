@@ -116,7 +116,7 @@ export const enhance = compose(
           setCollections([])
         })
     },
-    getDirList: ({ match, baseApiRoute, queryParams, setDirList, setFile, setRepoLoading, collections }) => () => {
+    getDirList: ({ match, baseApiRoute, queryParams, setDirList, setFile, setRepoLoading, stagedFiles, collections }) => () => {
       if (!match['params']['collection']) {
         const stringifiedParams = qs.stringify(queryParams)
         const route = `${baseApiRoute}/files?${stringifiedParams}`
@@ -125,8 +125,15 @@ export const enhance = compose(
           .then(({ data }) => {
             if (data['files']) {
               // add a new file from stagedFiles to dirList.
-              stagedFiles.some(file => {
-                queryParams['path'] === file['path'].split('/').pop()
+              const dirStagedFiles = stagedFiles.filter(file => {
+                const pathArr = file['path'].split('/')
+                pathArr.pop()
+                return queryParams['path'] === pathArr.join('/')
+              })
+
+              dirStagedFiles.forEach((file, i) => {
+                const isInDirList = data['files'].some(f => f['path'] === file['path'])
+                !isInDirList && data['files'].push(file)
               })
 
               // sorts the directory to include folders before files.
