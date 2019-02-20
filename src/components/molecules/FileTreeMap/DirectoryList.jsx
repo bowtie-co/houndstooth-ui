@@ -1,4 +1,6 @@
+
 import React from 'react'
+import { onlyUpdateForKeys } from 'recompose'
 import classnames from 'classnames'
 import {
   Icon,
@@ -29,4 +31,4 @@ const DirectoryList = ({ dirList, branch, fileIcons, queryParams, stagedFiles })
   </p>
 )
 
-export default DirectoryList
+export default onlyUpdateForKeys(['dirList'])(DirectoryList)

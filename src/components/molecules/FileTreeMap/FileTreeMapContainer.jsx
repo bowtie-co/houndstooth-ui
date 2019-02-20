@@ -1,5 +1,5 @@
 import { withQueryParams } from 'helpers'
-import { compose, withProps, onlyUpdateForKeys } from 'recompose'
+import { compose, withProps, onlyUpdateForKeys, withHandlers } from 'recompose'
 import { withMaybe } from '@bowtie/react-utils'
 import FileTreeMap from './FileTreeMap'
 
@@ -19,5 +19,24 @@ export default compose(
     }
   }),
   onlyUpdateForKeys(['tree', 'match']),
+  withHandlers({
+    buildDirList: ({ stagedFiles }) => (tree, dirPath) => {
+      const dirList = Object.keys(tree)
+
+      // add new staged file if it does not exist in fileTree yet.
+      const dirStagedFiles = stagedFiles.filter(file => {
+        const filePathArr = file['path'].split('/')
+        filePathArr.pop()
+        return dirPath === filePathArr.join('/')
+      })
+
+      dirStagedFiles.forEach((file, i) => {
+        const isInTreeMap = dirList.includes(file['path'])
+        !isInTreeMap && dirList.push(file['path'])
+      })
+
+      return dirList.sort(a => a.split('.').length > 1 ? 1 : -1)
+    }
+  }),
   withMaybe(nullConditionalFn)
 )(FileTreeMap)
