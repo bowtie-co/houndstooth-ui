@@ -124,8 +124,15 @@ export const enhance = compose(
         api.get(route)
           .then(({ data }) => {
             if (data['files']) {
+              // add a new file from stagedFiles to dirList.
+              stagedFiles.some(file => {
+                queryParams['path'] === file['path'].split('/').pop()
+              })
+
               // sorts the directory to include folders before files.
               data['files'].sort(a => a.type === 'file' ? 1 : -1)
+
+              console.log('data files', data['files'])
 
               setDirList(data['files'])
             } else if (data['file']) {
