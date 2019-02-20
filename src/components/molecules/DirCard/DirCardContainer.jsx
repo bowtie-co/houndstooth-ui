@@ -1,7 +1,7 @@
 /* global FileReader */
 import DirCard from './DirCard'
 import { compose, withHandlers } from 'recompose'
-import { notifier } from 'lib/index';
+import { notifier } from 'lib/index'
 
 export default compose(
   withHandlers({
