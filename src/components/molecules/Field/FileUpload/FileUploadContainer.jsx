@@ -1,7 +1,6 @@
 /* global FileReader encodeURI */
 import FileUpload from './FileUpload'
 import { compose, withHandlers, withPropsOnChange, withState } from 'recompose'
-import { lists } from 'helpers'
 
 export default compose(
   withState('previewId', 'setPreviewId', ({ name }) => `upload_${name}_${Date.now()}`),
@@ -19,11 +18,16 @@ export default compose(
         console.log('got file download url', fileUrl)
         setFileUrl(fileUrl)
         setIsLoadingFileUrl(false)
-        setPreviewUrl(fileUrl)
+
+        if (['pdf'].includes(fileExt)) {
+          setPreviewUrl(fileExt)
+        } else {
+          setPreviewUrl(fileUrl)
+        }
       }).catch(err => {
         console.error('failed getting file download url!', err)
 
-        if (err['status'] === 404 && Object.keys(lists['fileIcons']).includes(fileExt)) {
+        if (err['status'] === 404 && ['pdf'].includes(fileExt)) {
           setPreviewUrl(fileExt)
         } else if (err['status'] === 403) {
           setPreviewUrl('largeFile')
