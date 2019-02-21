@@ -16,7 +16,11 @@ export const fileIcons = {
   file: 'far fa-file-alt',
   dir: 'fas fa-folder',
   pdf: 'file-pdf',
-  largeFile: 'file-excel'
+  largeFile: 'file-excel',
+  svg: 'far fa-file-image',
+  jpeg: 'far fa-file-image',
+  jpg: 'far fa-file-image',
+  png: 'far fa-file-image'
 }
 
 export const errorMessages = {

@@ -7,17 +7,10 @@ import {
   Subtitle,
   Icon
 } from 'atoms'
+import { lists } from 'helpers'
 
 const DirCard = ({ dir, branch, handleDrop, setEnterZone, inDropZone }) => {
-  const fileIcons = {
-    css: 'fab fa-css3',
-    scss: 'fab fa-sass',
-    html: 'fas fa-code',
-    js: 'fab fa-js',
-    json: 'far fa-file-alt',
-    file: 'far fa-file-alt',
-    dir: 'fas fa-folder'
-  }
+  const { fileIcons } = lists
   const { type, path, name } = dir
   const nameArray = name.split('.')
   const ext = nameArray.length > 1 ? nameArray[nameArray.length - 1] : null
