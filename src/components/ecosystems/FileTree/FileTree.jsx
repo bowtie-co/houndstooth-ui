@@ -14,7 +14,7 @@ import {
 } from 'molecules'
 
 const FileTree = (props) => {
-  const { dirList, file, setFile, saveFile, setDirList, branch } = props
+  const { dirList, file, setFile, saveFile, permissions, setDirList, branch } = props
 
   return (
     <section className='flex-row'>
@@ -28,7 +28,7 @@ const FileTree = (props) => {
           component={DirList}
         />
         <PrivateRoute
-          props={{ file, setFile, saveFile }}
+          props={{ file, setFile, saveFile, permissions }}
           path={`/:username/:repo/file`}
           component={FileSingle}
         />

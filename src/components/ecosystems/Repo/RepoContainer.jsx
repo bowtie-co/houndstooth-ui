@@ -10,6 +10,8 @@ const conditionLoadingFn = ({ isRepoLoading }) => isRepoLoading
 
 export const enhance = compose(
   withStateHandlers(({ match, queryParams }) => ({
+    activeRepo: {},
+    permissions: {},
     owner: match['params']['username'] || '',
     repo: match['params']['repo'] || '',
     branchList: [],
@@ -23,6 +25,8 @@ export const enhance = compose(
     collectionName: '',
     collectionPath: ''
   }), {
+    setActiveRepo: ({ activeRepo }) => (payload) => ({ activeRepo: payload }),
+    setPermissions: ({ permissions }) => (payload) => ({ permissions: payload }),
     setOwner: () => (payload) => ({ owner: payload }),
     setRepo: () => (payload) => ({ repo: payload }),
     setBranchList: () => (payload) => ({ branchList: payload }),
@@ -148,9 +152,18 @@ export const enhance = compose(
         .catch((resp) => {
           notifier.bad(resp)
         })
+    },
+    getActiveRepo: ({ baseApiRoute, setActiveRepo, setPermissions }) => () => {
+      api.get(baseApiRoute)
+        .then(({ data }) => {
+          setActiveRepo(data['repo'])
+          setPermissions(data.repo['permissions'])
+        })
+        .catch(notifier.bad.bind(notifier))
     }
   }),
-  withPropsOnChange(['baseApiRoute'], ({ getCollections, getTree, getBranchList, setRepoLoading, baseApiRoute }) => {
+  withPropsOnChange(['baseApiRoute'], ({ getCollections, getTree, getActiveRepo, getBranchList, setRepoLoading, baseApiRoute }) => {
+    getActiveRepo()
     getBranchList()
     getCollections()
     getTree()

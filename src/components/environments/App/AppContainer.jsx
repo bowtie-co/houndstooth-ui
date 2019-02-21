@@ -68,6 +68,13 @@ export const enhance = compose(
           setMainLoading(false)
           notifier.bad(resp)
         })
+    },
+    getCurrentUser: ({ setCurrentUser }) => () => {
+      api.get('user')
+        .then(({ data }) => {
+          setCurrentUser(data['user'])
+        })
+        .catch(notifier.bad.bind(notifier))
     }
   }),
   withHandlers({
@@ -89,15 +96,6 @@ export const enhance = compose(
       setPageNumber(cachedRepoList['pages'])
     }
   }),
-  // withPropsOnChange(['match'], ({ match, setCollections, setOrgList }) => {
-  //   const { repo } = match.params
-  //   !repo && setCollections(null)
-  //   api.get(`orgs?per_page=100`)
-  //     .then(({ data }) => {
-  //       setOrgList(data.orgs)
-  //     })
-  //     .catch(notifier.bad.bind(notifier))
-  // }),
   withEither(loadingConditionFn, Loading)
 )
 

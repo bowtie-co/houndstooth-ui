@@ -3,21 +3,30 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, TextEditor } from 'atoms'
 
-const FileSingle = ({ file, content, handleContentChange, saveFile }) => {
+const FileSingle = ({ file, content, handleContentChange, permissions, saveFile }) => {
   return (
     <div style={{ 'padding': '20px 0', 'width': '100%' }}>
       <div className='d-flex align-items-center justify-content-between'>
         <h2>{file.name}</h2>
-        <Button onClick={() => saveFile(content)} className='btn-sm' style={{ 'margin': '10px 0',
-          'padding': '0.5em 3em',
-          'min-height': '24px' }}>Save</Button>
+        {
+          permissions['push'] &&
+            <Button
+              onClick={() => saveFile(content)}
+              className='btn-sm mt-3 mb-3'
+              style={{ 'padding': '0.5em 3em', 'min-height': '24px' }}>
+              Save
+            </Button>
+        }
       </div>
       <TextEditor
         content={content}
         name={file.name}
         onChange={handleContentChange}
+        permissions={permissions}
       />
-      <Button onClick={() => saveFile(content)} style={{ 'marginTop': '20px' }}>Save</Button>
+      {
+        permissions['push'] && <Button onClick={() => saveFile(content)} className='mt-3'>Save</Button>
+      }
     </div>
   )
 }
