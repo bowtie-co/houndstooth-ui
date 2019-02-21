@@ -20,8 +20,12 @@ const DirCard = ({ dir, branch, handleDrop, setEnterZone, inDropZone }) => {
       className='repoDir'
       style={{ 'position': type === 'dir' ? 'relative' : 'unset' }}
     >
-      {inDropZone && <span className={classnames({ inFileDropZone: inDropZone && type !== 'dir', inDirDropZone: inDropZone && type === 'dir' }, 'flex-col flex-center')}><Subtitle>ADD FILE</Subtitle></span>}
-      {/*  inDropZone && type !== 'dir' */}
+      {
+        inDropZone &&
+          <span className={classnames({ inFileDropZone: inDropZone && type !== 'dir', inDirDropZone: inDropZone && type === 'dir' }, 'flex-col flex-center')}>
+            <Subtitle>ADD FILE</Subtitle>
+          </span>
+      }
       <Dropzone
         className={'p-5 flex-col flex-center'}
         disableClick

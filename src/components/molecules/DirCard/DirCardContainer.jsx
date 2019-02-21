@@ -24,7 +24,7 @@ export default compose(
           path: `${dir['path']}/${file['name']}`,
           name: file['name'],
           size: file['size'],
-          type: file['type'],
+          type: 'file',
           encoding: 'base64'
         }
 

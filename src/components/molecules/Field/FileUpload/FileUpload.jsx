@@ -24,7 +24,7 @@ const FileUpload = (props) => {
         {
           previewUrl && fileIcons[previewUrl]
             ? <div style={{ display: `${value ? 'flex' : 'none'}` }} className='flex-center'>
-              <Icon iconName={fileIcons[previewUrl]} size='xxl' />
+              <Icon className={fileIcons[previewUrl]} size='xxl' />
             </div>
             : <div style={{ display: `${value ? 'flex' : 'none'}` }} className='flex-center'>
               <img

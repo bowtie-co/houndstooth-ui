@@ -1,24 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withMaybe } from '@bowtie/react-utils'
-import { Row } from 'atoms'
+import FileBase64 from 'react-file-base64'
+
+import { Row, Button, Icon, Col } from 'atoms'
 import { DirCard } from 'molecules'
 
-/** ********* conditional fn **********/
-const nullConditionFn = ({ dirList }) => dirList.length === 0
-
 /** ********* base component **********/
-const DirList = ({ dirList, ...rest }) => {
+const DirList = ({ dirList, handleDrop, handleClick, ...rest }) => {
   return (
     <Row style={{ 'position': 'relative' }}>
       {
         dirList.map((dir, i) => <DirCard dir={dir} key={i} {...rest} />)
       }
+      <Col sm='12'>
+        <div className='directory-file-upload'>
+          <FileBase64
+            multiple={false}
+            onDone={handleClick}
+          />
+          <Button size='sm'><Icon iconName={'file-upload'} />Upload</Button>
+        </div>
+      </Col>
     </Row>
   )
 }
 
-export default withMaybe(nullConditionFn)(DirList)
+export default DirList
 
 DirList.propTypes = {
   dirList: PropTypes.array
