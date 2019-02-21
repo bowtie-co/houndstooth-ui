@@ -1,5 +1,6 @@
 import Search from './Search'
 import RepoCard from './RepoCard'
+import DeleteFileModal from './DeleteFileModal'
 import FieldContainer from './Field'
 import LastUpdated from './LastUpdated'
 import DirCard from './DirCard'
@@ -15,6 +16,7 @@ export {
   Search,
   FieldContainer,
   RepoCard,
+  DeleteFileModal,
   LastUpdated,
   DirCard,
   RepoControls,

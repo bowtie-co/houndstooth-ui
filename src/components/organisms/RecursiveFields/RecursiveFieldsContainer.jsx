@@ -5,9 +5,11 @@ import RecursiveFields from './RecursiveFields'
 
 export default compose(
   withStateHandlers(({ fields }) => ({
-    formData: fields
+    formData: fields,
+    isDeleteModalOpen: false
   }), {
-    setFormData: ({ formData }) => (payload) => ({ formData: payload })
+    setFormData: ({ formData }) => (payload) => ({ formData: payload }),
+    toggleModal: ({ isDeleteModalOpen }) => () => ({ isDeleteModalOpen: !isDeleteModalOpen })
   }),
   withHandlers({
     handleChange: ({ setFormData, formData }) => (key, value) => {
