@@ -20,7 +20,8 @@ export const fileIcons = {
   svg: 'far fa-file-image',
   jpeg: 'far fa-file-image',
   jpg: 'far fa-file-image',
-  png: 'far fa-file-image'
+  png: 'far fa-file-image',
+  pdf: 'far fa-file-pdf'
 }
 
 export const errorMessages = {
