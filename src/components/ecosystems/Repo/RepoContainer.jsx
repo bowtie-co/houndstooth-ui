@@ -72,7 +72,6 @@ export const enhance = compose(
             notifier.success('Files have been successfully committed to GitHub.')
             setRepoLoading(false)
             setStagedFiles([])
-            history.push(`/${baseRoute}/dir`)
           })
           .catch(notifier.bad.bind(notifier))
       } else {
