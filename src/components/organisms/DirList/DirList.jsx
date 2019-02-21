@@ -10,7 +10,7 @@ const nullConditionFn = ({ dirList }) => dirList.length === 0
 /** ********* base component **********/
 const DirList = ({ dirList, ...rest }) => {
   return (
-    <Row>
+    <Row style={{ 'position': 'relative' }}>
       {
         dirList.map((dir, i) => <DirCard dir={dir} key={i} {...rest} />)
       }

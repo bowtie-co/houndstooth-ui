@@ -128,18 +128,23 @@ export const enhance = compose(
               const dirStagedFiles = stagedFiles.filter(file => {
                 const pathArr = file['path'].split('/')
                 pathArr.pop()
-                return queryParams['path'] === pathArr.join('/')
+
+                // empty array and path is null
+                const isPathRootDir = !queryParams['path']
+                const isFileInRootDir = !/\//.test(file['path'])
+                const doesPathMatchParams = queryParams['path'] === pathArr.join('/')
+
+                return isPathRootDir ? isFileInRootDir : doesPathMatchParams
               })
 
               dirStagedFiles.forEach((file, i) => {
                 const isInDirList = data['files'].some(f => f['path'] === file['path'])
+
                 !isInDirList && data['files'].push(file)
               })
 
               // sorts the directory to include folders before files.
-              data['files'].sort(a => a.type === 'file' ? 1 : -1)
-
-              console.log('data files', data['files'])
+              data['files'].sort(a => a.type === 'dir' ? -1 : 1)
 
               setDirList(data['files'])
             } else if (data['file']) {

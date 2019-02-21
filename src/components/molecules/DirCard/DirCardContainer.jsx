@@ -1,11 +1,16 @@
 /* global FileReader */
 import DirCard from './DirCard'
-import { compose, withHandlers } from 'recompose'
+import { compose, withHandlers, withStateHandlers } from 'recompose'
 import { notifier } from 'lib/index'
 
 export default compose(
+  withStateHandlers({
+    inDropZone: false
+  }, {
+    setEnterZone: () => (payload) => ({ inDropZone: payload })
+  }),
   withHandlers({
-    handleDrop: ({ dir, setStagedFiles, stagedFiles, getDirList }) => (files) => {
+    handleDrop: ({ dir, setEnterZone, setStagedFiles, stagedFiles, getDirList }) => (files) => {
       console.log('FILE:', files[0])
       const file = files[0]
 
@@ -30,6 +35,7 @@ export default compose(
 
         setStagedFiles([...stagedFiles, fileToStage])
         getDirList()
+        setEnterZone(false)
         notifier.success(`You have added a file to ${fileToStage['path']}`)
       }
 
