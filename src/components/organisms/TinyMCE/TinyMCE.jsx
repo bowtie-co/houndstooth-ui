@@ -18,6 +18,7 @@ const TinyMCE = (props) => {
           toolbar2: 'formatselect bold italic underline superscript hr | alignleft aligncenter alignright | bullist | removeformat | fullscreen code',
           content_style: 'img {max-width: 100%;}',
           relative_url: false,
+          convert_urls: false,
           // file_picker_types: 'file image media',
           images_upload_handler: onUpload
         }}
