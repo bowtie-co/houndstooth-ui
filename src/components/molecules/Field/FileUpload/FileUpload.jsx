@@ -8,6 +8,8 @@ import { FormGroup, Icon, ExtLink } from 'atoms'
 const FileUpload = (props) => {
   const { name, value, handleFileUpload, previewUrl, deleteImage, fileUrl } = props
   const { fileIcons, errorMessages } = lists
+  console.log('previewUrl', previewUrl)
+
   return (
     <div>
       <p>{titleize(name, '_')}

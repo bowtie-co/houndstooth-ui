@@ -18,7 +18,7 @@ const DirList = ({ dirList, handleDrop, handleClick, ...rest }) => {
             multiple={false}
             onDone={handleClick}
           />
-          <Button size='sm'><Icon iconName={'file-upload'} />Upload</Button>
+          <Button size='sm' color='primary'><Icon iconName={'file-upload'} />Upload</Button>
         </div>
       </Col>
     </Row>

@@ -19,16 +19,11 @@ export default compose(
         console.log('got file download url', fileUrl)
         setFileUrl(fileUrl)
         setIsLoadingFileUrl(false)
-
-        if (Object.keys(lists['fileIcons']).includes(fileExt)) {
-          setPreviewUrl(fileExt)
-        } else {
-          setPreviewUrl(fileUrl)
-        }
+        setPreviewUrl(fileUrl)
       }).catch(err => {
         console.error('failed getting file download url!', err)
 
-        if (Object.keys(lists['fileIcons']).includes(fileExt)) {
+        if (err['status'] === 404 && Object.keys(lists['fileIcons']).includes(fileExt)) {
           setPreviewUrl(fileExt)
         } else if (err['status'] === 403) {
           setPreviewUrl('largeFile')
