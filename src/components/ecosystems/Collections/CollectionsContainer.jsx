@@ -190,7 +190,7 @@ export default compose(
     }
   }),
   withHandlers({
-    handleFormSubmit: ({ collectionsRoute, items, createItem, history, editItem, createFileUpload, getItems, getFileUploads, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData }) => (formData) => {
+    handleFormSubmit: ({ collectionsRoute, items, createItem, getTree, history, editItem, createFileUpload, getItems, getFileUploads, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData }) => (formData) => {
       setCollectionLoading(true)
 
       const isNewItem = match['params']['item'] === 'new'
@@ -202,7 +202,7 @@ export default compose(
             if (items.length > 0 && items[0]['name'] === 'NEW FILE') {
               items.shift()
             }
-
+            isNewItem && getTree()
             getItems()
             setStagedFileUploads([])
 
@@ -219,7 +219,7 @@ export default compose(
           notifier.bad(resp)
         })
     },
-    deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems }) => () => {
+    deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems, getTree }) => () => {
       const { item } = match.params
       const { sha } = activeItem
       const message = 'Delete file'
@@ -228,6 +228,7 @@ export default compose(
       api.delete(route)
         .then(resp => {
           getItems()
+          getTree()
           notifier.success('Item deleted!')
 
           history.push(collectionsApiRoute)

@@ -122,6 +122,7 @@ export const enhance = compose(
       if (!match['params']['collection']) {
         const stringifiedParams = qs.stringify(queryParams)
         const route = `${baseApiRoute}/files?${stringifiedParams}`
+        setRepoLoading(true)
 
         api.get(route)
           .then(({ data }) => {
@@ -133,7 +134,7 @@ export const enhance = compose(
             } else if (data['file']) {
               setFile(data['file'])
             }
-            // setRepoLoading(false)
+            setRepoLoading(false)
           })
           .catch((resp) => {
             setRepoLoading(false)
