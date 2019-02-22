@@ -2,12 +2,11 @@
 import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
 import Repo from './Repo'
 import qs from 'qs'
-import { withEither, withMaybe } from '@bowtie/react-utils'
+import { withEither } from '@bowtie/react-utils'
 import { api, notifier, storage } from 'lib'
 import { Loading } from 'atoms'
 
 const conditionLoadingFn = ({ isRepoLoading }) => isRepoLoading
-// const nullConditionFn = ({ activeRepo }) => !activeRepo['id']
 
 export const enhance = compose(
   withStateHandlers(({ match, queryParams, activeRepo }) => ({

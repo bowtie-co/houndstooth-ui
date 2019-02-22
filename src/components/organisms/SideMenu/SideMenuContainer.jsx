@@ -15,7 +15,6 @@ export default compose(
   withHandlers({
     handleClickCollapse: ({ setActiveTab }) => (tab) => {
       setActiveTab(tab)
-
     }
   })
 )(SideMenu)
