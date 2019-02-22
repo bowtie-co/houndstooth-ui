@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import qs from 'qs'
 import { Badge } from 'reactstrap'
 import {
   Row,
@@ -43,10 +44,18 @@ const RepoControls = (props) => {
       <Col className='justify-content-end flex align-items-center btn-group'>
         {
           type !== 'collections' && stagedFiles.length > 0 &&
-          <Button href={'commit'} className='btn-sm' color='primary' style={{ marginRight: '10px' }} disabled={!isCommitable}>Commit Changes <Badge color='danger'>{stagedFiles.length}</Badge></Button>
+            <Button
+              href={`commit/?${qs.stringify(rest['queryParams'], { encode: false })}`}
+              className='btn-sm'
+              color='primary'
+              style={{ marginRight: '10px' }}
+              disabled={!isCommitable}
+            >
+              Commit Changes <Badge color='danger'>{stagedFiles.length}</Badge>
+            </Button>
         }
         {
-          type !== 'users' && <CollectionEditorButton {...rest} />
+          type !== 'users' && <CollectionEditorButton {...props} />
         }
       </Col>
       <div>
