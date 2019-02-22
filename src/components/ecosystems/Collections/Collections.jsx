@@ -59,7 +59,6 @@ export const EmptyItem = (props) => {
 /** *********** PROPTYPES ********************/
 
 Collections.propTypes = {
-  collections: PropTypes.arrayOf(PropTypes.string),
   items: PropTypes.array,
   selectItem: PropTypes.func.isRequired
 }

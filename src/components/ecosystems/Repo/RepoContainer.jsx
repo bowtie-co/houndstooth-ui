@@ -15,8 +15,6 @@ export const enhance = compose(
     branchList: [],
     branch: queryParams['ref'] || 'master',
     stagedFiles: [],
-    dirList: [],
-    file: {},
     tree: {},
     config: {},
     isRepoLoading: false,
@@ -26,9 +24,7 @@ export const enhance = compose(
     setOwner: () => (payload) => ({ owner: payload }),
     setRepo: () => (payload) => ({ repo: payload }),
     setBranchList: () => (payload) => ({ branchList: payload }),
-    setDirList: () => (payload) => ({ dirList: payload }),
     setTree: () => (payload) => ({ tree: payload }),
-    setFile: () => (payload) => ({ file: payload }),
     setStagedFiles: () => (payload) => ({ stagedFiles: payload }),
     setBranch: () => (payload) => ({ branch: payload }),
     setConfig: () => (payload) => ({ config: payload }),
@@ -37,20 +33,6 @@ export const enhance = compose(
     setCollectionPath: ({ collectionPath }) => (payload) => ({ collectionPath: payload })
   }),
   withHandlers({
-    saveFile: ({ setFile, file, stagedFiles, setStagedFiles, queryParams }) => (content) => {
-      const newFile = Object.assign({}, file, { content })
-      const filePath = queryParams['path']
-
-      const shouldUpdateStaged = stagedFiles.some(file => file['path'] === filePath)
-
-      const newState = shouldUpdateStaged
-        ? stagedFiles.map(file => file.name === newFile.name ? newFile : file)
-        : [...stagedFiles, newFile]
-
-      notifier.success('Your file has been successfully staged.')
-      setFile(newFile)
-      setStagedFiles(newState)
-    },
     removeStagedFile: ({ stagedFiles, setStagedFiles }) => (path) => {
       const newStagedFiles = [...stagedFiles].filter(file => file['path'] !== path)
       setStagedFiles(newStagedFiles)
@@ -58,26 +40,6 @@ export const enhance = compose(
     changeBranch: ({ history, queryParams, match }) => (e) => {
       Object.assign(queryParams, { ref: e.target.value })
       history.push(`${match['url']}?${qs.stringify(queryParams, { encode: false })}`)
-    },
-    pushToGithub: ({ branch, history, baseRoute, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
-      if (message) {
-        const requestPath = `${baseApiRoute}/files/upsert?ref=${branch}`
-        const body = {
-          message,
-          files: stagedFiles.map(file => ({ path: file.path, content: file.content, encoding: file.encoding }))
-        }
-        setRepoLoading(true)
-        api.post(requestPath, body)
-          .then(response => {
-            notifier.success('Files have been successfully committed to GitHub.')
-            setRepoLoading(false)
-            setStagedFiles([])
-            history.push(`/${baseRoute}/dir`)
-          })
-          .catch(notifier.bad.bind(notifier))
-      } else {
-        notifier.msg('Please add a commit message.', 'error')
-      }
     },
     getBranchList: ({ setBranchList, baseApiRoute, setRepoLoading, match }) => () => {
       const storageKey = `${match.params['repo']}_branchList`
@@ -116,29 +78,6 @@ export const enhance = compose(
           setCollections([])
         })
     },
-    getDirList: ({ match, baseApiRoute, queryParams, setDirList, setFile, setRepoLoading, collections }) => () => {
-      if (!match['params']['collection']) {
-        const stringifiedParams = qs.stringify(queryParams)
-        const route = `${baseApiRoute}/files?${stringifiedParams}`
-
-        api.get(route)
-          .then(({ data }) => {
-            if (data['files']) {
-              // sorts the directory to include folders before files.
-              data['files'].sort(a => a.type === 'file' ? 1 : -1)
-
-              setDirList(data['files'])
-            } else if (data['file']) {
-              setFile(data['file'])
-            }
-            setRepoLoading(false)
-          })
-          .catch((resp) => {
-            setRepoLoading(false)
-            notifier.bad(resp)
-          })
-      }
-    },
     getTree: ({ baseApiRoute, queryParams, setTree }) => () => {
       const route = `${baseApiRoute}/files?&tree=true&recursive=true`
       api.get(route)
@@ -148,6 +87,26 @@ export const enhance = compose(
         .catch((resp) => {
           notifier.bad(resp)
         })
+    },
+    pushToGithub: ({ branch, history, baseRoute, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
+      if (message) {
+        const requestPath = `${baseApiRoute}/files/upsert?ref=${branch}`
+        const body = {
+          message,
+          files: stagedFiles.map(file => ({ path: file.path, content: file.content, encoding: file.encoding }))
+        }
+        setRepoLoading(true)
+        api.post(requestPath, body)
+          .then(response => {
+            notifier.success('Files have been successfully committed to GitHub.')
+            setRepoLoading(false)
+            setStagedFiles([])
+            history.push(`/${baseRoute}/dir`)
+          })
+          .catch(notifier.bad.bind(notifier))
+      } else {
+        notifier.msg('Please add a commit message.', 'error')
+      }
     }
   }),
   withPropsOnChange(['baseApiRoute'], ({ getCollections, getTree, getBranchList, setRepoLoading, baseApiRoute }) => {
@@ -157,18 +116,9 @@ export const enhance = compose(
   }),
   withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, stagedFiles, setRepoLoading, setOwner, setRepo }) => {
     const { username, repo } = match['params']
-
     setRepo(repo)
     setOwner(username)
     setBranch(queryParams['ref'] || 'master')
-
-    const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
-    if (stagedFile) {
-      setFile(stagedFile)
-    } else {
-      // setRepoLoading(true)
-      getDirList()
-    }
   }),
   withPropsOnChange([ 'owner', 'repo', 'config' ], ({ owner, repo }) => {
     notifier.userChange({ channels: { ro: [ `repos.${owner}-${repo}` ] } })
