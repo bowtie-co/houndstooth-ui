@@ -13,7 +13,7 @@ export const enhance = compose(
     owner: match['params']['username'] || '',
     repo: match['params']['repo'] || '',
     branchList: [],
-    branch: queryParams['ref'] || activeRepo['default_branch'],
+    branch: queryParams['ref'] === 'undefined' ? activeRepo['default_branch'] : queryParams['ref'],
     stagedFiles: [],
     dirList: [],
     file: {},
@@ -116,7 +116,7 @@ export const enhance = compose(
           setCollections([])
         })
     },
-    getDirList: ({ match, baseApiRoute, queryParams, setDirList, setFile, setRepoLoading, collections }) => () => {
+    getDirList: ({ match, baseApiRoute, baseRoute, history, queryParams, setDirList, setFile, setRepoLoading, collections, branch }) => () => {
       if (!match['params']['collection']) {
         const stringifiedParams = qs.stringify(queryParams)
         const route = `${baseApiRoute}/files?${stringifiedParams}`
@@ -131,21 +131,27 @@ export const enhance = compose(
             } else if (data['file']) {
               setFile(data['file'])
             }
-            setRepoLoading(false)
+            // setRepoLoading(false)
           })
           .catch((resp) => {
             setRepoLoading(false)
-            notifier.bad(resp)
+            notifier.msg(`The file ${queryParams['path']} does not exist on ${queryParams['ref']} branch.`, 'error')
+            if (resp['status'] === 404 && queryParams['path']) {
+              history.push(`/${baseRoute}/dir?ref=${queryParams['ref']}`)
+            }
           })
       }
     },
-    getTree: ({ baseApiRoute, queryParams, setTree }) => () => {
-      const route = `${baseApiRoute}/files?&tree=true&recursive=true`
+    getTree: ({ setRepoLoading, baseApiRoute, baseRoute, history, queryParams, setTree, branch }) => () => {
+      setRepoLoading(true)
+      const route = `${baseApiRoute}/files?ref=${branch}&tree=true&recursive=true`
       api.get(route)
         .then(({ data }) => {
+          setRepoLoading(false)
           setTree(data)
         })
         .catch((resp) => {
+          setRepoLoading(false)
           notifier.bad(resp)
         })
     }
@@ -153,14 +159,17 @@ export const enhance = compose(
   withPropsOnChange(['baseApiRoute'], ({ getCollections, getTree, getRepo, getBranchList, setRepoLoading, baseApiRoute }) => {
     getBranchList()
     getCollections()
-    getTree()
     getRepo()
+  }),
+  withPropsOnChange(['branch'], ({ getTree }) => {
+    getTree()
   }),
   withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, branch, stagedFiles, setRepoLoading, setOwner, setRepo }) => {
     const { username, repo } = match['params']
 
     setRepo(repo)
     setOwner(username)
+    console.log('set branch listener', queryParams, branch)
 
     setBranch(queryParams['ref'] || branch)
 
