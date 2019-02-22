@@ -7,8 +7,10 @@ import { api, notifier } from 'lib'
 export const enhance = compose(
   withStateHandlers(({ match, queryParams }) => ({
     dirList: [],
-    file: {}
+    file: {},
+    isDeleteModalOpen: false
   }), {
+    toggleModal: ({ isDeleteModalOpen }) => () => ({ isDeleteModalOpen: !isDeleteModalOpen }),
     setDirList: () => (payload) => ({ dirList: payload }),
     setFile: () => (payload) => ({ file: payload })
   }),
@@ -27,8 +29,26 @@ export const enhance = compose(
       setFile(newFile)
       setStagedFiles(newState)
     },
-    deleteFile: () => () => {
+    deleteFile: ({ baseApiRoute, baseRoute, history, queryParams, getTree, file, setRepoLoading }) => () => {
+      const { ref } = queryParams
+      const { sha, path } = file
+      const pathArr = path.split('/')
+      pathArr.pop()
+      const parentPath = `/${baseRoute}/dir?path=${pathArr.join('/')}&ref=${ref}`
+      const message = `[HT] Delete file ${file['name']}`
+      setRepoLoading(true)
+      const route = `${baseApiRoute}/files?ref=${ref}&message=${message}&sha=${sha}&path=${path}`
+      api.delete(route)
+        .then(resp => {
+          setRepoLoading(false)
+          history.push(parentPath)
+          getTree()
+        })
+        .catch((resp) => {
+          setRepoLoading(false)
 
+          notifier.bad(resp)
+        })
     },
     getDirList: ({ match, baseApiRoute, queryParams, setDirList, setFile, setRepoLoading, collections }) => () => {
       if (!match['params']['collection']) {
