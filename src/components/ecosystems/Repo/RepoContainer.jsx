@@ -2,18 +2,20 @@
 import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
 import Repo from './Repo'
 import qs from 'qs'
-import { withEither } from '@bowtie/react-utils'
+import { withEither, withMaybe } from '@bowtie/react-utils'
 import { api, notifier, storage } from 'lib'
 import { Loading } from 'atoms'
 
 const conditionLoadingFn = ({ isRepoLoading }) => isRepoLoading
+// const nullConditionFn = ({ activeRepo }) => !activeRepo['id']
 
 export const enhance = compose(
   withStateHandlers(({ match, queryParams, activeRepo }) => ({
+    activeRepo: {},
     owner: match['params']['username'] || '',
     repo: match['params']['repo'] || '',
     branchList: [],
-    branch: queryParams['ref'] === 'undefined' ? activeRepo['default_branch'] : queryParams['ref'],
+    branch: queryParams['ref'],
     stagedFiles: [],
     dirList: [],
     file: {},
@@ -23,6 +25,7 @@ export const enhance = compose(
     collectionName: '',
     collectionPath: ''
   }), {
+    setActiveRepo: ({ repo }) => (payload) => ({ activeRepo: payload }),
     setOwner: () => (payload) => ({ owner: payload }),
     setRepo: () => (payload) => ({ repo: payload }),
     setBranchList: () => (payload) => ({ branchList: payload }),
@@ -143,16 +146,25 @@ export const enhance = compose(
       }
     },
     getTree: ({ setRepoLoading, baseApiRoute, baseRoute, history, queryParams, setTree, branch }) => () => {
-      setRepoLoading(true)
-      const route = `${baseApiRoute}/files?ref=${branch}&tree=true&recursive=true`
-      api.get(route)
+      if (branch) {
+        setRepoLoading(true)
+        const route = `${baseApiRoute}/files?ref=${branch}&tree=true&recursive=true`
+        api.get(route)
+          .then(({ data }) => {
+            setRepoLoading(false)
+            setTree(data)
+          })
+          .catch((resp) => {
+            setRepoLoading(false)
+            notifier.bad(resp)
+          })
+      }
+    },
+    getRepo: ({ baseApiRoute, setActiveRepo, setBranch }) => () => {
+      api.get(baseApiRoute)
         .then(({ data }) => {
-          setRepoLoading(false)
-          setTree(data)
-        })
-        .catch((resp) => {
-          setRepoLoading(false)
-          notifier.bad(resp)
+          setBranch(data['repo']['default_branch'])
+          setActiveRepo(data['repo'])
         })
     }
   }),
@@ -161,7 +173,7 @@ export const enhance = compose(
     getCollections()
     getRepo()
   }),
-  withPropsOnChange(['branch'], ({ getTree }) => {
+  withPropsOnChange(['branch'], ({ getTree, branch }) => {
     getTree()
   }),
   withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, branch, stagedFiles, setRepoLoading, setOwner, setRepo }) => {
@@ -169,8 +181,6 @@ export const enhance = compose(
 
     setRepo(repo)
     setOwner(username)
-    console.log('set branch listener', queryParams, branch)
-
     setBranch(queryParams['ref'] || branch)
 
     const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])

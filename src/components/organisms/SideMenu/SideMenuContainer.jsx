@@ -1,4 +1,4 @@
-import { compose, withStateHandlers, withPropsOnChange } from 'recompose'
+import { compose, withStateHandlers, withPropsOnChange, withHandlers } from 'recompose'
 import SideMenu from './SideMenu'
 
 export default compose(
@@ -11,5 +11,11 @@ export default compose(
   }),
   withPropsOnChange(['match'], ({ match, setActiveTab }) => {
     setActiveTab(match.params['type'] || 'dashboard')
+  }),
+  withHandlers({
+    handleClickCollapse: ({ setActiveTab }) => (tab) => {
+      setActiveTab(tab)
+
+    }
   })
 )(SideMenu)

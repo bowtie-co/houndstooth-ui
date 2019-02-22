@@ -6,11 +6,9 @@ import RepoSelect from './RepoSelect'
 
 export default compose(
   withStateHandlers({
-    activeRepo: '',
     loadingRepos: true,
     asyncRepoList: []
   }, {
-    setActiveRepo: () => (payload) => ({ activeRepo: payload }),
     setLoadingRepos: () => (payload) => ({ loadingRepos: payload }),
     setAsyncRepoList: () => (payload) => ({ asyncRepoList: payload })
   }),

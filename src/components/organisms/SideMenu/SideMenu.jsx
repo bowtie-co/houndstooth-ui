@@ -13,7 +13,7 @@ import {
 } from 'atoms'
 
 const SideMenu = (props) => {
-  const { baseRoute, queryParams, activeTab, setActiveTab, match, collections } = props
+  const { baseRoute, queryParams, activeTab, setActiveTab, match, collections, handleClickCollapse } = props
   const { collection, repo, username } = match.params
   return (
     <CollapseHorizontal>
@@ -39,7 +39,7 @@ const SideMenu = (props) => {
           className={classnames('nav-link', { 'disabled': !collections || collections.length < 1, 'active': activeTab === 'collections' && collections && collections.length >= 1 })}
         >
 
-          <Row className='flex-center' onClick={() => collections && collections.length > 0 && setActiveTab('collections')}>
+          <Row className='flex-center' onClick={() => collections && collections.length > 0 && handleClickCollapse('collections')}>
             <Col sm='3'>
               <Icon size='sm' iconName='folder' />
             </Col>

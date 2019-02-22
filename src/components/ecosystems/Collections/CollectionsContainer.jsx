@@ -100,7 +100,7 @@ export default compose(
     },
     getItems: ({ collectionsApiRoute, match, setItems, setDefaultFields, setCollectionLoading, setCollectionName, setCollectionPath, branch }) => () => {
       const { collection } = match.params
-      if (collection) {
+      if (collection && branch) {
         setCollectionLoading(true)
         api.get(`${collectionsApiRoute}?ref=${branch}`)
           .then(({ data }) => {
