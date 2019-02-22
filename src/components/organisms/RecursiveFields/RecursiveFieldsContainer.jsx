@@ -1,8 +1,6 @@
 import { compose, withHandlers, withStateHandlers, withPropsOnChange } from 'recompose'
 import RecursiveFields from './RecursiveFields'
 
-// const isObject = (item) => item instanceof Object && !Array.isArray(item)
-
 export default compose(
   withStateHandlers(({ fields }) => ({
     formData: fields

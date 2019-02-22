@@ -13,7 +13,7 @@ export const enhance = compose(
     owner: match['params']['username'] || '',
     repo: match['params']['repo'] || '',
     branchList: [],
-    branch: activeRepo['default_branch'],
+    branch: queryParams['ref'] || activeRepo['default_branch'],
     stagedFiles: [],
     dirList: [],
     file: {},
