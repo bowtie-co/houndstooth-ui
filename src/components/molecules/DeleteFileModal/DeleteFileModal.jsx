@@ -3,25 +3,20 @@ import PropTypes from 'prop-types'
 import {
   Modal,
   ModalBody,
-  Button
+  Button,
+  Row,
+  Col
 } from 'atoms'
-import { LastUpdated } from 'molecules'
-import {
-  CardTitle,
-  CardBody
-} from 'reactstrap'
 
 const DeleteFileModal = ({ isOpen, handleClick, toggleModal }) => {
   return (
     <Modal title={`Are you sure you want delete this file?`} toggle={toggleModal} isOpen={isOpen}>
       <ModalBody>
-        <div className='flex-row flex-center'>
-          <div>Deleting this file will remove it from the repository.</div>
-          <div className='flex-col flex-center'>
-            <Button size='sm' onClick={toggleModal}>Cancel</Button>
-            <Button size='sm' color={'danger'} onClick={handleClick}>Delete</Button>
-          </div>
-        </div>
+        <Row>
+          <Col sm='12' className='flex-row flex-center mb-4'>Deleting this file will remove it from the repository.</Col>
+          <Col sm='6' className='flex-row flex-center'><Button size='sm' onClick={toggleModal}>Cancel</Button></Col>
+          <Col sm='6' className='flex-row flex-center'><Button size='sm' color={'danger'} onClick={handleClick}>Delete</Button></Col>
+        </Row>
       </ModalBody>
     </Modal>
   )

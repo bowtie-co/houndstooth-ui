@@ -28,7 +28,7 @@ const RecursiveFields = (props) => {
       <DeleteFileModal
         isOpen={isDeleteModalOpen}
         handleClick={deleteItem}
-        toggleModal={toggleModal} 
+        toggleModal={toggleModal}
       />
     </div>
   )
