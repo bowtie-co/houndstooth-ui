@@ -27,6 +27,9 @@ export const enhance = compose(
       setFile(newFile)
       setStagedFiles(newState)
     },
+    deleteFile: () => () => {
+
+    },
     getDirList: ({ match, baseApiRoute, queryParams, setDirList, setFile, setRepoLoading, collections }) => () => {
       if (!match['params']['collection']) {
         const stringifiedParams = qs.stringify(queryParams)
