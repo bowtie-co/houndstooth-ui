@@ -3,7 +3,7 @@ import { compose, withProps, onlyUpdateForKeys } from 'recompose'
 import { withMaybe } from '@bowtie/react-utils'
 import FileTreeMap from './FileTreeMap'
 
-const nullConditionalFn = ({ tree }) => Object.keys(tree).length === 0
+const nullConditionalFn = ({ tree = {} }) => Object.keys(tree).length === 0
 
 export default compose(
   withQueryParams,

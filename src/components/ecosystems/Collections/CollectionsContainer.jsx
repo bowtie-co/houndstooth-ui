@@ -202,7 +202,7 @@ export default compose(
             if (items.length > 0 && items[0]['name'] === 'NEW FILE') {
               items.shift()
             }
-            isNewItem && getTree()
+            // isNewItem && getTree()
             getItems()
             setStagedFileUploads([])
 
@@ -228,7 +228,7 @@ export default compose(
       api.delete(route)
         .then(resp => {
           getItems()
-          getTree()
+          // getTree()
           notifier.success('Item deleted!')
 
           history.push(collectionsApiRoute)
