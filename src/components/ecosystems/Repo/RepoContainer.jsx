@@ -9,11 +9,12 @@ import { Loading } from 'atoms'
 const conditionLoadingFn = ({ isRepoLoading }) => isRepoLoading
 
 export const enhance = compose(
-  withStateHandlers(({ match, queryParams }) => ({
+  withStateHandlers(({ match, queryParams, activeRepo }) => ({
+    activeRepo: {},
     owner: match['params']['username'] || '',
     repo: match['params']['repo'] || '',
     branchList: [],
-    branch: queryParams['ref'] || 'master',
+    branch: queryParams['ref'],
     stagedFiles: [],
     tree: {},
     config: {},
@@ -21,6 +22,7 @@ export const enhance = compose(
     collectionName: '',
     collectionPath: ''
   }), {
+    setActiveRepo: ({ repo }) => (payload) => ({ activeRepo: payload }),
     setOwner: () => (payload) => ({ owner: payload }),
     setRepo: () => (payload) => ({ repo: payload }),
     setBranchList: () => (payload) => ({ branchList: payload }),
@@ -78,15 +80,20 @@ export const enhance = compose(
           setCollections([])
         })
     },
-    getTree: ({ baseApiRoute, queryParams, setTree }) => () => {
-      const route = `${baseApiRoute}/files?&tree=true&recursive=true`
-      api.get(route)
-        .then(({ data }) => {
-          setTree(data)
-        })
-        .catch((resp) => {
-          notifier.bad(resp)
-        })
+    getTree: ({ setRepoLoading, baseApiRoute, baseRoute, history, queryParams, setTree, branch }) => () => {
+      if (branch) {
+        setRepoLoading(true)
+        const route = `${baseApiRoute}/files?ref=${branch}&tree=true&recursive=true`
+        api.get(route)
+          .then(({ data }) => {
+            setRepoLoading(false)
+            setTree(data)
+          })
+          .catch((resp) => {
+            setRepoLoading(false)
+            notifier.bad(resp)
+          })
+      }
     },
     pushToGithub: ({ branch, history, baseRoute, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
       if (message) {
@@ -101,7 +108,6 @@ export const enhance = compose(
             notifier.success('Files have been successfully committed to GitHub.')
             setRepoLoading(false)
             setStagedFiles([])
-            history.push(`/${baseRoute}/dir`)
           })
           .catch(notifier.bad.bind(notifier))
       } else {
@@ -109,16 +115,19 @@ export const enhance = compose(
       }
     }
   }),
-  withPropsOnChange(['baseApiRoute'], ({ getCollections, getTree, getBranchList, setRepoLoading, baseApiRoute }) => {
+  withPropsOnChange(['baseApiRoute'], ({ getCollections, getTree, getRepo, getBranchList, setRepoLoading, baseApiRoute }) => {
     getBranchList()
     getCollections()
+    getRepo()
+  }),
+  withPropsOnChange(['branch'], ({ getTree, branch }) => {
     getTree()
   }),
-  withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, stagedFiles, setRepoLoading, setOwner, setRepo }) => {
+  withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, branch, stagedFiles, setRepoLoading, setOwner, setRepo }) => {
     const { username, repo } = match['params']
     setRepo(repo)
     setOwner(username)
-    setBranch(queryParams['ref'] || 'master')
+    setBranch(queryParams['ref'] || branch)
   }),
   withPropsOnChange([ 'owner', 'repo', 'config' ], ({ owner, repo }) => {
     notifier.userChange({ channels: { ro: [ `repos.${owner}-${repo}` ] } })
