@@ -14,7 +14,6 @@ import {
 } from 'molecules'
 
 const FileTree = (props) => {
-
   return (
     <section className='flex-row'>
       <div className='file-tree'>
