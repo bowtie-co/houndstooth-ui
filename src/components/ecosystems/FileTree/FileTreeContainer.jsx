@@ -8,12 +8,12 @@ export const enhance = compose(
   withStateHandlers(({ match, queryParams }) => ({
     dirList: [],
     file: {},
-    isDeleteModalOpen: false,
+    isDeleteModalOpen: false
     // tree: {},
   }), {
     toggleModal: ({ isDeleteModalOpen }) => () => ({ isDeleteModalOpen: !isDeleteModalOpen }),
     setDirList: () => (payload) => ({ dirList: payload }),
-    setFile: () => (payload) => ({ file: payload }),
+    setFile: () => (payload) => ({ file: payload })
     // setTree: () => (payload) => ({ tree: payload }),
   }),
   withProps(() => ({ tree: {} })),
@@ -82,12 +82,12 @@ export const enhance = compose(
         const route = `${baseApiRoute}/files?ref=${branch}&tree=true&recursive=true`
         return api.get(route)
       }
-    },
+    }
   }),
   withPropsOnChange(['branch'], async ({ getTree, branch }) => {
     const { data } = await getTree().catch(notifier.bad.bind(notifier))
-    console.log('data', data);
-    debugger    
+    console.log('data', data)
+debugger
     return { tree: data }
   }),
   withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, stagedFiles, setRepoLoading, setOwner, setRepo }) => {
@@ -95,7 +95,7 @@ export const enhance = compose(
     stagedFile
       ? setFile(stagedFile)
       : getDirList()
-  }),
+  })
 )
 
 export default enhance(FileTree)
