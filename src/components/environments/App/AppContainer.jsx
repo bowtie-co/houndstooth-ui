@@ -20,7 +20,6 @@ export const enhance = compose(
     collections: null,
     orgList: [],
     repoList: [],
-    repo: {},
     isMainLoading: false,
     pages: {},
     pageNumber: 1
@@ -28,7 +27,6 @@ export const enhance = compose(
     setCollections: ({ collections }) => (payload) => ({ collections: payload }),
     setOrgList: ({ orgList }) => (payload) => ({ orgList: payload }),
     setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
-    setRepo: ({ repo }) => (payload) => ({ repo: payload }),
     setPages: ({ pages }) => (payload) => ({ pages: payload }),
     setPageNumber: ({ pageNumber }) => (payload = {}) => {
       if (payload !== null) {

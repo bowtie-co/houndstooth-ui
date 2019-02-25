@@ -48,7 +48,6 @@ const Repo = (props) => {
           />
           <PrivateRoute
             props={props}
-            // TODO: MOVE collection and item to query params?
             path={`/:username/:repo/:type(collections)/:collection?/:item?`}
             component={Collections}
           />
