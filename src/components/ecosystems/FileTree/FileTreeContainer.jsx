@@ -25,6 +25,23 @@ export const enhance = compose(
     setTree: () => (payload) => ({ tree: payload })
   }),
   withHandlers({
+    getTree: ({ setTreeLoading, baseApiRoute, baseRoute, history, queryParams, setTree, branch }) => () => {
+      if (branch) {
+        const route = `${baseApiRoute}/files?ref=${branch}&tree=true&recursive=true`
+        setTreeLoading(true)
+        api.get(route)
+          .then(({ data }) => {
+            setTreeLoading(false)
+            setTree(data)
+          })
+          .catch((resp) => {
+            setTreeLoading(false)
+            notifier.bad(resp)
+          })
+      }
+    }
+  }),
+  withHandlers({
     saveFile: ({ setFile, file, stagedFiles, setStagedFiles, queryParams }) => (content) => {
       const newFile = Object.assign({}, file, { content })
       const filePath = queryParams['path']
@@ -39,7 +56,7 @@ export const enhance = compose(
       setFile(newFile)
       setStagedFiles(newState)
     },
-    deleteFile: ({ baseApiRoute, baseRoute, history, queryParams, getTree, file, setFileTreeLoading }) => () => {
+    deleteFile: ({ baseApiRoute, baseRoute, history, queryParams, getTree, file, setFileTreeLoading, toggleModal }) => () => {
       const { ref } = queryParams
       const { sha, path } = file
       const pathArr = path.split('/')
@@ -58,6 +75,8 @@ export const enhance = compose(
       setFileTreeLoading(true)
       api.delete(route)
         .then(resp => {
+          toggleModal()
+          getTree()
           setFileTreeLoading(false)
           history.push(parentPath)
         })
@@ -86,21 +105,6 @@ export const enhance = compose(
           })
           .catch((resp) => {
             setFileTreeLoading(false)
-            notifier.bad(resp)
-          })
-      }
-    },
-    getTree: ({ setTreeLoading, baseApiRoute, baseRoute, history, queryParams, setTree, branch }) => () => {
-      if (branch) {
-        const route = `${baseApiRoute}/files?ref=${branch}&tree=true&recursive=true`
-        setTreeLoading(true)
-        api.get(route)
-          .then(({ data }) => {
-            setTreeLoading(false)
-            setTree(data)
-          })
-          .catch((resp) => {
-            setTreeLoading(false)
             notifier.bad(resp)
           })
       }
