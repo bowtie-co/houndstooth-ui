@@ -150,6 +150,7 @@ export default compose(
 
           return updatedFile
         })
+        console.log('newFiles', newFiles)
 
         return newFiles.reduce((promiseChain, file) => {
           return promiseChain.then(() => octokit.repos.createFile(file))

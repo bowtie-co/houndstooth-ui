@@ -17,7 +17,7 @@ const CommitChanges = (props) => {
         stagedFiles.map(file => (
           <div>
             <Icon iconName={'window-close'} onClick={() => removeStagedFile(file['path'])} />
-            <Link to={`file?path=${file.path}`}>{file.name}</Link>
+            <Link to={`file?path=${file.path}`}>{file.path}</Link>
           </div>
         ))
       }

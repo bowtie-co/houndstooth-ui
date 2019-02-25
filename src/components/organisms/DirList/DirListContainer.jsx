@@ -16,7 +16,7 @@ export default compose(
   withHandlers({
     handleClick: ({ queryParams, setStagedFiles, stagedFiles, getDirList }) => (file) => {
       const fileToStage = {
-        content: file['base64'],
+        content: file.base64.split('base64,')[1],
         path: queryParams['path'] ? `${queryParams['path']}/${file['name']}` : file['name'],
         name: file['name'],
         size: file['size'],
