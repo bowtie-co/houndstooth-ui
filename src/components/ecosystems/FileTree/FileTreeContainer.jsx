@@ -1,17 +1,25 @@
 
-import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
 import FileTree from './FileTree'
+import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
+import { withEither } from '@bowtie/react-utils'
 import qs from 'qs'
 import { api, notifier } from 'lib'
+import { Loading } from 'atoms'
+
+const conditionLoadingFn = ({ isFileTreeLoading }) => isFileTreeLoading
 
 export const enhance = compose(
   withStateHandlers(({ match, queryParams }) => ({
     dirList: [],
     file: {},
+    tree: {},
     isDeleteModalOpen: false,
-    tree: {}
+    isFileTreeLoading: false,
+    isTreeLoading: false
   }), {
     toggleModal: ({ isDeleteModalOpen }) => () => ({ isDeleteModalOpen: !isDeleteModalOpen }),
+    setFileTreeLoading: () => (payload) => ({ isFileTreeLoading: payload }),
+    setTreeLoading: () => (payload) => ({ isTreeLoading: payload }),
     setDirList: () => (payload) => ({ dirList: payload }),
     setFile: () => (payload) => ({ file: payload }),
     setTree: () => (payload) => ({ tree: payload })
@@ -31,30 +39,39 @@ export const enhance = compose(
       setFile(newFile)
       setStagedFiles(newState)
     },
-    deleteFile: ({ baseApiRoute, baseRoute, history, queryParams, getTree, file, setRepoLoading }) => () => {
+    deleteFile: ({ baseApiRoute, baseRoute, history, queryParams, getTree, file, setFileTreeLoading }) => () => {
       const { ref } = queryParams
       const { sha, path } = file
       const pathArr = path.split('/')
       pathArr.pop()
       const parentPath = `/${baseRoute}/dir?path=${pathArr.join('/')}&ref=${ref}`
       const message = `[HT] Delete file ${file['name']}`
-      setRepoLoading(true)
-      const route = `${baseApiRoute}/files?ref=${ref}&message=${message}&sha=${sha}&path=${path}`
+
+      const params = {
+        ref,
+        message,
+        sha,
+        path
+      }
+
+      const route = `${baseApiRoute}/files?${qs.stringify(params)}`
+      setFileTreeLoading(true)
       api.delete(route)
         .then(resp => {
-          setRepoLoading(false)
+          setFileTreeLoading(false)
           history.push(parentPath)
         })
         .catch((resp) => {
-          setRepoLoading(false)
+          setFileTreeLoading(false)
           notifier.bad(resp)
         })
     },
-    getDirList: ({ match, baseApiRoute, queryParams, setDirList, setFile, setRepoLoading, collections }) => () => {
+    getDirList: ({ match, baseApiRoute, queryParams, setDirList, setFile, setFileTreeLoading, collections }) => () => {
       if (!match['params']['collection']) {
         const stringifiedParams = qs.stringify(queryParams)
         const route = `${baseApiRoute}/files?${stringifiedParams}`
 
+        setFileTreeLoading(true)
         api.get(route)
           .then(({ data }) => {
             if (data['files']) {
@@ -65,24 +82,31 @@ export const enhance = compose(
             } else if (data['file']) {
               setFile(data['file'])
             }
-            setRepoLoading(false)
+            setFileTreeLoading(false)
           })
           .catch((resp) => {
-            setRepoLoading(false)
+            setFileTreeLoading(false)
             notifier.bad(resp)
           })
       }
     },
-    getTree: ({ setRepoLoading, baseApiRoute, baseRoute, history, queryParams, setTree, branch }) => () => {
+    getTree: ({ setTreeLoading, baseApiRoute, baseRoute, history, queryParams, setTree, branch }) => () => {
       if (branch) {
         const route = `${baseApiRoute}/files?ref=${branch}&tree=true&recursive=true`
+        setTreeLoading(true)
         api.get(route)
-          .then(({ data }) => setTree(data))
-          .catch(notifier.bad.bind(notifier))
+          .then(({ data }) => {
+            setTreeLoading(false)
+            setTree(data)
+          })
+          .catch((resp) => {
+            setTreeLoading(false)
+            notifier.bad(resp)
+          })
       }
     }
   }),
-  withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, stagedFiles, setRepoLoading, setOwner, setRepo }) => {
+  withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, stagedFiles, setFileTreeLoading, setOwner, setRepo }) => {
     const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
     stagedFile
       ? setFile(stagedFile)
@@ -90,7 +114,8 @@ export const enhance = compose(
   }),
   withPropsOnChange(['branch'], ({ getTree, setTree }) => {
     getTree()
-  })
+  }),
+  withEither(conditionLoadingFn, Loading)
 )
 
 export default enhance(FileTree)
