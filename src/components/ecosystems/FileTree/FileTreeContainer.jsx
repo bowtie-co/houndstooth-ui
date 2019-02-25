@@ -1,5 +1,5 @@
 
-import { compose, withStateHandlers, withHandlers, withProps, withPropsOnChange } from 'recompose'
+import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
 import FileTree from './FileTree'
 import qs from 'qs'
 import { api, notifier } from 'lib'
@@ -8,15 +8,14 @@ export const enhance = compose(
   withStateHandlers(({ match, queryParams }) => ({
     dirList: [],
     file: {},
-    isDeleteModalOpen: false
-    // tree: {},
+    isDeleteModalOpen: false,
+    tree: {}
   }), {
     toggleModal: ({ isDeleteModalOpen }) => () => ({ isDeleteModalOpen: !isDeleteModalOpen }),
     setDirList: () => (payload) => ({ dirList: payload }),
-    setFile: () => (payload) => ({ file: payload })
-    // setTree: () => (payload) => ({ tree: payload }),
+    setFile: () => (payload) => ({ file: payload }),
+    setTree: () => (payload) => ({ tree: payload })
   }),
-  withProps(() => ({ tree: {} })),
   withHandlers({
     saveFile: ({ setFile, file, stagedFiles, setStagedFiles, queryParams }) => (content) => {
       const newFile = Object.assign({}, file, { content })
@@ -45,11 +44,9 @@ export const enhance = compose(
         .then(resp => {
           setRepoLoading(false)
           history.push(parentPath)
-          // getTree()
         })
         .catch((resp) => {
           setRepoLoading(false)
-
           notifier.bad(resp)
         })
     },
@@ -78,23 +75,21 @@ export const enhance = compose(
     },
     getTree: ({ setRepoLoading, baseApiRoute, baseRoute, history, queryParams, setTree, branch }) => () => {
       if (branch) {
-        // setRepoLoading(true)
         const route = `${baseApiRoute}/files?ref=${branch}&tree=true&recursive=true`
-        return api.get(route)
+        api.get(route)
+          .then(({ data }) => setTree(data))
+          .catch(notifier.bad.bind(notifier))
       }
     }
-  }),
-  withPropsOnChange(['branch'], async ({ getTree, branch }) => {
-    const { data } = await getTree().catch(notifier.bad.bind(notifier))
-    console.log('data', data)
-debugger
-    return { tree: data }
   }),
   withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, stagedFiles, setRepoLoading, setOwner, setRepo }) => {
     const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
     stagedFile
       ? setFile(stagedFile)
       : getDirList()
+  }),
+  withPropsOnChange(['branch'], ({ getTree, setTree }) => {
+    getTree()
   })
 )
 
