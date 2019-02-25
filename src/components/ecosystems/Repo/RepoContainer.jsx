@@ -9,11 +9,12 @@ import { Loading } from 'atoms'
 const conditionLoadingFn = ({ isRepoLoading }) => isRepoLoading
 
 export const enhance = compose(
-  withStateHandlers(({ match, queryParams }) => ({
+  withStateHandlers(({ match, queryParams, activeRepo }) => ({
+    activeRepo: {},
     owner: match['params']['username'] || '',
     repo: match['params']['repo'] || '',
     branchList: [],
-    branch: queryParams['ref'] || 'master',
+    branch: queryParams['ref'],
     stagedFiles: [],
     dirList: [],
     file: {},
@@ -23,6 +24,7 @@ export const enhance = compose(
     collectionName: '',
     collectionPath: ''
   }), {
+    setActiveRepo: ({ repo }) => (payload) => ({ activeRepo: payload }),
     setOwner: () => (payload) => ({ owner: payload }),
     setRepo: () => (payload) => ({ repo: payload }),
     setBranchList: () => (payload) => ({ branchList: payload }),
@@ -115,10 +117,11 @@ export const enhance = compose(
           setCollections([])
         })
     },
-    getDirList: ({ match, baseApiRoute, queryParams, setDirList, setFile, setRepoLoading, stagedFiles, collections }) => () => {
+    getDirList: ({ match, baseApiRoute, baseRoute, history, queryParams, stagedFiles, setDirList, setFile, setRepoLoading, collections, branch }) => () => {
       if (!match['params']['collection']) {
         const stringifiedParams = qs.stringify(queryParams)
         const route = `${baseApiRoute}/files?${stringifiedParams}`
+        setRepoLoading(true)
 
         api.get(route)
           .then(({ data }) => {
@@ -153,32 +156,50 @@ export const enhance = compose(
           })
           .catch((resp) => {
             setRepoLoading(false)
+            notifier.msg(`The file ${queryParams['path']} does not exist on ${queryParams['ref']} branch.`, 'error')
+            if (resp['status'] === 404 && queryParams['path']) {
+              history.push(`/${baseRoute}/dir?ref=${queryParams['ref']}`)
+            }
+          })
+      }
+    },
+    getTree: ({ setRepoLoading, baseApiRoute, baseRoute, history, queryParams, setTree, branch }) => () => {
+      if (branch) {
+        setRepoLoading(true)
+        const route = `${baseApiRoute}/files?ref=${branch}&tree=true&recursive=true`
+        api.get(route)
+          .then(({ data }) => {
+            setRepoLoading(false)
+            setTree(data)
+          })
+          .catch((resp) => {
+            setRepoLoading(false)
             notifier.bad(resp)
           })
       }
     },
-    getTree: ({ baseApiRoute, queryParams, setTree }) => () => {
-      const route = `${baseApiRoute}/files?&tree=true&recursive=true`
-      api.get(route)
+    getRepo: ({ baseApiRoute, setActiveRepo, setBranch }) => () => {
+      api.get(baseApiRoute)
         .then(({ data }) => {
-          setTree(data)
-        })
-        .catch((resp) => {
-          notifier.bad(resp)
+          setBranch(data['repo']['default_branch'])
+          setActiveRepo(data['repo'])
         })
     }
   }),
-  withPropsOnChange(['baseApiRoute'], ({ getCollections, getTree, getBranchList, setRepoLoading, baseApiRoute }) => {
+  withPropsOnChange(['baseApiRoute'], ({ getCollections, getTree, getRepo, getBranchList, setRepoLoading, baseApiRoute }) => {
     getBranchList()
     getCollections()
+    getRepo()
+  }),
+  withPropsOnChange(['branch'], ({ getTree, branch }) => {
     getTree()
   }),
-  withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, stagedFiles, setRepoLoading, setOwner, setRepo }) => {
+  withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, branch, stagedFiles, setRepoLoading, setOwner, setRepo }) => {
     const { username, repo } = match['params']
 
     setRepo(repo)
     setOwner(username)
-    setBranch(queryParams['ref'] || 'master')
+    setBranch(queryParams['ref'] || branch)
 
     const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
     if (stagedFile) {

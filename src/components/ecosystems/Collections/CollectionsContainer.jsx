@@ -98,11 +98,11 @@ export default compose(
       //   .then(({ data: fileUploads }) => setFileUploads(fileUploads))
       //   .catch(notifier.bad.bind(notifier))
     },
-    getItems: ({ collectionsApiRoute, match, setItems, setDefaultFields, setCollectionLoading, setCollectionName, setCollectionPath }) => () => {
+    getItems: ({ collectionsApiRoute, match, setItems, setDefaultFields, setCollectionLoading, setCollectionName, setCollectionPath, branch }) => () => {
       const { collection } = match.params
-      if (collection) {
+      if (collection && branch) {
         setCollectionLoading(true)
-        api.get(collectionsApiRoute)
+        api.get(`${collectionsApiRoute}?ref=${branch}`)
           .then(({ data }) => {
             setItems(data['collection']['items'])
             setDefaultFields({ fields: data['collection']['fields'], markdown: '' })
@@ -132,12 +132,14 @@ export default compose(
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       const message = `[HT] Created item: ${activeItem.name}`
       const route = `${collectionsApiRoute}/items?ref=${branch || 'master'}&message=${message}`
+
       return api.post(route, updatedItem)
     },
-    createFileUpload: ({ match, stagedFileUploads, baseApiRoute, getFileUploads, setStagedFileUploads, setCollectionLoading }) => () => {
+    createFileUpload: ({ match, branch, stagedFileUploads, baseApiRoute, getFileUploads, setStagedFileUploads, setCollectionLoading }) => () => {
       if (stagedFileUploads.length > 0) {
         const newFiles = stagedFileUploads.map(file => {
           const updatedFile = {
+            branch,
             path: file.name,
             content: file.base64.split('base64,')[1],
             message: `[HT] Uploaded ${file.name}`,
@@ -169,7 +171,7 @@ export default compose(
     }
   }),
   withPropsOnChange(
-    ({ match }, { match: nextMatch }) => match.params.collection !== nextMatch.params.collection,
+    ({ match, branch }, { match: nextMatch, branch: nextBranch }) => match.params.collection !== nextMatch.params.collection || branch !== nextBranch,
     ({ getItems, setActiveItem }) => {
       setActiveItem({})
       getItems()
@@ -189,7 +191,7 @@ export default compose(
     }
   }),
   withHandlers({
-    handleFormSubmit: ({ collectionsRoute, items, createItem, history, editItem, createFileUpload, getItems, getFileUploads, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData }) => (formData) => {
+    handleFormSubmit: ({ collectionsRoute, items, createItem, getTree, history, editItem, createFileUpload, getItems, getFileUploads, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData }) => (formData) => {
       setCollectionLoading(true)
 
       const isNewItem = match['params']['item'] === 'new'
@@ -201,7 +203,7 @@ export default compose(
             if (items.length > 0 && items[0]['name'] === 'NEW FILE') {
               items.shift()
             }
-
+            isNewItem && getTree()
             getItems()
             setStagedFileUploads([])
 
@@ -218,7 +220,7 @@ export default compose(
           notifier.bad(resp)
         })
     },
-    deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems }) => () => {
+    deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems, getTree }) => () => {
       const { item } = match.params
       const { sha } = activeItem
       const message = 'Delete file'
@@ -227,6 +229,7 @@ export default compose(
       api.delete(route)
         .then(resp => {
           getItems()
+          getTree()
           notifier.success('Item deleted!')
 
           history.push(collectionsApiRoute)
