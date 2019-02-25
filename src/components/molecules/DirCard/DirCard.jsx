@@ -9,7 +9,7 @@ import {
 } from 'atoms'
 import { lists } from 'helpers'
 
-const DirCard = ({ dir, branch, handleDrop, setEnterZone, inDropZone }) => {
+const DirCard = ({ dir, branch, handleDrop, setEnterZone, inDropZone, handleActiveDrop, inFileDropZone }) => {
   const { fileIcons } = lists
   const { type, path, name } = dir
   const nameArray = name.split('.')
@@ -28,15 +28,16 @@ const DirCard = ({ dir, branch, handleDrop, setEnterZone, inDropZone }) => {
       }
       <Dropzone
         className={'p-5 flex-col flex-center'}
+        style={{ 'zIndex': '4' }}
         disableClick
         onClick={evt => evt.preventDefault()}
         onDrop={handleDrop}
-        onDragEnter={() => setEnterZone(true)}
-        onDragLeave={() => setEnterZone(false)}
+        onDragEnter={() => handleActiveDrop(true, type)}
+        onDragLeave={() => handleActiveDrop(false, type)}
       >
-        <div className={classnames({ opaqueBg: inDropZone }, 'flex-col flex-center')}>
-          <Icon className={fileIcons[ext] ? fileIcons[ext] : fileIcons[type]} color={inDropZone ? '#1e1f2047' : 'black'} size='md' />
-          <Subtitle title={name} />
+        <div className={classnames({ opaqueBg: inFileDropZone || inDropZone }, 'flex-col flex-center')}>
+          <Icon className={fileIcons[ext] ? fileIcons[ext] : fileIcons[type]} color={inFileDropZone || inDropZone ? '#1e1f2047' : 'black'} size='md' />
+          <div className={'subtitle'} style={{ 'color': inFileDropZone || inDropZone ? '#1e1f2047' : 'black', 'textDecoration': 'none' }}> {name} </div>
         </div>
       </Dropzone>
     </Link>

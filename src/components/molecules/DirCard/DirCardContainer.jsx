@@ -10,7 +10,11 @@ export default compose(
     setEnterZone: () => (payload) => ({ inDropZone: payload })
   }),
   withHandlers({
-    handleDrop: ({ dir, setEnterZone, setStagedFiles, stagedFiles, getDirList }) => (files) => {
+    handleActiveDrop: ({ setEnterZone, setEnterFileZone }) => (bool, type) => {
+      setEnterZone(bool)
+      type === 'file' && setEnterFileZone(bool)
+    },
+    handleDrop: ({ dir, setEnterZone, setStagedFiles, setEnterFileZone, stagedFiles, getDirList }) => (files) => {
       console.log('FILE:', files[0])
       const file = files[0]
 
@@ -36,6 +40,7 @@ export default compose(
         setStagedFiles([...stagedFiles, fileToStage])
         getDirList()
         setEnterZone(false)
+        setEnterFileZone(false)
         notifier.success(`You have added a file to ${fileToStage['path']}`)
       }
 

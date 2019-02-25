@@ -1,12 +1,17 @@
 
 import DirList from './DirList'
 import { notifier } from 'lib'
-import { compose, withHandlers } from 'recompose'
+import { compose, withHandlers, withStateHandlers } from 'recompose'
 import { withMaybe } from '@bowtie/react-utils'
 
 const nullConditionFn = ({ dirList }) => dirList.length === 0
 
 export default compose(
+  withStateHandlers({
+    inFileDropZone: false
+  }, {
+    setEnterFileZone: () => (payload) => ({ inFileDropZone: payload })
+  }),
   withMaybe(nullConditionFn),
   withHandlers({
     handleClick: ({ queryParams, setStagedFiles, stagedFiles, getDirList }) => (file) => {
