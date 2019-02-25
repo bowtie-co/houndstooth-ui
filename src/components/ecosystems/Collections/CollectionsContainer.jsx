@@ -135,10 +135,11 @@ export default compose(
 
       return api.post(route, updatedItem)
     },
-    createFileUpload: ({ match, stagedFileUploads, baseApiRoute, getFileUploads, setStagedFileUploads, setCollectionLoading }) => () => {
+    createFileUpload: ({ match, branch, stagedFileUploads, baseApiRoute, getFileUploads, setStagedFileUploads, setCollectionLoading }) => () => {
       if (stagedFileUploads.length > 0) {
         const newFiles = stagedFileUploads.map(file => {
           const updatedFile = {
+            branch,
             path: file.name,
             content: file.base64.split('base64,')[1],
             message: `[HT] Uploaded ${file.name}`,
