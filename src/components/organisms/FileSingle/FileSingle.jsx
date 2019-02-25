@@ -2,8 +2,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, TextEditor } from 'atoms'
+import { DeleteFileModal } from 'molecules'
 
-const FileSingle = ({ file, content, handleContentChange, permissions, saveFile }) => {
+const FileSingle = ({ file, content, handleContentChange, permissions, saveFile, isDeleteModalOpen, toggleModal, deleteFile }) => {
   return (
     <div style={{ 'padding': '20px 0', 'width': '100%' }}>
       <div className='d-flex align-items-center justify-content-between'>
@@ -25,8 +26,17 @@ const FileSingle = ({ file, content, handleContentChange, permissions, saveFile 
         permissions={permissions}
       />
       {
-        permissions['push'] && <Button onClick={() => saveFile(content)} className='mt-3'>Save</Button>
+        permissions['push'] &&
+          <div className='mt-3 mb-3'>
+            <Button className='mr-3' onClick={() => saveFile(content)}>Save</Button>
+            <Button className='mr-3' color='danger' onClick={toggleModal}>Delete</Button>
+          </div>
       }
+      <DeleteFileModal
+        isOpen={isDeleteModalOpen}
+        handleClick={deleteFile}
+        toggleModal={toggleModal}
+      />
     </div>
   )
 }

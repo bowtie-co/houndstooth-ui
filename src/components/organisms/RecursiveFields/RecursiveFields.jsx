@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Col, Row, Icon } from 'atoms'
+import { DeleteFileModal } from 'molecules'
 import FieldGroup from './FieldGroup'
 
 const RecursiveFields = (props) => {
-  const { onSubmit, formData, fields, deleteItem, location, ...rest } = props
+  const { onSubmit, formData, fields, deleteItem, location, isDeleteModalOpen, toggleModal, ...rest } = props
   return (
     <div>
       <Row>
@@ -27,6 +28,11 @@ const RecursiveFields = (props) => {
           </Row>
       }
 
+      <DeleteFileModal
+        isOpen={isDeleteModalOpen}
+        handleClick={deleteItem}
+        toggleModal={toggleModal}
+      />
     </div>
   )
 }
