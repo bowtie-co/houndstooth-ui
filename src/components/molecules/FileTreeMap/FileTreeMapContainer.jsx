@@ -1,9 +1,13 @@
+import React from 'react'
 import { withQueryParams } from 'helpers'
 import { compose, withProps, onlyUpdateForKeys, withHandlers } from 'recompose'
-import { withMaybe } from '@bowtie/react-utils'
+import { withMaybe, withEither } from '@bowtie/react-utils'
 import FileTreeMap from './FileTreeMap'
 
-const nullConditionalFn = ({ tree }) => Object.keys(tree).length === 0
+const nullConditionalFn = ({ tree = {} }) => Object.keys(tree).length === 0
+const loadingConditionalFn = ({ isTreeLoading }) => isTreeLoading
+
+const Loading = () => <div>Loading...</div>
 
 export default compose(
   withQueryParams,
@@ -38,5 +42,6 @@ export default compose(
       return dirList.sort(a => a.split('.').length > 1 ? 1 : -1)
     }
   }),
+  withEither(loadingConditionalFn, Loading),
   withMaybe(nullConditionalFn)
 )(FileTreeMap)
