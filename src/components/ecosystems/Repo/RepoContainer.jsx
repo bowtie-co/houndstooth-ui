@@ -1,5 +1,5 @@
 
-import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
+import { compose, withStateHandlers, withHandlers, withPropsOnChange, lifecycle } from 'recompose'
 import Repo from './Repo'
 import qs from 'qs'
 import { withEither } from '@bowtie/react-utils'
@@ -121,6 +121,11 @@ export const enhance = compose(
   }),
   withPropsOnChange([ 'owner', 'repo', 'config' ], ({ owner, repo }) => {
     notifier.userChange({ channels: { ro: [ `repos.${owner}-${repo}` ] } })
+  }),
+  lifecycle({
+    componentWillUnmount () {
+      this.props.setCollections(null)
+    }
   }),
   withEither(conditionLoadingFn, Loading)
 )
