@@ -39,7 +39,6 @@ export default compose(
         console.log('content', params['content'])
 
         const fileToStage = Object.assign({}, file, params)
-        // debugger
         if (dir['type'] !== 'dir') {
           pathArray.splice(lastIndex, 1, file['name'])
           fileToStage['path'] = pathArray.join('/')
