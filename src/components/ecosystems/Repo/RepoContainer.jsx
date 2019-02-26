@@ -22,8 +22,8 @@ export const enhance = compose(
     collectionName: '',
     collectionPath: ''
   }), {
-    setActiveRepo: ({ activeRepo }) => (payload) => ({ activeRepo: payload }),
-    setPermissions: ({ permissions }) => (payload) => ({ permissions: payload }),
+    setActiveRepo: () => (payload) => ({ activeRepo: payload }),
+    setPermissions: () => (payload) => ({ permissions: payload }),
     setOwner: () => (payload) => ({ owner: payload }),
     setRepo: () => (payload) => ({ repo: payload }),
     setBranchList: () => (payload) => ({ branchList: payload }),
@@ -31,8 +31,8 @@ export const enhance = compose(
     setBranch: () => (payload) => ({ branch: payload }),
     setConfig: () => (payload) => ({ config: payload }),
     setRepoLoading: () => (payload) => ({ isRepoLoading: payload }),
-    setCollectionName: ({ collectionName }) => (payload) => ({ collectionName: payload }),
-    setCollectionPath: ({ collectionPath }) => (payload) => ({ collectionPath: payload })
+    setCollectionName: () => (payload) => ({ collectionName: payload }),
+    setCollectionPath: () => (payload) => ({ collectionPath: payload })
   }),
   withHandlers({
     removeStagedFile: ({ stagedFiles, setStagedFiles }) => (path) => {

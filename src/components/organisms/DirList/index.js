@@ -1,1 +1,1 @@
-export { default } from './DirList'
+export { default } from './DirListContainer'

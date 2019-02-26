@@ -8,6 +8,7 @@ import { FormGroup, Icon, ExtLink } from 'atoms'
 const FileUpload = (props) => {
   const { name, value, handleFileUpload, previewUrl, deleteImage, fileUrl, disabled } = props
   const { fileIcons, errorMessages } = lists
+
   return (
     <div>
       <p>{titleize(name, '_')}
@@ -24,7 +25,7 @@ const FileUpload = (props) => {
         {
           previewUrl && fileIcons[previewUrl]
             ? <div style={{ display: `${value ? 'flex' : 'none'}` }} className='flex-center'>
-              <Icon iconName={fileIcons[previewUrl]} size='xxl' />
+              <Icon className={fileIcons[previewUrl]} size='xxl' />
             </div>
             : <div style={{ display: `${value ? 'flex' : 'none'}` }} className='flex-center'>
               <img

@@ -15,8 +15,12 @@ export const fileIcons = {
   json: 'far fa-file-alt',
   file: 'far fa-file-alt',
   dir: 'fas fa-folder',
-  pdf: 'file-pdf',
-  largeFile: 'file-excel'
+  largeFile: 'far fa-file-excel',
+  svg: 'far fa-file-image',
+  jpeg: 'far fa-file-image',
+  jpg: 'far fa-file-image',
+  png: 'far fa-file-image',
+  pdf: 'far fa-file-pdf'
 }
 
 export const errorMessages = {

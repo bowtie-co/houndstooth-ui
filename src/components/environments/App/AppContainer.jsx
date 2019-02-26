@@ -42,7 +42,6 @@ export const enhance = compose(
         return { pageNumber: 1 }
       }
     },
-    setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
     setMainLoading: ({ isMainLoading }) => (payload) => ({ isMainLoading: payload })
   }),
 
