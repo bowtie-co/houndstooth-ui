@@ -11,7 +11,7 @@ import 'brace/mode/css'
 import 'brace/mode/ruby'
 import 'brace/theme/terminal'
 
-const TextEditor = ({ content, name, onChange }) => {
+const TextEditor = ({ content, name, onChange, permissions }) => {
   const ext = name.match(/.*\.([^.]+)/) ? name.match(/.*\.([^.]+)/)[1] : 'md'
   const { languages } = lists
   const lang = languages[ext] || ext
@@ -33,6 +33,7 @@ const TextEditor = ({ content, name, onChange }) => {
       showGutter
       highlightActiveLine
       value={atob(content)}
+      readOnly={!permissions['push']}
       setOptions={{
         enableBasicAutocompletion: false,
         enableLiveAutocompletion: false,

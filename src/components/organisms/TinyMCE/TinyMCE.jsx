@@ -4,7 +4,7 @@ import { Editor } from '@tinymce/tinymce-react'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 const TinyMCE = (props) => {
-  const { editorContent, onChange, onUpload } = props
+  const { editorContent, onChange, onUpload, disabled = false } = props
 
   return (
     <div className='wysiwyg-section'>
@@ -22,6 +22,7 @@ const TinyMCE = (props) => {
           // file_picker_types: 'file image media',
           images_upload_handler: onUpload
         }}
+        disabled={disabled}
         apiKey={'kpkfdogbexo2stz9zphjxq28zit6i9tch0ox4vlu1meo75hn'}
         value={editorContent}
         onEditorChange={onChange}

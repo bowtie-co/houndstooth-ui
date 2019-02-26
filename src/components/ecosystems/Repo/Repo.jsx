@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Prompt } from 'react-router-dom'
+import { Alert } from 'reactstrap'
 import {
   PrivateRoute,
   Switch,
@@ -9,6 +10,7 @@ import {
 } from 'atoms'
 import { RepoControls } from 'molecules'
 import { CommitChanges } from 'organisms'
+
 import {
   FileTree,
   Collections,
@@ -16,10 +18,15 @@ import {
 } from '..'
 
 const Repo = (props) => {
-  const { match, stagedFiles, pushToGithub, collections, removeStagedFile } = props
+  const { match, stagedFiles, pushToGithub, collections, removeStagedFile, permissions } = props
   const { username } = match.params
   return (
     <Row style={{ 'width': '100%' }}>
+      { !permissions['push'] &&
+      <Col sm='12' className='ml-3'>
+        <Alert className={`pre-wrap`} color={'warning'}>You do not have permission to edit this repo.</Alert>
+      </Col>
+      }
       <Col style={{ 'padding': '20px 0 20px 20px' }}>
         <RepoControls
           isCommitable={stagedFiles.length > 0}

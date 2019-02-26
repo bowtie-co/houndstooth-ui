@@ -9,8 +9,9 @@ import { Loading } from 'atoms'
 const conditionLoadingFn = ({ isRepoLoading }) => isRepoLoading
 
 export const enhance = compose(
-  withStateHandlers(({ match, queryParams, activeRepo }) => ({
+  withStateHandlers(({ match, queryParams }) => ({
     activeRepo: {},
+    permissions: {},
     owner: match['params']['username'] || '',
     repo: match['params']['repo'] || '',
     branchList: [],
@@ -22,6 +23,7 @@ export const enhance = compose(
     collectionPath: ''
   }), {
     setActiveRepo: () => (payload) => ({ activeRepo: payload }),
+    setPermissions: () => (payload) => ({ permissions: payload }),
     setOwner: () => (payload) => ({ owner: payload }),
     setRepo: () => (payload) => ({ repo: payload }),
     setBranchList: () => (payload) => ({ branchList: payload }),
@@ -29,8 +31,8 @@ export const enhance = compose(
     setBranch: () => (payload) => ({ branch: payload }),
     setConfig: () => (payload) => ({ config: payload }),
     setRepoLoading: () => (payload) => ({ isRepoLoading: payload }),
-    setCollectionName: ({ collectionName }) => (payload) => ({ collectionName: payload }),
-    setCollectionPath: ({ collectionPath }) => (payload) => ({ collectionPath: payload })
+    setCollectionName: () => (payload) => ({ collectionName: payload }),
+    setCollectionPath: () => (payload) => ({ collectionPath: payload })
   }),
   withHandlers({
     removeStagedFile: ({ stagedFiles, setStagedFiles }) => (path) => {
@@ -77,12 +79,14 @@ export const enhance = compose(
           setCollections([])
         })
     },
-    getRepo: ({ baseApiRoute, setActiveRepo, setBranch }) => () => {
+    getRepo: ({ baseApiRoute, setActiveRepo, setBranch, setPermissions }) => () => {
       api.get(baseApiRoute)
         .then(({ data }) => {
           setBranch(data['repo']['default_branch'])
           setActiveRepo(data['repo'])
+          setPermissions(data.repo['permissions'])
         })
+        .catch(notifier.bad.bind(notifier))
     },
     pushToGithub: ({ branch, history, baseRoute, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
       if (message) {
@@ -105,9 +109,9 @@ export const enhance = compose(
     }
   }),
   withPropsOnChange(['baseApiRoute'], ({ getCollections, getTree, getRepo, getBranchList, setRepoLoading, baseApiRoute }) => {
+    getRepo()
     getBranchList()
     getCollections()
-    getRepo()
   }),
   withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, branch, stagedFiles, setRepoLoading, setOwner, setRepo }) => {
     const { username, repo } = match['params']

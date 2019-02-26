@@ -150,7 +150,6 @@ export default compose(
 
           return updatedFile
         })
-        console.log('newFiles', newFiles)
 
         return newFiles.reduce((promiseChain, file) => {
           return promiseChain.then(() => octokit.repos.createFile(file))
@@ -178,17 +177,14 @@ export default compose(
       getItems()
     }
   ),
-  withPropsOnChange([ 'match', 'items', 'defaultFields' ], ({ match, items, setActiveItem, defaultFields }) => {
-    if (match['params']['item'] === 'new') {
+  withPropsOnChange(['match', 'items', 'defaultFields'], ({ match, items, setActiveItem, defaultFields, permissions }) => {
+    if (match['params']['item'] === 'new' && permissions['push']) {
       setActiveItem(defaultFields)
-    } else {
+    } else if (match['params']['item'] !== 'new') {
       const currentItem = items.find(i => i.name === match['params']['item'])
-
-      if (currentItem) {
-        setActiveItem(currentItem)
-      } else {
-        setActiveItem({})
-      }
+      currentItem
+        ? setActiveItem(currentItem)
+        : setActiveItem({})
     }
   }),
   withHandlers({
