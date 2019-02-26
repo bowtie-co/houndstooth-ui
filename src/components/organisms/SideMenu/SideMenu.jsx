@@ -58,7 +58,7 @@ const SideMenu = (props) => {
                       key={i}
                       active={collection === col}
                       className='nested'
-                      path={`/${baseRoute}/collections/${col}?${qs.stringify(Object.assign({}, queryParams, { path: `_${col}` }), { encode: false })}`}
+                      path={`/${baseRoute}/collections/${col}?${qs.stringify(Object.assign({}, queryParams, { path: `_${col}` }))}`}
                     >
                       <Row className='flex-center'>
                         <Col sm='3'>

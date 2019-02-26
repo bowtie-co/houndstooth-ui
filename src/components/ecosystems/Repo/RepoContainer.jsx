@@ -41,7 +41,7 @@ export const enhance = compose(
     },
     changeBranch: ({ history, queryParams, match }) => (e) => {
       const newParams = Object.assign({}, queryParams, { ref: e.target.value })
-      history.push(`${match['url']}?${qs.stringify(newParams, { encode: false })}`)
+      history.push(`${match['url']}?${qs.stringify(newParams)}`)
     },
     getBranchList: ({ setBranchList, baseApiRoute, setRepoLoading, match }) => () => {
       const storageKey = `${match.params['repo']}_branchList`

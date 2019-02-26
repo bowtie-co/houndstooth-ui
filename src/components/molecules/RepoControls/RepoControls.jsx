@@ -45,7 +45,7 @@ const RepoControls = (props) => {
         {
           type !== 'collections' && stagedFiles.length > 0 &&
             <Button
-              href={`commit/?${qs.stringify(rest['queryParams'], { encode: false })}`}
+              href={`commit/?${qs.stringify(rest['queryParams'])}`}
               className='btn-sm'
               color='primary'
               style={{ marginRight: '10px' }}

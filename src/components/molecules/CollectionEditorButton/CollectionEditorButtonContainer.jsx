@@ -22,8 +22,8 @@ export default compose(
     const isCollection = collArr && collArr[1] ? collections.includes(collArr[1]) : false
     const onCollectionEditor = type === 'collections'
 
-    const collectionRoute = `/${baseRoute}/collections/${isCollection && collPathArr && collPathArr[1] ? collPathArr[1] : ''}?${qs.stringify(queryParams, { encode: false })}`
-    const fileRoute = item && collection ? `/${baseRoute}/file?${qs.stringify(Object.assign({}, queryParams, { path: `${collectionPath}/${item}`, ref: branch }), { encode: false })}` : `/${baseRoute}/dir?${qs.stringify(queryParams)}`
+    const collectionRoute = `/${baseRoute}/collections/${isCollection && collPathArr && collPathArr[1] ? collPathArr[1] : ''}?${qs.stringify(queryParams)}`
+    const fileRoute = item && collection ? `/${baseRoute}/file?${qs.stringify(Object.assign({}, queryParams, { path: `${collectionPath}/${item}`, ref: branch }))}` : `/${baseRoute}/dir?${qs.stringify(queryParams)}`
 
     return {
       onCollectionEditor,
