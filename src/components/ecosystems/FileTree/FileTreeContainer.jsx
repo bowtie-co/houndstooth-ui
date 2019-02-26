@@ -90,7 +90,8 @@ export const enhance = compose(
       if (!match['params']['collection']) {
         const stringifiedParams = qs.stringify(queryParams)
         const route = `${baseApiRoute}/files?${stringifiedParams}`
-
+        console.log('stringified params:', queryParams);
+        
         setFileTreeLoading(true)
         api.get(route)
           .then(({ data }) => {
