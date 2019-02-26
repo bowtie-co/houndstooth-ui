@@ -16,6 +16,14 @@
   .fileIcon {
       width: 80px;
   }
+  .opaqueBg * {
+  color: #1e1f2047;
+  z-index: 2;
+  &h3.subtitle {
+    color: #1e1f2047;
+    text-decoration: none;
+    }
+  }
 }
 .inDirDropZone {
   position: absolute;
@@ -40,10 +48,7 @@
   outline: 0;
   box-shadow: 0px 0 3px 0.3rem rgba(255, 53, 0, 0.37);
 }
-.opaqueBg * {
-  color: #1e1f2047;
-  z-index: 2;
-}
+
 
 
 .file-tree {

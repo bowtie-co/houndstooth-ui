@@ -1,7 +1,8 @@
 /* global FileReader */
 import DirCard from './DirCard'
-import { compose, withHandlers, withStateHandlers } from 'recompose'
+import { compose, withHandlers, withStateHandlers, withProps } from 'recompose'
 import { notifier } from 'lib/index'
+import { lists } from 'helpers'
 
 export default compose(
   withStateHandlers({
@@ -52,6 +53,15 @@ export default compose(
       }
 
       reader.readAsDataURL(file)
+    }
+  }),
+  withProps(({ dir }) => {
+    const { fileIcons } = lists
+    const { type, name } = dir
+    const nameArray = name.split('.')
+    const ext = nameArray.length > 1 ? nameArray[nameArray.length - 1] : null
+    return {
+      fileIcon: fileIcons[ext] ? fileIcons[ext] : fileIcons[type]
     }
   })
 )(DirCard)
