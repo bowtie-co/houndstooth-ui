@@ -90,8 +90,8 @@ export const enhance = compose(
       if (!match['params']['collection']) {
         const stringifiedParams = qs.stringify(queryParams)
         const route = `${baseApiRoute}/files?${stringifiedParams}`
-        console.log('stringified params:', queryParams);
-        
+        console.log('stringified params:', queryParams)
+
         setFileTreeLoading(true)
         api.get(route)
           .then(({ data }) => {
@@ -129,10 +129,10 @@ export const enhance = compose(
             const pathArr = path.split('/')
             pathArr.pop()
             const parentPath = pathArr.join('/')
-            Object.assign(queryParams, { path: parentPath })
+            const newParams = Object.assign({}, queryParams, { path: parentPath })
             setFileTreeLoading(false)
             notifier.bad(resp)
-            history.push(`/${baseRoute}/dir?${qs.stringify(queryParams)}`)
+            history.push(`/${baseRoute}/dir?${qs.stringify(newParams)}`)
           })
       }
     }

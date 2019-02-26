@@ -40,8 +40,8 @@ export const enhance = compose(
       setStagedFiles(newStagedFiles)
     },
     changeBranch: ({ history, queryParams, match }) => (e) => {
-      Object.assign(queryParams, { ref: e.target.value })
-      history.push(`${match['url']}?${qs.stringify(queryParams, { encode: false })}`)
+      const newParams = Object.assign({}, queryParams, { ref: e.target.value })
+      history.push(`${match['url']}?${qs.stringify(newParams, { encode: false })}`)
     },
     getBranchList: ({ setBranchList, baseApiRoute, setRepoLoading, match }) => () => {
       const storageKey = `${match.params['repo']}_branchList`
