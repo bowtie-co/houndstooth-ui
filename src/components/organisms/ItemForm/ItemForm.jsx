@@ -16,7 +16,7 @@ import {
 } from '..'
 
 export const ItemForm = (props) => {
-  const { activeItem, handleFormSubmit, editFileName, deleteItem, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads, ...rest } = props
+  const { activeItem, handleFormSubmit, editFileName, deleteItem, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads, permissions, ...rest } = props
   const { item } = match.params
   return (
     <Row>
@@ -41,6 +41,7 @@ export const ItemForm = (props) => {
             fileUploads={fileUploads}
             stagedFileUploads={stagedFileUploads}
             setStagedFileUploads={setStagedFileUploads}
+            disabled={!permissions['push']}
             {...rest}
           />
         </div>
@@ -51,6 +52,7 @@ export const ItemForm = (props) => {
             item={item}
             content={activeItem['markdown']}
             handleEditorChange={handleMarkdownChange}
+            disabled={!permissions['push']}
             {...rest}
           />
         </div>

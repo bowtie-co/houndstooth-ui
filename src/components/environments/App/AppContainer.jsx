@@ -66,6 +66,13 @@ export const enhance = compose(
           setMainLoading(false)
           notifier.bad(resp)
         })
+    },
+    getCurrentUser: ({ setCurrentUser }) => () => {
+      api.get('user')
+        .then(({ data }) => {
+          setCurrentUser(data['user'])
+        })
+        .catch(notifier.bad.bind(notifier))
     }
   }),
   withHandlers({

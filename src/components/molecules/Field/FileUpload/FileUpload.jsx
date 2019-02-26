@@ -6,13 +6,13 @@ import { titleize } from '@bowtie/utils'
 import { FormGroup, Icon, ExtLink } from 'atoms'
 
 const FileUpload = (props) => {
-  const { name, value, handleFileUpload, previewUrl, deleteImage, fileUrl } = props
+  const { name, value, handleFileUpload, previewUrl, deleteImage, fileUrl, disabled } = props
   const { fileIcons, errorMessages } = lists
   return (
     <div>
       <p>{titleize(name, '_')}
         {
-          value &&
+          value && !disabled &&
           <Icon onClick={deleteImage} iconName={'trash'} />
         }
       </p>
@@ -37,15 +37,19 @@ const FileUpload = (props) => {
         }
 
         <br />
-        <div className='inputfile'>
-          <div className='file-upload'>
-            <FileBase64
-              multiple={false}
-              onDone={handleFileUpload}
-            />
-            <div className='btn btn-sm btn-upload'><i className='fa fa-arrow-up' /> Choose File</div>
-          </div>
-        </div>
+
+        {
+          !disabled &&
+            <div className='inputfile'>
+              <div className='file-upload'>
+                <FileBase64
+                  multiple={false}
+                  onDone={handleFileUpload}
+                />
+                <div className='btn btn-sm btn-upload'><i className='fa fa-arrow-up' /> Choose File</div>
+              </div>
+            </div>
+        }
       </FormGroup>
     </div>
   )

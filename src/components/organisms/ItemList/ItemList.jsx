@@ -7,12 +7,15 @@ import {
 } from 'atoms'
 import { TabContent, Nav, NavItem, NavLink } from 'reactstrap'
 
-const ItemList = ({ itemsTabs = [], activeTab, handleClick, children, vertical = false, closeTab, addNewItem, ...rest }) => {
+const ItemList = ({ itemsTabs = [], activeTab, handleClick, children, vertical = false, closeTab, addNewItem, permissions, ...rest }) => {
   return (
     <section>
-      <div className='pointer addFile' onClick={addNewItem}>
-        <Icon iconName='plus-circle' /> Add File
-      </div>
+      {
+        permissions['push'] &&
+          <div className='pointer addFile' onClick={addNewItem}>
+            <Icon iconName='plus-circle' /> Add File
+          </div>
+      }
       <Nav tabs vertical={vertical}>
         <Row>
           <Col sm='3' md='2' lg='2' xl='1' className='tabs-vertical'>

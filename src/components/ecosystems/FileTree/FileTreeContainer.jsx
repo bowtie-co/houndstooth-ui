@@ -78,6 +78,7 @@ export const enhance = compose(
           toggleModal()
           getTree()
           setFileTreeLoading(false)
+          notifier.success(`${path} has been successfully deleted.`)
           history.push(parentPath)
         })
         .catch((resp) => {
@@ -85,7 +86,7 @@ export const enhance = compose(
           notifier.bad(resp)
         })
     },
-    getDirList: ({ match, baseApiRoute, queryParams, setDirList, setFile, setFileTreeLoading, collections }) => () => {
+    getDirList: ({ match, baseApiRoute, baseRoute, queryParams, setDirList, setFile, setFileTreeLoading, collections, branch, history }) => () => {
       if (!match['params']['collection']) {
         const stringifiedParams = qs.stringify(queryParams)
         const route = `${baseApiRoute}/files?${stringifiedParams}`
@@ -104,8 +105,14 @@ export const enhance = compose(
             setFileTreeLoading(false)
           })
           .catch((resp) => {
+            const { path } = queryParams
+            const pathArr = path.split('/')
+            pathArr.pop()
+            const parentPath = pathArr.join('/')
+            Object.assign(queryParams, { path: parentPath })
             setFileTreeLoading(false)
             notifier.bad(resp)
+            history.push(`/${baseRoute}/dir?${qs.stringify(queryParams)}`)
           })
       }
     }
