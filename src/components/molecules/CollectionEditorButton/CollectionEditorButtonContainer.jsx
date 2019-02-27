@@ -23,7 +23,10 @@ export default compose(
     const onCollectionEditor = type === 'collections'
 
     const collectionRoute = `/${baseRoute}/collections/${isCollection && collPathArr && collPathArr[1] ? collPathArr[1] : ''}?${qs.stringify(queryParams)}`
-    const fileRoute = item && collection ? `/${baseRoute}/file?${qs.stringify(Object.assign({}, queryParams, { path: `${collectionPath}/${item}`, ref: branch }))}` : `/${baseRoute}/dir?${qs.stringify(queryParams)}`
+
+    const filePath = `/${baseRoute}/file?${qs.stringify(Object.assign({}, queryParams, { path: `${collectionPath}/${item}`, ref: branch }))}`
+    const dirPath = `/${baseRoute}/dir?${qs.stringify(Object.assign({}, queryParams, { path: collectionPath, ref: branch }))}`
+    const fileRoute = item && collection ? filePath : dirPath
 
     return {
       onCollectionEditor,
