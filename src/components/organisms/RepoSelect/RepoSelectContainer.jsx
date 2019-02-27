@@ -20,7 +20,10 @@ export default compose(
       if (storage.get('all_repos')) {
         setAsyncRepoList(storage.get('all_repos'))
       } else {
-        const { data } = await api.get(`repos?per_page=0`).catch((resp) => { notifier.bad(resp) })
+        const { data } = await api.get(`repos?per_page=0`)
+          .then(resp => resp || { data: { repos: {} } })
+          .catch((resp) => { notifier.bad(resp) })
+
         storage.set('all_repos', data['repos'])
         setAsyncRepoList(data['repos'])
       }
