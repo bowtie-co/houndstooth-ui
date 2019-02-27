@@ -40,6 +40,10 @@ export default compose(
       }, {})
 
       return sanitizedProps
+    },
+    sanitizeFileName: () => (fileName = '') => {
+      const sanitizedName = fileName.replace(/[|&;$%@"<>()+#,' ']/g, '')
+      return sanitizedName
     }
   })
 )

@@ -3,10 +3,12 @@ import DirList from './DirList'
 import { notifier } from 'lib'
 import { compose, withHandlers, withStateHandlers } from 'recompose'
 import { withMaybe } from '@bowtie/react-utils'
+import { withFormatting } from 'helpers'
 
 const nullConditionFn = ({ dirList }) => dirList.length === 0
 
 export default compose(
+  withFormatting,
   withStateHandlers({
     inFileDropZone: false
   }, {
@@ -14,7 +16,8 @@ export default compose(
   }),
   withMaybe(nullConditionFn),
   withHandlers({
-    handleClick: ({ queryParams, setStagedFiles, stagedFiles, getDirList }) => (file) => {
+    handleClick: ({ queryParams, setStagedFiles, stagedFiles, getDirList, sanitizeFileName }) => (file) => {
+      file['name'] = sanitizeFileName(file['name'])
       const fileToStage = {
         content: file.base64.split('base64,')[1],
         path: queryParams['path'] ? `${queryParams['path']}/${file['name']}` : file['name'],

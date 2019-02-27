@@ -2,9 +2,10 @@
 import DirCard from './DirCard'
 import { compose, withHandlers, withStateHandlers, withProps } from 'recompose'
 import { notifier } from 'lib/index'
-import { lists } from 'helpers'
+import { lists, withFormatting } from 'helpers'
 
 export default compose(
+  withFormatting,
   withStateHandlers({
     inDropZone: false
   }, {
@@ -15,8 +16,9 @@ export default compose(
       setEnterZone(bool)
       type === 'file' && setEnterFileZone(bool)
     },
-    handleDrop: ({ dir, setEnterZone, setStagedFiles, setEnterFileZone, stagedFiles, getDirList, branch }) => (files) => {
+    handleDrop: ({ dir, setEnterZone, setStagedFiles, setEnterFileZone, stagedFiles, getDirList, branch, sanitizeFileName }) => (files) => {
       const file = files[0]
+      const sanitizedName = sanitizeFileName(file['name'])
 
       const pathArray = dir['path'].split('/')
       const lastIndex = pathArray.length - 1
@@ -26,8 +28,8 @@ export default compose(
         const params = {
           ref: branch,
           content: event.target['result'].split('base64,')[1],
-          path: `${dir['path']}/${file['name']}`,
-          name: file['name'],
+          path: `${dir['path']}/${sanitizedName}`,
+          name: sanitizedName,
           size: file['size'],
           type: 'file',
           encoding: 'base64'
@@ -35,7 +37,7 @@ export default compose(
 
         const fileToStage = Object.assign({}, file, params)
         if (dir['type'] !== 'dir') {
-          pathArray.splice(lastIndex, 1, file['name'])
+          pathArray.splice(lastIndex, 1, sanitizedName)
           fileToStage['path'] = pathArray.join('/')
         }
 
