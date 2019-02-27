@@ -39,8 +39,6 @@ export default compose(
         return newProps
       }, {})
 
-      console.log('sanitizedProps', sanitizedProps)
-
       return sanitizedProps
     }
   })
