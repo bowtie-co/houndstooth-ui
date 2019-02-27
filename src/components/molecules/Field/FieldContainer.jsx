@@ -4,6 +4,7 @@
 import { compose } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
 import { endsWith } from '@bowtie/utils'
+import { withFormatting } from 'helpers'
 import Input from './Input'
 import Select from './Select'
 import Checkbox from './Checkbox'
@@ -34,6 +35,7 @@ const imageUploadCondition = ({ type }) => type === 'image'
 const textAreaCondition = ({ type, name }) => [ 'text', 'content', 'body' ].includes(name) || endsWith(name, ['_body', '_content']) || type === 'text' || type === 'textarea'
 
 export default compose(
+  withFormatting,
   withEither(selectCondition, Select),
   withEither(checkboxCondition, Checkbox),
   withEither(multiSelectCondition, MultiSelect),

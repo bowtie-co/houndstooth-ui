@@ -30,6 +30,10 @@ export default compose(
       const protocolCheck = /^(http(s)?:)?\/\//
       const defaultProtocal = 'http://'
       return protocolCheck.test(url) ? url : defaultProtocal.concat(url)
+    },
+    sanitizeFileName: () => (fileName = '') => {
+      const sanitizedName = fileName.replace(/[|&;$%@"<>()+#,' ']/g, '')
+      return sanitizedName
     }
   })
 )
