@@ -8,7 +8,7 @@ const Input = (props) => {
   const { value, edited, className = '', cleanObjectsFromDom, ...rest } = props
   const sanitizedProps = cleanObjectsFromDom(rest)
   return (
-    <FormGroup className={`${className} ${edited ? 'success-highlight' : ''}`} {...sanitizedProps}>
+    <FormGroup className={`${className} ${edited ? 'success-highlight' : ''}`} {...rest}>
       <InputRS value={value || ''} {...sanitizedProps} />
     </FormGroup>
   )
