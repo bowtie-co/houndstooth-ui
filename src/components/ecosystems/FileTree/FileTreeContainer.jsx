@@ -128,10 +128,10 @@ export const enhance = compose(
             const pathArr = path.split('/')
             pathArr.pop()
             const parentPath = pathArr.join('/')
-            Object.assign(queryParams, { path: parentPath })
+            const newParams = Object.assign({}, queryParams, { path: parentPath })
             setFileTreeLoading(false)
             notifier.bad(resp)
-            history.push(`/${baseRoute}/dir?${qs.stringify(queryParams)}`)
+            history.push(`/${baseRoute}/dir?${qs.stringify(newParams)}`)
           })
       }
     }
