@@ -6,28 +6,37 @@ import RepoSelect from './RepoSelect'
 
 export default compose(
   withStateHandlers({
-    loadingRepos: true,
+    loadingRepos: false,
     asyncRepoList: []
   }, {
     setLoadingRepos: () => (payload) => ({ loadingRepos: payload }),
     setAsyncRepoList: () => (payload) => ({ asyncRepoList: payload })
   }),
   lifecycle({
-    async componentWillMount () {
+    componentWillMount () {
       const { setAsyncRepoList, setLoadingRepos } = this.props
-      setLoadingRepos(true)
-
       if (storage.get('all_repos')) {
         setAsyncRepoList(storage.get('all_repos'))
       } else {
-        const { data } = await api.get(`repos?per_page=0`)
-          .then(resp => resp || { data: { repos: {} } })
-          .catch((resp) => { notifier.bad(resp) })
+        setLoadingRepos(true)
+        api.get(`repos?per_page=0`)
+          .then(resp => {
+            // setting a default value to data.repos in case it is undefined
+            const {
+              data: {
+                repos = {}
+              }
+            } = resp
 
-        storage.set('all_repos', data['repos'])
-        setAsyncRepoList(data['repos'])
+            setLoadingRepos(false)
+            storage.set('all_repos', repos)
+            setAsyncRepoList(repos)
+          })
+          .catch((resp) => {
+            notifier.bad(resp)
+            setLoadingRepos(false)
+          })
       }
-      setLoadingRepos(false)
     }
   })
 )(RepoSelect)

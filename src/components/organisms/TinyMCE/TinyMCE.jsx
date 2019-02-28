@@ -35,7 +35,6 @@ const TinyMCE = (props) => {
   )
 }
 
-
 TinyMCE.propTypes = {
   editorContent: PropTypes.object,
   onChange: PropTypes.func
