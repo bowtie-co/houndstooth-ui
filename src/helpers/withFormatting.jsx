@@ -31,6 +31,16 @@ export default compose(
       const defaultProtocal = 'http://'
       return protocolCheck.test(url) ? url : defaultProtocal.concat(url)
     },
+    cleanObjectsFromDom: () => (props) => {
+      const sanitizedProps = Object.keys(props).reduce((newProps, key) => {
+        if (typeof props[key] !== 'object') {
+          newProps[key] = props[key]
+        }
+        return newProps
+      }, {})
+
+      return sanitizedProps
+    },
     sanitizeFileName: () => (fileName = '') => {
       const sanitizedName = fileName.replace(/[|&;$%@"<>()+#,' ']/g, '')
       return sanitizedName
