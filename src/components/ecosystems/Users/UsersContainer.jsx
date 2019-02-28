@@ -16,7 +16,7 @@ export const enhance = compose(
     setPages: () => (payload) => ({ pages: payload })
   }),
   withHandlers({
-    getContributors: ({ setContributors, setPages, baseApiRoute, match }) => () => {
+    getContributors: ({ setContributors, baseApiRoute }) => () => {
       api.get(`${baseApiRoute}/contributors?per_page=100`)
         .then(({ data }) => {
           setContributors(data['contributors'])
@@ -25,7 +25,7 @@ export const enhance = compose(
           notifier.bad(err)
         })
     },
-    getCollaborators: ({ setCollaboratorIds, setPages, baseApiRoute, match, permissions }) => () => {
+    getCollaborators: ({ setCollaboratorIds, setPages, baseApiRoute, permissions }) => () => {
       if (permissions['push']) {
         api.get(`${baseApiRoute}/collaborators?per_page=100`)
           .then(({ data }) => {
