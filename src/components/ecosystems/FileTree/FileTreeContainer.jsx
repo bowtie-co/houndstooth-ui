@@ -25,7 +25,7 @@ export const enhance = compose(
     setTree: () => (payload) => ({ tree: payload })
   }),
   withHandlers({
-    getTree: ({ setTreeLoading, baseApiRoute, baseRoute, history, queryParams, setTree, branch }) => () => {
+    getTree: ({ setTreeLoading, baseApiRoute, setTree, branch }) => () => {
       if (branch) {
         const route = `${baseApiRoute}/files?ref=${branch}&tree=true&recursive=true`
         setTreeLoading(true)
@@ -86,7 +86,7 @@ export const enhance = compose(
           notifier.bad(resp)
         })
     },
-    getDirList: ({ match, baseApiRoute, baseRoute, queryParams, stagedFiles, setDirList, setFile, setFileTreeLoading, collections, branch, history }) => () => {
+    getDirList: ({ match, baseApiRoute, baseRoute, queryParams, stagedFiles, setDirList, setFile, setFileTreeLoading, history }) => () => {
       if (!match['params']['collection']) {
         const stringifiedParams = qs.stringify(queryParams)
         const route = `${baseApiRoute}/files?${stringifiedParams}`
@@ -136,13 +136,13 @@ export const enhance = compose(
       }
     }
   }),
-  withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, stagedFiles, setFileTreeLoading }) => {
+  withPropsOnChange(['location'], ({ queryParams, getDirList, setFile, stagedFiles }) => {
     const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
     stagedFile
       ? setFile(stagedFile)
       : getDirList()
   }),
-  withPropsOnChange(['branch'], ({ getTree, setTree }) => {
+  withPropsOnChange(['branch'], ({ getTree }) => {
     getTree()
   }),
   withEither(conditionLoadingFn, Loading)
