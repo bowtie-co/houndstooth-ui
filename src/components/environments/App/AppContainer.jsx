@@ -1,6 +1,6 @@
 // Containers should include all logic that enhances a component
 // this includes any reduce methods, recompose, or middleware.
-
+/* global localStorage  */
 import App from './App'
 import { withRouter } from 'react-router'
 import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
@@ -76,9 +76,9 @@ export const enhance = compose(
   }),
   withHandlers({
     reloadReposAndBranches: ({ getRepos }) => () => {
-      storage.remove('all_repos')
-      storage.remove('repos')
-      storage.remove('branches')
+      const authKeys = ['authState', 'apiBaseUrl', 'access_token']
+      const storageKeys = Object.keys(localStorage)
+      storageKeys.forEach(key => !authKeys.includes(key) && storage.remove(key))
       getRepos()
     }
   }),

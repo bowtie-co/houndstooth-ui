@@ -95,6 +95,7 @@ export const enhance = compose(
           message,
           files: stagedFiles.map(file => ({ path: file.path, content: file.content, encoding: file.encoding }))
         }
+        storage.remove('tree')
         setRepoLoading(true)
         api.post(requestPath, body)
           .then(response => {
@@ -108,7 +109,7 @@ export const enhance = compose(
       }
     }
   }),
-  withPropsOnChange(['baseApiRoute'], ({ getCollections, getTree, getRepo, getBranchList, setRepoLoading, baseApiRoute }) => {
+  withPropsOnChange(['baseApiRoute'], ({ getCollections, getRepo, getBranchList, setRepoLoading, baseApiRoute }) => {
     getRepo()
     getBranchList()
     getCollections()
