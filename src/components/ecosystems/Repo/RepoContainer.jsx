@@ -84,7 +84,7 @@ export const enhance = compose(
         })
         .catch(notifier.bad.bind(notifier))
     },
-    pushToGithub: ({ branch, history, baseRoute, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
+    pushToGithub: ({ branch, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
       if (message) {
         const requestPath = `${baseApiRoute}/files/upsert?ref=${branch}`
         const body = {
@@ -104,12 +104,12 @@ export const enhance = compose(
       }
     }
   }),
-  withPropsOnChange(['baseApiRoute'], ({ getCollections, getTree, getRepo, getBranchList, setRepoLoading, baseApiRoute }) => {
+  withPropsOnChange(['baseApiRoute'], ({ getCollections, getRepo, getBranchList }) => {
     getRepo()
     getBranchList()
     getCollections()
   }),
-  withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, branch, stagedFiles, setRepoLoading }) => {
+  withPropsOnChange(['location'], ({ queryParams, branch, setBranch }) => {
     setBranch(queryParams['ref'] || branch)
   }),
   withPropsOnChange([ 'baseRoute', 'config' ], ({ match }) => {
