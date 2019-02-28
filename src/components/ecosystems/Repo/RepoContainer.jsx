@@ -12,8 +12,6 @@ export const enhance = compose(
   withStateHandlers(({ match, queryParams }) => ({
     activeRepo: {},
     permissions: {},
-    owner: match['params']['username'] || '',
-    repo: match['params']['repo'] || '',
     branchList: [],
     branch: queryParams['ref'],
     stagedFiles: [],
@@ -24,8 +22,6 @@ export const enhance = compose(
   }), {
     setActiveRepo: () => (payload) => ({ activeRepo: payload }),
     setPermissions: () => (payload) => ({ permissions: payload }),
-    setOwner: () => (payload) => ({ owner: payload }),
-    setRepo: () => (payload) => ({ repo: payload }),
     setBranchList: () => (payload) => ({ branchList: payload }),
     setStagedFiles: () => (payload) => ({ stagedFiles: payload }),
     setBranch: () => (payload) => ({ branch: payload }),
@@ -113,14 +109,12 @@ export const enhance = compose(
     getBranchList()
     getCollections()
   }),
-  withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, branch, stagedFiles, setRepoLoading, setOwner, setRepo }) => {
-    const { username, repo } = match['params']
-    setRepo(repo)
-    setOwner(username)
+  withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, branch, stagedFiles, setRepoLoading }) => {
     setBranch(queryParams['ref'] || branch)
   }),
-  withPropsOnChange([ 'owner', 'repo', 'config' ], ({ owner, repo }) => {
-    notifier.userChange({ channels: { ro: [ `repos.${owner}-${repo}` ] } })
+  withPropsOnChange([ 'baseRoute', 'config' ], ({ match }) => {
+    const { username, repo } = match['params']
+    notifier.userChange({ channels: { ro: [ `repos.${username}-${repo}` ] } })
   }),
   lifecycle({
     componentWillUnmount () {

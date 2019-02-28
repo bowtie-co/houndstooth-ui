@@ -136,7 +136,7 @@ export const enhance = compose(
       }
     }
   }),
-  withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, stagedFiles, setFileTreeLoading, setOwner, setRepo }) => {
+  withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, stagedFiles, setFileTreeLoading }) => {
     const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
     stagedFile
       ? setFile(stagedFile)
