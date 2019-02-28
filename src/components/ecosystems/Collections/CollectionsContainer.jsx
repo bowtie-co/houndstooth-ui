@@ -3,7 +3,7 @@ import qs from 'qs'
 import { compose, withStateHandlers, withPropsOnChange, withHandlers, lifecycle } from 'recompose'
 import { withEither, withMaybe } from '@bowtie/react-utils'
 import { Collections, EmptyState, EmptyItem } from './Collections'
-import { api, notifier, octokit, storage } from 'lib'
+import { api, notifier, octokit } from 'lib'
 import { Loading } from 'atoms'
 
 const nullConditionFn = ({ collections }) => !collections
@@ -124,7 +124,7 @@ export default compose(
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       return api.put(route, updatedItem)
     },
-    createItem: ({ collectionsApiRoute, branch, match, activeItem }) => (formData) => {
+    createItem: ({ collectionsApiRoute, branch, match, activeItem, updateCachedTree }) => (formData) => {
       if (activeItem['name'] && activeItem['name'].split('.').length <= 1) {
         activeItem['name'] = `${activeItem['name']}.md`
       }
@@ -133,7 +133,7 @@ export default compose(
       const message = `[HT] Created item: ${activeItem.name}`
       const route = `${collectionsApiRoute}/items?ref=${branch || 'master'}&message=${message}`
 
-      storage.remove('tree')
+      updateCachedTree()
 
       return api.post(route, updatedItem)
     },
@@ -217,7 +217,7 @@ export default compose(
           notifier.bad(resp)
         })
     },
-    deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems }) => () => {
+    deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems, updateCachedTree }) => () => {
       const { item } = match.params
       const { sha } = activeItem
       const message = 'Delete file'
@@ -227,7 +227,8 @@ export default compose(
         .then(resp => {
           getItems()
 
-          storage.remove('tree')
+          updateCachedTree()
+
           notifier.success('Item deleted!')
           history.push(collectionsApiRoute)
         })

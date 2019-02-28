@@ -28,13 +28,16 @@ export const enhance = compose(
   withHandlers({
     getTree: ({ setTreeLoading, baseApiRoute, baseRoute, history, queryParams, setTree, branch }) => () => {
       if (branch) {
-        storage.remove('tree')
+        const cachedTree = storage.get('tree') || {}
+        delete cachedTree[branch]
+
         const route = `${baseApiRoute}/files?ref=${branch}&tree=true&recursive=true`
         setTreeLoading(true)
         api.get(route)
           .then(({ data }) => {
             setTreeLoading(false)
-            storage.set('tree', { branch, tree: data })
+            const newTree = Object.assign({}, cachedTree, { [branch]: data })
+            storage.set('tree', newTree)
             setTree(data)
           })
           .catch((resp) => {
@@ -147,9 +150,10 @@ export const enhance = compose(
   }),
 
   withPropsOnChange(['branch'], ({ getTree, setTree, branch }) => {
-    const cachedTree = storage.get('tree')
-    cachedTree && cachedTree['branch'] === branch
-      ? setTree(cachedTree['tree'])
+    const cachedTree = storage.get('tree') || {}
+    const treeKeys = Object.keys(cachedTree)
+    treeKeys.length > 0 && treeKeys.includes(branch)
+      ? setTree(cachedTree[branch])
       : getTree()
   }),
   withEither(conditionLoadingFn, Loading)

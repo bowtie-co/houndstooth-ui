@@ -44,7 +44,6 @@ export const enhance = compose(
     },
     setMainLoading: ({ isMainLoading }) => (payload) => ({ isMainLoading: payload })
   }),
-
   withHandlers({
     getRepos: ({ pageNumber, setMainLoading, setRepoList, setPages, setPageNumber }) => () => {
       setMainLoading(true)
