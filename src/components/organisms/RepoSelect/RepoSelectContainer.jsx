@@ -20,7 +20,7 @@ export default compose(
       } else {
         setLoadingRepos(true)
         api.get(`repos?per_page=0`)
-          .then(resp => {
+          .then((resp = {}) => {
             // setting a default value to data.repos in case it is undefined
             const {
               data: {
