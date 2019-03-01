@@ -22,8 +22,10 @@ export default compose(
 
         if (Object.keys(lists['previewIcons']).includes(fileExt)) {
           setPreviewUrl(fileExt)
-        } else {
+        } else if (/gif|png|jpe?g|svg/.test(fileExt)) {
           setPreviewUrl(fileUrl)
+        } else {
+          setPreviewUrl('file')
         }
       }).catch(err => {
         console.error('failed getting file download url!', err)
