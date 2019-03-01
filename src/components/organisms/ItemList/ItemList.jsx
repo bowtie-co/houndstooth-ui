@@ -7,11 +7,13 @@ import {
 } from 'atoms'
 import { TabContent, Nav, NavItem, NavLink } from 'reactstrap'
 
-const ItemList = ({ itemsTabs = [], activeTab, handleClick, children, vertical = false, closeTab, addNewItem, permissions, ...rest }) => {
+const ItemList = ({ itemsTabs = [], activeTab, handleClick, children, vertical = false, closeTab, addNewItem, permissions, defaultFields, ...rest }) => {
+  const hasFields = defaultFields && defaultFields['fields'] && Object.keys(defaultFields['fields']).length > 0
+
   return (
     <section>
       {
-        permissions['push'] &&
+        permissions['push'] && hasFields &&
           <div className='pointer addFile' onClick={addNewItem}>
             <Icon iconName='plus-circle' /> Add File
           </div>
