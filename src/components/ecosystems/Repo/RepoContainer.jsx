@@ -31,6 +31,11 @@ export const enhance = compose(
     setCollectionPath: () => (payload) => ({ collectionPath: payload })
   }),
   withHandlers({
+    updateCachedTree: ({ branch }) => () => {
+      const cachedTree = storage.get('tree') || {}
+      delete cachedTree[branch]
+      storage.set('tree', cachedTree)
+    },
     removeStagedFile: ({ stagedFiles, setStagedFiles }) => (path) => {
       const newStagedFiles = [...stagedFiles].filter(file => file['path'] !== path)
       setStagedFiles(newStagedFiles)
@@ -38,7 +43,9 @@ export const enhance = compose(
     changeBranch: ({ history, queryParams, match }) => (e) => {
       const newParams = Object.assign({}, queryParams, { ref: e.target.value })
       history.push(`${match['url']}?${qs.stringify(newParams)}`)
-    },
+    }
+  }),
+  withHandlers({
     getBranchList: ({ setBranchList, baseApiRoute, setRepoLoading, match }) => () => {
       const storageKey = `${match.params['repo']}_branchList`
       const cachedBranchesList = storage.get(`branches`) ? storage.get(`branches`)[storageKey] : null
@@ -84,13 +91,14 @@ export const enhance = compose(
         })
         .catch(notifier.bad.bind(notifier))
     },
-    pushToGithub: ({ branch, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
+    pushToGithub: ({ branch, updateCachedTree, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
       if (message) {
         const requestPath = `${baseApiRoute}/files/upsert?ref=${branch}`
         const body = {
           message,
           files: stagedFiles.map(file => ({ path: file.path, content: file.content, encoding: file.encoding }))
         }
+        updateCachedTree()
         setRepoLoading(true)
         api.post(requestPath, body)
           .then(response => {

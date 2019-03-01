@@ -124,7 +124,7 @@ export default compose(
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       return api.put(route, updatedItem)
     },
-    createItem: ({ collectionsApiRoute, branch, match, activeItem }) => (formData) => {
+    createItem: ({ collectionsApiRoute, branch, match, activeItem, updateCachedTree }) => (formData) => {
       if (activeItem['name'] && activeItem['name'].split('.').length <= 1) {
         activeItem['name'] = `${activeItem['name']}.md`
       }
@@ -132,6 +132,8 @@ export default compose(
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       const message = `[HT] Created item: ${activeItem.name}`
       const route = `${collectionsApiRoute}/items?ref=${branch || 'master'}&message=${message}`
+
+      updateCachedTree()
 
       return api.post(route, updatedItem)
     },
@@ -208,7 +210,7 @@ export default compose(
           notifier.bad(resp)
         })
     },
-    deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems }) => () => {
+    deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems, updateCachedTree }) => () => {
       const { item } = match.params
       const { sha } = activeItem
       const message = 'Delete file'
@@ -217,6 +219,9 @@ export default compose(
       api.delete(route)
         .then(resp => {
           getItems()
+
+          updateCachedTree()
+
           notifier.success('Item deleted!')
           history.push(collectionsApiRoute)
         })
