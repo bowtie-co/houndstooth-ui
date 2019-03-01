@@ -5,6 +5,7 @@ import { withEither } from '@bowtie/react-utils'
 import qs from 'qs'
 import { api, notifier } from 'lib'
 import { Loading } from 'atoms'
+import { storage } from 'lib/index'
 
 const conditionLoadingFn = ({ isFileTreeLoading }) => isFileTreeLoading
 
@@ -27,11 +28,16 @@ export const enhance = compose(
   withHandlers({
     getTree: ({ setTreeLoading, baseApiRoute, baseRoute, history, queryParams, setTree, branch }) => () => {
       if (branch) {
+        const cachedTree = storage.get('tree') || {}
+        delete cachedTree[branch]
+
         const route = `${baseApiRoute}/files?ref=${branch}&tree=true&recursive=true`
         setTreeLoading(true)
         api.get(route)
           .then(({ data }) => {
             setTreeLoading(false)
+            const newTree = Object.assign({}, cachedTree, { [branch]: data })
+            storage.set('tree', newTree)
             setTree(data)
           })
           .catch((resp) => {
@@ -142,8 +148,13 @@ export const enhance = compose(
       ? setFile(stagedFile)
       : getDirList()
   }),
-  withPropsOnChange(['branch'], ({ getTree, setTree }) => {
-    getTree()
+
+  withPropsOnChange(['branch'], ({ getTree, setTree, branch }) => {
+    const cachedTree = storage.get('tree') || {}
+    const treeKeys = Object.keys(cachedTree)
+    treeKeys.length > 0 && treeKeys.includes(branch)
+      ? setTree(cachedTree[branch])
+      : getTree()
   }),
   withEither(conditionLoadingFn, Loading)
 )

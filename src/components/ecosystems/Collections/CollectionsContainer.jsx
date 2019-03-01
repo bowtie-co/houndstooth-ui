@@ -124,7 +124,7 @@ export default compose(
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       return api.put(route, updatedItem)
     },
-    createItem: ({ collectionsApiRoute, branch, match, activeItem }) => (formData) => {
+    createItem: ({ collectionsApiRoute, branch, match, activeItem, updateCachedTree }) => (formData) => {
       if (activeItem['name'] && activeItem['name'].split('.').length <= 1) {
         activeItem['name'] = `${activeItem['name']}.md`
       }
@@ -132,6 +132,8 @@ export default compose(
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       const message = `[HT] Created item: ${activeItem.name}`
       const route = `${collectionsApiRoute}/items?ref=${branch || 'master'}&message=${message}`
+
+      updateCachedTree()
 
       return api.post(route, updatedItem)
     },
@@ -188,7 +190,7 @@ export default compose(
     }
   }),
   withHandlers({
-    handleFormSubmit: ({ collectionsRoute, items, createItem, getTree, history, editItem, createFileUpload, getItems, getFileUploads, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData }) => (formData) => {
+    handleFormSubmit: ({ collectionsRoute, items, createItem, history, editItem, createFileUpload, getItems, getFileUploads, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData }) => (formData) => {
       setCollectionLoading(true)
 
       const isNewItem = match['params']['item'] === 'new'
@@ -215,7 +217,7 @@ export default compose(
           notifier.bad(resp)
         })
     },
-    deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems, getTree }) => () => {
+    deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems, updateCachedTree }) => () => {
       const { item } = match.params
       const { sha } = activeItem
       const message = 'Delete file'
@@ -224,6 +226,9 @@ export default compose(
       api.delete(route)
         .then(resp => {
           getItems()
+
+          updateCachedTree()
+
           notifier.success('Item deleted!')
           history.push(collectionsApiRoute)
         })
