@@ -137,7 +137,7 @@ export default compose(
 
       return api.post(route, updatedItem)
     },
-    createFileUpload: ({ match, branch, stagedFileUploads, baseApiRoute, getFileUploads, setStagedFileUploads, setCollectionLoading }) => () => {
+    createFileUpload: ({ match, branch, stagedFileUploads, baseApiRoute }) => () => {
       if (stagedFileUploads.length > 0) {
         const newFiles = stagedFileUploads.map(file => {
           const updatedFile = {
@@ -156,13 +156,6 @@ export default compose(
         return newFiles.reduce((promiseChain, file) => {
           return promiseChain.then(() => octokit.repos.createFile(file))
         }, Promise.resolve(newFiles))
-
-        // const body = {
-        //   files: newFiles,
-        //   message: `[HT] Uploaded ${newFiles.length} file(s)`
-        // }
-
-        // return api.post(`${baseApiRoute}/files/upsert`, body)
       } else {
         return Promise.resolve()
       }
@@ -190,7 +183,7 @@ export default compose(
     }
   }),
   withHandlers({
-    handleFormSubmit: ({ collectionsRoute, items, createItem, history, editItem, createFileUpload, getItems, getFileUploads, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData }) => (formData) => {
+    handleFormSubmit: ({ collectionsRoute, items, createItem, history, editItem, createFileUpload, getItems, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData }) => (formData) => {
       setCollectionLoading(true)
 
       const isNewItem = match['params']['item'] === 'new'

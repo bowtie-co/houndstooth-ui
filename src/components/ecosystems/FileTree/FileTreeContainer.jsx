@@ -26,7 +26,7 @@ export const enhance = compose(
     setTree: () => (payload) => ({ tree: payload })
   }),
   withHandlers({
-    getTree: ({ setTreeLoading, baseApiRoute, baseRoute, history, queryParams, setTree, branch }) => () => {
+    getTree: ({ setTreeLoading, baseApiRoute, setTree, branch }) => () => {
       if (branch) {
         const cachedTree = storage.get('tree') || {}
         delete cachedTree[branch]
@@ -92,7 +92,7 @@ export const enhance = compose(
           notifier.bad(resp)
         })
     },
-    getDirList: ({ match, baseApiRoute, baseRoute, queryParams, stagedFiles, setDirList, setFile, setFileTreeLoading, collections, branch, history }) => () => {
+    getDirList: ({ match, baseApiRoute, baseRoute, queryParams, stagedFiles, setDirList, setFile, setFileTreeLoading, history }) => () => {
       if (!match['params']['collection']) {
         const stringifiedParams = qs.stringify(queryParams)
         const route = `${baseApiRoute}/files?${stringifiedParams}`
@@ -142,13 +142,12 @@ export const enhance = compose(
       }
     }
   }),
-  withPropsOnChange(['location'], ({ match, baseApiRoute, queryParams, getDirList, setFile, setBranch, stagedFiles, setFileTreeLoading, setOwner, setRepo }) => {
+  withPropsOnChange(['location'], ({ queryParams, getDirList, setFile, stagedFiles }) => {
     const stagedFile = stagedFiles.find(file => file['path'] === queryParams['path'])
     stagedFile
       ? setFile(stagedFile)
       : getDirList()
   }),
-
   withPropsOnChange(['branch'], ({ getTree, setTree, branch }) => {
     const cachedTree = storage.get('tree') || {}
     const treeKeys = Object.keys(cachedTree)
