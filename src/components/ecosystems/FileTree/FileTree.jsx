@@ -14,11 +14,15 @@ import {
 } from 'molecules'
 
 const FileTree = (props) => {
+  const { queryParams } = props
   return (
     <section className='flex-row'>
-      <div className='file-tree'>
-        <FileTreeMap {...props} />
-      </div>
+      {
+        queryParams['path'] &&
+          <div className='file-tree'>
+            <FileTreeMap {...props} />
+          </div>
+      }
       <Switch>
         <PrivateRoute
           props={props}

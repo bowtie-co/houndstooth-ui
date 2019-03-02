@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import {
   Col,
   Title,
-  Row
+  Row,
+  Icon
 } from 'atoms'
 
 import {
@@ -15,8 +16,17 @@ import {
   TinyMCE
 } from '..'
 
+const IconHelper = () => (
+  <Icon
+    iconName='question-circle'
+    id='filename-helper-icon'
+    tooltip={'Filename cannot include spaces or special characters. If an extension does not exist, the file will default to .md'}
+    placement='top'
+  />
+)
+
 export const ItemForm = (props) => {
-  const { activeItem, handleFormSubmit, editFileName, deleteItem, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads, ...rest } = props
+  const { activeItem, handleFormSubmit, handleFileNameChange, fileNameError, editFileName, deleteItem, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads, permissions, ...rest } = props
   const { item } = match.params
   return (
     <Row>
@@ -24,13 +34,18 @@ export const ItemForm = (props) => {
         <div className='tab-content-card'>
           {
             item === 'new'
-              ? <FieldContainer
-                type='text'
-                label={'File name'}
-                name={'file_name'}
-                onChange={editFileName}
-                value={activeItem['name']}
-              />
+
+              ? <div>
+                <FieldContainer
+                  type='text'
+                  label={'File name'}
+                  name={'file_name'}
+                  onChange={editFileName}
+                  iconHelper={IconHelper}
+                  value={handleFileNameChange(activeItem['name'])}
+                  errorMessage={fileNameError}
+                />
+              </div>
               : <Title title={item} className='break-word' />
           }
           <RecursiveFields
@@ -41,6 +56,7 @@ export const ItemForm = (props) => {
             fileUploads={fileUploads}
             stagedFileUploads={stagedFileUploads}
             setStagedFileUploads={setStagedFileUploads}
+            disabled={!permissions['push']}
             {...rest}
           />
         </div>
@@ -51,6 +67,7 @@ export const ItemForm = (props) => {
             item={item}
             content={activeItem['markdown']}
             handleEditorChange={handleMarkdownChange}
+            disabled={!permissions['push']}
             {...rest}
           />
         </div>

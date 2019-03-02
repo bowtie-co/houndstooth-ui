@@ -15,11 +15,11 @@ const Icon = ({ className, size = 'xs', fill = true, iconName, color, id, toolti
     xxl: '5x'
   }
 
-  const tooltipId = tooltip ? `Tooltip-${id || Date.now()}-${tooltip.split(' ').join('_')}` : id
+  const tooltipId = tooltip ? `Tooltip-${id || Date.now()}` : id
 
   const faClass = className || `fa${fill ? 's' : 'r'} fa-${iconName}`
   return (
-    <div className={classnames({ 'cursor-pointer': rest['onClick'] }, 'fa-icon-sm')} {...rest}>
+    <div className={classnames({ 'cursor-pointer': rest['onClick'] || tooltip }, 'fa-icon-sm')} {...rest}>
       <i className={`${faClass} fa-${sizes[size]}`} style={{ 'color': color }} id={tooltipId} />
       {
         tooltip &&

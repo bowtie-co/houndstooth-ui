@@ -20,15 +20,17 @@ export default compose(
         setFileUrl(fileUrl)
         setIsLoadingFileUrl(false)
 
-        if (Object.keys(lists['fileIcons']).includes(fileExt)) {
+        if (Object.keys(lists['previewIcons']).includes(fileExt)) {
           setPreviewUrl(fileExt)
-        } else {
+        } else if (/gif|png|jpe?g|svg/.test(fileExt)) {
           setPreviewUrl(fileUrl)
+        } else {
+          setPreviewUrl('file')
         }
       }).catch(err => {
         console.error('failed getting file download url!', err)
 
-        if (Object.keys(lists['fileIcons']).includes(fileExt)) {
+        if (err['status'] === 404 && Object.keys(lists['previewIcons']).includes(fileExt)) {
           setPreviewUrl(fileExt)
         } else if (err['status'] === 403) {
           setPreviewUrl('largeFile')
@@ -53,7 +55,8 @@ export default compose(
     }
   }),
   withHandlers({
-    handleFileUpload: ({ onChange, name: fieldKey, setStagedFileUploads, stagedFileUploads, imagePreview }) => (file) => {
+    handleFileUpload: ({ onChange, name: fieldKey, setStagedFileUploads, stagedFileUploads, imagePreview, sanitizeFileName }) => (file) => {
+      file['name'] = sanitizeFileName(file['name'])
       imagePreview(file)
       const shouldUpdateStaged = stagedFileUploads.some(stagedFile => stagedFile['fieldKey'] === fieldKey)
       const filePath = `upload/${file['type']}/${Date.now()}_${fieldKey}_${file['name']}`

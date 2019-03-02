@@ -5,7 +5,7 @@ import { Modal as ModalRS, ModalHeader } from 'reactstrap'
 
 const Modal = ({ toggle, isOpen, backdrop = true, children, title }) => {
   return (
-    <ModalRS isOpen={isOpen} toggle={() => toggle(false)}backdrop={backdrop}>
+    <ModalRS isOpen={isOpen} toggle={() => toggle(false)} backdrop={backdrop}>
       { title && <ModalHeader toggle={() => toggle(false)}>{ title }</ModalHeader> }
       { children }
     </ModalRS>

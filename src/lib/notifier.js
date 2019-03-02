@@ -10,7 +10,7 @@ class Notifier extends EventEmitter {
 
     this.msgs = []
     this.user = storage.get('current_user')
-    this.timeout = 30000
+    this.timeout = 10000
     this.channels = {
       ro: [
         'repos.*'

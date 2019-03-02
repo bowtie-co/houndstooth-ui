@@ -16,26 +16,32 @@ export const enhance = compose(
     setPages: () => (payload) => ({ pages: payload })
   }),
   withHandlers({
-    getContributors: ({ setContributors, setPages, baseApiRoute, match }) => () => {
+    getContributors: ({ setContributors, baseApiRoute }) => () => {
       api.get(`${baseApiRoute}/contributors?per_page=100`)
         .then(({ data }) => {
           setContributors(data['contributors'])
         })
-        .catch(notifier.bad.bind(notifier))
-    },
-    getCollaborators: ({ setCollaboratorIds, setPages, baseApiRoute, match }) => () => {
-      api.get(`${baseApiRoute}/collaborators?per_page=100`)
-        .then(({ data }) => {
-          setCollaboratorIds(data['collaborators'].map(u => u['id']))
+        .catch(err => {
+          notifier.bad(err)
         })
-        .catch(notifier.bad.bind(notifier))
+    },
+    getCollaborators: ({ setCollaboratorIds, setPages, baseApiRoute, permissions }) => () => {
+      if (permissions['push']) {
+        api.get(`${baseApiRoute}/collaborators?per_page=100`)
+          .then(({ data }) => {
+            setCollaboratorIds(data['collaborators'].map(u => u['id']))
+          })
+          .catch(err => {
+            notifier.bad(err)
+          })
+      }
     }
   }),
   withPropsOnChange(
     ({ match }, { match: nextMatch }) => match.params['repo'] !== nextMatch.params['repo'],
-    ({ getContributors, getCollaborators }) => {
+    ({ getContributors, getCollaborators, permissions }) => {
       getContributors()
-      getCollaborators()
+      permissions['push'] && getCollaborators()
     })
 )
 

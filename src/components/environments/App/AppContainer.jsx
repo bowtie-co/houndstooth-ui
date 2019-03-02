@@ -42,7 +42,6 @@ export const enhance = compose(
         return { pageNumber: 1 }
       }
     },
-    setStagedFiles: ({ stagedFiles }) => (payload) => ({ stagedFiles: payload }),
     setMainLoading: ({ isMainLoading }) => (payload) => ({ isMainLoading: payload })
   }),
 
@@ -66,13 +65,18 @@ export const enhance = compose(
           setMainLoading(false)
           notifier.bad(resp)
         })
+    },
+    getCurrentUser: ({ setCurrentUser }) => () => {
+      api.get('user')
+        .then(({ data }) => {
+          setCurrentUser(data['user'])
+        })
+        .catch(notifier.bad.bind(notifier))
     }
   }),
   withHandlers({
     reloadReposAndBranches: ({ getRepos }) => () => {
-      storage.remove('all_repos')
-      storage.remove('repos')
-      storage.remove('branches')
+      ['all_repos', 'repos', 'branches', 'tree'].forEach(key => storage.remove(key))
       getRepos()
     }
   }),
@@ -87,15 +91,6 @@ export const enhance = compose(
       setPageNumber(cachedRepoList['pages'])
     }
   }),
-  // withPropsOnChange(['match'], ({ match, setCollections, setOrgList }) => {
-  //   const { repo } = match.params
-  //   !repo && setCollections(null)
-  //   api.get(`orgs?per_page=100`)
-  //     .then(({ data }) => {
-  //       setOrgList(data.orgs)
-  //     })
-  //     .catch(notifier.bad.bind(notifier))
-  // }),
   withEither(loadingConditionFn, Loading)
 )
 

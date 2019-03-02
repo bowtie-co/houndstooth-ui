@@ -124,7 +124,7 @@ export default compose(
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       return api.put(route, updatedItem)
     },
-    createItem: ({ collectionsApiRoute, branch, match, activeItem }) => (formData) => {
+    createItem: ({ collectionsApiRoute, branch, match, activeItem, updateCachedTree }) => (formData) => {
       if (activeItem['name'] && activeItem['name'].split('.').length <= 1) {
         activeItem['name'] = `${activeItem['name']}.md`
       }
@@ -133,9 +133,11 @@ export default compose(
       const message = `[HT] Created item: ${activeItem.name}`
       const route = `${collectionsApiRoute}/items?ref=${branch || 'master'}&message=${message}`
 
+      updateCachedTree()
+
       return api.post(route, updatedItem)
     },
-    createFileUpload: ({ match, branch, stagedFileUploads, baseApiRoute, getFileUploads, setStagedFileUploads, setCollectionLoading }) => () => {
+    createFileUpload: ({ match, branch, stagedFileUploads, baseApiRoute }) => () => {
       if (stagedFileUploads.length > 0) {
         const newFiles = stagedFileUploads.map(file => {
           const updatedFile = {
@@ -154,13 +156,6 @@ export default compose(
         return newFiles.reduce((promiseChain, file) => {
           return promiseChain.then(() => octokit.repos.createFile(file))
         }, Promise.resolve(newFiles))
-
-        // const body = {
-        //   files: newFiles,
-        //   message: `[HT] Uploaded ${newFiles.length} file(s)`
-        // }
-
-        // return api.post(`${baseApiRoute}/files/upsert`, body)
       } else {
         return Promise.resolve()
       }
@@ -177,21 +172,18 @@ export default compose(
       getItems()
     }
   ),
-  withPropsOnChange([ 'match', 'items', 'defaultFields' ], ({ match, items, setActiveItem, defaultFields }) => {
-    if (match['params']['item'] === 'new') {
+  withPropsOnChange(['match', 'items', 'defaultFields'], ({ match, items, setActiveItem, defaultFields, permissions }) => {
+    if (match['params']['item'] === 'new' && permissions['push']) {
       setActiveItem(defaultFields)
-    } else {
+    } else if (match['params']['item'] !== 'new') {
       const currentItem = items.find(i => i.name === match['params']['item'])
-
-      if (currentItem) {
-        setActiveItem(currentItem)
-      } else {
-        setActiveItem({})
-      }
+      currentItem
+        ? setActiveItem(currentItem)
+        : setActiveItem({})
     }
   }),
   withHandlers({
-    handleFormSubmit: ({ collectionsRoute, items, createItem, getTree, history, editItem, createFileUpload, getItems, getFileUploads, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData }) => (formData) => {
+    handleFormSubmit: ({ collectionsRoute, items, createItem, history, editItem, createFileUpload, getItems, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData }) => (formData) => {
       setCollectionLoading(true)
 
       const isNewItem = match['params']['item'] === 'new'
@@ -203,10 +195,8 @@ export default compose(
             if (items.length > 0 && items[0]['name'] === 'NEW FILE') {
               items.shift()
             }
-            isNewItem && getTree()
             getItems()
             setStagedFileUploads([])
-
             if (isNewItem) {
               history.push(`/${collectionsRoute}/${data.data.content['name']}`)
             }
@@ -220,7 +210,7 @@ export default compose(
           notifier.bad(resp)
         })
     },
-    deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems, getTree }) => () => {
+    deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems, updateCachedTree }) => () => {
       const { item } = match.params
       const { sha } = activeItem
       const message = 'Delete file'
@@ -229,9 +219,10 @@ export default compose(
       api.delete(route)
         .then(resp => {
           getItems()
-          getTree()
-          notifier.success('Item deleted!')
 
+          updateCachedTree()
+
+          notifier.success('Item deleted!')
           history.push(collectionsApiRoute)
         })
         .catch((resp) => {

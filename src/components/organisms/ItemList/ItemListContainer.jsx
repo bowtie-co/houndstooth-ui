@@ -33,8 +33,8 @@ export const enhance = compose(
       history.push(`/${baseRoute}/collections/${collection}/${newTabs.length > 0 ? newTabs[0]['name'] : ''}`)
     }
   }),
-  withPropsOnChange(['match'], ({ match, setActiveTab, itemsTabs, setItemTabs }) => {
-    if (match.params['item'] === 'new') {
+  withPropsOnChange(['match'], ({ match, setActiveTab, itemsTabs, setItemTabs, permissions }) => {
+    if (match.params['item'] === 'new' && permissions['push']) {
       if (itemsTabs.length === 0 || itemsTabs[0]['name'] !== 'NEW FILE') {
         setItemTabs([{ name: 'NEW FILE' }, ...itemsTabs])
       }
