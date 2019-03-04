@@ -91,6 +91,11 @@ export const enhance = compose(
       setPageNumber(cachedRepoList['pages'])
     }
   }),
+  withPropsOnChange(['location'], ({ location }) => {
+    if (typeof window.gtag === 'function') {
+      window.gtag('config', 'UA-112855270-2', { 'page_path': location.pathname })
+    }
+  }),
   withEither(loadingConditionFn, Loading)
 )
 
