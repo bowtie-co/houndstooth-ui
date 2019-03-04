@@ -5,8 +5,7 @@ email, or any other method with the owners of this repository before making a ch
 
 Please note we have a code of conduct, please follow it in all your interactions with the project.
 
-Houndstooth follows specific state management patterns and naming conventions that you should be familiar with when contributing. 
-For a quick overview on the component hierarchy, you can refer to [this blog post](https://bowtie.co/2019-03-04-houndstooth-tech-blog/).
+Houndstooth follows specific state management patterns and naming conventions that you should be familiar with when contributing. For a quick overview on the component hierarchy, you can refer to [this blog post](https://bowtie.co/2019-03-04-houndstooth-tech-blog/).
 
 
 ## Pull Request Process
