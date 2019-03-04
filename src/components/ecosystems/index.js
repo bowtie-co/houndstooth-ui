@@ -14,11 +14,13 @@ import Collections from './Collections'
 import Users from './Users'
 import FileTree from './FileTree'
 import Notifications from './Notifications'
+import ErrorBoundary from './ErrorBoundary'
 
 export {
   Repo,
   Collections,
   FileTree,
   Users,
-  Notifications
+  Notifications,
+  ErrorBoundary
 }
