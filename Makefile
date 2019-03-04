@@ -1,48 +1,68 @@
-project_name = houndstooth-ui
+project_name = houndstooth
 
 setup: init rebuild
-up: start
-restart: install start
-rebuild: reset
+start: up
+stop: clean
+restart: clean build up
+rebuild: preup build
+rebuild-clean: super-clean rebuild
 
 init:
 	([ ! -e .git/hooks/pre-push ] || rm .git/hooks/pre-push) && ln -s ../../bin/pre-push .git/hooks
 
 clean:
-	rm -rf node_modules
+	docker-compose rm --force --stop -v
+
+super-clean: clean
+	docker system prune --all --force --volumes
+
+build: clean docker-build install
+
+docker-build:
+	docker-compose build
+
+docker-build-no-cache:
+	docker-compose build --pull --no-cache
 
 install:
-	npm install
+	docker-compose run -l traefik.enable=false --rm $(project_name) npm install
 
-start:
-	npm start
+preup:
+	btdev start
 
-build:
-	npm run build
+up: preup
+	docker-compose up --force-recreate
 
-test:
-	npm test
+sh:
+	docker-compose run -l traefik.enable=false --rm $(project_name) sh
 
-reset: clean install
+bash:
+	docker-compose run -l traefik.enable=false --rm $(project_name) bash
 
 lint:
-	npm run lint
+	docker-compose run -l traefik.enable=false --rm $(project_name) npm run lint
 
-fix:
-	npm run lint:fix
+test:
+	docker-compose run -l traefik.enable=false --rm -e NODE_ENV=test -e CI=true $(project_name) npm test
 
-analyze:
-	npm run analyze
+cc-before:
+	docker-compose -f docker-compose-ci.yml run --rm $(project_name) bin/cc-test-reporter before-build
 
-scan:
-	npm audit
+cc-after:
+	docker-compose -f docker-compose-ci.yml run --rm $(project_name) bin/cc-test-reporter after-build
 
-build-dll:
-	npm run build:dll
+ci-build:
+	docker-compose -f docker-compose-ci.yml build
 
-ci-reset: reset
+ci-install:
+	docker-compose -f docker-compose-ci.yml run --rm $(project_name) npm install
 
 ci-test:
-	CI=true npm run ci
+	docker-compose -f docker-compose-ci.yml run --rm $(project_name) npm run test
 
-ci: ci-reset ci-test
+ci: ci-build ci-install ci-test
+
+fix:
+	docker-compose run -l traefik.enable=false --rm $(project_name) npm run lint:fix
+
+.PHONY: init clean build install lint test

@@ -1,0 +1,15 @@
+version: '3.5'
+
+services:
+  houndstooth:
+    build:
+      context: .
+      target: dev
+    volumes:
+      - .:/app
+    environment:
+      - CI=true
+      - NODE_ENV=test
+      - CC_TEST_REPORTER_ID=ee26d23b8aa32895e62199d77e80c885e41ffb580127b8a960fbebf67d20c779
+      - GIT_COMMIT_SHA
+      - GIT_BRANCH
