@@ -26,8 +26,10 @@ services:
       - "traefik.enable=true"
       - "traefik.port=3000"
       - "traefik.frontend.rule=Host:houndstooth.bowtie.dev"
+      - "traefik.frontend.headers.SSLRedirect=true"
       - "traefik.docker.network=bowtie-dev"
     environment:
+      - APP_ENV=btdev
       - NODE_ENV=development
 
 volumes:
