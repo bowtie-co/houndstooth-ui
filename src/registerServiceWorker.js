@@ -10,6 +10,8 @@
 
 /* global fetch */
 
+import { notifier } from 'lib'
+
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
@@ -68,6 +70,7 @@ function registerValidSW (swUrl) {
               // It's the perfect time to display a "New content is
               // available; please refresh." message in your web app.
               console.log('New content is available; please refresh.')
+              notifier.success('New version is available. Please reload your browser')
             } else {
               // At this point, everything has been precached.
               // It's the perfect time to display a

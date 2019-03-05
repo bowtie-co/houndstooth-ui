@@ -21,6 +21,7 @@ CMD [ "npm", "start" ]
 FROM dev as builder
 LABEL maintainer "Charlie McClung <charlie@bowtie.co>"
 ENV BASE_DIR /app
+RUN APP_ENV=development npm run build && mv build ${BASE_DIR}/development
 RUN APP_ENV=staging npm run build && mv build ${BASE_DIR}/staging
 RUN APP_ENV=production npm run build && mv build ${BASE_DIR}/production
 
