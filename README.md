@@ -29,11 +29,32 @@ Houndstooth gives content editors a simple interface to publish changes to stati
 ## Getting Started
 
 #### Requirements
+
 - Install [NodeJS](https://nodejs.org/en/download/) `>= 8.x`
 - Install [NPM](https://nodejs.org/en/download/) `>= 6.x`
   - `npm install --global npm`
 
 #### Quick Start
+
+- Install git `pre-push` hook
+```bash
+ln -s ../../bin/pre-push .git/hooks
+```
+
+- Install node_modules
+```bash
+npm install
+```
+
+- Start the React App
+```bash
+npm start
+```
+
+- [Visit local instance](http://localhost:3000)
+
+#### Bowtie Dev Usage
+
 - Run `make setup` for initial repo setup
 ```bash
 make setup
@@ -44,7 +65,7 @@ make setup
 make start
 ```
 
-- Local App running on [localhost:3000](http://localhost:3000)
+- Local App running on [https://houndstooth.bowtie.](http://localhost:3000)
 
 - See [Advanced > Local Services](#local-services) for details on running against local services
 
@@ -97,25 +118,7 @@ make start
 
 ## Advanced
 
-#### Manual Installation
-- Install git `pre-push` hook
-```bash
-ln -s ../../bin/pre-push .git/hooks
-```
 
-- Install node_modules
-```bash
-npm install
-```
-
-#### Manual Usage
-
-- Start the React App
-```bash
-npm start
-```
-
-- [Visit local instance](http://localhost:3000)
 
 #### Local Services
 
