@@ -5,9 +5,9 @@ import { titleize } from '@bowtie/utils'
 import FieldGroup from './FieldGroup'
 
 const FieldSingle = (props) => {
-  const { name, field, handleChange, location = '', ...rest } = props
+  const { name, field, handleChange, handleArrayChange, location = '', ...rest } = props
   const currentLocation = location === '' ? name : `${location}.${name}`
-  if (field && typeof field === 'object' && !Array.isArray(field)) {
+  if (field && field instanceof Object && !Array.isArray(field)) {
     return (
       <FieldGroup
         title={titleize(name, '_')}
@@ -17,12 +17,30 @@ const FieldSingle = (props) => {
         {...rest}
       />
     )
+  } else if (Array.isArray(field) && field.length > 0 && field[0] instanceof Object && !Array.isArray(field[0])) {
+    return (
+      <div className='field-group'>
+        {titleize(name, '_')}
+        {
+          field.map((obj, i) => {
+            return (
+              <FieldGroup
+                title={`#${i + 1}`}
+                fields={obj}
+                location={`${currentLocation}[${i}]`}
+                handleChange={handleArrayChange}
+                {...rest}
+              />
+            )
+          })
+        }
+      </div>
+    )
   } else {
     if (Array.isArray(field) && (field.length === 0 || typeof field[0] === 'string')) {
       rest['creatable'] = true
       rest['options'] = field.map(i => ({ value: i, label: i }))
     }
-
     return (
       <FieldContainer
         key={name}

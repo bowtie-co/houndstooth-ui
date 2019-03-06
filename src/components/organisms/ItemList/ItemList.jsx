@@ -24,7 +24,7 @@ const ItemList = ({ itemsTabs = [], activeTab, handleClick, children, vertical =
             {
               itemsTabs.map((item, i) => {
                 return (
-                  <NavItem key={i} className={classnames({ active: activeTab === item.name })}>
+                  <NavItem key={i} className={classnames({ active: activeTab === item.name }, 'pointer')}>
                     {
                       item.name === 'NEW FILE' &&
                         <Icon iconName='times-circle' onClick={() => closeTab(item)} />

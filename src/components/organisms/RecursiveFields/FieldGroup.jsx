@@ -9,16 +9,20 @@ const FieldGroup = (props) => {
   return (
     <div className='field-group'>
       {title && <p className='bold'>{title}</p>}
-      {fieldKeys.map(key =>
-        <FieldSingle
-          key={key}
-          name={key}
-          field={fields[key]}
-          handleChange={handleChange}
-          location={location}
-          {...rest}
-        />
-      )}
+      {
+        fieldKeys.map(key => (
+          <FieldSingle
+            key={key}
+            name={key}
+            field={fields[key]}
+            handleChange={handleChange}
+            location={location}
+            {...rest}
+          />
+        )
+        )
+      }
+
     </div>
   )
 }
