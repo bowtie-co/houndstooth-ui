@@ -5,7 +5,7 @@ import { titleize } from '@bowtie/utils'
 import FieldGroup from './FieldGroup'
 
 const FieldSingle = (props) => {
-  const { name, field, handleChange, handleArrayChange, location = '', ...rest } = props
+  const { name, field, handleChange, location = '', ...rest } = props
   const currentLocation = location === '' ? name : `${location}.${name}`
   if (field && field instanceof Object && !Array.isArray(field)) {
     return (
