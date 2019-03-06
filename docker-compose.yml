@@ -1,0 +1,42 @@
+version: '3.5'
+
+services:
+  houndstooth:
+    tty: true
+    stdin_open: true
+    networks:
+      - dev
+    build:
+      context: .
+      target: dev
+    volumes:
+      - .:/app
+      - type: volume
+        source: nodemodules
+        target: /app/node_modules
+        volume:
+          nocopy: true
+      - type: volume
+        source: npm
+        target: /root/.npm
+        volume:
+          nocopy: true
+    labels:
+      - "bowtie.project=houndstooth"
+      - "traefik.enable=true"
+      - "traefik.port=3000"
+      - "traefik.frontend.rule=Host:houndstooth.bowtie.dev"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.docker.network=bowtie-dev"
+    environment:
+      - APP_ENV=btdev
+      - NODE_ENV=development
+
+volumes:
+  npm:
+  nodemodules:
+
+networks:
+  dev:
+    external:
+      name: bowtie-dev

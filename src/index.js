@@ -4,9 +4,9 @@ import './scss/index.scss'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Routes from './Routes/routes'
 import { ErrorBoundary } from 'ecosystems'
-// import registerServiceWorker from './registerServiceWorker'
+import registerServiceWorker from './registerServiceWorker'
 
-// registerServiceWorker()
+registerServiceWorker()
 
 const RoutesWithErrorBoundary = () => (
   <ErrorBoundary>
