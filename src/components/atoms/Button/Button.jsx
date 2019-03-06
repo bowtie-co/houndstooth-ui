@@ -1,13 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { withTracking } from 'helpers'
 import { Button as ButtonRS } from 'reactstrap'
 import PropTypes from 'prop-types'
 
-const Button = ({ id, value, children, href, staticContext, ...rest }) => {
+const Button = ({ id, value, children, href, staticContext, onClickButtonWithTracking, onClick, gaTrack = true, ...rest }) => {
   const withLink = <Link to={href || ''}>
     <ButtonRS
       id={id}
       value={value}
+      onClick={gaTrack ? onClickButtonWithTracking : onClick}
       {...rest}
     >
       {children}
@@ -17,6 +19,7 @@ const Button = ({ id, value, children, href, staticContext, ...rest }) => {
   const button = <ButtonRS
     id={id}
     value={value}
+    onClick={gaTrack ? onClickButtonWithTracking : onClick}
     {...rest}
   >
     {children}
@@ -30,4 +33,4 @@ Button.propTypes = {
   href: PropTypes.string
 }
 
-export default Button
+export default withTracking(Button)

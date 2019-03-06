@@ -5,6 +5,14 @@
 Houndstooth UI
 ---
 
+A Free CMS for Jekyll and Github
+
+Houndstooth gives content editors a simple interface to publish changes to static sites hosted on Github.
+
+[Houndstooth.work](https://houndstooth.work)
+
+## Contents
+
 - [Getting Started](#getting-started)
   - [Requirements](#requirements)
   - [Quick Start](#quick-start)
