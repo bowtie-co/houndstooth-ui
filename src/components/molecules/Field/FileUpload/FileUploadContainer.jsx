@@ -22,7 +22,7 @@ export default compose(
 
         if (Object.keys(lists['previewIcons']).includes(fileExt)) {
           setPreviewUrl(fileExt)
-        } else if (/gif|png|jpe?g|svg/.test(fileExt)) {
+        } else if (/gif|png|jpe?g|svg/i.test(fileExt)) {
           setPreviewUrl(fileUrl)
         } else {
           setPreviewUrl('file')
