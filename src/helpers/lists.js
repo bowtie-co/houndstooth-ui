@@ -4,7 +4,8 @@ export const languages = {
   rb: 'ruby',
   ru: 'ruby',
   md: 'markdown',
-  py: 'python'
+  py: 'python',
+  yml: 'yaml'
 }
 
 export const fileIcons = {
