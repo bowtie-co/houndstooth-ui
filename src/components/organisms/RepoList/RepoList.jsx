@@ -10,7 +10,7 @@ const RepoList = ({ repoList, pages, setPageNumber, pageNumber, reloadReposAndBr
   return (
     <section>
       <div className='repo-list-header flex-row space-between'>
-        <Title>Hello! Please select a repository.</Title>
+        <Title>Welcome! Please select a repository.</Title>
         <div>
           <Icon iconName='sync-alt' size='sm' onClick={reloadReposAndBranches} />
         </div>

@@ -1,0 +1,14 @@
+.git
+.vscode
+build
+node_modules
+tmp
+
+Dockerfile
+docker-compose.yml
+.DS_Store
+.gitignore
+README.md
+buildspec.yml
+deploy.sh
+deploy-s3.sh

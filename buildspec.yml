@@ -1,0 +1,25 @@
+version: 0.2
+
+# Define CodeBuild phases
+phases:
+  install:
+    commands:
+      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay&
+      - timeout -t 15 sh -c "until docker info; do echo .; sleep 1; done"
+
+  pre_build:
+    commands:
+      - make cc-before
+
+  build:
+    commands:
+      - make ci
+
+  post_build:
+    commands:
+      - make cc-after
+      - deploy-ecs
+
+cache:
+  paths:
+    - '/var/lib/docker'
