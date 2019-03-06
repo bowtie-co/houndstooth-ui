@@ -10,6 +10,6 @@ services:
     environment:
       - CI=true
       - NODE_ENV=test
-      - CC_TEST_REPORTER_ID=ee26d23b8aa32895e62199d77e80c885e41ffb580127b8a960fbebf67d20c779
+      - CC_TEST_REPORTER_ID=dec90da3e45d065843a58d884cc1e155141a96c8c0298cb9cacf09e2f4965e16
       - GIT_COMMIT_SHA
       - GIT_BRANCH

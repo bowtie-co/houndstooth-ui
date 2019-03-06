@@ -1,6 +1,5 @@
-[![Build](https://app.razorsite.co/projects/houndstooth/badge)](https://app.razorsite.co/projects/houndstooth/builds/latest)
-[![Maintainability](https://api.codeclimate.com/v1/badges/17e180d74ac7e1fe8bb7/maintainability)](https://codeclimate.com/repos/5c50951ef5fffb7846004347/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/17e180d74ac7e1fe8bb7/test_coverage)](https://codeclimate.com/repos/5c50951ef5fffb7846004347/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/602c77fbbb46728dfac1/maintainability)](https://codeclimate.com/github/bowtie-co/houndstooth-ui/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/602c77fbbb46728dfac1/test_coverage)](https://codeclimate.com/github/bowtie-co/houndstooth-ui/test_coverage)
 
 Houndstooth UI
 ---
@@ -17,9 +16,7 @@ Houndstooth gives content editors a simple interface to publish changes to stati
   - [Requirements](#requirements)
   - [Quick Start](#quick-start)
 - [Advanced](#advanced)
-  - [Makefile Usage](#makefile-usage)
-  - [Manual Installation](#manual-installation)
-  - [Manual Usage](#manual-usage)
+  - [Bowtie Dev Usage](#bowtie-dev-usage)
   - [Local Services](#local-services)
 - [Testing](#testing)
   - [Linting](#linting)
@@ -53,7 +50,11 @@ npm start
 
 - [Visit local instance](http://localhost:3000)
 
+## Advanced
+
 #### Bowtie Dev Usage
+
+*Requires `btdev` from `dev-setup` to work!*
 
 - Run `make setup` for initial repo setup
 ```bash
@@ -65,64 +66,20 @@ make setup
 make start
 ```
 
-- Local App running on [https://houndstooth.bowtie.](http://localhost:3000)
+- Run `make rebuild` to rebuild local version after pulling changes
+```bash
+make rebuild
+```
+
+- Local App running on [https://houndstooth.bowtie.dev](https://houndstooth.bowtie.dev)
 
 - See [Advanced > Local Services](#local-services) for details on running against local services
-
-#### Makefile Usage
-
-- **Aliases:**
-  - `setup`
-    - `init`
-    - `rebuild`
-  - `reset`
-    - `clean`
-    - `install`
-  - `restart`
-    - `install`
-    - `start`
-  - `rebuild`
-    - `reset`
-  - `ci-reset`
-    - `reset`
-  - `ci`
-    - `ci-reset`
-    - `ci-test`
-  - `up`
-    - `start`
-- **Targets:**
-  - `init` - *Initialize local dev environment*
-    - Runs `npm `
-  - `clean` - *Clean up node_modules directory*
-    - Runs `rm -rf node_modules`
-  - `install` - *Install dependencies*
-    - Runs `npm install`
-  - `start` - *Start local dev instance*
-    - Runs `npm start`
-  - `build` - *Build project*
-    - Runs `npm run build`
-  - `test` - *Run tests*
-    - Runs `npm test`
-  - `lint` - *Run linter*
-    - Runs `npm run lint`
-  - `fix` - *Attempt to fix basic lint issues*
-    - Runs `npm run lint:fix`
-  - `analyze` - *Run analyzer for npm module debugging*
-    - Runs `npm run analyze`
-  - `scan` - *Scan for vulnerabilities*
-    - Runs `npm audit`
-  - `build-dll` - *Build vendor DLL file(s)*
-    - Runs `npm run build:dll`
-  - `ci-test` - *Run tests for CI (non interactive)*
-    - Runs `CI=true npm run ci`
-
-## Advanced
-
 
 
 #### Local Services
 
 - Create file `.env.development.local`, add entries to customize local dev
+  - *Filename is `.env.btdev.local` to override local dev env using btdev*
   - To run against local api:
     - `REACT_APP_API_ROOT_URL=http://localhost:4000`
   - To run against local oauth:
