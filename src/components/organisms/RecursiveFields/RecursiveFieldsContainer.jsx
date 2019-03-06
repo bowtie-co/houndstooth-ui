@@ -26,19 +26,6 @@ export default compose(
       }
 
       setFormData(formDataCopy)
-    },
-    handleArrayChange: ({ setFormData, formData }) => (key, value) => {
-      const regexArr = key.match(/\[(.*?)\](.)?/)
-      const index = regexArr[1]
-      const splitter = regexArr[0]
-      const formKey = key.split(splitter)
-      const [ parentKey, nestedKey ] = formKey
-      const parentArray = [...formData[parentKey]]
-
-      parentArray[index][nestedKey] = value
-
-      const formDataCopy = Object.assign({}, formData, { [parentKey]: parentArray })
-      setFormData(formDataCopy)
     }
   }),
   withPropsOnChange(['fields'], ({ setFormData, fields }) => {

@@ -17,7 +17,7 @@ const FieldSingle = (props) => {
         {...rest}
       />
     )
-  } else if (Array.isArray(field) && field.length > 0 && field[0] instanceof Object && !Array.isArray(field[0])) {
+  } else if (Array.isArray(field) && field.length > 0 && field[0] instanceof Object) {
     return (
       <div className='field-group'>
         {titleize(name, '_')}
@@ -27,8 +27,8 @@ const FieldSingle = (props) => {
               <FieldGroup
                 title={`#${i + 1}`}
                 fields={obj}
-                location={`${currentLocation}[${i}]`}
-                handleChange={handleArrayChange}
+                location={`${currentLocation}.${i}`}
+                handleChange={handleChange}
                 {...rest}
               />
             )
