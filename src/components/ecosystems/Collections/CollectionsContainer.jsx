@@ -29,6 +29,14 @@ export default compose(
     setStagedFileUploads: ({ stagedFileUploads }) => (payload) => ({ stagedFileUploads: payload }),
     setDefaultFormData: ({ defaultFormData }) => (payload) => ({ defaultFormData: payload })
   }),
+  withPropsOnChange(['match'], ({ match }) => {
+    const { username: owner, repo } = match['params']
+    const jekyll = github.jekyll({ owner, repo })
+
+    return {
+      jekyll
+    }
+  }),
   withHandlers({
     buildFileUrl: ({ config, baseApiRoute, queryParams, match }) => (path) => {
       const { username: owner, repo } = match['params']
@@ -112,43 +120,50 @@ export default compose(
       //   .then(({ data: fileUploads }) => setFileUploads(fileUploads))
       //   .catch(notifier.bad.bind(notifier))
     },
-    getItems: ({ collectionsApiRoute, match, setItems, setDefaultFields, setCollectionLoading, setCollectionName, setCollectionPath, branch }) => () => {
-      const { username: owner, repo } = match['params']
-      const { collection } = match.params
+    getItems: ({ collectionsApiRoute, jekyll, match, setItems, setDefaultFields, setCollectionLoading, setCollectionName, setCollectionPath, branch }) => () => {
+      const { username: owner, repo, collection } = match['params']
+
+      console.log('getting items!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+
       if (collection && branch) {
         setCollectionLoading(true)
 
-        const jekyll = github.jekyll({ owner, repo })
+        // const jekyll = github.jekyll({ owner, repo })
 
         jekyll.collection(collection, { ref: branch })
           .then(collection => {
-
             setCollectionName(collection.name)
             setCollectionPath(collection.path)
 
+            collection.defaults({ ref: branch })
+              .then(({ fields, content }) => {
+                setDefaultFields({ fields, markdown: content })
+              }).catch(resp => {
+                setDefaultFields({ fields: {}, markdown: '' })
+                notifier.bad(resp)
+              })
+
+            collection.clearCache()
+
             collection.items({ ref: branch })
               .then(items => {
-                items.reduce((promiseChain, item) => {
+                return items.reduce((promiseChain, item) => {
                   return promiseChain.then(() => item.init({ ref: branch }))
                 }, Promise.resolve()).then(() => {
                   setItems(items)
+                  setCollectionLoading(false)
                 })
+              }).catch(resp => {
+                setItems([])
+                setCollectionLoading(false)
+                notifier.bad(resp)
               })
-
-
-
-            collection.defaults({ ref: branch }).then(({ fields, content }) => {
-              setDefaultFields({ fields, markdown: content })
-            })
-
+          })
+          .catch((resp) => {
+            setItems([])
             setCollectionLoading(false)
-
-        })
-        .catch((resp) => {
-          setItems([])
-          setCollectionLoading(false)
-          notifier.bad(resp)
-        })
+            notifier.bad(resp)
+          })
 
         // api.get(`${collectionsApiRoute}?ref=${branch}`)
         //   .then(({ data }) => {
@@ -165,30 +180,37 @@ export default compose(
         //   })
       }
     },
-    editItem: ({ collectionsApiRoute, branch, activeItem, match }) => (formData) => {
-      const { item } = match.params
-      const message = `[HT] Edited item: ${activeItem.path}`
-      const route = `${collectionsApiRoute}/items/${item}?ref=${branch || 'master'}&sha=${activeItem['sha']}&message=${message}`
-      const updatedItem = Object.assign({}, activeItem, { fields: formData })
+    editItem: ({ collectionsApiRoute, branch, activeItem, match, jekyll }) => (formData) => {
+      const { username: owner, repo, collection } = match['params']
 
-      activeItem.defaults().then(defaults => {
-        console.log('Loaded active item defaults', defaults)
-      })
+      if (collection && branch) {
+        Object.assign(activeItem.fields, formData)
 
-      return api.put(route, updatedItem)
-    },
-    createItem: ({ collectionsApiRoute, branch, match, activeItem, updateCachedTree }) => (formData) => {
-      if (activeItem['name'] && activeItem['name'].split('.').length <= 1) {
-        activeItem['name'] = `${activeItem['name']}.md`
+        const message = `[HT] Edited item: ${activeItem.path}`
+
+        console.log(activeItem)
+
+        return activeItem.save({ ref: branch, message })
       }
+    },
+    createItem: ({ collectionsApiRoute, jekyll, branch, match, activeItem, updateCachedTree }) => (formData) => {
+      const { username: owner, repo, collection } = match['params']
 
-      const updatedItem = Object.assign({}, activeItem, { fields: formData })
-      const message = `[HT] Created item: ${activeItem.name}`
-      const route = `${collectionsApiRoute}/items?ref=${branch || 'master'}&message=${message}`
+      if (collection && branch) {
+        return jekyll.collection(collection, { ref: branch })
+          .then(collection => {
+            if (activeItem['name'] && activeItem['name'].split('.').length <= 1) {
+              activeItem['name'] = `${activeItem['name']}.md`
+            }
 
-      updateCachedTree()
+            const updatedItem = Object.assign({}, activeItem, { fields: formData })
+            const message = `[HT] Created item: ${activeItem.name}`
 
-      return api.post(route, updatedItem)
+            updateCachedTree()
+
+            return collection.createItem(updatedItem, { ref: branch, message })
+          })
+      }
     },
     createFileUpload: ({ match, branch, stagedFileUploads, baseApiRoute }) => () => {
       if (stagedFileUploads.length > 0) {
@@ -236,7 +258,7 @@ export default compose(
     }
   }),
   withHandlers({
-    handleFormSubmit: ({ collectionsRoute, items, createItem, history, editItem, createFileUpload, getItems, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData }) => (formData) => {
+    handleFormSubmit: ({ collectionsRoute, items, branch, createItem, history, editItem, createFileUpload, getItems, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData }) => (formData) => {
       setCollectionLoading(true)
 
       const isNewItem = match['params']['item'] === 'new'
@@ -244,14 +266,14 @@ export default compose(
 
       createFileUpload()
         .then(() => upsertItem(formData)
-          .then(({ data }) => {
+          .then((item) => {
             if (items.length > 0 && items[0]['name'] === 'NEW FILE') {
               items.shift()
             }
             getItems()
             setStagedFileUploads([])
             if (isNewItem) {
-              history.push(`/${collectionsRoute}/${data.data.content['name']}`)
+              history.push(`/${collectionsRoute}/${item['name']}?ref=${branch}`)
             }
           }))
         .then((resp) => {
