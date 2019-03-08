@@ -3,7 +3,7 @@ import qs from 'qs'
 import { compose, withStateHandlers, withPropsOnChange, withHandlers, lifecycle } from 'recompose'
 import { withEither, withMaybe } from '@bowtie/react-utils'
 import { Collections, EmptyState, EmptyItem } from './Collections'
-import { api, notifier, octokit } from 'lib'
+import { api, notifier, octokit, github } from 'lib'
 import { Loading } from 'atoms'
 
 const nullConditionFn = ({ collections }) => !collections
@@ -50,7 +50,7 @@ export default compose(
 
       return new Promise(
         (resolve, reject) => {
-          api.get(`${baseApiRoute}/files?${qs.stringify(params)}`).then(({ data }) => {
+          github.files(params).then((data) => {
             const { file } = data
 
             console.log('looking up download url for path', path, file)
@@ -61,6 +61,17 @@ export default compose(
               resolve(defaultUrl)
             }
           }).catch(reject)
+          // api.get(`${baseApiRoute}/files?${qs.stringify(params)}`).then(({ data }) => {
+          //   const { file } = data
+
+          //   console.log('looking up download url for path', path, file)
+
+          //   if (file && file['download_url']) {
+          //     resolve(file['download_url'])
+          //   } else {
+          //     resolve(defaultUrl)
+          //   }
+          // }).catch(reject)
         }
       )
     }
@@ -99,22 +110,51 @@ export default compose(
       //   .catch(notifier.bad.bind(notifier))
     },
     getItems: ({ collectionsApiRoute, match, setItems, setDefaultFields, setCollectionLoading, setCollectionName, setCollectionPath, branch }) => () => {
+      const { username: owner, repo } = match['params']
       const { collection } = match.params
       if (collection && branch) {
         setCollectionLoading(true)
-        api.get(`${collectionsApiRoute}?ref=${branch}`)
-          .then(({ data }) => {
-            setItems(data['collection']['items'])
-            setDefaultFields({ fields: data['collection']['fields'], markdown: '' })
-            setCollectionName(data['collection']['name'])
-            setCollectionPath(data['collection']['path'])
-            setCollectionLoading(false)
+
+        const jekyll = github.jekyll({ owner, repo })
+
+        jekyll.collection(collection, { ref: branch }).then(collection => {
+          setCollectionName(collection.name)
+          setCollectionPath(collection.path)
+
+          collection.items({ ref: branch }).then(items => {
+            items.reduce((promiseChain, item) => {
+              return promiseChain.then(() => item.init({ ref: branch }))
+            }, Promise.resolve(items)).then(() => {
+              setItems(items)
+            })
           })
-          .catch((resp) => {
-            setItems([])
-            setCollectionLoading(false)
-            notifier.bad(resp)
+
+          collection.defaults({ ref: branch }).then(({ fields, content }) => {
+            setDefaultFields({ fields, markdown: content })
           })
+
+          setCollectionLoading(false)
+
+        })
+        .catch((resp) => {
+          setItems([])
+          setCollectionLoading(false)
+          notifier.bad(resp)
+        })
+
+        // api.get(`${collectionsApiRoute}?ref=${branch}`)
+        //   .then(({ data }) => {
+        //     setItems(data['collection']['items'])
+        //     setDefaultFields({ fields: data['collection']['fields'], markdown: '' })
+        //     setCollectionName(data['collection']['name'])
+        //     setCollectionPath(data['collection']['path'])
+        //     setCollectionLoading(false)
+        //   })
+        //   .catch((resp) => {
+        //     setItems([])
+        //     setCollectionLoading(false)
+        //     notifier.bad(resp)
+        //   })
       }
     },
     editItem: ({ collectionsApiRoute, branch, activeItem, match }) => (formData) => {

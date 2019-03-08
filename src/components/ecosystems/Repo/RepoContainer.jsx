@@ -3,7 +3,7 @@ import { compose, withStateHandlers, withHandlers, withPropsOnChange, lifecycle 
 import Repo from './Repo'
 import qs from 'qs'
 import { withEither } from '@bowtie/react-utils'
-import { api, notifier, storage } from 'lib'
+import { api, notifier, storage, github } from 'lib'
 import { Loading } from 'atoms'
 
 const conditionLoadingFn = ({ isRepoLoading }) => isRepoLoading
@@ -47,13 +47,14 @@ export const enhance = compose(
   }),
   withHandlers({
     getBranchList: ({ setBranchList, baseApiRoute, setRepoLoading, match }) => () => {
+      const { username: owner, repo } = match['params']
       const storageKey = `${match.params['repo']}_branchList`
       const cachedBranchesList = storage.get(`branches`) ? storage.get(`branches`)[storageKey] : null
       if (!cachedBranchesList || cachedBranchesList.length <= 0) {
         setRepoLoading(true)
-        api.get(`${baseApiRoute}/branches`)
-          .then(({ data }) => {
-            const storageBranches = storage.get('branches') || {}
+
+        github.branches({ owner, repo }).then((data) => {
+          const storageBranches = storage.get('branches') || {}
             const newBranches = Object.assign(storageBranches, { [storageKey]: data['branches'] })
 
             storage.set(`branches`, newBranches)
@@ -64,32 +65,79 @@ export const enhance = compose(
             setRepoLoading(false)
             notifier.bad(resp)
           })
+        // api.get(`${baseApiRoute}/branches`)
+        //   .then(({ data }) => {
+          //   const storageBranches = storage.get('branches') || {}
+          //   const newBranches = Object.assign(storageBranches, { [storageKey]: data['branches'] })
+
+          //   storage.set(`branches`, newBranches)
+          //   setBranchList(data['branches'])
+          //   setRepoLoading(false)
+          // })
+          // .catch((resp) => {
+          //   setRepoLoading(false)
+          //   notifier.bad(resp)
+          // })
       } else {
         setBranchList(cachedBranchesList)
       }
     },
-    getCollections: ({ setRepoLoading, setCollections, setConfig, baseApiRoute }) => () => {
+    getCollections: ({ setRepoLoading, setCollections, setConfig, baseApiRoute, match }) => () => {
       setRepoLoading(true)
-      api.get(`${baseApiRoute}/collections`)
-        .then(({ data }) => {
-          setConfig(data)
-          const { collections } = data
-          setCollections(Object.keys(collections))
-          setRepoLoading(false)
-        })
-        .catch(() => {
-          setRepoLoading(false)
-          setCollections([])
-        })
+      const { username: owner, repo } = match['params']
+
+      const jekyll = github.jekyll({ owner, repo })
+
+      jekyll.config().then(config => {
+        setConfig(config)
+
+        setCollections(Object.keys(config['collections']))
+        setRepoLoading(false)
+
+        // jekyll.collections().then(collections => {
+        //   setCollections(collections.map(c => ))
+        // })
+      }).catch(() => {
+        setRepoLoading(false)
+        setCollections([])
+      })
+
+      jekyll.collections().then(collections => {
+        console.log('loaded collections from sdk', collections)
+
+        collections[0].items().then(resp => {
+          console.log('loaded items from collection', resp)
+        }).catch(console.error)
+      }).catch(console.error)
+
+      // api.get(`${baseApiRoute}/collections`)
+      //   .then(({ data }) => {
+      //     setConfig(data)
+      //     const { collections } = data
+      //     setCollections(Object.keys(collections))
+      //     setRepoLoading(false)
+      //   })
+      //   .catch(() => {
+      //     setRepoLoading(false)
+      //     setCollections([])
+      //   })
     },
-    getRepo: ({ baseApiRoute, setActiveRepo, setBranch, setPermissions }) => () => {
-      api.get(baseApiRoute)
-        .then(({ data }) => {
-          setBranch(data['repo']['default_branch'])
-          setActiveRepo(data['repo'])
-          setPermissions(data.repo['permissions'])
-        })
-        .catch(notifier.bad.bind(notifier))
+    getRepo: ({ baseApiRoute, setActiveRepo, setBranch, setPermissions, match }) => () => {
+      const { username: owner, repo } = match['params']
+
+      github.repo({ owner, repo }).then(data => {
+        setBranch(data['repo']['default_branch'])
+        setActiveRepo(data['repo'])
+        setPermissions(data['repo']['permissions'])
+      }).catch(console.error)
+
+      // api.get(baseApiRoute)
+      //   .then(({ data }) => {
+      //     setBranch(data['repo']['default_branch'])
+      //     setActiveRepo(data['repo'])
+      //     setPermissions(data.repo['permissions'])
+      //   })
+      //   .catch(notifier.bad.bind(notifier))
     },
     pushToGithub: ({ branch, updateCachedTree, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
       if (message) {

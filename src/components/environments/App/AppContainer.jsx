@@ -7,7 +7,7 @@ import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'rec
 import { withEither } from '@bowtie/react-utils'
 import { Loading } from 'atoms'
 import { withQueryParams, withBaseRoutes } from 'helpers'
-import { api, notifier, storage } from 'lib'
+import { api, notifier, storage, github } from 'lib'
 
 // conditional functions here:
 const loadingConditionFn = ({ isMainLoading, repoList }) => isMainLoading || repoList.length <= 0
@@ -48,6 +48,13 @@ export const enhance = compose(
   withHandlers({
     getRepos: ({ pageNumber, setMainLoading, setRepoList, setPages, setPageNumber }) => () => {
       setMainLoading(true)
+
+      github.repos({ page: pageNumber, sort: 'updated' }).then(({ repos }) => {
+        console.log('resp from SDK GH', repos)
+      }).catch(err => {
+        console.error(err)
+      })
+
       api.get(`repos?page=${pageNumber}&sort=updated`)
         .then(({ data }) => {
           setPages(data['pages'])
