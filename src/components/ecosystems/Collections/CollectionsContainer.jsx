@@ -30,7 +30,8 @@ export default compose(
     setDefaultFormData: ({ defaultFormData }) => (payload) => ({ defaultFormData: payload })
   }),
   withHandlers({
-    buildFileUrl: ({ config, baseApiRoute, queryParams }) => (path) => {
+    buildFileUrl: ({ config, baseApiRoute, queryParams, match }) => (path) => {
+      const { username: owner, repo } = match['params']
       const defaultUrl = '/loading.svg'
 
       if (!path || path.trim() === '') {
@@ -40,7 +41,9 @@ export default compose(
       const params = {
         // Remove leading slash for github path reference
         path: path.replace(/^\//, ''),
-        ref: queryParams['ref']
+        ref: queryParams['ref'],
+        owner,
+        repo
       }
 
       if (config['url'] && config['url'].trim() !== '') {
@@ -117,23 +120,28 @@ export default compose(
 
         const jekyll = github.jekyll({ owner, repo })
 
-        jekyll.collection(collection, { ref: branch }).then(collection => {
-          setCollectionName(collection.name)
-          setCollectionPath(collection.path)
+        jekyll.collection(collection, { ref: branch })
+          .then(collection => {
 
-          collection.items({ ref: branch }).then(items => {
-            items.reduce((promiseChain, item) => {
-              return promiseChain.then(() => item.init({ ref: branch }))
-            }, Promise.resolve(items)).then(() => {
-              setItems(items)
+            setCollectionName(collection.name)
+            setCollectionPath(collection.path)
+
+            collection.items({ ref: branch })
+              .then(items => {
+                items.reduce((promiseChain, item) => {
+                  return promiseChain.then(() => item.init({ ref: branch }))
+                }, Promise.resolve()).then(() => {
+                  setItems(items)
+                })
+              })
+
+
+
+            collection.defaults({ ref: branch }).then(({ fields, content }) => {
+              setDefaultFields({ fields, markdown: content })
             })
-          })
 
-          collection.defaults({ ref: branch }).then(({ fields, content }) => {
-            setDefaultFields({ fields, markdown: content })
-          })
-
-          setCollectionLoading(false)
+            setCollectionLoading(false)
 
         })
         .catch((resp) => {
@@ -162,6 +170,11 @@ export default compose(
       const message = `[HT] Edited item: ${activeItem.path}`
       const route = `${collectionsApiRoute}/items/${item}?ref=${branch || 'master'}&sha=${activeItem['sha']}&message=${message}`
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
+
+      activeItem.defaults().then(defaults => {
+        console.log('Loaded active item defaults', defaults)
+      })
+
       return api.put(route, updatedItem)
     },
     createItem: ({ collectionsApiRoute, branch, match, activeItem, updateCachedTree }) => (formData) => {
@@ -194,7 +207,7 @@ export default compose(
         })
 
         return newFiles.reduce((promiseChain, file) => {
-          return promiseChain.then(() => octokit.repos.createFile(file))
+          return promiseChain.then(() => github.createFile(file))
         }, Promise.resolve(newFiles))
       } else {
         return Promise.resolve()
