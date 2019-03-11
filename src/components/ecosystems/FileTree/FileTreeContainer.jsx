@@ -32,7 +32,7 @@ export const enhance = compose(
         delete cachedTree[branch]
 
         setTreeLoading(true)
-        const sdkParams = buildSdkParams({ tree: 'true', recursive: 'true', ref: branch })
+        const sdkParams = buildSdkParams({ tree: true, recursive: true, ref: branch }, false)
 
         github.files(sdkParams)
           .then(tree => {

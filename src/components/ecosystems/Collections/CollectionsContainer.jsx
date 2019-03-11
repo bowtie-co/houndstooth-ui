@@ -1,5 +1,5 @@
 
-import { compose, withStateHandlers, withPropsOnChange, withHandlers, lifecycle } from 'recompose'
+import { compose, withStateHandlers, withPropsOnChange, withHandlers } from 'recompose'
 import { withEither, withMaybe } from '@bowtie/react-utils'
 import { Collections, EmptyState, EmptyItem } from './Collections'
 import { notifier, github } from 'lib'
@@ -99,12 +99,6 @@ export default compose(
         const { collection } = match.params
         history.push(`/${baseRoute}/collections/${collection || ''}/${itemName}?path=_${collection}/${itemName}&ref=${branch}`)
       }
-    },
-    getFileUploads: ({ match, setFileUploads, branch }) => () => {
-      // const { username, repo } = match.params
-      // api.get(`${baseApiRoute}/files?path=upload&ref=${branch || 'master'}&recursive=true&flatten=true`)
-      //   .then(({ data: fileUploads }) => setFileUploads(fileUploads))
-      //   .catch(notifier.bad.bind(notifier))
     },
     getItems: ({ collectionsApiRoute, jekyll, match, setItems, setDefaultFields, setCollectionLoading, setCollectionName, setCollectionPath, branch }) => () => {
       const { collection } = match['params']
@@ -280,12 +274,6 @@ export default compose(
         .catch((resp) => {
           notifier.bad(resp)
         })
-    }
-  }),
-  lifecycle({
-    componentWillMount () {
-      const { getFileUploads } = this.props
-      getFileUploads()
     }
   }),
   withMaybe(nullConditionFn),
