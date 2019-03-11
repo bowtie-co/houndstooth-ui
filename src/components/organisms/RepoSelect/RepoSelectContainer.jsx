@@ -1,6 +1,6 @@
 
 import { compose, withStateHandlers, lifecycle } from 'recompose'
-import { api, notifier, storage } from 'lib'
+import { notifier, storage, github } from 'lib'
 
 import RepoSelect from './RepoSelect'
 
@@ -14,23 +14,19 @@ export default compose(
   }),
   lifecycle({
     componentWillMount () {
-      const { setAsyncRepoList, setLoadingRepos } = this.props
+      const { setAsyncRepoList, setLoadingRepos, buildSdkParams } = this.props
       if (storage.get('all_repos')) {
         setAsyncRepoList(storage.get('all_repos'))
       } else {
         setLoadingRepos(true)
-        api.get(`repos?per_page=0`)
-          .then((resp = {}) => {
-            // setting a default value to data.repos in case it is undefined
-            const {
-              data: {
-                repos = {}
-              }
-            } = resp
-
-            setLoadingRepos(false)
-            storage.set('all_repos', repos)
-            setAsyncRepoList(repos)
+        const params = buildSdkParams({ per_page: '0' })
+        github.repos(params)
+          .then(({ repos }) => {
+            if (repos) {
+              setLoadingRepos(false)
+              storage.set('all_repos', repos)
+              setAsyncRepoList(repos)
+            }
           })
           .catch((resp) => {
             notifier.bad(resp)

@@ -68,17 +68,6 @@ export default compose(
               resolve(defaultUrl)
             }
           }).catch(reject)
-          // api.get(`${baseApiRoute}/files?${qs.stringify(params)}`).then(({ data }) => {
-          //   const { file } = data
-
-          //   console.log('looking up download url for path', path, file)
-
-          //   if (file && file['download_url']) {
-          //     resolve(file['download_url'])
-          //   } else {
-          //     resolve(defaultUrl)
-          //   }
-          // }).catch(reject)
         }
       )
     }
@@ -214,7 +203,7 @@ export default compose(
       }
     },
     handleMarkdownChange: ({ activeItem, setActiveItem }) => (content) => {
-      const updated = Object.assign({}, activeItem, { markdown: content })
+      const updated = Object.assign(activeItem, { markdown: content })
       setActiveItem(updated)
     }
   }),

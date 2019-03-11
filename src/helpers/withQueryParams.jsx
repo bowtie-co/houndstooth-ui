@@ -35,7 +35,7 @@ export default compose(
 
       return `?${qs.stringify(data, { encodeValuesOnly: true, arrayFormat: 'brackets' })}`
     },
-    buildSdkParams: ({ match, queryParams }) => (params = {}) => {
+    buildSdkParams: ({ match, queryParams }) => (params = {}, withQueryParams = true) => {
       const { username, repo } = match.params
 
       const defaultParams = {
@@ -43,7 +43,7 @@ export default compose(
         repo
       }
 
-      return Object.assign({}, defaultParams, queryParams, params)
+      return withQueryParams ? Object.assign({}, defaultParams, queryParams, params) : Object.assign({}, defaultParams, params)
     }
   })
 )

@@ -93,18 +93,6 @@ export const enhance = compose(
           console.log('loaded items from collection', resp)
         }).catch(console.error)
       }).catch(console.error)
-
-      // api.get(`${baseApiRoute}/collections`)
-      //   .then(({ data }) => {
-      //     setConfig(data)
-      //     const { collections } = data
-      //     setCollections(Object.keys(collections))
-      //     setRepoLoading(false)
-      //   })
-      //   .catch(() => {
-      //     setRepoLoading(false)
-      //     setCollections([])
-      //   })
     },
     getRepo: ({ buildSdkParams, baseApiRoute, setActiveRepo, setBranch, setPermissions, match }) => () => {
       const params = buildSdkParams()
@@ -114,14 +102,6 @@ export const enhance = compose(
         setActiveRepo(data['repo'])
         setPermissions(data['repo']['permissions'])
       }).catch(console.error)
-
-      // api.get(baseApiRoute)
-      //   .then(({ data }) => {
-      //     setBranch(data['repo']['default_branch'])
-      //     setActiveRepo(data['repo'])
-      //     setPermissions(data.repo['permissions'])
-      //   })
-      //   .catch(notifier.bad.bind(notifier))
     },
     pushToGithub: ({ buildSdkParams, branch, match, updateCachedTree, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
       if (message) {
