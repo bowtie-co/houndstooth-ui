@@ -4,6 +4,7 @@
 import ItemList from './ItemList'
 import { withRouter } from 'react-router'
 import { compose, withHandlers, withStateHandlers, withPropsOnChange } from 'recompose'
+import { animateScroll } from 'react-scroll'
 
 export const enhance = compose(
   withRouter,
@@ -18,6 +19,7 @@ export const enhance = compose(
     handleClick: ({ onClick, setActiveTab }) => (tabName) => {
       const name = tabName === 'NEW FILE' ? 'new' : tabName
       onClick && onClick(name)
+      animateScroll.scrollToTop()
       setActiveTab(tabName)
     },
     addNewItem: ({ history, baseRoute, match, itemsTabs, setItemTabs }) => () => {
