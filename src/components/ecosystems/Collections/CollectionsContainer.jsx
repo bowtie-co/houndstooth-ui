@@ -1,9 +1,8 @@
 
-import qs from 'qs'
 import { compose, withStateHandlers, withPropsOnChange, withHandlers, lifecycle } from 'recompose'
 import { withEither, withMaybe } from '@bowtie/react-utils'
 import { Collections, EmptyState, EmptyItem } from './Collections'
-import { api, notifier, octokit, github } from 'lib'
+import { api, notifier, github } from 'lib'
 import { Loading } from 'atoms'
 
 const nullConditionFn = ({ collections }) => !collections
@@ -29,30 +28,27 @@ export default compose(
     setStagedFileUploads: ({ stagedFileUploads }) => (payload) => ({ stagedFileUploads: payload }),
     setDefaultFormData: ({ defaultFormData }) => (payload) => ({ defaultFormData: payload })
   }),
-  withPropsOnChange(['match'], ({ match }) => {
-    const { username: owner, repo } = match['params']
-    const jekyll = github.jekyll({ owner, repo })
+  withPropsOnChange(['match'], ({ match, buildSdkParams }) => {
+    const params = buildSdkParams()
+    const jekyll = github.jekyll(params)
 
     return {
       jekyll
     }
   }),
   withHandlers({
-    buildFileUrl: ({ config, baseApiRoute, queryParams, match }) => (path) => {
-      const { username: owner, repo } = match['params']
+    buildFileUrl: ({ config, buildSdkParams, queryParams, match }) => (path) => {
       const defaultUrl = '/loading.svg'
 
       if (!path || path.trim() === '') {
         return Promise.resolve(defaultUrl)
       }
 
-      const params = {
+      const params = buildSdkParams({
         // Remove leading slash for github path reference
         path: path.replace(/^\//, ''),
-        ref: queryParams['ref'],
-        owner,
-        repo
-      }
+        ref: queryParams['ref']
+      })
 
       if (config['url'] && config['url'].trim() !== '') {
         const siteUrl = config['url'].replace(/\/$/, '')
@@ -121,7 +117,7 @@ export default compose(
       //   .catch(notifier.bad.bind(notifier))
     },
     getItems: ({ collectionsApiRoute, jekyll, match, setItems, setDefaultFields, setCollectionLoading, setCollectionName, setCollectionPath, branch }) => () => {
-      const { username: owner, repo, collection } = match['params']
+      const { collection } = match['params']
 
       console.log('getting items!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 
@@ -181,7 +177,7 @@ export default compose(
       }
     },
     editItem: ({ collectionsApiRoute, branch, activeItem, match, jekyll }) => (formData) => {
-      const { username: owner, repo, collection } = match['params']
+      const { collection } = match['params']
 
       if (collection && branch) {
         Object.assign(activeItem.fields, formData)
@@ -194,7 +190,7 @@ export default compose(
       }
     },
     createItem: ({ collectionsApiRoute, jekyll, branch, match, activeItem, updateCachedTree }) => (formData) => {
-      const { username: owner, repo, collection } = match['params']
+      const { collection } = match['params']
 
       if (collection && branch) {
         return jekyll.collection(collection, { ref: branch })
@@ -212,18 +208,16 @@ export default compose(
           })
       }
     },
-    createFileUpload: ({ match, branch, stagedFileUploads, baseApiRoute }) => () => {
+    createFileUpload: ({ buildSdkParams, branch, stagedFileUploads, baseApiRoute }) => () => {
       if (stagedFileUploads.length > 0) {
         const newFiles = stagedFileUploads.map(file => {
-          const updatedFile = {
+          const updatedFile = buildSdkParams({
             branch,
             path: file.name,
             content: file.base64.split('base64,')[1],
             message: `[HT] Uploaded ${file.name}`,
-            encoding: 'base64',
-            owner: match['params']['username'],
-            repo: match['params']['repo']
-          }
+            encoding: 'base64'
+          })
 
           return updatedFile
         })

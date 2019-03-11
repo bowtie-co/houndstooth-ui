@@ -26,16 +26,15 @@ export const enhance = compose(
     setTree: () => (payload) => ({ tree: payload })
   }),
   withHandlers({
-    getTree: ({ setTreeLoading, baseApiRoute, setTree, branch, match }) => () => {
-      const { username: owner, repo } = match.params
+    getTree: ({ setTreeLoading, baseApiRoute, buildSdkParams, setTree, branch, match }) => () => {
       if (branch) {
         const cachedTree = storage.get('tree') || {}
         delete cachedTree[branch]
 
-        const route = `${baseApiRoute}/files?ref=${branch}&tree=true&recursive=true`
         setTreeLoading(true)
+        const sdkParams = buildSdkParams({ tree: 'true', recursive: 'true', ref: branch })
 
-        github.files({ owner, repo, tree: 'true', recursive: 'true' })
+        github.files(sdkParams)
           .then(tree => {
             setTreeLoading(false)
             const newTree = Object.assign({}, cachedTree, { [branch]: tree })

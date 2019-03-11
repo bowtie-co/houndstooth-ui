@@ -34,6 +34,16 @@ export default compose(
       })
 
       return `?${qs.stringify(data, { encodeValuesOnly: true, arrayFormat: 'brackets' })}`
+    },
+    buildSdkParams: ({ match }) => (params = {}) => {
+      const { username, repo } = match.params
+
+      const defaultParams = {
+        owner: username,
+        repo
+      }
+
+      return Object.assign({}, defaultParams, params)
     }
   })
 )

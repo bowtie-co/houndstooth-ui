@@ -3,7 +3,7 @@ import { compose, withStateHandlers, withHandlers, withPropsOnChange, lifecycle 
 import Repo from './Repo'
 import qs from 'qs'
 import { withEither } from '@bowtie/react-utils'
-import { api, notifier, storage, github } from 'lib'
+import { notifier, storage, github } from 'lib'
 import { Loading } from 'atoms'
 
 const conditionLoadingFn = ({ isRepoLoading }) => isRepoLoading
@@ -46,47 +46,31 @@ export const enhance = compose(
     }
   }),
   withHandlers({
-    getBranchList: ({ setBranchList, baseApiRoute, setRepoLoading, match }) => () => {
-      const { username: owner, repo } = match['params']
+    getBranchList: ({ buildSdkParams, setBranchList, baseApiRoute, setRepoLoading, match }) => () => {
       const storageKey = `${match.params['repo']}_branchList`
       const cachedBranchesList = storage.get(`branches`) ? storage.get(`branches`)[storageKey] : null
       if (!cachedBranchesList || cachedBranchesList.length <= 0) {
         setRepoLoading(true)
+        const params = buildSdkParams()
 
-        github.branches({ owner, repo }).then((data) => {
+        github.branches(params).then((data) => {
           const storageBranches = storage.get('branches') || {}
           const newBranches = Object.assign(storageBranches, { [storageKey]: data['branches'] })
-
           storage.set(`branches`, newBranches)
           setBranchList(data['branches'])
           setRepoLoading(false)
+        }).catch((resp) => {
+          setRepoLoading(false)
+          notifier.bad(resp)
         })
-          .catch((resp) => {
-            setRepoLoading(false)
-            notifier.bad(resp)
-          })
-        // api.get(`${baseApiRoute}/branches`)
-        //   .then(({ data }) => {
-          //   const storageBranches = storage.get('branches') || {}
-          //   const newBranches = Object.assign(storageBranches, { [storageKey]: data['branches'] })
-
-          //   storage.set(`branches`, newBranches)
-          //   setBranchList(data['branches'])
-          //   setRepoLoading(false)
-          // })
-          // .catch((resp) => {
-          //   setRepoLoading(false)
-          //   notifier.bad(resp)
-          // })
       } else {
         setBranchList(cachedBranchesList)
       }
     },
-    getCollections: ({ setRepoLoading, setCollections, setConfig, baseApiRoute, match }) => () => {
+    getCollections: ({ buildSdkParams, setRepoLoading, setCollections, setConfig, baseApiRoute, match }) => () => {
       setRepoLoading(true)
-      const { username: owner, repo } = match['params']
-
-      const jekyll = github.jekyll({ owner, repo })
+      const params = buildSdkParams()
+      const jekyll = github.jekyll(params)
 
       jekyll.config().then(config => {
         setConfig(config)
@@ -122,10 +106,10 @@ export const enhance = compose(
       //     setCollections([])
       //   })
     },
-    getRepo: ({ baseApiRoute, setActiveRepo, setBranch, setPermissions, match }) => () => {
-      const { username: owner, repo } = match['params']
+    getRepo: ({ buildSdkParams, baseApiRoute, setActiveRepo, setBranch, setPermissions, match }) => () => {
+      const params = buildSdkParams()
 
-      github.repo({ owner, repo }).then(data => {
+      github.repo(params).then(data => {
         setBranch(data['repo']['default_branch'])
         setActiveRepo(data['repo'])
         setPermissions(data['repo']['permissions'])
@@ -139,18 +123,16 @@ export const enhance = compose(
       //   })
       //   .catch(notifier.bad.bind(notifier))
     },
-    pushToGithub: ({ branch, match, updateCachedTree, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
+    pushToGithub: ({ buildSdkParams, branch, match, updateCachedTree, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
       if (message) {
-        const { username, repo } = match.params
-        const body = {
-          message,
-          repo,
-          owner: username,
-          files: stagedFiles.map(file => ({ path: file.path, content: file.content, encoding: file.encoding }))
-        }
-
         updateCachedTree()
         setRepoLoading(true)
+
+        const body = buildSdkParams({
+          ref: branch,
+          message,
+          files: stagedFiles.map(file => ({ path: file.path, content: file.content, encoding: file.encoding }))
+        })
 
         github.upsertFiles(body)
           .then(resp => {
