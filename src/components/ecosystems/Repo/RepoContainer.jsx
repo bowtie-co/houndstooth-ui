@@ -55,12 +55,12 @@ export const enhance = compose(
 
         github.branches({ owner, repo }).then((data) => {
           const storageBranches = storage.get('branches') || {}
-            const newBranches = Object.assign(storageBranches, { [storageKey]: data['branches'] })
+          const newBranches = Object.assign(storageBranches, { [storageKey]: data['branches'] })
 
-            storage.set(`branches`, newBranches)
-            setBranchList(data['branches'])
-            setRepoLoading(false)
-          })
+          storage.set(`branches`, newBranches)
+          setBranchList(data['branches'])
+          setRepoLoading(false)
+        })
           .catch((resp) => {
             setRepoLoading(false)
             notifier.bad(resp)
@@ -139,17 +139,21 @@ export const enhance = compose(
       //   })
       //   .catch(notifier.bad.bind(notifier))
     },
-    pushToGithub: ({ branch, updateCachedTree, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
+    pushToGithub: ({ branch, match, updateCachedTree, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
       if (message) {
-        const requestPath = `${baseApiRoute}/files/upsert?ref=${branch}`
+        const { username, repo } = match.params
         const body = {
           message,
+          repo,
+          owner: username,
           files: stagedFiles.map(file => ({ path: file.path, content: file.content, encoding: file.encoding }))
         }
+
         updateCachedTree()
         setRepoLoading(true)
-        api.post(requestPath, body)
-          .then(response => {
+
+        github.upsertFiles(body)
+          .then(resp => {
             notifier.success('Files have been successfully committed to GitHub.')
             setRepoLoading(false)
             setStagedFiles([])
