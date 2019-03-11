@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   Col,
-  Title,
+  // Title,
   Row,
   Icon
 } from 'atoms'
@@ -32,22 +32,22 @@ export const ItemForm = (props) => {
     <Row>
       <Col sm='12' md='5' lg='5' xl='3'>
         <div className='tab-content-card'>
-          {
+          {/* {
             item === 'new'
 
-              ? <div>
-                <FieldContainer
-                  type='text'
-                  label={'File name'}
-                  name={'file_name'}
-                  onChange={editFileName}
-                  iconHelper={IconHelper}
-                  value={handleFileNameChange(activeItem['name'])}
-                  errorMessage={fileNameError}
-                />
-              </div>
+              ? <div> */}
+          <FieldContainer
+            type='text'
+            label={'File name'}
+            name={'file_name'}
+            onChange={editFileName}
+            iconHelper={IconHelper}
+            value={handleFileNameChange(activeItem['name'])}
+            errorMessage={fileNameError}
+          />
+          {/* </div>
               : <Title title={item} className='break-word' />
-          }
+          } */}
           <RecursiveFields
             fields={activeItem['fields']}
             match={match}

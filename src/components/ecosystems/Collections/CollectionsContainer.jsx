@@ -132,6 +132,7 @@ export default compose(
       const updatedItem = Object.assign({}, activeItem, { fields: formData })
       const message = `[HT] Created item: ${activeItem.name}`
       const route = `${collectionsApiRoute}/items?ref=${branch || 'master'}&message=${message}`
+      console.log('INSIDE CREATE ITEM:', updatedItem)
 
       updateCachedTree()
 
@@ -197,9 +198,11 @@ export default compose(
             }
             getItems()
             setStagedFileUploads([])
-            if (isNewItem) {
-              history.push(`/${collectionsRoute}/${data.data.content['name']}`)
-            }
+            // if (isNewItem) {
+            console.log('INSIDE HANDL FORM DATA --> ', data)
+
+            history.push(`/${collectionsRoute}/${data.data.content['name']}`)
+            // }
           }))
         .then((resp) => {
           notifier.success(`Item ${isNewItem ? 'created' : 'edited'}`)
