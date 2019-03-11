@@ -4,6 +4,7 @@ import { withEither, withMaybe } from '@bowtie/react-utils'
 import { Collections, EmptyState, EmptyItem } from './Collections'
 import { notifier, github } from 'lib'
 import { Loading } from 'atoms'
+import async from 'async'
 
 const nullConditionFn = ({ collections }) => !collections
 const emptyStateConditionFn = ({ collections }) => collections.length === 0
@@ -130,9 +131,15 @@ export default compose(
 
             collection.items({ ref: branch })
               .then(items => {
-                return items.reduce((promiseChain, item) => {
-                  return promiseChain.then(() => item.init({ ref: branch }))
-                }, Promise.resolve()).then(() => {
+                async.each(items, (item, next) => {
+                  item.init({ ref: branch }).then(item => {
+                    next()
+                  }).catch(next)
+                }, (err) => {
+                  if (err) {
+                    console.error(err)
+                  }
+
                   setItems(items)
                   setCollectionLoading(false)
                 })
@@ -149,7 +156,7 @@ export default compose(
           })
       }
     },
-    editItem: ({ collectionsApiRoute, branch, activeItem, match, jekyll }) => (formData) => {
+    editItem: ({ collectionsApiRoute, setActiveItem, branch, activeItem, match, jekyll }) => (formData) => {
       const { collection } = match['params']
 
       if (collection && branch) {
@@ -159,7 +166,10 @@ export default compose(
 
         console.log(activeItem)
 
-        return activeItem.save({ ref: branch, message })
+        return activeItem.save({ ref: branch, message }).then(item => {
+          console.log('done editing item', item)
+          return Promise.resolve(item)
+        })
       }
     },
     createItem: ({ collectionsApiRoute, jekyll, branch, match, activeItem, updateCachedTree }) => (formData) => {
@@ -177,7 +187,10 @@ export default compose(
 
             updateCachedTree()
 
-            return collection.createItem(updatedItem, { ref: branch, message })
+            return collection.createItem(updatedItem, { ref: branch, message }).then(item => {
+              console.log('done creating item', item)
+              return Promise.resolve(item)
+            })
           })
       }
     },
@@ -225,7 +238,7 @@ export default compose(
     }
   }),
   withHandlers({
-    handleFormSubmit: ({ collectionsRoute, items, branch, createItem, history, editItem, createFileUpload, getItems, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData }) => (formData) => {
+    handleFormSubmit: ({ collectionsRoute, items, branch, createItem, history, editItem, createFileUpload, getItems, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData, setActiveItem }) => (formData) => {
       setCollectionLoading(true)
 
       const isNewItem = match['params']['item'] === 'new'
@@ -239,6 +252,8 @@ export default compose(
             }
             getItems()
             setStagedFileUploads([])
+            setActiveItem(item)
+            console.log('done with item', item)
             if (isNewItem) {
               history.push(`/${collectionsRoute}/${item['name']}?ref=${branch}`)
             }
