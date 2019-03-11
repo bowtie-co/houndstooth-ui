@@ -3,7 +3,7 @@ import FileTree from './FileTree'
 import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
 import qs from 'qs'
-import { api, notifier } from 'lib'
+import { notifier } from 'lib'
 import { Loading } from 'atoms'
 import { storage, github } from 'lib/index'
 
@@ -63,7 +63,7 @@ export const enhance = compose(
       setFile(newFile)
       setStagedFiles(newState)
     },
-    deleteFile: ({ baseApiRoute, baseRoute, history, queryParams, getTree, file, setFileTreeLoading, toggleModal }) => () => {
+    deleteFile: ({ buildSdkParams, baseApiRoute, baseRoute, history, queryParams, getTree, file, setFileTreeLoading, toggleModal }) => () => {
       const { ref } = queryParams
       const { sha, path } = file
       const pathArr = path.split('/')
@@ -71,16 +71,16 @@ export const enhance = compose(
       const parentPath = `/${baseRoute}/dir?path=${pathArr.join('/')}&ref=${ref}`
       const message = `[HT] Delete file ${file['name']}`
 
-      const params = {
+      const params = buildSdkParams({
         ref,
         message,
         sha,
         path
-      }
+      })
 
-      const route = `${baseApiRoute}/files?${qs.stringify(params)}`
       setFileTreeLoading(true)
-      api.delete(route)
+
+      github.deleteFile(params)
         .then(resp => {
           toggleModal()
           getTree()
@@ -93,14 +93,15 @@ export const enhance = compose(
           notifier.bad(resp)
         })
     },
-    getDirList: ({ match, baseApiRoute, baseRoute, queryParams, stagedFiles, setDirList, setFile, setFileTreeLoading, history }) => () => {
+    getDirList: ({ buildSdkParams, match, baseApiRoute, baseRoute, queryParams, stagedFiles, setDirList, setFile, setFileTreeLoading, history }) => () => {
       if (!match['params']['collection']) {
-        const stringifiedParams = qs.stringify(queryParams)
-        const route = `${baseApiRoute}/files?${stringifiedParams}`
-
         setFileTreeLoading(true)
-        api.get(route)
-          .then(({ data }) => {
+
+        const { path = '/', ref } = queryParams
+        const params = buildSdkParams({ path, ref })
+
+        github.files(params)
+          .then(data => {
             if (data['files']) {
               // add a new file from stagedFiles to dirList.
               const dirStagedFiles = stagedFiles.filter(file => {
@@ -117,7 +118,6 @@ export const enhance = compose(
 
               dirStagedFiles.forEach((file, i) => {
                 const isInDirList = data['files'].some(f => f['path'] === file['path'])
-
                 !isInDirList && data['files'].push(file)
               })
 
@@ -132,10 +132,13 @@ export const enhance = compose(
           })
           .catch((resp) => {
             const { path } = queryParams
-            const pathArr = path.split('/')
-            pathArr.pop()
-            const parentPath = pathArr.join('/')
-            const newParams = Object.assign({}, queryParams, { path: parentPath })
+            let newParams = Object.assign({}, queryParams)
+            if (path) {
+              const pathArr = path.split('/')
+              pathArr.pop()
+              const parentPath = pathArr.join('/')
+              Object.assign(newParams, { path: parentPath })
+            }
             setFileTreeLoading(false)
             notifier.bad(resp)
             history.push(`/${baseRoute}/dir?${qs.stringify(newParams)}`)
