@@ -7,7 +7,7 @@ import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'rec
 import { withEither } from '@bowtie/react-utils'
 import { Loading } from 'atoms'
 import { withQueryParams, withBaseRoutes } from 'helpers'
-import { api, notifier, storage, github } from 'lib'
+import { notifier, storage, github } from 'lib'
 
 // conditional functions here:
 const loadingConditionFn = ({ isMainLoading, repoList }) => isMainLoading || repoList.length <= 0
@@ -49,14 +49,8 @@ export const enhance = compose(
     getRepos: ({ pageNumber, setMainLoading, setRepoList, setPages, setPageNumber }) => () => {
       setMainLoading(true)
 
-      github.repos({ page: pageNumber, sort: 'updated' }).then(({ repos }) => {
-        console.log('resp from SDK GH', repos)
-      }).catch(err => {
-        console.error(err)
-      })
-
-      api.get(`repos?page=${pageNumber}&sort=updated`)
-        .then(({ data }) => {
+      github.repos({ page: pageNumber, sort: 'updated' })
+        .then(data => {
           setPages(data['pages'])
           setPageNumber(data['pages'])
           setRepoList(data['repos'])
@@ -74,9 +68,9 @@ export const enhance = compose(
         })
     },
     getCurrentUser: ({ setCurrentUser }) => () => {
-      api.get('user')
-        .then(({ data }) => {
-          setCurrentUser(data['user'])
+      github.user()
+        .then(({ user }) => {
+          setCurrentUser(user)
         })
         .catch(notifier.bad.bind(notifier))
     }

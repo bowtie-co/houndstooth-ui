@@ -2,7 +2,7 @@
 import { compose, withStateHandlers, withPropsOnChange, withHandlers, lifecycle } from 'recompose'
 import { withEither, withMaybe } from '@bowtie/react-utils'
 import { Collections, EmptyState, EmptyItem } from './Collections'
-import { api, notifier, github } from 'lib'
+import { notifier, github } from 'lib'
 import { Loading } from 'atoms'
 
 const nullConditionFn = ({ collections }) => !collections
@@ -119,8 +119,6 @@ export default compose(
     getItems: ({ collectionsApiRoute, jekyll, match, setItems, setDefaultFields, setCollectionLoading, setCollectionName, setCollectionPath, branch }) => () => {
       const { collection } = match['params']
 
-      console.log('getting items!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-
       if (collection && branch) {
         setCollectionLoading(true)
 
@@ -160,20 +158,6 @@ export default compose(
             setCollectionLoading(false)
             notifier.bad(resp)
           })
-
-        // api.get(`${collectionsApiRoute}?ref=${branch}`)
-        //   .then(({ data }) => {
-        //     setItems(data['collection']['items'])
-        //     setDefaultFields({ fields: data['collection']['fields'], markdown: '' })
-        //     setCollectionName(data['collection']['name'])
-        //     setCollectionPath(data['collection']['path'])
-        //     setCollectionLoading(false)
-        //   })
-        //   .catch((resp) => {
-        //     setItems([])
-        //     setCollectionLoading(false)
-        //     notifier.bad(resp)
-        //   })
       }
     },
     editItem: ({ collectionsApiRoute, branch, activeItem, match, jekyll }) => (formData) => {
@@ -280,12 +264,8 @@ export default compose(
         })
     },
     deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems, updateCachedTree }) => () => {
-      const { item } = match.params
-      const { sha } = activeItem
-      const message = 'Delete file'
-
-      const route = `${collectionsApiRoute}/items/${item}?ref=${branch || 'master'}&message=${message}&sha=${sha}`
-      api.delete(route)
+      const message = `[HT] Delete Item: ${activeItem.path}`
+      activeItem.delete({ message, branch })
         .then(resp => {
           getItems()
 
