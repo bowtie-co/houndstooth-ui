@@ -5,7 +5,7 @@ import { withEither } from '@bowtie/react-utils'
 import qs from 'qs'
 import { api, notifier } from 'lib'
 import { Loading } from 'atoms'
-import { storage } from 'lib/index'
+import { storage, github } from 'lib/index'
 
 const conditionLoadingFn = ({ isFileTreeLoading }) => isFileTreeLoading
 
@@ -26,19 +26,21 @@ export const enhance = compose(
     setTree: () => (payload) => ({ tree: payload })
   }),
   withHandlers({
-    getTree: ({ setTreeLoading, baseApiRoute, setTree, branch }) => () => {
+    getTree: ({ setTreeLoading, baseApiRoute, setTree, branch, match }) => () => {
+      const { username: owner, repo } = match.params
       if (branch) {
         const cachedTree = storage.get('tree') || {}
         delete cachedTree[branch]
 
         const route = `${baseApiRoute}/files?ref=${branch}&tree=true&recursive=true`
         setTreeLoading(true)
-        api.get(route)
-          .then(({ data }) => {
+
+        github.files({ owner, repo, tree: 'true', recursive: 'true' })
+          .then(tree => {
             setTreeLoading(false)
-            const newTree = Object.assign({}, cachedTree, { [branch]: data })
+            const newTree = Object.assign({}, cachedTree, { [branch]: tree })
             storage.set('tree', newTree)
-            setTree(data)
+            setTree(tree)
           })
           .catch((resp) => {
             setTreeLoading(false)
