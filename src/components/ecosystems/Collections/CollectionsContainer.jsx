@@ -272,7 +272,6 @@ export default compose(
           updateCachedTree()
 
           notifier.success('Item deleted!')
-          history.push(collectionsApiRoute)
         })
         .catch((resp) => {
           notifier.bad(resp)
