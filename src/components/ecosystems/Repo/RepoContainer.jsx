@@ -94,11 +94,14 @@ export const enhance = compose(
         }).catch(console.error)
       }).catch(console.error)
     },
-    getRepo: ({ buildSdkParams, baseApiRoute, setActiveRepo, setBranch, setPermissions, match }) => () => {
+    getRepo: ({ buildSdkParams, baseApiRoute, setActiveRepo, setBranch, setPermissions, match, queryParams }) => () => {
       const params = buildSdkParams()
-
       github.repo(params).then(data => {
-        setBranch(data['repo']['default_branch'])
+
+        queryParams['ref']
+          ? setBranch(queryParams['ref'])
+          : setBranch(data['repo']['default_branch'])
+
         setActiveRepo(data['repo'])
         setPermissions(data['repo']['permissions'])
       }).catch(console.error)
