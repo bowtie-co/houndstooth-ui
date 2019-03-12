@@ -97,7 +97,6 @@ export const enhance = compose(
     getRepo: ({ buildSdkParams, baseApiRoute, setActiveRepo, setBranch, setPermissions, match, queryParams }) => () => {
       const params = buildSdkParams()
       github.repo(params).then(data => {
-
         queryParams['ref']
           ? setBranch(queryParams['ref'])
           : setBranch(data['repo']['default_branch'])
