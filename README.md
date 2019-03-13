@@ -1,6 +1,12 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/602c77fbbb46728dfac1/maintainability)](https://codeclimate.com/github/bowtie-co/houndstooth-ui/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/602c77fbbb46728dfac1/test_coverage)](https://codeclimate.com/github/bowtie-co/houndstooth-ui/test_coverage)
 
+[![GitHub contributors](https://img.shields.io/github/contributors/bowtie-co/houndstooth-ui.svg?style=flat-square)](https://github.com/bowtie-co/houndstooth-ui/graphs/contributors)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/bowtie-co/houndstooth-ui.svg?style=flat-square)](https://github.com/bowtie-co/houndstooth-ui/pulls)
+[![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/bowtie-co/houndstooth-ui.svg?style=flat-square)](https://github.com/bowtie-co/houndstooth-ui/pulls?utf8=%E2%9C%93&q=is%3Apr+is%3Aclosed+)
+[![GitHub issues](https://img.shields.io/github/issues/bowtie-co/houndstooth-ui.svg?style=flat-square)](https://github.com/bowtie-co/houndstooth-ui/issues)
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/bowtie-co/houndstooth-ui.svg?style=flat-square)](https://github.com/bowtie-co/houndstooth-ui/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aclosed+)
+
 Houndstooth UI
 ---
 
