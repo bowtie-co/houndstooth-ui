@@ -67,32 +67,19 @@ export const enhance = compose(
         setBranchList(cachedBranchesList)
       }
     },
-    getCollections: ({ buildSdkParams, setRepoLoading, setCollections, setConfig, baseApiRoute, match }) => () => {
+    getCollections: ({ buildSdkParams, setRepoLoading, setCollections, setConfig, baseApiRoute, match, branch }) => () => {
       setRepoLoading(true)
-      const params = buildSdkParams()
+      const params = buildSdkParams({ branch })
       const jekyll = github.jekyll(params)
 
-      jekyll.config().then(config => {
+      jekyll.config(params).then(config => {
         setConfig(config)
-
         setCollections(Object.keys(config['collections']))
         setRepoLoading(false)
-
-        // jekyll.collections().then(collections => {
-        //   setCollections(collections.map(c => ))
-        // })
       }).catch(() => {
         setRepoLoading(false)
         setCollections([])
       })
-
-      jekyll.collections().then(collections => {
-        console.log('loaded collections from sdk', collections)
-
-        collections[0].items().then(resp => {
-          console.log('loaded items from collection', resp)
-        }).catch(console.error)
-      }).catch(console.error)
     },
     getRepo: ({ buildSdkParams, baseApiRoute, setActiveRepo, setBranch, setPermissions, match, queryParams }) => () => {
       const params = buildSdkParams()
@@ -122,7 +109,10 @@ export const enhance = compose(
             setRepoLoading(false)
             setStagedFiles([])
           })
-          .catch(notifier.bad.bind(notifier))
+          .catch(error => {
+            setRepoLoading(false)
+            notifier.bad(error)
+          })
       } else {
         notifier.msg('Please add a commit message.', 'error')
       }
@@ -139,6 +129,9 @@ export const enhance = compose(
   withPropsOnChange([ 'baseRoute', 'config' ], ({ match }) => {
     const { username, repo } = match['params']
     notifier.userChange({ channels: { ro: [ `repos.${username}-${repo}` ] } })
+  }),
+  withPropsOnChange(['branch'], ({ getCollections }) => {
+    getCollections()
   }),
   lifecycle({
     componentWillUnmount () {
