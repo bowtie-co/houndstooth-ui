@@ -69,7 +69,7 @@ export const enhance = compose(
     },
     getCollections: ({ buildSdkParams, setRepoLoading, setCollections, setConfig, baseApiRoute, match, branch }) => () => {
       setRepoLoading(true)
-      const params = buildSdkParams({ branch })
+      const params = buildSdkParams({ ref: branch }, false)
       const jekyll = github.jekyll(params)
 
       jekyll.config(params).then(config => {
