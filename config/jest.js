@@ -18,6 +18,8 @@ const mapAliasNames = (aliases) => {
 
 module.exports = {
   configure: {
+    browser: true,
+    testEnvironment: 'jsdom',
     collectCoverage: true,
     moduleNameMapper: Object.assign({
       '^libphonenumber-js$': 'libphonenumber-js',
