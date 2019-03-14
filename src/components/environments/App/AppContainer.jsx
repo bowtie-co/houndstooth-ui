@@ -83,11 +83,11 @@ export const enhance = compose(
     githubError: ({ history }) => (err) => {
       console.error('GITHUB ERROR!', err, typeof err)
 
-      if (err.message) {
-        notifier.error(err.message)
-      }
-
       if (err.status === 401) {
+        if (err.message) {
+          notifier.error(err.message)
+        }
+
         history.push('/logout')
       }
     }
@@ -110,12 +110,12 @@ export const enhance = compose(
   }),
 
   lifecycle({
-    componentWillMount() {
+    componentWillMount () {
       const { githubError } = this.props
 
       github.on('error', githubError)
     },
-    componentWillUnmount() {
+    componentWillUnmount () {
       const { githubError } = this.props
 
       github.off('error', githubError)
