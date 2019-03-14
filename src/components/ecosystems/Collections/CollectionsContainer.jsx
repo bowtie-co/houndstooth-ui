@@ -258,6 +258,11 @@ export default compose(
             if (isNewItem) {
               history.push(`/${collectionsRoute}/${item['name']}?ref=${branch}`)
             }
+            // if (isNewItem) {
+            // console.log('INSIDE HANDL FORM DATA --> ', data)
+
+            // history.push(`/${collectionsRoute}/${data.data.content['name']}`)
+            // }
           }))
         .then((resp) => {
           notifier.success(`Item ${isNewItem ? 'created' : 'edited'}`)
