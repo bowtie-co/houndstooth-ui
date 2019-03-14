@@ -113,12 +113,12 @@ export const enhance = compose(
     componentWillMount () {
       const { githubError } = this.props
 
-      github.on('error', githubError)
+      github.on('err', githubError)
     },
     componentWillUnmount () {
       const { githubError } = this.props
 
-      github.off('error', githubError)
+      github.off('err', githubError)
     }
   }),
   withEither(loadingConditionFn, Loading)
