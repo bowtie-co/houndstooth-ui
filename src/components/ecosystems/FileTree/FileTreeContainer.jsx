@@ -142,6 +142,9 @@ export const enhance = compose(
             setFileTreeLoading(false)
             notifier.bad(resp)
             history.push(`/${baseRoute}/dir?${qs.stringify(newParams)}`)
+          }).catch(error => {
+            setFileTreeLoading(false)
+            notifier.bad(error)
           })
       }
     }
