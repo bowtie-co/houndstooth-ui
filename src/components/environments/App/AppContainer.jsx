@@ -3,7 +3,7 @@
 
 import App from './App'
 import { withRouter } from 'react-router'
-import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
+import { compose, withStateHandlers, withHandlers, withPropsOnChange, lifecycle } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
 import { Loading } from 'atoms'
 import { withQueryParams, withBaseRoutes } from 'helpers'
@@ -79,6 +79,17 @@ export const enhance = compose(
     reloadReposAndBranches: ({ getRepos }) => () => {
       ['all_repos', 'repos', 'branches', 'tree'].forEach(key => storage.remove(key))
       getRepos()
+    },
+    githubError: ({ history }) => (err) => {
+      console.error('GITHUB ERROR!', err, typeof err)
+
+      if (err.message) {
+        notifier.error(err.message)
+      }
+
+      if (err.status === 401) {
+        history.push('/logout')
+      }
     }
   }),
   withPropsOnChange(['pageNumber'], ({ getRepos, pageNumber, setRepoList, setPages, setPageNumber }) => {
@@ -95,6 +106,19 @@ export const enhance = compose(
   withPropsOnChange(['location'], ({ location }) => {
     if (typeof window.gtag === 'function') {
       window.gtag('config', 'UA-112855270-4', { 'page_path': location.pathname })
+    }
+  }),
+
+  lifecycle({
+    componentWillMount() {
+      const { githubError } = this.props
+
+      github.on('error', githubError)
+    },
+    componentWillUnmount() {
+      const { githubError } = this.props
+
+      github.off('error', githubError)
     }
   }),
   withEither(loadingConditionFn, Loading)
