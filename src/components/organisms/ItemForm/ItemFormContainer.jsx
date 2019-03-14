@@ -10,9 +10,11 @@ export default compose(
   withFormatting,
   withEither(emptyStateConditionFn, EmptyState),
   withStateHandlers({
-    fileNameError: ''
+    fileNameError: '',
+    isRenameFile: false
   }, {
-    setFileNameError: () => (payload) => ({ fileNameError: payload })
+    setFileNameError: () => (payload) => ({ fileNameError: payload }),
+    setRenameFile: () => (payload) => ({ isRenameFile: payload })
   }),
   withHandlers({
     handleFileNameChange: ({ sanitizeFileName, setFileNameError }) => (value) => {

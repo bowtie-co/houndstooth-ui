@@ -150,6 +150,13 @@ export default compose(
           })
       }
     },
+    renameItem: ({ activeItem }) => () => {
+      console.log('activeItem', activeItem)
+      activeItem.rename(activeItem['name'])
+        .then(resp => {
+          console.log('renameItem resp', resp)
+        })
+    },
     editItem: ({ collectionsApiRoute, setActiveItem, branch, activeItem, match, jekyll }) => (formData) => {
       const { collection } = match['params']
 
