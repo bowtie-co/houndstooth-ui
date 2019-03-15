@@ -8,7 +8,8 @@ import {
 } from 'atoms'
 
 import {
-  FieldContainer
+  FieldContainer,
+  RenameFileModal
 } from 'molecules'
 
 import {
@@ -26,27 +27,53 @@ const IconHelper = () => (
 )
 
 export const ItemForm = (props) => {
-  const { activeItem, handleFormSubmit, handleFileNameChange, fileNameError, editFileName, deleteItem, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads, permissions, ...rest } = props
+  const {
+    setRenameFile,
+    enterSave,
+    cancelRename,
+    isRenameFile,
+    activeItem,
+    handleFormSubmit,
+    handleFileNameChange,
+    fileNameError,
+    editFileName,
+    deleteItem,
+    match,
+    handleMarkdownChange,
+    fileUploads,
+    stagedFileUploads,
+    setStagedFileUploads,
+    permissions,
+    isNameModalOpen,
+    isNewItem,
+    saveRenameFile,
+    toggleNameModal,
+    ...rest
+  } = props
+
   const { item } = match.params
   return (
     <Row>
       <Col sm='12' md='5' lg='5' xl='3'>
         <div className='tab-content-card'>
           {
-            item === 'new'
-
+            item === 'new' || isRenameFile
               ? <div>
                 <FieldContainer
-                  type='text'
+                  type={'text'}
                   label={'File name'}
                   name={'file_name'}
                   onChange={editFileName}
                   iconHelper={IconHelper}
                   value={handleFileNameChange(activeItem['name'])}
                   errorMessage={fileNameError}
+                  onBlur={() => !isNewItem && toggleNameModal()}
                 />
               </div>
-              : <Title title={item} className='break-word' />
+              : <div className={'flex-row align-center'}>
+                <Title title={activeItem['name']} className='break-word m-1' />
+                <Icon iconName={'pencil-alt'} onClick={() => setRenameFile(true)} />
+              </div>
           }
           <RecursiveFields
             fields={activeItem['fields']}
@@ -72,8 +99,12 @@ export const ItemForm = (props) => {
           />
         </div>
       </Col>
+      <RenameFileModal
+        isOpen={isNameModalOpen}
+        handleClick={saveRenameFile}
+        toggleModal={cancelRename}
+      />
     </Row>
-
   )
 }
 

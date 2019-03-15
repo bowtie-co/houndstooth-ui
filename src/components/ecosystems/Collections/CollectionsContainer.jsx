@@ -3,6 +3,7 @@ import { compose, withStateHandlers, withPropsOnChange, withHandlers } from 'rec
 import { withEither, withMaybe } from '@bowtie/react-utils'
 import { Collections, EmptyState, EmptyItem } from './Collections'
 import { notifier, github } from 'lib'
+import { CollectionItem } from '@bowtie/houndstooth-sdk'
 import { Loading } from 'atoms'
 import async from 'async'
 
@@ -32,9 +33,10 @@ export default compose(
   withPropsOnChange(['match'], ({ match, buildSdkParams }) => {
     const params = buildSdkParams()
     const jekyll = github.jekyll(params)
-
+    const isNewItem = match['params']['item'] === 'new'
     return {
-      jekyll
+      jekyll,
+      isNewItem
     }
   }),
   withHandlers({
@@ -76,22 +78,12 @@ export default compose(
   withHandlers({
     getFileDownloadUrl: ({ buildFileUrl }) => (path) => {
       return buildFileUrl(path)
-
-      // const defaultUrl = '/loading.svg'
-      // return buildFileUrl(path).then(url => {
-      //   return fetch(url, { mode: 'cors', cache: 'no-cache' }).then(resp => {
-      //     console.log('test url resp', resp)
-
-      //     if (resp.status >= 400) {
-      //       return defaultUrl
-      //     } else {
-      //       return url
-      //     }
-      //   })
-      // })
     },
-    editFileName: ({ setActiveItem, activeItem }) => (e) => {
-      const editedItem = Object.assign({}, activeItem, { name: e.target.value })
+    editFileName: ({ setActiveItem, activeItem, isNewItem }) => (e) => {
+      const editedItem = isNewItem
+        ? Object.assign({}, activeItem, { name: e.target.value })
+        : new CollectionItem(Object.assign({}, activeItem, { name: e.target.value }))
+
       setActiveItem(editedItem)
     },
     selectItem: ({ history, baseRoute, match, branch }) => (itemName) => {
@@ -105,8 +97,6 @@ export default compose(
 
       if (collection && branch) {
         setCollectionLoading(true)
-
-        // const jekyll = github.jekyll({ owner, repo })
 
         jekyll.collection(collection, { ref: branch })
           .then(collection => {
@@ -149,6 +139,9 @@ export default compose(
             notifier.bad(resp)
           })
       }
+    },
+    renameItem: ({ activeItem }) => () => {
+      return activeItem.rename(activeItem['name'], { message: 'Renamed item' })
     },
     editItem: ({ collectionsApiRoute, setActiveItem, branch, activeItem, match, jekyll }) => (formData) => {
       const { collection } = match['params']
@@ -221,8 +214,8 @@ export default compose(
       getItems()
     }
   ),
-  withPropsOnChange(['match', 'items', 'defaultFields'], ({ match, items, setActiveItem, defaultFields, permissions }) => {
-    if (match['params']['item'] === 'new' && permissions['push']) {
+  withPropsOnChange(['match', 'items', 'defaultFields'], ({ isNewItem, match, items, setActiveItem, defaultFields, permissions }) => {
+    if (isNewItem && permissions['push']) {
       setActiveItem(defaultFields)
     } else if (match['params']['item'] !== 'new') {
       const currentItem = items.find(i => i.name === match['params']['item'])
@@ -232,10 +225,8 @@ export default compose(
     }
   }),
   withHandlers({
-    handleFormSubmit: ({ collectionsRoute, items, branch, createItem, history, editItem, createFileUpload, getItems, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData, setActiveItem }) => (formData) => {
+    handleFormSubmit: ({ isNewItem, collectionsRoute, items, branch, createItem, history, editItem, createFileUpload, getItems, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData, setActiveItem }) => (formData) => {
       setCollectionLoading(true)
-
-      const isNewItem = match['params']['item'] === 'new'
       const upsertItem = isNewItem ? createItem : editItem
 
       createFileUpload()
@@ -251,6 +242,11 @@ export default compose(
             if (isNewItem) {
               history.push(`/${collectionsRoute}/${item['name']}?ref=${branch}`)
             }
+            // if (isNewItem) {
+            // console.log('INSIDE HANDL FORM DATA --> ', data)
+
+            // history.push(`/${collectionsRoute}/${data.data.content['name']}`)
+            // }
           }))
         .then((resp) => {
           notifier.success(`Item ${isNewItem ? 'created' : 'edited'}`)
@@ -261,7 +257,8 @@ export default compose(
           notifier.bad(resp)
         })
     },
-    deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems, updateCachedTree }) => () => {
+    deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems, updateCachedTree, setCollectionLoading }) => () => {
+      setCollectionLoading(true)
       const message = `[HT] Delete Item: ${activeItem.path}`
       activeItem.delete({ message, branch })
         .then(resp => {
