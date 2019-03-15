@@ -3,6 +3,7 @@ import { compose, withStateHandlers, withPropsOnChange, withHandlers } from 'rec
 import { withEither, withMaybe } from '@bowtie/react-utils'
 import { Collections, EmptyState, EmptyItem } from './Collections'
 import { notifier, github } from 'lib'
+import { CollectionItem } from '@bowtie/houndstooth-sdk'
 import { Loading } from 'atoms'
 import async from 'async'
 
@@ -91,7 +92,9 @@ export default compose(
       // })
     },
     editFileName: ({ setActiveItem, activeItem }) => (e) => {
-      const editedItem = Object.assign({}, activeItem, { name: e.target.value })
+      const editedItem = new CollectionItem(Object.assign({}, activeItem, { name: e.target.value }))
+      // const editedItem = Object.assign(activeItem, { name: e.target.value })
+      console.log('edited item', editedItem)
       setActiveItem(editedItem)
     },
     selectItem: ({ history, baseRoute, match, branch }) => (itemName) => {
@@ -151,8 +154,11 @@ export default compose(
       }
     },
     renameItem: ({ activeItem }) => () => {
-      console.log('activeItem', activeItem)
-      activeItem.rename(activeItem['name'])
+      console.log('activeItem', activeItem, activeItem.rename)
+
+
+
+      activeItem.rename(activeItem['name'], { message: 'Renamed item' })
         .then(resp => {
           console.log('renameItem resp', resp)
         })
