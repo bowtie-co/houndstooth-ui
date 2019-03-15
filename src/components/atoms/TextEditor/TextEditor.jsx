@@ -27,7 +27,7 @@ const TextEditor = ({ content, name, onChange, permissions }) => {
       theme='terminal'
       name={`file-editor-${name}`}
       // onLoad={this.onLoad}
-      editorProps={{$blockScrolling: true}}
+      editorProps={{ $blockScrolling: true }}
       onChange={(newValue) => onChange(newValue)}
       fontSize={15}
       showPrintMargin
