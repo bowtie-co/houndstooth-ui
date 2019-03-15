@@ -31,8 +31,11 @@ export default compose(
       toggleNameModal()
       setRenameFile(false)
     },
-    saveRenameFile: ({ setRenameFile, renameItem, getItems, activeItem, queryParams, branch, history, collectionsRoute }) => () => {
+    saveRenameFile: ({ setRenameFile, renameItem, getItems, activeItem, toggleNameModal, branch, history, collectionsRoute, setCollectionLoading }) => () => {
       setRenameFile(false)
+      toggleNameModal()
+      setCollectionLoading(true)
+
       renameItem()
         .then(resp => {
           getItems()

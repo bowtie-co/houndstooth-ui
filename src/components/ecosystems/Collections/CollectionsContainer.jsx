@@ -257,7 +257,8 @@ export default compose(
           notifier.bad(resp)
         })
     },
-    deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems, updateCachedTree }) => () => {
+    deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems, updateCachedTree, setCollectionLoading }) => () => {
+      setCollectionLoading(true)
       const message = `[HT] Delete Item: ${activeItem.path}`
       activeItem.delete({ message, branch })
         .then(resp => {
