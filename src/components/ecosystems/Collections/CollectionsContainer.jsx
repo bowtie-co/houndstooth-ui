@@ -33,9 +33,10 @@ export default compose(
   withPropsOnChange(['match'], ({ match, buildSdkParams }) => {
     const params = buildSdkParams()
     const jekyll = github.jekyll(params)
-
+    const isNewItem = match['params']['item'] === 'new'
     return {
-      jekyll
+      jekyll,
+      isNewItem
     }
   }),
   withHandlers({
@@ -77,23 +78,12 @@ export default compose(
   withHandlers({
     getFileDownloadUrl: ({ buildFileUrl }) => (path) => {
       return buildFileUrl(path)
-
-      // const defaultUrl = '/loading.svg'
-      // return buildFileUrl(path).then(url => {
-      //   return fetch(url, { mode: 'cors', cache: 'no-cache' }).then(resp => {
-      //     console.log('test url resp', resp)
-
-      //     if (resp.status >= 400) {
-      //       return defaultUrl
-      //     } else {
-      //       return url
-      //     }
-      //   })
-      // })
     },
-    editFileName: ({ setActiveItem, activeItem }) => (e) => {
-      const editedItem = new CollectionItem(Object.assign({}, activeItem, { name: e.target.value }))
-      // const editedItem = Object.assign(activeItem, { name: e.target.value })
+    editFileName: ({ setActiveItem, activeItem, isNewItem }) => (e) => {
+      const editedItem = isNewItem
+        ? Object.assign({}, activeItem, { name: e.target.value })
+        : new CollectionItem(Object.assign({}, activeItem, { name: e.target.value }))
+
       console.log('edited item', editedItem)
       setActiveItem(editedItem)
     },
@@ -128,6 +118,8 @@ export default compose(
 
             collection.items({ ref: branch })
               .then(items => {
+                console.log('items', items)
+
                 async.each(items, (item, next) => {
                   item.init({ ref: branch }).then(item => {
                     next()
@@ -154,10 +146,7 @@ export default compose(
       }
     },
     renameItem: ({ activeItem }) => () => {
-      activeItem.rename(activeItem['name'], { message: 'Renamed item' })
-        .then(resp => {
-          console.log('renameItem resp', resp)
-        })
+      return activeItem.rename(activeItem['name'], { message: 'Renamed item' })
     },
     editItem: ({ collectionsApiRoute, setActiveItem, branch, activeItem, match, jekyll }) => (formData) => {
       const { collection } = match['params']
@@ -230,8 +219,8 @@ export default compose(
       getItems()
     }
   ),
-  withPropsOnChange(['match', 'items', 'defaultFields'], ({ match, items, setActiveItem, defaultFields, permissions }) => {
-    if (match['params']['item'] === 'new' && permissions['push']) {
+  withPropsOnChange(['match', 'items', 'defaultFields'], ({ isNewItem, match, items, setActiveItem, defaultFields, permissions }) => {
+    if (isNewItem && permissions['push']) {
       setActiveItem(defaultFields)
     } else if (match['params']['item'] !== 'new') {
       const currentItem = items.find(i => i.name === match['params']['item'])
@@ -241,10 +230,8 @@ export default compose(
     }
   }),
   withHandlers({
-    handleFormSubmit: ({ collectionsRoute, items, branch, createItem, history, editItem, createFileUpload, getItems, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData, setActiveItem }) => (formData) => {
+    handleFormSubmit: ({ isNewItem, collectionsRoute, items, branch, createItem, history, editItem, createFileUpload, getItems, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData, setActiveItem }) => (formData) => {
       setCollectionLoading(true)
-
-      const isNewItem = match['params']['item'] === 'new'
       const upsertItem = isNewItem ? createItem : editItem
 
       createFileUpload()

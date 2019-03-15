@@ -8,7 +8,8 @@ import {
 } from 'atoms'
 
 import {
-  FieldContainer
+  FieldContainer,
+  RenameFileModal
 } from 'molecules'
 
 import {
@@ -26,7 +27,30 @@ const IconHelper = () => (
 )
 
 export const ItemForm = (props) => {
-  const { setRenameFile, isRenameFile, saveRenameFile, activeItem, handleFormSubmit, handleFileNameChange, fileNameError, editFileName, deleteItem, match, handleMarkdownChange, fileUploads, stagedFileUploads, setStagedFileUploads, permissions, ...rest } = props
+  const {
+    setRenameFile,
+    enterSave,
+    cancelRename,
+    isRenameFile,
+    activeItem,
+    handleFormSubmit,
+    handleFileNameChange,
+    fileNameError,
+    editFileName,
+    deleteItem,
+    match,
+    handleMarkdownChange,
+    fileUploads,
+    stagedFileUploads,
+    setStagedFileUploads,
+    permissions,
+    isNameModalOpen,
+    isNewItem,
+    saveRenameFile,
+    toggleNameModal,
+    ...rest
+  } = props
+
   const { item } = match.params
   return (
     <Row>
@@ -36,14 +60,14 @@ export const ItemForm = (props) => {
             item === 'new' || isRenameFile
               ? <div>
                 <FieldContainer
-                  type='text'
+                  type={'text'}
                   label={'File name'}
                   name={'file_name'}
                   onChange={editFileName}
                   iconHelper={IconHelper}
                   value={handleFileNameChange(activeItem['name'])}
                   errorMessage={fileNameError}
-                  onBlur={saveRenameFile}
+                  onBlur={() => !isNewItem && toggleNameModal()}
                 />
               </div>
               : <div className={'flex-row align-center'}>
@@ -75,8 +99,12 @@ export const ItemForm = (props) => {
           />
         </div>
       </Col>
+      <RenameFileModal
+        isOpen={isNameModalOpen}
+        handleClick={saveRenameFile}
+        toggleModal={cancelRename}
+      />
     </Row>
-
   )
 }
 

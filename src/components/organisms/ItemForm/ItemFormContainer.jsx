@@ -11,8 +11,10 @@ export default compose(
   withEither(emptyStateConditionFn, EmptyState),
   withStateHandlers({
     fileNameError: '',
-    isRenameFile: false
+    isRenameFile: false,
+    isNameModalOpen: false
   }, {
+    toggleNameModal: ({ isNameModalOpen }) => () => ({ isNameModalOpen: !isNameModalOpen }),
     setFileNameError: () => (payload) => ({ fileNameError: payload }),
     setRenameFile: () => (payload) => ({ isRenameFile: payload })
   }),
@@ -24,9 +26,18 @@ export default compose(
       }
       return sanitizeFileName(value)
     },
-    saveRenameFile: ({ setRenameFile, renameItem }) => () => {
+    cancelRename: ({ toggleNameModal, setRenameFile, match, editFileName }) => () => {
+      editFileName({ target: { value: match['params']['item'] } })
+      toggleNameModal()
+      setRenameFile(false)
+    },
+    saveRenameFile: ({ setRenameFile, renameItem, getItems, activeItem, queryParams, branch, history, collectionsRoute }) => () => {
       setRenameFile(false)
       renameItem()
+        .then(resp => {
+          getItems()
+          history.push(`/${collectionsRoute}/${activeItem['name']}?ref=${branch}`)
+        })
     }
   })
 )(ItemForm)
