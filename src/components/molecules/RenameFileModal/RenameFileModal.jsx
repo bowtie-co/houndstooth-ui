@@ -15,7 +15,7 @@ const RenameFileModal = ({ isOpen, handleClick, toggleModal }) => {
         <Row>
           <Col sm='12' className='flex-row flex-center mb-4'>Are you sure you want to rename this file?</Col>
           <Col sm='6' className='flex-row flex-center'><Button size='sm' onClick={toggleModal}>Cancel</Button></Col>
-          <Col sm='6' className='flex-row flex-center'><Button size='sm' color={'danger'} onClick={handleClick}>Save</Button></Col>
+          <Col sm='6' className='flex-row flex-center'><Button size='sm' color={'success'} onClick={handleClick}>Save</Button></Col>
         </Row>
       </ModalBody>
     </Modal>

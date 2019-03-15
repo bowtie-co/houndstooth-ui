@@ -84,7 +84,6 @@ export default compose(
         ? Object.assign({}, activeItem, { name: e.target.value })
         : new CollectionItem(Object.assign({}, activeItem, { name: e.target.value }))
 
-      console.log('edited item', editedItem)
       setActiveItem(editedItem)
     },
     selectItem: ({ history, baseRoute, match, branch }) => (itemName) => {
@@ -98,8 +97,6 @@ export default compose(
 
       if (collection && branch) {
         setCollectionLoading(true)
-
-        // const jekyll = github.jekyll({ owner, repo })
 
         jekyll.collection(collection, { ref: branch })
           .then(collection => {
@@ -118,8 +115,6 @@ export default compose(
 
             collection.items({ ref: branch })
               .then(items => {
-                console.log('items', items)
-
                 async.each(items, (item, next) => {
                   item.init({ ref: branch }).then(item => {
                     next()
