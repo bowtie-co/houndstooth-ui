@@ -10,9 +10,11 @@ export default compose(
   withFormatting,
   withEither(emptyStateConditionFn, EmptyState),
   withStateHandlers({
-    fileNameError: ''
+    fileNameError: '',
+    isRenameFile: false
   }, {
-    setFileNameError: () => (payload) => ({ fileNameError: payload })
+    setFileNameError: () => (payload) => ({ fileNameError: payload }),
+    setRenameFile: () => (payload) => ({ isRenameFile: payload })
   }),
   withHandlers({
     handleFileNameChange: ({ sanitizeFileName, setFileNameError }) => (value) => {
@@ -21,6 +23,10 @@ export default compose(
         setFileNameError('* Please avoid using special characters or spaces.')
       }
       return sanitizeFileName(value)
+    },
+    saveRenameFile: ({ setRenameFile, renameItem }) => () => {
+      setRenameFile(false)
+      renameItem()
     }
   })
 )(ItemForm)

@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Title = ({ title, children }) => {
+const Title = ({ title, children, className = '' }) => {
   return (
-    <h1 className='title break-word'>{ title || children }</h1>
+    <h1 className={`title break-word ${className}`}>{ title || children }</h1>
   )
 }
 
