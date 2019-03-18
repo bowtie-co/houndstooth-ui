@@ -140,8 +140,12 @@ export default compose(
           })
       }
     },
-    renameItem: ({ activeItem, branch }) => () => {
-      return activeItem.rename(activeItem['name'], { message: 'Renamed item', ref: branch })
+    renameItem: ({ activeItem, branch, match }) => () => {
+      const message = `[HT] Renamed item ${match['params']['item']} --> ${activeItem['name']}`
+      console.log('====================================')
+      console.log('message', message)
+      console.log('====================================')
+      return activeItem.rename(activeItem['name'], { message, ref: branch })
     },
     editItem: ({ collectionsApiRoute, setActiveItem, branch, activeItem, match, jekyll }) => (formData) => {
       const { collection } = match['params']
