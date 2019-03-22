@@ -32,7 +32,7 @@ const phoneCondition = ({ type }) => type === 'phone'
 const datePickerCondition = ({ type, name }) => endsWith(name, ['_date', '_on']) || type === 'datepicker' || type === 'date'
 const timePickerCondition = ({ type, name }) => endsWith(name, ['_time', '_at']) || type === 'timepicker' || type === 'time'
 const imageUploadCondition = ({ type }) => type === 'image'
-const textAreaCondition = ({ type, name }) => [ 'text', 'content', 'body' ].includes(name) || endsWith(name, ['_body', '_content']) || type === 'text' || type === 'textarea'
+const textAreaCondition = ({ type, name }) => [ 'text', 'content', 'body' ].includes(name) || endsWith(name, ['_body', '_textarea']) || type === 'text' || type === 'textarea'
 
 export default compose(
   withFormatting,
