@@ -14,7 +14,7 @@ import {
 } from 'molecules'
 
 const RepoControls = (props) => {
-  const { branch, changeBranch, isCommitable, asyncLoadModel, stagedFiles, match, branchList, reloadReposAndBranches, ...rest } = props
+  const { branch, changeBranch, isCommitable, asyncLoadModel, stagedFiles, match, branchList, reloadReposAndBranches, baseRoute, ...rest } = props
   const { type, repo } = match.params
   return (
     <Row className='space-between file-tree-navigation'>
@@ -45,7 +45,7 @@ const RepoControls = (props) => {
         {
           type !== 'collections' && stagedFiles.length > 0 &&
             <Button
-              href={`commit/?${qs.stringify(rest['queryParams'])}`}
+              href={`/${baseRoute}/commit/?${qs.stringify(rest['queryParams'])}`}
               className='btn-sm'
               color='primary'
               style={{ marginRight: '10px' }}
