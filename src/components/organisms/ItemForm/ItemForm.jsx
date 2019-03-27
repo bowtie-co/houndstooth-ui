@@ -92,7 +92,7 @@ export const ItemForm = (props) => {
         <div className='tab-content-card'>
           <TinyMCE
             item={item}
-            content={activeItem['markdown']}
+            content={activeItem['content']}
             handleEditorChange={handleMarkdownChange}
             disabled={!permissions['push']}
             {...rest}

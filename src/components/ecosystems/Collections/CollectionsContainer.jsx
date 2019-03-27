@@ -105,9 +105,9 @@ export default compose(
 
             collection.defaults({ ref: branch })
               .then(({ fields, content }) => {
-                setDefaultFields({ fields, markdown: content })
+                setDefaultFields({ fields, content })
               }).catch(resp => {
-                setDefaultFields({ fields: {}, markdown: '' })
+                setDefaultFields({ fields: {}, content: '' })
                 notifier.bad(resp)
               })
 
@@ -207,7 +207,7 @@ export default compose(
       }
     },
     handleMarkdownChange: ({ activeItem, setActiveItem }) => (content) => {
-      const updated = Object.assign(activeItem, { markdown: content })
+      const updated = Object.assign(activeItem, { content })
       setActiveItem(updated)
     }
   }),
