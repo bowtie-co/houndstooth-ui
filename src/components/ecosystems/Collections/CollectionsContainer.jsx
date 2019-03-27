@@ -206,7 +206,7 @@ export default compose(
         return Promise.resolve()
       }
     },
-    handleMarkdownChange: ({ activeItem, setActiveItem }) => (content) => {
+    handleContentChange: ({ activeItem, setActiveItem }) => (content) => {
       const updated = Object.assign(activeItem, { content })
       setActiveItem(updated)
     }

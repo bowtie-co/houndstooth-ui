@@ -39,7 +39,7 @@ export const ItemForm = (props) => {
     editFileName,
     deleteItem,
     match,
-    handleMarkdownChange,
+    handleContentChange,
     fileUploads,
     stagedFileUploads,
     setStagedFileUploads,
@@ -93,7 +93,7 @@ export const ItemForm = (props) => {
           <TinyMCE
             item={item}
             content={activeItem['content']}
-            handleEditorChange={handleMarkdownChange}
+            handleEditorChange={handleContentChange}
             disabled={!permissions['push']}
             {...rest}
           />
@@ -127,6 +127,6 @@ ItemForm.propTypes = {
   stagedFileUploads: PropTypes.array,
   handleFormSubmit: PropTypes.func,
   editFileName: PropTypes.func,
-  handleMarkdownChange: PropTypes.func,
+  handleContentChange: PropTypes.func,
   setStagedFileUploads: PropTypes.func
 }
