@@ -104,10 +104,10 @@ export default compose(
             setCollectionPath(collection.path)
 
             collection.defaults({ ref: branch })
-              .then(({ fields, content }) => {
-                setDefaultFields({ fields, content })
+              .then(({ fields, body }) => {
+                setDefaultFields({ fields, body })
               }).catch(resp => {
-                setDefaultFields({ fields: {}, content: '' })
+                setDefaultFields({ fields: {}, body: '' })
                 notifier.bad(resp)
               })
 
@@ -206,8 +206,8 @@ export default compose(
         return Promise.resolve()
       }
     },
-    handleContentChange: ({ activeItem, setActiveItem }) => (content) => {
-      const updated = Object.assign(activeItem, { content })
+    handleBodyChange: ({ activeItem, setActiveItem }) => (body) => {
+      const updated = Object.assign(activeItem, { body })
       setActiveItem(updated)
     }
   }),
