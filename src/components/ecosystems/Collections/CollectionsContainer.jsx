@@ -104,10 +104,10 @@ export default compose(
             setCollectionPath(collection.path)
 
             collection.defaults({ ref: branch })
-              .then(({ fields, content }) => {
-                setDefaultFields({ fields, markdown: content })
+              .then(({ fields, body }) => {
+                setDefaultFields({ fields, body })
               }).catch(resp => {
-                setDefaultFields({ fields: {}, markdown: '' })
+                setDefaultFields({ fields: {}, body: '' })
                 notifier.bad(resp)
               })
 
@@ -206,8 +206,8 @@ export default compose(
         return Promise.resolve()
       }
     },
-    handleMarkdownChange: ({ activeItem, setActiveItem }) => (content) => {
-      const updated = Object.assign(activeItem, { markdown: content })
+    handleBodyChange: ({ activeItem, setActiveItem }) => (body) => {
+      const updated = Object.assign(activeItem, { body })
       setActiveItem(updated)
     }
   }),
