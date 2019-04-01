@@ -10,7 +10,7 @@ class Auth {
     console.log('redirecting for login with state', authState)
     window.location = process.env.REACT_APP_AUTHORIZE_URL + '?' + qs.stringify({
       state: authState,
-      scope: 'user,repo,admin:repo_hook,gist'
+      scope: 'user:email,read:user,repo'
     })
   }
 
