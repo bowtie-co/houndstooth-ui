@@ -2,7 +2,7 @@
 
 set -e
 
-APP_ENV=${APP_ENV:-dev}
+APP_ENV=${APP_ENV:-development}
 
 # if [[ "${APP_ENV}" == "development" ]]; then
 #   npm install
