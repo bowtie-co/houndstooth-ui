@@ -2,7 +2,7 @@
 
 set -e
 
-APP_ENV=${APP_ENV:-development}
+APP_ENV=${APP_ENV:-staging}
 APP_DIR=${BASE_DIR}/${APP_ENV}
 SRV_DIR=/usr/share/nginx/html
 

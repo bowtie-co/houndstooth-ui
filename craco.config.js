@@ -1,5 +1,5 @@
 process.traceDeprecation = true
-process.env.APP_ENV = process.env.APP_ENV || 'development'
+process.env.APP_ENV = process.env.APP_ENV || 'dev'
 
 require('dotenv').config({ path: `.env.${process.env.APP_ENV}.local` })
 require('dotenv').config({ path: `.env.${process.env.APP_ENV}` })
