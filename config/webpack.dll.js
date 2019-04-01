@@ -9,7 +9,9 @@ const dllOutputPath = path.join(appPath, 'public', 'dll')
 module.exports = {
   mode: 'production',
   node: {
-    fs: 'empty'
+    fs: 'empty',
+    __dirname: false,
+    __filename: false
   },
   entry: {
     vendor: [
