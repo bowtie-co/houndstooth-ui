@@ -10,6 +10,7 @@ import 'brace/mode/html'
 import 'brace/mode/css'
 import 'brace/mode/ruby'
 import 'brace/theme/terminal'
+import 'brace/mode/yaml'
 
 const TextEditor = ({ content, name, onChange, permissions }) => {
   const ext = name.match(/.*\.([^.]+)/) ? name.match(/.*\.([^.]+)/)[1] : 'md'
@@ -26,7 +27,7 @@ const TextEditor = ({ content, name, onChange, permissions }) => {
       theme='terminal'
       name={`file-editor-${name}`}
       // onLoad={this.onLoad}
-      editorProps={{$blockScrolling: true}}
+      editorProps={{ $blockScrolling: true }}
       onChange={(newValue) => onChange(newValue)}
       fontSize={15}
       showPrintMargin

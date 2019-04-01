@@ -1,10 +1,11 @@
 
-import qs from 'qs'
-import { compose, withStateHandlers, withPropsOnChange, withHandlers, lifecycle } from 'recompose'
+import { compose, withStateHandlers, withPropsOnChange, withHandlers } from 'recompose'
 import { withEither, withMaybe } from '@bowtie/react-utils'
 import { Collections, EmptyState, EmptyItem } from './Collections'
-import { api, notifier, octokit } from 'lib'
+import { notifier, github } from 'lib'
+import { CollectionItem } from '@bowtie/houndstooth-sdk'
 import { Loading } from 'atoms'
+import async from 'async'
 
 const nullConditionFn = ({ collections }) => !collections
 const emptyStateConditionFn = ({ collections }) => collections.length === 0
@@ -29,19 +30,28 @@ export default compose(
     setStagedFileUploads: ({ stagedFileUploads }) => (payload) => ({ stagedFileUploads: payload }),
     setDefaultFormData: ({ defaultFormData }) => (payload) => ({ defaultFormData: payload })
   }),
+  withPropsOnChange(['match'], ({ match, buildSdkParams }) => {
+    const params = buildSdkParams()
+    const jekyll = github.jekyll(params)
+    const isNewItem = match['params']['item'] === 'new'
+    return {
+      jekyll,
+      isNewItem
+    }
+  }),
   withHandlers({
-    buildFileUrl: ({ config, baseApiRoute, queryParams }) => (path) => {
+    buildFileUrl: ({ config, buildSdkParams, queryParams, match }) => (path) => {
       const defaultUrl = '/loading.svg'
 
       if (!path || path.trim() === '') {
         return Promise.resolve(defaultUrl)
       }
 
-      const params = {
+      const params = buildSdkParams({
         // Remove leading slash for github path reference
         path: path.replace(/^\//, ''),
         ref: queryParams['ref']
-      }
+      })
 
       if (config['url'] && config['url'].trim() !== '') {
         const siteUrl = config['url'].replace(/\/$/, '')
@@ -50,7 +60,7 @@ export default compose(
 
       return new Promise(
         (resolve, reject) => {
-          api.get(`${baseApiRoute}/files?${qs.stringify(params)}`).then(({ data }) => {
+          github.files(params).then((data) => {
             const { file } = data
 
             console.log('looking up download url for path', path, file)
@@ -68,22 +78,12 @@ export default compose(
   withHandlers({
     getFileDownloadUrl: ({ buildFileUrl }) => (path) => {
       return buildFileUrl(path)
-
-      // const defaultUrl = '/loading.svg'
-      // return buildFileUrl(path).then(url => {
-      //   return fetch(url, { mode: 'cors', cache: 'no-cache' }).then(resp => {
-      //     console.log('test url resp', resp)
-
-      //     if (resp.status >= 400) {
-      //       return defaultUrl
-      //     } else {
-      //       return url
-      //     }
-      //   })
-      // })
     },
-    editFileName: ({ setActiveItem, activeItem }) => (e) => {
-      const editedItem = Object.assign({}, activeItem, { name: e.target.value })
+    editFileName: ({ setActiveItem, activeItem, isNewItem }) => (e) => {
+      const editedItem = isNewItem
+        ? Object.assign({}, activeItem, { name: e.target.value })
+        : new CollectionItem(Object.assign({}, activeItem, { name: e.target.value }))
+
       setActiveItem(editedItem)
     },
     selectItem: ({ history, baseRoute, match, branch }) => (itemName) => {
@@ -92,23 +92,46 @@ export default compose(
         history.push(`/${baseRoute}/collections/${collection || ''}/${itemName}?path=_${collection}/${itemName}&ref=${branch}`)
       }
     },
-    getFileUploads: ({ match, setFileUploads, branch }) => () => {
-      // const { username, repo } = match.params
-      // api.get(`${baseApiRoute}/files?path=upload&ref=${branch || 'master'}&recursive=true&flatten=true`)
-      //   .then(({ data: fileUploads }) => setFileUploads(fileUploads))
-      //   .catch(notifier.bad.bind(notifier))
-    },
-    getItems: ({ collectionsApiRoute, match, setItems, setDefaultFields, setCollectionLoading, setCollectionName, setCollectionPath, branch }) => () => {
-      const { collection } = match.params
+    getItems: ({ collectionsApiRoute, jekyll, match, setItems, setDefaultFields, setCollectionLoading, setCollectionName, setCollectionPath, branch }) => () => {
+      const { collection } = match['params']
+
       if (collection && branch) {
         setCollectionLoading(true)
-        api.get(`${collectionsApiRoute}?ref=${branch}`)
-          .then(({ data }) => {
-            setItems(data['collection']['items'])
-            setDefaultFields({ fields: data['collection']['fields'], markdown: '' })
-            setCollectionName(data['collection']['name'])
-            setCollectionPath(data['collection']['path'])
-            setCollectionLoading(false)
+
+        jekyll.collection(collection, { ref: branch })
+          .then(collection => {
+            setCollectionName(collection.name)
+            setCollectionPath(collection.path)
+
+            collection.defaults({ ref: branch })
+              .then(({ fields, body }) => {
+                setDefaultFields({ fields, body })
+              }).catch(resp => {
+                setDefaultFields({ fields: {}, body: '' })
+                notifier.bad(resp)
+              })
+
+            collection.clearCache()
+
+            collection.items({ ref: branch })
+              .then(items => {
+                async.each(items, (item, next) => {
+                  item.init({ ref: branch }).then(item => {
+                    next()
+                  }).catch(next)
+                }, (err) => {
+                  if (err) {
+                    console.error(err)
+                  }
+
+                  setItems(items)
+                  setCollectionLoading(false)
+                })
+              }).catch(resp => {
+                setItems([])
+                setCollectionLoading(false)
+                notifier.bad(resp)
+              })
           })
           .catch((resp) => {
             setItems([])
@@ -117,51 +140,74 @@ export default compose(
           })
       }
     },
-    editItem: ({ collectionsApiRoute, branch, activeItem, match }) => (formData) => {
-      const { item } = match.params
-      const message = `[HT] Edited item: ${activeItem.path}`
-      const route = `${collectionsApiRoute}/items/${item}?ref=${branch || 'master'}&sha=${activeItem['sha']}&message=${message}`
-      const updatedItem = Object.assign({}, activeItem, { fields: formData })
-      return api.put(route, updatedItem)
+    renameItem: ({ activeItem, branch, match }) => () => {
+      const message = `[HT] Renamed item ${match['params']['item']} --> ${activeItem['name']}`
+      console.log('====================================')
+      console.log('message', message)
+      console.log('====================================')
+      return activeItem.rename(activeItem['name'], { message, ref: branch })
     },
-    createItem: ({ collectionsApiRoute, branch, match, activeItem, updateCachedTree }) => (formData) => {
-      if (activeItem['name'] && activeItem['name'].split('.').length <= 1) {
-        activeItem['name'] = `${activeItem['name']}.md`
+    editItem: ({ collectionsApiRoute, setActiveItem, branch, activeItem, match, jekyll }) => (formData) => {
+      const { collection } = match['params']
+
+      if (collection && branch) {
+        Object.assign(activeItem.fields, formData)
+
+        const message = `[HT] Edited item: ${activeItem.path}`
+
+        console.log(activeItem)
+
+        return activeItem.save({ ref: branch, message }).then(item => {
+          console.log('done editing item', item)
+          return Promise.resolve(item)
+        })
       }
-
-      const updatedItem = Object.assign({}, activeItem, { fields: formData })
-      const message = `[HT] Created item: ${activeItem.name}`
-      const route = `${collectionsApiRoute}/items?ref=${branch || 'master'}&message=${message}`
-
-      updateCachedTree()
-
-      return api.post(route, updatedItem)
     },
-    createFileUpload: ({ match, branch, stagedFileUploads, baseApiRoute }) => () => {
+    createItem: ({ collectionsApiRoute, jekyll, branch, match, activeItem, updateCachedTree }) => (formData) => {
+      const { collection } = match['params']
+
+      if (collection && branch) {
+        return jekyll.collection(collection, { ref: branch })
+          .then(collection => {
+            if (activeItem['name'] && activeItem['name'].split('.').length <= 1) {
+              activeItem['name'] = `${activeItem['name']}.md`
+            }
+
+            const updatedItem = Object.assign({}, activeItem, { fields: formData })
+            const message = `[HT] Created item: ${activeItem.name}`
+
+            updateCachedTree()
+
+            return collection.createItem(updatedItem, { ref: branch, message }).then(item => {
+              console.log('done creating item', item)
+              return Promise.resolve(item)
+            })
+          })
+      }
+    },
+    createFileUpload: ({ buildSdkParams, branch, stagedFileUploads, baseApiRoute }) => () => {
       if (stagedFileUploads.length > 0) {
         const newFiles = stagedFileUploads.map(file => {
-          const updatedFile = {
+          const updatedFile = buildSdkParams({
             branch,
             path: file.name,
             content: file.base64.split('base64,')[1],
             message: `[HT] Uploaded ${file.name}`,
-            encoding: 'base64',
-            owner: match['params']['username'],
-            repo: match['params']['repo']
-          }
+            encoding: 'base64'
+          })
 
           return updatedFile
         })
 
         return newFiles.reduce((promiseChain, file) => {
-          return promiseChain.then(() => octokit.repos.createFile(file))
+          return promiseChain.then(() => github.createFile(file))
         }, Promise.resolve(newFiles))
       } else {
         return Promise.resolve()
       }
     },
-    handleMarkdownChange: ({ activeItem, setActiveItem }) => (content) => {
-      const updated = Object.assign({}, activeItem, { markdown: content })
+    handleBodyChange: ({ activeItem, setActiveItem }) => (body) => {
+      const updated = Object.assign(activeItem, { body })
       setActiveItem(updated)
     }
   }),
@@ -172,8 +218,8 @@ export default compose(
       getItems()
     }
   ),
-  withPropsOnChange(['match', 'items', 'defaultFields'], ({ match, items, setActiveItem, defaultFields, permissions }) => {
-    if (match['params']['item'] === 'new' && permissions['push']) {
+  withPropsOnChange(['match', 'items', 'defaultFields'], ({ isNewItem, match, items, setActiveItem, defaultFields, permissions }) => {
+    if (isNewItem && permissions['push']) {
       setActiveItem(defaultFields)
     } else if (match['params']['item'] !== 'new') {
       const currentItem = items.find(i => i.name === match['params']['item'])
@@ -183,23 +229,28 @@ export default compose(
     }
   }),
   withHandlers({
-    handleFormSubmit: ({ collectionsRoute, items, createItem, history, editItem, createFileUpload, getItems, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData }) => (formData) => {
+    handleFormSubmit: ({ isNewItem, collectionsRoute, items, branch, createItem, history, editItem, createFileUpload, getItems, match, setCollectionLoading, setStagedFileUploads, setDefaultFormData, setActiveItem }) => (formData) => {
       setCollectionLoading(true)
-
-      const isNewItem = match['params']['item'] === 'new'
       const upsertItem = isNewItem ? createItem : editItem
 
       createFileUpload()
         .then(() => upsertItem(formData)
-          .then(({ data }) => {
+          .then((item) => {
             if (items.length > 0 && items[0]['name'] === 'NEW FILE') {
               items.shift()
             }
             getItems()
             setStagedFileUploads([])
+            setActiveItem(item)
+            console.log('done with item', item)
             if (isNewItem) {
-              history.push(`/${collectionsRoute}/${data.data.content['name']}`)
+              history.push(`/${collectionsRoute}/${item['name']}?ref=${branch}`)
             }
+            // if (isNewItem) {
+            // console.log('INSIDE HANDL FORM DATA --> ', data)
+
+            // history.push(`/${collectionsRoute}/${data.data.content['name']}`)
+            // }
           }))
         .then((resp) => {
           notifier.success(`Item ${isNewItem ? 'created' : 'edited'}`)
@@ -210,30 +261,20 @@ export default compose(
           notifier.bad(resp)
         })
     },
-    deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems, updateCachedTree }) => () => {
-      const { item } = match.params
-      const { sha } = activeItem
-      const message = 'Delete file'
-
-      const route = `${collectionsApiRoute}/items/${item}?ref=${branch || 'master'}&message=${message}&sha=${sha}`
-      api.delete(route)
+    deleteItem: ({ collectionsApiRoute, branch, match, history, activeItem, getItems, updateCachedTree, setCollectionLoading }) => () => {
+      setCollectionLoading(true)
+      const message = `[HT] Delete Item: ${activeItem.path}`
+      activeItem.delete({ message, branch })
         .then(resp => {
           getItems()
 
           updateCachedTree()
 
           notifier.success('Item deleted!')
-          history.push(collectionsApiRoute)
         })
         .catch((resp) => {
           notifier.bad(resp)
         })
-    }
-  }),
-  lifecycle({
-    componentWillMount () {
-      const { getFileUploads } = this.props
-      getFileUploads()
     }
   }),
   withMaybe(nullConditionFn),

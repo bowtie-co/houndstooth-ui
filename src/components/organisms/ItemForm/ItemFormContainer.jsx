@@ -10,9 +10,13 @@ export default compose(
   withFormatting,
   withEither(emptyStateConditionFn, EmptyState),
   withStateHandlers({
-    fileNameError: ''
+    fileNameError: '',
+    isRenameFile: false,
+    isNameModalOpen: false
   }, {
-    setFileNameError: () => (payload) => ({ fileNameError: payload })
+    toggleNameModal: ({ isNameModalOpen }) => () => ({ isNameModalOpen: !isNameModalOpen }),
+    setFileNameError: () => (payload) => ({ fileNameError: payload }),
+    setRenameFile: () => (payload) => ({ isRenameFile: payload })
   }),
   withHandlers({
     handleFileNameChange: ({ sanitizeFileName, setFileNameError }) => (value) => {
@@ -21,6 +25,22 @@ export default compose(
         setFileNameError('* Please avoid using special characters or spaces.')
       }
       return sanitizeFileName(value)
+    },
+    cancelRename: ({ toggleNameModal, setRenameFile, match, editFileName }) => () => {
+      editFileName({ target: { value: match['params']['item'] } })
+      toggleNameModal()
+      setRenameFile(false)
+    },
+    saveRenameFile: ({ setRenameFile, renameItem, getItems, activeItem, toggleNameModal, branch, history, collectionsRoute, setCollectionLoading }) => () => {
+      setRenameFile(false)
+      toggleNameModal()
+      setCollectionLoading(true)
+
+      renameItem()
+        .then(resp => {
+          getItems()
+          history.push(`/${collectionsRoute}/${activeItem['name']}?ref=${branch}`)
+        })
     }
   })
 )(ItemForm)

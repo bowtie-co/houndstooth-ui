@@ -3,7 +3,8 @@
 
 import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
 import Users from './Users'
-import { api, notifier } from 'lib'
+import { notifier } from 'lib'
+import { github } from 'lib/index'
 
 export const enhance = compose(
   withStateHandlers({
@@ -16,24 +17,18 @@ export const enhance = compose(
     setPages: () => (payload) => ({ pages: payload })
   }),
   withHandlers({
-    getContributors: ({ setContributors, baseApiRoute }) => () => {
-      api.get(`${baseApiRoute}/contributors?per_page=100`)
-        .then(({ data }) => {
-          setContributors(data['contributors'])
-        })
-        .catch(err => {
-          notifier.bad(err)
-        })
+    getContributors: ({ buildSdkParams, setContributors, baseApiRoute }) => () => {
+      const params = buildSdkParams({ 'per_page': '100' })
+      github.contributors(params)
+        .then(({ contributors }) => setContributors(contributors))
+        .catch(notifier.bad.bind(notifier))
     },
-    getCollaborators: ({ setCollaboratorIds, setPages, baseApiRoute, permissions }) => () => {
+    getCollaborators: ({ buildSdkParams, setCollaboratorIds, setPages, baseApiRoute, permissions }) => () => {
       if (permissions['push']) {
-        api.get(`${baseApiRoute}/collaborators?per_page=100`)
-          .then(({ data }) => {
-            setCollaboratorIds(data['collaborators'].map(u => u['id']))
-          })
-          .catch(err => {
-            notifier.bad(err)
-          })
+        const params = buildSdkParams({ 'per_page': '100' })
+        github.collaborators(params)
+          .then(({ collaborators }) => setCollaboratorIds(collaborators.map(u => u['id'])))
+          .catch(notifier.bad.bind(notifier))
       }
     }
   }),

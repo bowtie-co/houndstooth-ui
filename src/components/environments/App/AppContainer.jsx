@@ -3,11 +3,11 @@
 
 import App from './App'
 import { withRouter } from 'react-router'
-import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose'
+import { compose, withStateHandlers, withHandlers, withPropsOnChange, lifecycle } from 'recompose'
 import { withEither } from '@bowtie/react-utils'
 import { Loading } from 'atoms'
 import { withQueryParams, withBaseRoutes } from 'helpers'
-import { api, notifier, storage } from 'lib'
+import { notifier, storage, github } from 'lib'
 
 // conditional functions here:
 const loadingConditionFn = ({ isMainLoading, repoList }) => isMainLoading || repoList.length <= 0
@@ -48,8 +48,9 @@ export const enhance = compose(
   withHandlers({
     getRepos: ({ pageNumber, setMainLoading, setRepoList, setPages, setPageNumber }) => () => {
       setMainLoading(true)
-      api.get(`repos?page=${pageNumber}&sort=updated`)
-        .then(({ data }) => {
+
+      github.repos({ page: pageNumber, sort: 'updated' })
+        .then(data => {
           setPages(data['pages'])
           setPageNumber(data['pages'])
           setRepoList(data['repos'])
@@ -67,9 +68,9 @@ export const enhance = compose(
         })
     },
     getCurrentUser: ({ setCurrentUser }) => () => {
-      api.get('user')
-        .then(({ data }) => {
-          setCurrentUser(data['user'])
+      github.user()
+        .then(({ user }) => {
+          setCurrentUser(user)
         })
         .catch(notifier.bad.bind(notifier))
     }
@@ -78,6 +79,17 @@ export const enhance = compose(
     reloadReposAndBranches: ({ getRepos }) => () => {
       ['all_repos', 'repos', 'branches', 'tree'].forEach(key => storage.remove(key))
       getRepos()
+    },
+    githubError: ({ history }) => (err) => {
+      console.error('GITHUB ERROR!', err, typeof err)
+
+      if (err.status === 401) {
+        if (err.message) {
+          notifier.error(err.message)
+        }
+
+        history.push('/logout')
+      }
     }
   }),
   withPropsOnChange(['pageNumber'], ({ getRepos, pageNumber, setRepoList, setPages, setPageNumber }) => {
@@ -94,6 +106,19 @@ export const enhance = compose(
   withPropsOnChange(['location'], ({ location }) => {
     if (typeof window.gtag === 'function') {
       window.gtag('config', 'UA-112855270-4', { 'page_path': location.pathname })
+    }
+  }),
+
+  lifecycle({
+    componentWillMount () {
+      const { githubError } = this.props
+
+      github.on('err', githubError)
+    },
+    componentWillUnmount () {
+      const { githubError } = this.props
+
+      github.off('err', githubError)
     }
   }),
   withEither(loadingConditionFn, Loading)

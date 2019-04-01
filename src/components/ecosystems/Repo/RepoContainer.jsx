@@ -3,7 +3,7 @@ import { compose, withStateHandlers, withHandlers, withPropsOnChange, lifecycle 
 import Repo from './Repo'
 import qs from 'qs'
 import { withEither } from '@bowtie/react-utils'
-import { api, notifier, storage } from 'lib'
+import { notifier, storage, github } from 'lib'
 import { Loading } from 'atoms'
 
 const conditionLoadingFn = ({ isRepoLoading }) => isRepoLoading
@@ -46,67 +46,73 @@ export const enhance = compose(
     }
   }),
   withHandlers({
-    getBranchList: ({ setBranchList, baseApiRoute, setRepoLoading, match }) => () => {
+    getBranchList: ({ buildSdkParams, setBranchList, baseApiRoute, setRepoLoading, match }) => () => {
       const storageKey = `${match.params['repo']}_branchList`
       const cachedBranchesList = storage.get(`branches`) ? storage.get(`branches`)[storageKey] : null
       if (!cachedBranchesList || cachedBranchesList.length <= 0) {
         setRepoLoading(true)
-        api.get(`${baseApiRoute}/branches`)
-          .then(({ data }) => {
-            const storageBranches = storage.get('branches') || {}
-            const newBranches = Object.assign(storageBranches, { [storageKey]: data['branches'] })
+        const params = buildSdkParams()
 
-            storage.set(`branches`, newBranches)
-            setBranchList(data['branches'])
-            setRepoLoading(false)
-          })
-          .catch((resp) => {
-            setRepoLoading(false)
-            notifier.bad(resp)
-          })
+        github.branches(params).then((data) => {
+          const storageBranches = storage.get('branches') || {}
+          const newBranches = Object.assign(storageBranches, { [storageKey]: data['branches'] })
+          storage.set(`branches`, newBranches)
+          setBranchList(data['branches'])
+          setRepoLoading(false)
+        }).catch((resp) => {
+          setRepoLoading(false)
+          notifier.bad(resp)
+        })
       } else {
         setBranchList(cachedBranchesList)
       }
     },
-    getCollections: ({ setRepoLoading, setCollections, setConfig, baseApiRoute }) => () => {
+    getCollections: ({ buildSdkParams, setRepoLoading, setCollections, setConfig, baseApiRoute, match, branch }) => () => {
       setRepoLoading(true)
-      api.get(`${baseApiRoute}/collections`)
-        .then(({ data }) => {
-          setConfig(data)
-          const { collections } = data
-          setCollections(Object.keys(collections))
-          setRepoLoading(false)
-        })
-        .catch(() => {
-          setRepoLoading(false)
-          setCollections([])
-        })
+      const params = buildSdkParams({ ref: branch }, false)
+      const jekyll = github.jekyll(params)
+
+      jekyll.config(params).then(config => {
+        setConfig(config)
+        setCollections(Object.keys(config['collections']))
+        setRepoLoading(false)
+      }).catch(() => {
+        setRepoLoading(false)
+        setCollections([])
+      })
     },
-    getRepo: ({ baseApiRoute, setActiveRepo, setBranch, setPermissions }) => () => {
-      api.get(baseApiRoute)
-        .then(({ data }) => {
-          setBranch(data['repo']['default_branch'])
-          setActiveRepo(data['repo'])
-          setPermissions(data.repo['permissions'])
-        })
-        .catch(notifier.bad.bind(notifier))
+    getRepo: ({ buildSdkParams, baseApiRoute, setActiveRepo, setBranch, setPermissions, match, queryParams }) => () => {
+      const params = buildSdkParams()
+      github.repo(params).then(data => {
+        queryParams['ref']
+          ? setBranch(queryParams['ref'])
+          : setBranch(data['repo']['default_branch'])
+
+        setActiveRepo(data['repo'])
+        setPermissions(data['repo']['permissions'])
+      }).catch(console.error)
     },
-    pushToGithub: ({ branch, updateCachedTree, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
+    pushToGithub: ({ buildSdkParams, branch, match, updateCachedTree, baseApiRoute, stagedFiles, setStagedFiles, setRepoLoading }) => (message) => {
       if (message) {
-        const requestPath = `${baseApiRoute}/files/upsert?ref=${branch}`
-        const body = {
-          message,
-          files: stagedFiles.map(file => ({ path: file.path, content: file.content, encoding: file.encoding }))
-        }
         updateCachedTree()
         setRepoLoading(true)
-        api.post(requestPath, body)
-          .then(response => {
+
+        const body = buildSdkParams({
+          ref: branch,
+          message,
+          files: stagedFiles.map(file => ({ path: file.path, content: file.content, encoding: file.encoding }))
+        })
+
+        github.upsertFiles(body)
+          .then(resp => {
             notifier.success('Files have been successfully committed to GitHub.')
             setRepoLoading(false)
             setStagedFiles([])
           })
-          .catch(notifier.bad.bind(notifier))
+          .catch(error => {
+            setRepoLoading(false)
+            notifier.bad(error)
+          })
       } else {
         notifier.msg('Please add a commit message.', 'error')
       }
@@ -123,6 +129,9 @@ export const enhance = compose(
   withPropsOnChange([ 'baseRoute', 'config' ], ({ match }) => {
     const { username, repo } = match['params']
     notifier.userChange({ channels: { ro: [ `repos.${username}-${repo}` ] } })
+  }),
+  withPropsOnChange(['branch'], ({ getCollections }) => {
+    getCollections()
   }),
   lifecycle({
     componentWillUnmount () {
