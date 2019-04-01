@@ -14,7 +14,7 @@ export default compose(
     isRenameFile: false,
     isNameModalOpen: false
   }, {
-    toggleNameModal: ({ isNameModalOpen }) => () => ({ isNameModalOpen: !isNameModalOpen }),
+    toggleNameModal: ({ isNameModalOpen }) => (payload) => ({ isNameModalOpen: payload || !isNameModalOpen }),
     setFileNameError: () => (payload) => ({ fileNameError: payload }),
     setRenameFile: () => (payload) => ({ isRenameFile: payload })
   }),
@@ -23,12 +23,14 @@ export default compose(
       const regex = /[|&;$%@"<>()+#,' ']/
       if (regex.test(value)) {
         setFileNameError('* Please avoid using special characters or spaces.')
+      } else if (!value) {
+        setFileNameError('* A file name is required.')
       }
       return sanitizeFileName(value)
     },
     cancelRename: ({ toggleNameModal, setRenameFile, match, editFileName }) => () => {
       editFileName({ target: { value: match['params']['item'] } })
-      toggleNameModal()
+      toggleNameModal(false)
       setRenameFile(false)
     },
     saveRenameFile: ({ setRenameFile, renameItem, getItems, activeItem, toggleNameModal, branch, history, collectionsRoute, setCollectionLoading }) => () => {
@@ -41,6 +43,17 @@ export default compose(
           getItems()
           history.push(`/${collectionsRoute}/${activeItem['name']}?ref=${branch}`)
         })
+    }
+  }),
+  withHandlers({
+    openModal: ({ toggleNameModal, cancelRename, editFileName, setRenameFile, match }) => (e) => {
+      const { value } = e.target
+      if (value) {
+        toggleNameModal()
+      } else {
+        editFileName({ target: { value: match['params']['item'] } })
+        setRenameFile(false)
+      }
     }
   })
 )(ItemForm)

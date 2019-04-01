@@ -48,6 +48,7 @@ export const ItemForm = (props) => {
     isNewItem,
     saveRenameFile,
     toggleNameModal,
+    openModal,
     ...rest
   } = props
 
@@ -67,7 +68,7 @@ export const ItemForm = (props) => {
                   iconHelper={IconHelper}
                   value={handleFileNameChange(activeItem['name'])}
                   errorMessage={fileNameError}
-                  onBlur={() => !isNewItem && toggleNameModal()}
+                  onBlur={(val) => !isNewItem && openModal(val)}
                 />
               </div>
               : <div className={'flex-row align-center'}>
