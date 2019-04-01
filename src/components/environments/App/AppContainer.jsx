@@ -105,7 +105,7 @@ export const enhance = compose(
   }),
   withPropsOnChange(['location'], ({ location }) => {
     if (typeof window.gtag === 'function') {
-      window.gtag('config', 'UA-112855270-4', { 'page_path': location.pathname })
+      window.gtag('config', process.env.REACT_APP_GA_TRACKING, { 'page_path': location.pathname })
     }
   }),
 
