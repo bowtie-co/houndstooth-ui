@@ -14,7 +14,7 @@ export default compose(
     isRenameFile: false,
     isNameModalOpen: false
   }, {
-    toggleNameModal: ({ isNameModalOpen }) => (payload) => ({ isNameModalOpen: payload || !isNameModalOpen }),
+    toggleNameModal: ({ isNameModalOpen }) => (payload = null) => ({ isNameModalOpen: payload === null ? !isNameModalOpen : payload }),
     setFileNameError: () => (payload) => ({ fileNameError: payload }),
     setRenameFile: () => (payload) => ({ isRenameFile: payload })
   }),
@@ -48,12 +48,9 @@ export default compose(
   withHandlers({
     openModal: ({ toggleNameModal, cancelRename, editFileName, setRenameFile, match }) => (e) => {
       const { value } = e.target
-      if (value) {
-        toggleNameModal()
-      } else {
-        editFileName({ target: { value: match['params']['item'] } })
-        setRenameFile(false)
-      }
+      value.trim() !== ''
+        ? toggleNameModal()
+        : cancelRename()
     }
   })
 )(ItemForm)
