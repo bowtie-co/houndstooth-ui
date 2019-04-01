@@ -1,8 +1,24 @@
+const fs = require('fs')
+const dotenv = require('dotenv')
+
 process.traceDeprecation = true
+
 process.env.APP_ENV = process.env.APP_ENV || 'development'
 
-require('dotenv').config({ path: `.env.${process.env.APP_ENV}.local` })
-require('dotenv').config({ path: `.env.${process.env.APP_ENV}` })
+const envFiles = [
+  `.env.${process.env.APP_ENV}`,
+  `.env.${process.env.APP_ENV}.local`
+]
+
+envFiles.forEach(file => {
+  if (fs.existsSync(file)) {
+    const envConfig = dotenv.parse(fs.readFileSync(file))
+
+    Object.keys(envConfig).forEach(envKey => {
+      process.env[envKey] = envConfig[envKey]
+    })
+  }
+})
 
 const { webpack, jest } = require('./config')
 
