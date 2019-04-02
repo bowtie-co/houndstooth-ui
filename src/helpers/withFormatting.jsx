@@ -44,6 +44,10 @@ export default compose(
     sanitizeFileName: () => (fileName = '') => {
       const sanitizedName = fileName.replace(/[|&;$%@"<>()+#,' ']/g, '')
       return sanitizedName
+    },
+    parseFileExt: () => (fileName) => {
+      const nameArray = fileName.split('.')
+      return nameArray.length > 1 ? nameArray[nameArray.length - 1] : null
     }
   })
 )

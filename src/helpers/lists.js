@@ -77,3 +77,5 @@ export const errorMessages = {
   largeFile: '* Preview unavailable - image is over 1MB.',
   pdf: 'Cannot preview PDF.'
 }
+
+export const imageExtensions = ['jpg', 'jpeg', 'svg', 'png']

@@ -3,8 +3,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, TextEditor } from 'atoms'
 import { DeleteFileModal } from 'molecules'
+import { imageExtensions } from 'helpers/lists'
 
-const FileSingle = ({ file, content, handleContentChange, permissions, saveFile, isDeleteModalOpen, toggleModal, deleteFile }) => {
+const FileSingle = ({ file, content, parseFileExt, handleContentChange, permissions, saveFile, isDeleteModalOpen, toggleModal, deleteFile }) => {
+  const fileExt = parseFileExt(file.name)
   return (
     <div style={{ 'padding': '20px 0', 'width': '100%' }}>
       <div className='d-flex align-items-center justify-content-between'>
@@ -19,12 +21,17 @@ const FileSingle = ({ file, content, handleContentChange, permissions, saveFile,
             </Button>
         }
       </div>
-      <TextEditor
-        content={content}
-        name={file.name}
-        onChange={handleContentChange}
-        permissions={permissions}
-      />
+      {
+        imageExtensions.includes(fileExt)
+          ? <img style={{ 'maxWidth': '90%' }} src={file['download_url']} />
+          : <TextEditor
+            content={content}
+            name={file.name}
+            onChange={handleContentChange}
+            permissions={permissions}
+          />
+      }
+
       {
         permissions['push'] &&
           <div className='mt-3 mb-3'>
