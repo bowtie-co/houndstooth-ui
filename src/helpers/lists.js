@@ -78,4 +78,4 @@ export const errorMessages = {
   pdf: 'Cannot preview PDF.'
 }
 
-export const imageExtensions = ['jpg', 'jpeg', 'svg', 'png']
+export const imageExtensions = ['jpg', 'jpeg', 'svg', 'png', 'gif', 'ico']
