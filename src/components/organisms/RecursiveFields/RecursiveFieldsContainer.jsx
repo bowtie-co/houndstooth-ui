@@ -19,7 +19,7 @@ export default compose(
         const k = keys[i]
 
         if (i === keys.length - 1) {
-          pointer[k] = value === '' ? null : value
+          pointer[k] = value
         } else {
           pointer = pointer[k]
         }
