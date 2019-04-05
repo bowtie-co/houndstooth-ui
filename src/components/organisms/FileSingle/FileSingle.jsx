@@ -23,7 +23,7 @@ const FileSingle = ({ file, content, parseFileExt, handleContentChange, permissi
       </div>
       {
         imageExtensions.includes(fileExt)
-          ? <img style={{ 'maxWidth': '90%' }} src={file['download_url']} />
+          ? <img alt='Image file' style={{ 'maxWidth': '90%' }} src={file['download_url']} />
           : <TextEditor
             content={content}
             name={file.name}
