@@ -43,10 +43,11 @@ const FieldSingle = (props) => {
     }
     return (
       <FieldContainer
+        clearable
         key={name}
         name={name}
         label={titleize(name, '_')}
-        placeholder={name}
+        placeholder={field !== '' && name}
         value={field}
         onChange={(e) => handleChange(currentLocation, e.target.value)}
         {...rest}
