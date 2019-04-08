@@ -12,7 +12,7 @@ const FileSingle = ({ file, content, parseFileExt, handleContentChange, permissi
       <div className='d-flex align-items-center justify-content-between'>
         <h2>{file.name}</h2>
         {
-          permissions['push'] &&
+          permissions['push'] && !imageExtensions.includes(fileExt) &&
             <Button
               onClick={() => saveFile(content)}
               className='btn-sm mt-3 mb-3'
@@ -35,8 +35,15 @@ const FileSingle = ({ file, content, parseFileExt, handleContentChange, permissi
       {
         permissions['push'] &&
           <div className='mt-3 mb-3'>
-            <Button className='mr-3' onClick={() => saveFile(content)}>Save</Button>
-            <Button className='mr-3' color='danger' onClick={toggleModal}>Delete</Button>
+            {
+              !imageExtensions.includes(fileExt) &&
+              <Button className='mr-3' onClick={() => saveFile(content)}>
+                Save
+              </Button>
+            }
+            <Button className='mr-3' color='danger' onClick={toggleModal}>
+              Delete
+            </Button>
           </div>
       }
       <DeleteFileModal
