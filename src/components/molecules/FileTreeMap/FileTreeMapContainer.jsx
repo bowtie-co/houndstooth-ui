@@ -1,5 +1,5 @@
 import React from 'react'
-import { withQueryParams } from 'helpers'
+import { withQueryParams, withFormatting } from 'helpers'
 import { compose, withProps, onlyUpdateForKeys, withHandlers } from 'recompose'
 import { withMaybe, withEither } from '@bowtie/react-utils'
 import FileTreeMap from './FileTreeMap'
@@ -10,6 +10,7 @@ const loadingConditionalFn = ({ isTreeLoading }) => isTreeLoading
 const Loading = () => <div>Loading...</div>
 
 export default compose(
+  withFormatting,
   withQueryParams,
   withProps({
     fileIcons: {

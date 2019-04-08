@@ -51,11 +51,10 @@ export default compose(
       reader.readAsDataURL(file)
     }
   }),
-  withProps(({ dir }) => {
+  withProps(({ dir, parseFileExt }) => {
     const { fileIcons } = lists
     const { type, name } = dir
-    const nameArray = name.split('.')
-    const ext = nameArray.length > 1 ? nameArray[nameArray.length - 1] : null
+    const ext = parseFileExt(name)
     return {
       fileIcon: fileIcons[ext] ? fileIcons[ext] : fileIcons[type]
     }
