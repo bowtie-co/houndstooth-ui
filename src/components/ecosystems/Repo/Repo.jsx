@@ -21,7 +21,7 @@ const Repo = (props) => {
   const { match, stagedFiles, pushToGithub, collections, removeStagedFile, permissions } = props
   const { username } = match.params
   return (
-    <Row style={{ 'width': '100%' }}>
+    <Row>
       { !permissions['push'] &&
       <Col sm='12' className='ml-3'>
         <Alert className={`pre-wrap`} color={'warning'}>You do not have permission to edit this repo.</Alert>

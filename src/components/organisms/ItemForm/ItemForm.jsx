@@ -117,7 +117,6 @@ export const EmptyState = (props) => {
       <Col className='tab-content-card' sm='12' style={{ 'border': '0', 'width': '100%', 'box-shadow': 'none' }}>
         <div className='file-select'><em>Select a file to edit</em></div>
       </Col>
-
     </Row>
   )
 }
