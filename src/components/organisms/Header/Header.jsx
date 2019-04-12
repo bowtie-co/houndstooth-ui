@@ -2,7 +2,6 @@ import React from 'react'
 import { auth } from 'lib'
 import { RepoSelect } from 'organisms'
 import {
-  NavLink,
   Link,
   Login,
   Logout,

@@ -19,7 +19,7 @@ const RecursiveFields = (props) => {
           <div style={{ 'padding': '20px 0px 15px 5px' }}>
             <Row>
               <Col sm='6'>
-                <div className='flex align-center justify-content-start'>
+                <div style={{ height: '100%' }} className='flex align-center justify-content-start'>
                   <Icon
                     onClick={toggleModal}
                     iconName='trash-alt'
@@ -28,6 +28,7 @@ const RecursiveFields = (props) => {
                     id='delete-item-icon'
                     tooltip='Delete file'
                     placement='top'
+
                   />
                 </div>
               </Col>
