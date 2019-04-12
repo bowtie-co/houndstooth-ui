@@ -26,7 +26,6 @@ const Header = (props) => {
       <div className='flex-grow'>
         <Nav className='nav-bar'>
           <ExtLink href={currentUser['html_url']} className='nav-link'><Icon className='fab fa-github' color='white' size='md' /></ExtLink>
-          {/* <NavLink path={'/settings/'}><Icon iconName='cog' color='white' size='sm' /></NavLink> */}
           {
             auth.isAuthenticated()
               ? <Logout />
