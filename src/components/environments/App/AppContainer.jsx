@@ -22,7 +22,8 @@ export const enhance = compose(
     repoList: [],
     isMainLoading: false,
     pages: {},
-    pageNumber: 1
+    pageNumber: 1,
+    currentUser: {}
   }), {
     setCollections: ({ collections }) => (payload) => ({ collections: payload }),
     setOrgList: ({ orgList }) => (payload) => ({ orgList: payload }),
@@ -42,9 +43,9 @@ export const enhance = compose(
         return { pageNumber: 1 }
       }
     },
-    setMainLoading: ({ isMainLoading }) => (payload) => ({ isMainLoading: payload })
+    setMainLoading: ({ isMainLoading }) => (payload) => ({ isMainLoading: payload }),
+    setCurrentUser: ({ currentUser }) => (payload) => ({ currentUser: payload })
   }),
-
   withHandlers({
     getRepos: ({ pageNumber, setMainLoading, setRepoList, setPages, setPageNumber }) => () => {
       setMainLoading(true)
@@ -111,8 +112,8 @@ export const enhance = compose(
 
   lifecycle({
     componentWillMount () {
-      const { githubError } = this.props
-
+      const { githubError, getCurrentUser } = this.props
+      getCurrentUser()
       github.on('err', githubError)
     },
     componentWillUnmount () {
