@@ -18,7 +18,6 @@ const RepoControls = (props) => {
   const { type, repo } = match.params
   return (
     <Row className='space-between file-tree-navigation'>
-      {/* <BackButton> back </BackButton> */}
       <Col sm={12}>
         <h2>{repo}</h2>
       </Col>
