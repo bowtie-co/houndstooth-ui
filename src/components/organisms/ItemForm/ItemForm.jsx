@@ -55,7 +55,7 @@ export const ItemForm = (props) => {
   const { item } = match.params
   return (
     <Row>
-      <Col sm='12' md='5' lg='5' xl='3'>
+      <Col sm='12' md='12' lg='5' xl='3'>
         <div className='tab-content-card'>
           {
             item === 'new' || isRenameFile
@@ -89,7 +89,7 @@ export const ItemForm = (props) => {
           />
         </div>
       </Col>
-      <Col sm='12' md='7' lg='7' xl='9'>
+      <Col sm='12' md='12' lg='7' xl='9'>
         <div className='tab-content-card'>
           <TinyMCE
             item={item}
