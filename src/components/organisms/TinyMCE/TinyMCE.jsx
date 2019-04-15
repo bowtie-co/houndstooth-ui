@@ -12,6 +12,7 @@ const TinyMCE = (props) => {
         // inline
         init={{
           height: '100%',
+          toolbar_drawer: 'floating',
           plugins: 'link image code hr lists fullscreen media',
           menubar: 'false',
           toolbar1: 'undo redo | fontselect fontsizeselect | link media image',

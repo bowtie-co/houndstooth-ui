@@ -18,13 +18,12 @@ const RepoControls = (props) => {
   const { type, repo } = match.params
   return (
     <Row className='space-between file-tree-navigation'>
-      {/* <BackButton> back </BackButton> */}
       <Col sm={12}>
         <h2>{repo}</h2>
       </Col>
-      <Col>
+      <Col md={7} sm={12}>
         <div className='flex-row align-center'>
-          <div className='bold' style={{ marginRight: '10px' }}>
+          <div className='mr-2 bold'>
             <Icon iconName='code-branch' />
             Branch:
           </div>
@@ -41,26 +40,29 @@ const RepoControls = (props) => {
           />
         </div>
       </Col>
-      <Col className='justify-content-end flex align-items-center btn-group'>
-        {
-          type !== 'collections' && stagedFiles.length > 0 &&
-            <Button
-              href={`/${baseRoute}/commit/?${qs.stringify(rest['queryParams'])}`}
-              className='btn-sm'
-              color='primary'
-              style={{ marginRight: '10px' }}
-              disabled={!isCommitable}
-            >
-              Commit Changes <Badge color='danger'>{stagedFiles.length}</Badge>
-            </Button>
-        }
-        {
-          type !== 'users' && <CollectionEditorButton {...props} />
-        }
+      <Col md={5} sm={12}>
+        <div className='justify-content-end flex align-items-center btn-group w-100'>
+          {
+            type !== 'collections' && stagedFiles.length > 0 &&
+              <Button
+                href={`/${baseRoute}/commit/?${qs.stringify(rest['queryParams'])}`}
+                className='btn-sm'
+                color='primary'
+                style={{ marginRight: '10px' }}
+                disabled={!isCommitable}
+              >
+                Commit Changes <Badge color='danger'>{stagedFiles.length}</Badge>
+              </Button>
+          }
+          {
+            type !== 'users' && <CollectionEditorButton {...props} />
+          }
+          <div className='ml-2'>
+            <Icon iconName='sync-alt' size='sm' onClick={reloadReposAndBranches} />
+          </div>
+        </div>
       </Col>
-      <div>
-        <Icon iconName='sync-alt' size='sm' onClick={reloadReposAndBranches} />
-      </div>
+
     </Row>
   )
 }

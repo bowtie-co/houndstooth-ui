@@ -2,23 +2,41 @@
   min-height: 400px;
   height: 100%;
   border: none;
-
-  iframe,
-  .mce-container-body,
-  .mce-tinymce.mce-container.mce-panel {
-    height: calc(100% - 15px);
-    box-shadow: none;
-  }
-  .mce-edit-area.mce-container.mce-panel.mce-stack-layout-item {
-    height: 90%;
-  }
 }
 
-.mce-content-body img {
-max-width: 100% !important;
-height: auto !important;
+/*Container, container body, iframe*/
+.mce-tinymce, .mce-container-body, #content_ifr {
+    min-height: 100% !important;
 }
-
-.mce-panel, .mce-tinymce.mce-container.mce-panel {
-  border: none !important;
+/*Container body*/
+.mce-container-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+/*Editing area*/
+.mce-container-body .mce-edit-area {
+    border: none;
+    position: absolute;
+    top: 71px;
+    bottom: 37px;
+    left: 0;
+    right: 0;
+    @media(max-width: 1199px) {
+        top: 139px;
+    }
+    @media(max-width: 1028px) {
+        top: 171px;
+    }
+    @media(max-width: 767px) {
+        top: 136px;
+    }
+}
+/*Footer*/
+.mce-tinymce .mce-statusbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }

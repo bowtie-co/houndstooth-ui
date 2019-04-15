@@ -12,6 +12,7 @@
   margin: 15px 0;
   padding: 0;
   .nav {
+    flex-wrap: nowrap;
     .nav-link {
       padding: .5rem;
       @media (max-width: $narrow-width-max) {

@@ -2,7 +2,6 @@ import React from 'react'
 import { auth } from 'lib'
 import { RepoSelect } from 'organisms'
 import {
-  NavLink,
   Link,
   Login,
   Logout,
@@ -15,6 +14,7 @@ import {
 } from 'molecules'
 
 const Header = (props) => {
+  const { currentUser } = props
   return (
     <section className='flex-row top-nav-section'>
       <Link to={'/'} className='flex align-center'>
@@ -25,10 +25,7 @@ const Header = (props) => {
       </div>
       <div className='flex-grow'>
         <Nav className='nav-bar'>
-          <NavLink to=''>
-            <ExtLink href='www.github.com' className='nav-link'><Icon className='fab fa-github' color='white' size='md' /></ExtLink>
-          </NavLink>
-          {/* <NavLink path={'/settings/'}><Icon iconName='cog' color='white' size='sm' /></NavLink> */}
+          <ExtLink href={currentUser['html_url']} className='nav-link'><Icon className='fab fa-github' color='white' size='md' /></ExtLink>
           {
             auth.isAuthenticated()
               ? <Logout />

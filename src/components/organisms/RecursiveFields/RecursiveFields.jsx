@@ -16,24 +16,31 @@ const RecursiveFields = (props) => {
 
       {
         !rest['disabled'] &&
-          <Row style={{ 'padding': '20px 0px 15px 5px' }}>
-            <Col className='flex align-center justify-content-start' sm='6'>
-              <Icon
-                onClick={toggleModal}
-                iconName='trash-alt'
-                color='#ff3500'
-                size='sm'
-                id='delete-item-icon'
-                tooltip='Delete file'
-                placement='top'
-              />
-            </Col>
-            <Col className='flex align-center justify-content-end' sm='6'>
-              <Button onClick={() => onSubmit(formData)}>
-                Save
-              </Button>
-            </Col>
-          </Row>
+          <div style={{ 'padding': '20px 0px 15px 5px' }}>
+            <Row>
+              <Col sm='6'>
+                <div className='flex align-center justify-content-start w-100 h-100'>
+                  <Icon
+                    onClick={toggleModal}
+                    iconName='trash-alt'
+                    color='#ff3500'
+                    size='sm'
+                    id='delete-item-icon'
+                    tooltip='Delete file'
+                    placement='top'
+
+                  />
+                </div>
+              </Col>
+              <Col sm='6'>
+                <div className='flex align-center justify-content-end'>
+                  <Button onClick={() => onSubmit(formData)}>
+                      Save
+                  </Button>
+                </div>
+              </Col>
+            </Row>
+          </div>
       }
 
       <DeleteFileModal

@@ -8,7 +8,7 @@ import { imageExtensions } from 'helpers/lists'
 const FileSingle = ({ file, content, parseFileExt, handleContentChange, permissions, saveFile, isDeleteModalOpen, toggleModal, deleteFile }) => {
   const fileExt = parseFileExt(file.name)
   return (
-    <div style={{ 'padding': '20px 0', 'width': '100%' }}>
+    <div className='w-100 pt-3 pb-3'>
       <div className='d-flex align-items-center justify-content-between'>
         <h2>{file.name}</h2>
         {
