@@ -5,7 +5,7 @@
 }
 
 /*Container, container body, iframe*/
-.mce-tinymce, .mce-container-body, #code_ifr {
+.mce-tinymce, .mce-container-body, #content_ifr {
     min-height: 100% !important;
 }
 /*Container body*/
@@ -22,6 +22,15 @@
     bottom: 37px;
     left: 0;
     right: 0;
+    @media(max-width: 1199px) {
+        top: 137px;
+    }
+    @media(max-width: 1028px) {
+        top: 171px;
+    }
+    @media(max-width: 767px) {
+        top: 136px;
+    }
 }
 /*Footer*/
 .mce-tinymce .mce-statusbar {
