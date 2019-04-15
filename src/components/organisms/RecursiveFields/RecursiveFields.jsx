@@ -19,7 +19,7 @@ const RecursiveFields = (props) => {
           <div style={{ 'padding': '20px 0px 15px 5px' }}>
             <Row>
               <Col sm='6'>
-                <div style={{ height: '100%' }} className='flex align-center justify-content-start'>
+                <div className='flex align-center justify-content-start w-100 h-100'>
                   <Icon
                     onClick={toggleModal}
                     iconName='trash-alt'
