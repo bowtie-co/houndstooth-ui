@@ -26,7 +26,7 @@ const Users = (props) => {
         </THead>
         <tbody>
           {
-            contributors.length > 0
+            contributors && contributors.length > 0
               ? contributors.map((u, i) => {
                 const isCollaborator = collaboratorIds.includes(u['id'])
                 return (
