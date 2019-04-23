@@ -19,7 +19,6 @@
     "draft-js": "^0.10.5",
     "draftjs-to-html": "^0.8.4",
     "eventemitter2": "^5.0.1",
-    "fsevents": "^2.0.6",
     "html-to-draftjs": "^1.4.0",
     "jquery": "^3.3.1",
     "libphonenumber-js": "^1.2.15",
