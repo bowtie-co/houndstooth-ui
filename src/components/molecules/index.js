@@ -12,6 +12,7 @@ import CollectionEditorButton from './CollectionEditorButton'
 import FileTreeMap from './FileTreeMap'
 import BowtieLogo from './BowtieLogo'
 import HoundstoothLogo from './HoundstoothLogo'
+import Darkmode from './Darkmode'
 
 export {
   Search,
@@ -27,5 +28,6 @@ export {
   Welcome,
   Pagination,
   BowtieLogo,
-  HoundstoothLogo
+  HoundstoothLogo,
+  Darkmode
 }
