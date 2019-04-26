@@ -25,6 +25,15 @@ const Header = (props) => {
       </div>
       <div className='flex-grow'>
         <Nav className='nav-bar'>
+          <Icon className='nav-darkmode fas fa-adjust' color='white' size='md' 
+           onClick={ () => {
+            localStorage.setItem('viewMode', (localStorage.getItem('viewMode') || 'dark') === 'dark' ?
+           'light' : 'dark'); 
+            localStorage.getItem('viewMode') === 'dark' ?
+            document.querySelector('.content-wrapper').classList.add('dark') :
+            document.querySelector('.content-wrapper').classList.remove('dark');
+          }
+          } />
           <ExtLink href={currentUser['html_url']} className='nav-link'><Icon className='fab fa-github' color='white' size='md' /></ExtLink>
           {
             auth.isAuthenticated()

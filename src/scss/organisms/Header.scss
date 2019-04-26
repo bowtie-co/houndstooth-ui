@@ -36,6 +36,16 @@
       }
     }
 
+    .nav-darkmode {
+      display: flex;
+      align-items: center;
+      width: 90px;
+      height: 100%;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
     .avatar-menu {
       display: flex;
       flex-direction: row;
