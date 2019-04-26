@@ -11,8 +11,8 @@ class Darkmode extends React.Component {
 
     this.css = `
     .content-wrapper { filter: invert(100%); background: #fefefe; }
-    .content-wrapper * { background: inherit; }
-    img, video { filter: invert(100%); }`;
+    .avatar, video, button { filter: invert(100%); }
+    `;
 
     this.store = typeof localStorage === 'undefined' ? null : localStorage;
   }
