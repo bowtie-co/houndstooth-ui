@@ -9,13 +9,5 @@
     display: flex;
     flex-direction: row;
     flex-grow: 1;
-
-    .dark {
-      filter: invert(100%);
-      background-color: #fefefe;
-      & * {
-        background-color: inherit;
-      }
-    }
   }
 }
