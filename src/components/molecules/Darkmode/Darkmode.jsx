@@ -1,4 +1,5 @@
 import React from 'react'
+import storage from '../../../lib/storage'
 import { Icon } from 'atoms'
 
 class Darkmode extends React.Component {
@@ -13,8 +14,6 @@ class Darkmode extends React.Component {
     .content-wrapper { filter: invert(100%); background: #fefefe; transition: all 0.5s ease;}
     .avatar, video, button, .body-template img, .file-editor { filter: invert(100%); transition: all 0.05s ease;}
     `;
-
-    this.store = typeof localStorage === 'undefined' ? null : localStorage;
   }
 
   isActive = () => this.state.active
@@ -34,17 +33,13 @@ class Darkmode extends React.Component {
   }
 
   componentDidMount() {
-    if(this.store) {
       this.setState({
-        active: this.store.getItem('DarkMode') || false
+        active: storage.get('DarkMode') || false
       })
-    }
   }
 
   componentDidUpdate() {
-    if(this.store) {
-      this.store.setItem('DarkMode', this.state.active)
-    }
+      storage.set('DarkMode', this.state.active)
   }
 
   render() {
