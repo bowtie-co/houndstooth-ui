@@ -27,11 +27,9 @@ export default compose(
   lifecycle({
     componentDidMount() {
       this.props.toggle(storage.get('DarkMode') || false) //TODO
-      console.log('mounted', storage.get('DarkMode'))
     },
     componentDidUpdate() {
       storage.set('DarkMode', this.props.isActive)
-      console.log('update', storage.get('DarkMode'))
     }
   }),
   withPropsOnChange([ 'isSupported' ], ({ isSupported }) => {
