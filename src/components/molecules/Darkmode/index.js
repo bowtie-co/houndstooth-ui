@@ -1,1 +1,1 @@
-export { default } from './Darkmode'
+export { default } from './DarkmodeContainer'
