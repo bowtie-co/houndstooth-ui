@@ -26,7 +26,7 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
-      this.props.toggle(storage.get('DarkMode') || false) //TODO
+      this.props.toggle(storage.get('DarkMode') || false)
     },
     componentDidUpdate() {
       storage.set('DarkMode', this.props.isActive)
