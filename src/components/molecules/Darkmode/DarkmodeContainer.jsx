@@ -1,13 +1,19 @@
 import { storage } from 'lib'
 import Darkmode from './Darkmode'
-import { compose, withStateHandlers, withPropsOnChange } from 'recompose';
+import { compose, withStateHandlers, withPropsOnChange, withProps } from 'recompose';
+import { withMaybe } from '@bowtie/react-utils'
+import { withFormatting } from 'helpers'
 
 export default compose(
+  withFormatting,
   withStateHandlers({
-    isActive: storage.get('DarkMode') || false,
+    isActive: storage.get('DarkMode') || false
   },{
     toggleActive: ({ isActive }) => () => ({ isActive: !isActive })
   }),
+  withProps(({checkBrowserCSSSupport}) => () => ({
+    isSupported: checkBrowserCSSSupport('filter', 'invert(100%)')
+  })),
   withPropsOnChange([ 'isActive' ], ({ isActive }) => {
     storage.set('DarkMode', isActive)
     if(isActive) {
@@ -18,5 +24,6 @@ export default compose(
       `
       }
     }
-  })
+  }),
+  withMaybe(({ isSupported }) => isSupported)
 )(Darkmode)
