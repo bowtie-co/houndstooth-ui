@@ -1,14 +1,10 @@
 import React from 'react'
 import { Icon } from 'atoms'
 
-const Darkmode = ({ isActive, toggle, cssStyles, isSupported }) => {
-  if(!isSupported) {
-    return null
-  }
-
+const Darkmode = ({ isActive, toggleActive, cssStyles }) => {
   return (
     <React.Fragment>
-      <Icon className='nav-darkmode fas fa-adjust' color='white' size='md' onClick={() => toggle(!isActive)} />
+      <Icon className='nav-darkmode fas fa-adjust' color='white' size='md' onClick={() => toggleActive()} />
       <style media={isActive ? 'screen' : 'none'}>
         {isActive ? cssStyles.trim() : cssStyles}
       </style>
