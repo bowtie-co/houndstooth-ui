@@ -49,12 +49,12 @@ export default compose(
       const nameArray = fileName.split('.')
       return nameArray.length > 1 ? nameArray[nameArray.length - 1] : null
     },
-    checkBrowserCSSSupport: () => (property, value) => {  
+    checkBrowserCSSSupport: () => (property, value) => {
       let prop = property + ':',
-          el = document.createElement('test'),
-          mStyle = el.style;
-      el.style.cssText = prop + value;
-      return mStyle[property] === value;
+        el = document.createElement('test'),
+        mStyle = el.style
+      el.style.cssText = prop + value
+      return mStyle[property] === value
     }
   })
 )
