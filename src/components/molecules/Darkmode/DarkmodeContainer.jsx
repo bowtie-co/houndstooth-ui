@@ -21,6 +21,7 @@ export default compose(
         cssStyles: `
         .content-wrapper { filter: invert(100%);}
         .avatar, video, button, .body-template img, .file-editor { filter: invert(100%);}
+        .loader {background-color: black; filter: invert(100%);}
       `
       }
     }
