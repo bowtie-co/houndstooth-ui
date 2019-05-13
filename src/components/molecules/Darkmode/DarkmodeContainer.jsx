@@ -19,8 +19,8 @@ export default compose(
     if (isActive) {
       return {
         cssStyles: `
-      .content-wrapper { filter: invert(100%); background: #fefefe; transition: all 0.5s ease;}
-      .avatar, video, button, .body-template img, .file-editor { filter: invert(100%); transition: all 0.05s ease;}
+        .content-wrapper { filter: invert(100%);}
+        .avatar, video, button, .body-template img, .file-editor { filter: invert(100%);}
       `
       }
     }
