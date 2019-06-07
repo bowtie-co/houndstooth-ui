@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2018",
     "allowSyntheticDefaultImports": false,
-    "baseUrl": "./",
+    "baseUrl": "src/",
     "paths": {
       "atoms/*": [ "src/components/atoms/*" ],
       "ecosystems/*": [ "src/components/ecosystems/*" ],
