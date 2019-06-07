@@ -1,4 +1,4 @@
-/* global FileReader encodeURI */
+/* global FileReader */
 import FileUpload from './FileUpload'
 import { compose, withHandlers, withPropsOnChange, withState } from 'recompose'
 import { lists } from 'helpers'
