@@ -50,10 +50,12 @@ export default compose(
       return nameArray.length > 1 ? nameArray[nameArray.length - 1] : null
     },
     checkBrowserCSSSupport: () => (property, value) => {
-      let prop = property + ':',
-        el = document.createElement('test'),
-        mStyle = el.style
+      const prop = property + ':'
+      const el = document.createElement('test')
+      const mStyle = el.style
+
       el.style.cssText = prop + value
+
       return mStyle[property] === value
     }
   })
