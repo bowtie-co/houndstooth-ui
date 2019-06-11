@@ -4,7 +4,8 @@ import {
   Col,
   Title,
   Row,
-  Icon
+  Icon,
+  Button
 } from 'atoms'
 
 import {
@@ -76,6 +77,12 @@ export const ItemForm = (props) => {
                 <Icon iconName={'pencil-alt'} onClick={() => setRenameFile(true)} />
               </div>
           }
+          
+          <Button
+            value={activeItem['name']}
+            
+          >Duplicate</Button>
+          
           <RecursiveFields
             fields={activeItem['fields']}
             match={match}
