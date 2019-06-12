@@ -39,6 +39,7 @@ export const ItemForm = (props) => {
     fileNameError,
     editFileName,
     deleteItem,
+    duplicateItem,
     match,
     handleBodyChange,
     fileUploads,
@@ -53,11 +54,7 @@ export const ItemForm = (props) => {
     ...rest
   } = props
 
-  const duplicateItem = () => {
-    const newItem = props.activeItem
-    newItem['name'] = `${newItem['name'].split('.')[0]}-copy.md`
-    console.log(newItem['name'])
-  }
+  
 
   const { item } = match.params
   return (
@@ -78,16 +75,17 @@ export const ItemForm = (props) => {
                   onBlur={(val) => !isNewItem && openModal(val)}
                 />
               </div>
-              : <div className={'flex-row align-center'}>
-                <Title title={activeItem['name']} className='break-word m-1' />
-                <Icon iconName={'pencil-alt'} onClick={() => setRenameFile(true)} />
+              : <div>
+                <div className={'flex-row align-center'}>
+                  <Title title={activeItem['name']} className='break-word m-1' />
+                  <Icon iconName={'pencil-alt'} onClick={() => setRenameFile(true)} />
+                </div>
+
+                <div className={'flex-row align-center'}>
+                  <Button value={activeItem['name']} onClick={duplicateItem}>Duplicate</Button>
+                </div>
               </div>
           }
-          
-          <Button
-            value={activeItem['name']}
-            onClick={duplicateItem}
-          >Duplicate</Button>
           
           <RecursiveFields
             fields={activeItem['fields']}

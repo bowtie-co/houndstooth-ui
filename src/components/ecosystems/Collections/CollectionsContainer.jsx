@@ -171,10 +171,8 @@ export default compose(
         return jekyll.collection(collection, { ref: branch })
           .then(collection => {
             if (activeItem['name'] && activeItem['name'].split('.').length <= 1) {
-              activeItem['name'] = `${activeItem['name']}-copy.md`
+              activeItem['name'] = `${activeItem['name']}.md`
             }
-
-            let renamedItem = activeItem['name']
 
             const updatedItem = Object.assign({}, activeItem, { fields: formData })
             const message = `[HT] Created item: ${activeItem.name}`
@@ -188,24 +186,27 @@ export default compose(
           })
       }
     },
-    duplicateItem: ({ collectionsApiRoute, jekyll, branch, match, activeItem, updateCachedTree }) => () => {
+    duplicateItem: ({ collectionsApiRoute, jekyll, branch, match, activeItem, updateCachedTree, history, collectionsRoute }) => () => {
       const { collection } = match['params']
     
       if (collection && branch) {
     
         return jekyll.collection(collection, { ref: branch })
           .then(collection => {
-            const newItem = activeItem
-            newItem['name'] = `${newItem['name'].split('.')[0]}-copy.md`
+            const duplicatedItem = activeItem
+            duplicatedItem['name'] = `${duplicatedItem['name'].split('.')[0]}-copy.md`
     
-            const updatedItem = Object.assign({}, newItem)
-            const message = `[HT] Duplicated item: ${newItem.path}`
+            const message = `[HT] Duplicated item: ${activeItem.path}`
     
             updateCachedTree()
     
-            return collection.createItem(updatedItem, { ref: branch, message }).then(item => {
+            return collection.createItem(duplicatedItem, { ref: branch, message }).then(item => {
               console.log('done creating item', item)
               return Promise.resolve(item)
+                .then(
+                  history.push(`/${collectionsRoute}/${duplicatedItem['name']}?path=_${collection['name']}/${duplicatedItem['name']}&ref=${branch}`)  
+                )
+                .then(window.location.reload())
             })
           })
       }
