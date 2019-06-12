@@ -4,8 +4,7 @@ import {
   Col,
   Title,
   Row,
-  Icon,
-  Button
+  Icon
 } from 'atoms'
 
 import {
