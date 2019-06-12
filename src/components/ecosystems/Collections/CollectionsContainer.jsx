@@ -139,7 +139,9 @@ export default compose(
             notifier.bad(resp)
           })
       }
-    },
+    }
+  }),
+  withHandlers({
     renameItem: ({ activeItem, branch, match }) => () => {
       const message = `[HT] Renamed item ${match['params']['item']} --> ${activeItem['name']}`
       console.log('====================================')
@@ -185,27 +187,37 @@ export default compose(
           })
       }
     },
-    duplicateItem: ({ collectionsApiRoute, jekyll, branch, match, activeItem, updateCachedTree, history, collectionsRoute }) => () => {
+    duplicateItem: ({ items, jekyll, branch, match, activeItem, setActiveItem, getItems, setStagedFileUploads, setCollectionLoading, updateCachedTree, history, collectionsRoute }) => () => {
+      setCollectionLoading(true)
+
       const { collection } = match['params']
 
       if (collection && branch) {
         return jekyll.collection(collection, { ref: branch })
           .then(collection => {
             const duplicatedItem = Object.assign({}, activeItem)
-            duplicatedItem['name'] = `${duplicatedItem['name'].slice(0, -3)}-copy.md`
+
+            do {
+              const nameParts = duplicatedItem['name'].split('.')
+              nameParts.pop()
+              duplicatedItem['name'] = `${nameParts.join('.')}-copy.md`
+            } while (items.find(item => item['name'] === duplicatedItem['name']))
 
             const message = `[HT] Duplicated item: ${activeItem.path}`
 
             updateCachedTree()
 
             return collection.createItem(duplicatedItem, { ref: branch, message }).then(item => {
-              console.log('done creating item', item)
-              return Promise.resolve(item)
-                .then(
-                  history.push(`/${collectionsRoute}/${item['name']}`)
-                )
-                // Find way to reload items from handler rather than forcing page reload
-                .then(window.location.reload())
+              console.log('done duplicating item', item)
+              setCollectionLoading(false)
+              getItems()
+              setStagedFileUploads([])
+              setActiveItem(item)
+              notifier.success('Item duplicated')
+              history.push(`/${collectionsRoute}/${item['name']}?ref=${branch}`)
+            }).catch(err => {
+              notifier.bad(err)
+              setCollectionLoading(false)
             })
           })
       }

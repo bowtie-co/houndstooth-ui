@@ -73,15 +73,10 @@ export const ItemForm = (props) => {
                   onBlur={(val) => !isNewItem && openModal(val)}
                 />
               </div>
-              : <div>
-                <div className={'flex-row align-center'}>
-                  <Title title={activeItem['name']} className='break-word m-1' />
-                  <Icon iconName={'pencil-alt'} onClick={() => setRenameFile(true)} />
-                </div>
-
-                <div className={'flex-row align-center'}>
-                  <Button value={activeItem['name']} onClick={duplicateItem}>Duplicate</Button>
-                </div>
+              : <div className={'flex-row align-center'}>
+                <Title title={activeItem['name']} className='break-word m-1' />
+                <Icon title='Edit name' iconName={'pencil-alt'} onClick={() => setRenameFile(true)} />
+                <Icon title='Duplicate' iconName={'copy'} onClick={duplicateItem} />
               </div>
           }
 
