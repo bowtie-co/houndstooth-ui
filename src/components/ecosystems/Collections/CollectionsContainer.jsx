@@ -167,7 +167,6 @@ export default compose(
       const { collection } = match['params']
 
       if (collection && branch) {
-
         return jekyll.collection(collection, { ref: branch })
           .then(collection => {
             if (activeItem['name'] && activeItem['name'].split('.').length <= 1) {
@@ -188,24 +187,25 @@ export default compose(
     },
     duplicateItem: ({ collectionsApiRoute, jekyll, branch, match, activeItem, updateCachedTree, history, collectionsRoute }) => () => {
       const { collection } = match['params']
-    
+
       if (collection && branch) {
-    
         return jekyll.collection(collection, { ref: branch })
           .then(collection => {
-            const duplicatedItem = activeItem
-            duplicatedItem['name'] = `${duplicatedItem['name'].split('.')[0]}-copy.md`
-    
+            const itemCopy = activeItem
+            itemCopy['name'] = `${itemCopy['name'].split('.')[0]}-copy.md`
+
+            const duplicatedItem = Object.assign({}, itemCopy)
             const message = `[HT] Duplicated item: ${activeItem.path}`
-    
+
             updateCachedTree()
-    
+
             return collection.createItem(duplicatedItem, { ref: branch, message }).then(item => {
               console.log('done creating item', item)
               return Promise.resolve(item)
                 .then(
-                  history.push(`/${collectionsRoute}/${duplicatedItem['name']}?path=_${collection['name']}/${duplicatedItem['name']}&ref=${branch}`)  
+                  history.push(`/${collectionsRoute}/${item['name']}`)
                 )
+                // Find way to reload items from handler rather than forcing page reload
                 .then(window.location.reload())
             })
           })

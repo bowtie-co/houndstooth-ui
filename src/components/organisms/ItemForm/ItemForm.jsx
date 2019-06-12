@@ -54,8 +54,6 @@ export const ItemForm = (props) => {
     ...rest
   } = props
 
-  
-
   const { item } = match.params
   return (
     <Row>
@@ -86,7 +84,7 @@ export const ItemForm = (props) => {
                 </div>
               </div>
           }
-          
+
           <RecursiveFields
             fields={activeItem['fields']}
             match={match}
