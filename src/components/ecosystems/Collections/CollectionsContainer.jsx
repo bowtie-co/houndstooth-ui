@@ -192,7 +192,7 @@ export default compose(
         return jekyll.collection(collection, { ref: branch })
           .then(collection => {
             const duplicatedItem = Object.assign({}, activeItem)
-            duplicatedItem['name'] = `${duplicatedItem['name'].split('.')[0]}-copy.md`
+            duplicatedItem['name'] = `${duplicatedItem['name'].slice(0,-3)}-copy.md`
 
             const message = `[HT] Duplicated item: ${activeItem.path}`
 
