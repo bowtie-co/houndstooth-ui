@@ -191,10 +191,9 @@ export default compose(
       if (collection && branch) {
         return jekyll.collection(collection, { ref: branch })
           .then(collection => {
-            const itemCopy = activeItem
-            itemCopy['name'] = `${itemCopy['name'].split('.')[0]}-copy.md`
+            const duplicatedItem = Object.assign({}, activeItem)
+            duplicatedItem['name'] = `${duplicatedItem['name'].split('.')[0]}-copy.md`
 
-            const duplicatedItem = Object.assign({}, itemCopy)
             const message = `[HT] Duplicated item: ${activeItem.path}`
 
             updateCachedTree()
