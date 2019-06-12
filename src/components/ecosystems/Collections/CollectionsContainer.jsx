@@ -165,45 +165,13 @@ export default compose(
     },
     createItem: ({ collectionsApiRoute, jekyll, branch, match, activeItem, updateCachedTree }) => (formData) => {
       const { collection } = match['params']
-      if (collection && branch) {
-        return jekyll.collection(collection, { ref: branch })
-          .then(collection => {
-
-            collection.items({ ref: branch })
-            .then(items => {
-              items.forEach(item => {
-                if (activeItem['name'] === item['name']) {
-                  console.log('found!')
-                  activeItem['name'] = `${activeItem['name']}-copy`
-                }
-              })
-              console.log(activeItem['name'])
-              if (activeItem['name'] && activeItem['name'].split('.').length <= 1) {
-                activeItem['name'] = `${activeItem['name']}.md`
-              }
-              const updatedItem = Object.assign({}, activeItem, { fields: formData })
-              const message = `[HT] Created item: ${activeItem.name}`
-  
-              updateCachedTree()
-              
-              return collection.createItem(updatedItem, { ref: branch, message })
-                .then(item => {
-                  console.log('done creating item', item)
-                  return Promise.resolve(item)
-                })
-            })
-          })
-      }
-    },
-    duplicateItem: ({ collectionsApiRoute, jekyll, branch, match, activeItem, updateCachedTree }) => (formData) => {
-      const { collection } = match['params']
 
       if (collection && branch) {
 
         return jekyll.collection(collection, { ref: branch })
           .then(collection => {
             if (activeItem['name'] && activeItem['name'].split('.').length <= 1) {
-              activeItem['name'] = `${activeItem['name']}.md`
+              activeItem['name'] = `${activeItem['name']}-copy.md`
             }
 
             let renamedItem = activeItem['name']
@@ -213,6 +181,28 @@ export default compose(
 
             updateCachedTree()
 
+            return collection.createItem(updatedItem, { ref: branch, message }).then(item => {
+              console.log('done creating item', item)
+              return Promise.resolve(item)
+            })
+          })
+      }
+    },
+    duplicateItem: ({ collectionsApiRoute, jekyll, branch, match, activeItem, updateCachedTree }) => () => {
+      const { collection } = match['params']
+    
+      if (collection && branch) {
+    
+        return jekyll.collection(collection, { ref: branch })
+          .then(collection => {
+            const newItem = activeItem
+            newItem['name'] = `${newItem['name'].split('.')[0]}-copy.md`
+    
+            const updatedItem = Object.assign({}, newItem)
+            const message = `[HT] Duplicated item: ${newItem.path}`
+    
+            updateCachedTree()
+    
             return collection.createItem(updatedItem, { ref: branch, message }).then(item => {
               console.log('done creating item', item)
               return Promise.resolve(item)

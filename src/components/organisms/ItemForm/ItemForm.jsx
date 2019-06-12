@@ -53,6 +53,12 @@ export const ItemForm = (props) => {
     ...rest
   } = props
 
+  const duplicateItem = () => {
+    const newItem = props.activeItem
+    newItem['name'] = `${newItem['name'].split('.')[0]}-copy.md`
+    console.log(newItem['name'])
+  }
+
   const { item } = match.params
   return (
     <Row>
@@ -80,7 +86,7 @@ export const ItemForm = (props) => {
           
           <Button
             value={activeItem['name']}
-            
+            onClick={duplicateItem}
           >Duplicate</Button>
           
           <RecursiveFields
