@@ -165,7 +165,7 @@ export default compose(
         })
       }
     },
-    createItem: ({ collectionsApiRoute, jekyll, branch, match, activeItem, updateCachedTree }) => (formData) => {
+    createItem: ({ collectionsApiRoute, jekyll, branch, match, activeItem, updateCachedTree, items }) => (formData) => {
       const { collection } = match['params']
 
       if (collection && branch) {
@@ -173,6 +173,10 @@ export default compose(
           .then(collection => {
             if (activeItem['name'] && activeItem['name'].split('.').length <= 1) {
               activeItem['name'] = `${activeItem['name']}.md`
+            }
+
+            if (items.find(item => item['name'] === activeItem['name'])) {
+              return Promise.reject(new Error('Item already exists with this name'))
             }
 
             const updatedItem = Object.assign({}, activeItem, { fields: formData })
