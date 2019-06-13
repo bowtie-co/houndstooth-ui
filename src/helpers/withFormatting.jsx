@@ -48,6 +48,15 @@ export default compose(
     parseFileExt: () => (fileName) => {
       const nameArray = fileName.split('.')
       return nameArray.length > 1 ? nameArray[nameArray.length - 1] : null
+    },
+    checkBrowserCSSSupport: () => (property, value) => {
+      const prop = property + ':'
+      const el = document.createElement('test')
+      const mStyle = el.style
+
+      el.style.cssText = prop + value
+
+      return mStyle[property] === value
     }
   })
 )

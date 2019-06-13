@@ -10,7 +10,8 @@ import {
   ExtLink
 } from 'atoms'
 import {
-  HoundstoothLogo
+  HoundstoothLogo,
+  Darkmode
 } from 'molecules'
 
 const Header = (props) => {
@@ -25,6 +26,7 @@ const Header = (props) => {
       </div>
       <div className='flex-grow'>
         <Nav className='nav-bar'>
+          <Darkmode />
           <ExtLink href={currentUser['html_url']} className='nav-link'><Icon className='fab fa-github' color='white' size='md' /></ExtLink>
           {
             auth.isAuthenticated()
