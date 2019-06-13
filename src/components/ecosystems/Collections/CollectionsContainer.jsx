@@ -139,7 +139,9 @@ export default compose(
             notifier.bad(resp)
           })
       }
-    },
+    }
+  }),
+  withHandlers({
     renameItem: ({ activeItem, branch, match }) => () => {
       const message = `[HT] Renamed item ${match['params']['item']} --> ${activeItem['name']}`
       console.log('====================================')
@@ -186,6 +188,41 @@ export default compose(
             return collection.createItem(updatedItem, { ref: branch, message }).then(item => {
               console.log('done creating item', item)
               return Promise.resolve(item)
+            })
+          })
+      }
+    },
+    duplicateItem: ({ items, jekyll, branch, match, activeItem, setActiveItem, getItems, setStagedFileUploads, setCollectionLoading, updateCachedTree, history, collectionsRoute }) => () => {
+      setCollectionLoading(true)
+
+      const { collection } = match['params']
+
+      if (collection && branch) {
+        return jekyll.collection(collection, { ref: branch })
+          .then(collection => {
+            const duplicatedItem = Object.assign({}, activeItem)
+
+            do {
+              const nameParts = duplicatedItem['name'].split('.')
+              nameParts.pop()
+              duplicatedItem['name'] = `${nameParts.join('.')}-copy.md`
+            } while (items.find(item => item['name'] === duplicatedItem['name']))
+
+            const message = `[HT] Duplicated item: ${activeItem.path}`
+
+            updateCachedTree()
+
+            return collection.createItem(duplicatedItem, { ref: branch, message }).then(item => {
+              console.log('done duplicating item', item)
+              setCollectionLoading(false)
+              getItems()
+              setStagedFileUploads([])
+              setActiveItem(item)
+              notifier.success('Item duplicated')
+              history.push(`/${collectionsRoute}/${item['name']}?ref=${branch}`)
+            }).catch(err => {
+              notifier.bad(err)
+              setCollectionLoading(false)
             })
           })
       }
