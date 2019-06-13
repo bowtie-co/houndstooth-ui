@@ -33,6 +33,8 @@ export default compose(
         .loader {background-color: black; filter: invert(100%);}
         .file-tree-map-section a.not-active { color: #aeb3b8 !important;}
         a.link.bold.parent-link { color: #000 !important;}
+        a.logout-btn.nav-link:hover { color: #fff !important; }
+        .inputfile .file-upload:hover { color: #00caff !important; border: 1px solid #00caff !important;}
       `
       }
     }
