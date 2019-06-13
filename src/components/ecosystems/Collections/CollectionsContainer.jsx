@@ -139,7 +139,9 @@ export default compose(
             notifier.bad(resp)
           })
       }
-    },
+    }
+  }),
+  withHandlers({
     renameItem: ({ activeItem, branch, match }) => () => {
       const message = `[HT] Renamed item ${match['params']['item']} --> ${activeItem['name']}`
       console.log('====================================')
@@ -163,7 +165,7 @@ export default compose(
         })
       }
     },
-    createItem: ({ collectionsApiRoute, jekyll, branch, match, activeItem, updateCachedTree }) => (formData) => {
+    createItem: ({ collectionsApiRoute, jekyll, branch, match, activeItem, updateCachedTree, items }) => (formData) => {
       const { collection } = match['params']
 
       if (collection && branch) {
@@ -171,6 +173,10 @@ export default compose(
           .then(collection => {
             if (activeItem['name'] && activeItem['name'].split('.').length <= 1) {
               activeItem['name'] = `${activeItem['name']}.md`
+            }
+
+            if (items.find(item => item['name'] === activeItem['name'])) {
+              return Promise.reject(new Error('Item already exists with this name'))
             }
 
             const updatedItem = Object.assign({}, activeItem, { fields: formData })
@@ -181,6 +187,41 @@ export default compose(
             return collection.createItem(updatedItem, { ref: branch, message }).then(item => {
               console.log('done creating item', item)
               return Promise.resolve(item)
+            })
+          })
+      }
+    },
+    duplicateItem: ({ items, jekyll, branch, match, activeItem, setActiveItem, getItems, setStagedFileUploads, setCollectionLoading, updateCachedTree, history, collectionsRoute }) => () => {
+      setCollectionLoading(true)
+
+      const { collection } = match['params']
+
+      if (collection && branch) {
+        return jekyll.collection(collection, { ref: branch })
+          .then(collection => {
+            const duplicatedItem = Object.assign({}, activeItem)
+
+            do {
+              const nameParts = duplicatedItem['name'].split('.')
+              nameParts.pop()
+              duplicatedItem['name'] = `${nameParts.join('.')}-copy.md`
+            } while (items.find(item => item['name'] === duplicatedItem['name']))
+
+            const message = `[HT] Duplicated item: ${activeItem.path}`
+
+            updateCachedTree()
+
+            return collection.createItem(duplicatedItem, { ref: branch, message }).then(item => {
+              console.log('done duplicating item', item)
+              setCollectionLoading(false)
+              getItems()
+              setStagedFileUploads([])
+              setActiveItem(item)
+              notifier.success('Item duplicated')
+              history.push(`/${collectionsRoute}/${item['name']}?ref=${branch}`)
+            }).catch(err => {
+              notifier.bad(err)
+              setCollectionLoading(false)
             })
           })
       }
