@@ -3,6 +3,7 @@ import uuid from 'uuid/v1'
 import { setTimeout } from 'timers'
 import PubNub from 'pubnub'
 import storage from './storage'
+import airbrake from './airbrake'
 
 class Notifier extends EventEmitter {
   constructor () {
@@ -242,6 +243,10 @@ class Notifier extends EventEmitter {
 
   bad (resp) {
     const { data, message } = resp
+
+    if (resp instanceof Error) {
+      airbrake.notify({ error: resp })
+    }
 
     if (message) {
       this.error(message)
