@@ -24,8 +24,8 @@ export default compose(
         a.nav-link:hover, a.nav-link.active, a.link, .side-menu-section .nav-link:hover, .side-menu-section .nav-link.active { color: #00caff !important; }
         li.active.pointer.nav-item { color: #00caff; border-left: 3px #00caff solid !important;}
         i#Tooltip-delete-item-icon { color: #00caff !important;}
-        div.Select-option.is-focused {background-color:  rgba(0,202,252,0.25) !important;}
-        div.Select-option.is-selected {background-color: rgba(0,202,252,0.4) !important;}
+        div.content-wrapper div.Select-option.is-focused {background-color:  rgba(0,202,252,0.25) !important;}
+        div.content-wrapper div.Select-option.is-selected {background-color: rgba(0,202,252,0.4) !important;}
         .Select-control:active {border-color: #00caff !important; box-shadow: 0 0 0 0.2rem rgba(0,202,252,0.25) !important;}
         input.field-group .form-control:focus, .field-group .form-control:active { border-color: #00caff !important;}
         .field-group .form-control:focus { border-color: #00caff !important; box-shadow: 0 0 0 0.2rem rgba(0,202,252,0.25)}
