@@ -34,6 +34,8 @@ export default compose(
           setPreviewUrl(fileExt)
         } else if (err['status'] === 403) {
           setPreviewUrl('largeFile')
+        } else {
+          setPreviewUrl('file')
         }
 
         setIsLoadingFileUrl(false)

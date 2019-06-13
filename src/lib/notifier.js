@@ -241,9 +241,11 @@ class Notifier extends EventEmitter {
   }
 
   bad (resp) {
-    const { data } = resp
+    const { data, message } = resp
 
-    if (data && data.message) {
+    if (message) {
+      this.error(message)
+    } else if (data && data.message) {
       this.error(data.message)
     }
 
