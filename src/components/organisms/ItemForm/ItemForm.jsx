@@ -38,6 +38,7 @@ export const ItemForm = (props) => {
     fileNameError,
     editFileName,
     deleteItem,
+    duplicateItem,
     match,
     handleBodyChange,
     fileUploads,
@@ -73,9 +74,11 @@ export const ItemForm = (props) => {
               </div>
               : <div className={'flex-row align-center'}>
                 <Title title={activeItem['name']} className='break-word m-1' />
-                <Icon iconName={'pencil-alt'} onClick={() => setRenameFile(true)} />
+                <Icon title='Edit name' iconName={'pencil-alt'} onClick={() => setRenameFile(true)} />
+                <Icon title='Duplicate' iconName={'copy'} onClick={duplicateItem} />
               </div>
           }
+
           <RecursiveFields
             fields={activeItem['fields']}
             match={match}
