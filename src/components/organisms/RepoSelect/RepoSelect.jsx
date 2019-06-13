@@ -11,7 +11,7 @@ const RepoSelect = (props) => {
       // async
       className='repo-select'
       clearable={false}
-      name='something'
+      name='select-repo'
       type={'select'}
       placeholder={loadingRepos ? 'Loading ...' : 'Select Repo'}
       value={`${baseRoute}`}
