@@ -176,7 +176,6 @@ export default compose(
             }
 
             if (items.find(item => item['name'] === activeItem['name'])) {
-              notifier.error('Item already exists with this name')
               return Promise.reject(new Error('Item already exists with this name'))
             }
 
