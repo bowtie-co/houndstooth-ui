@@ -1,4 +1,5 @@
 require('@bowtie/api')
+require('@bowtie/houndstooth-sdk')
 require('@bowtie/react-utils')
 require('@bowtie/utils')
 require('@octokit/rest')
