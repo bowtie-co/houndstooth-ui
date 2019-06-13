@@ -124,4 +124,19 @@
   border-radius: 50%;
 }
 
+.page-item {
+  button.page-link {
+    color: #333;
+    background-color: #fff;
+  }
+
+  &.active {
+    button.page-link {
+      color: #fff;
+      background-color: #333;
+      border-color: #333;
+  }
+  }
+}
+
 // 691 1640
