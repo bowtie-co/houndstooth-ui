@@ -20,11 +20,12 @@ envFiles.forEach(file => {
   }
 })
 
-const { webpack, jest } = require('./config')
+const { webpack, jest, devServer } = require('./config')
 
 module.exports = {
   webpack,
-  jest
+  jest,
+  devServer
 }
 
 /**
