@@ -25,10 +25,9 @@ export default compose(
             if (repos) {
               setLoadingRepos(false)
               const flattenedRepos = []
-              repos.forEach(repo => {
-                let flattenedRepo = Object.assign({}, {'default_branch': repo['default_branch'], 'full_name': repo['full_name']})
-                flattenedRepos.push(flattenedRepo)
-              })
+              for (let i=0; i<repos.length; i++) {
+                flattenedRepos.push(Object.assign({}, {'default_branch': repos[i]['default_branch'], 'full_name': repos[i]['full_name']}))
+              }
               storage.set('all_repos', flattenedRepos)
               setAsyncRepoList(flattenedRepos)
             }
