@@ -25,7 +25,7 @@ export default compose(
             if (repos) {
               setLoadingRepos(false)
               const flattenedRepos = []
-              for (let i=0; i<repos.length; i++) {
+              for (let i = 0; i < repos.length; i++) {
                 flattenedRepos.push(Object.assign({}, {'default_branch': repos[i]['default_branch'], 'full_name': repos[i]['full_name']}))
               }
               storage.set('all_repos', flattenedRepos)
