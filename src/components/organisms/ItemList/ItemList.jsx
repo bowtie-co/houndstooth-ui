@@ -6,6 +6,7 @@ import {
   Icon
 } from 'atoms'
 import { TabContent, Nav, NavItem, NavLink } from 'reactstrap'
+import { Resizable } from 're-resizable'
 
 const ItemList = ({ itemsTabs = [], activeTab, handleClick, children, vertical = false, closeTab, addNewItem, permissions, defaultFields, ...rest }) => {
   const hasFields = defaultFields && defaultFields['fields'] && Object.keys(defaultFields['fields']).length > 0
@@ -19,6 +20,9 @@ const ItemList = ({ itemsTabs = [], activeTab, handleClick, children, vertical =
           </div>
       }
       <Nav tabs vertical={vertical}>
+        <Resizable
+          enable={{ top:false, right:true, bottom:false, left:false, topRight:false, bottomRight:false, bottomLeft:false, topLeft:false }}
+         >
         <Row>
           <Col sm='3' md='2' lg='2' xl='1' className='tabs-vertical'>
             {
@@ -45,6 +49,7 @@ const ItemList = ({ itemsTabs = [], activeTab, handleClick, children, vertical =
             { children }
           </TabContent>
         </Row>
+        </Resizable>
       </Nav>
     </section>
   )
