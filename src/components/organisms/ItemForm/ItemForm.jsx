@@ -16,7 +16,7 @@ import {
   RecursiveFields,
   TinyMCE
 } from '..'
-import { Resizable } from '../../../../node_modules/re-resizable/lib/index';
+import { Resizable } from 're-resizable'
 
 const IconHelper = () => (
   <Icon
@@ -66,38 +66,38 @@ export const ItemForm = (props) => {
         id='fields-card'
         className='tab-content-card'
       >
-          {
-            item === 'new' || isRenameFile
-              ? <div>
-                <FieldContainer
-                  type={'text'}
-                  label={'File name'}
-                  name={'file_name'}
-                  onChange={editFileName}
-                  iconHelper={IconHelper}
-                  value={handleFileNameChange(activeItem['name'])}
-                  errorMessage={fileNameError}
-                  onBlur={(val) => !isNewItem && openModal(val)}
-                />
-              </div>
-              : <div className={'flex-row align-center'}>
-                <Title title={activeItem['name']} className='break-word m-1' />
-                <Icon title='Edit name' iconName={'pencil-alt'} onClick={() => setRenameFile(true)} />
-                <Icon title='Duplicate' iconName={'copy'} onClick={duplicateItem} />
-              </div>
-          }
+        {
+          item === 'new' || isRenameFile
+            ? <div>
+              <FieldContainer
+                type={'text'}
+                label={'File name'}
+                name={'file_name'}
+                onChange={editFileName}
+                iconHelper={IconHelper}
+                value={handleFileNameChange(activeItem['name'])}
+                errorMessage={fileNameError}
+                onBlur={(val) => !isNewItem && openModal(val)}
+              />
+            </div>
+            : <div className={'flex-row align-center'}>
+              <Title title={activeItem['name']} className='break-word m-1' />
+              <Icon title='Edit name' iconName={'pencil-alt'} onClick={() => setRenameFile(true)} />
+              <Icon title='Duplicate' iconName={'copy'} onClick={duplicateItem} />
+            </div>
+        }
 
-          <RecursiveFields
-            fields={activeItem['fields']}
-            match={match}
-            onSubmit={handleFormSubmit}
-            deleteItem={deleteItem}
-            fileUploads={fileUploads}
-            stagedFileUploads={stagedFileUploads}
-            setStagedFileUploads={setStagedFileUploads}
-            disabled={!permissions['push']}
-            {...rest}
-          />
+        <RecursiveFields
+          fields={activeItem['fields']}
+          match={match}
+          onSubmit={handleFormSubmit}
+          deleteItem={deleteItem}
+          fileUploads={fileUploads}
+          stagedFileUploads={stagedFileUploads}
+          setStagedFileUploads={setStagedFileUploads}
+          disabled={!permissions['push']}
+          {...rest}
+        />
       </Resizable>
       <Resizable
         enable={{ top: false, right: true, bottom: true, left: false, topRight: false, bottomRight: true, bottomLeft: false, topLeft: false }}
