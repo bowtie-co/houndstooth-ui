@@ -16,6 +16,7 @@ import {
   RecursiveFields,
   TinyMCE
 } from '..'
+import { Resizable } from '../../../../node_modules/re-resizable/lib/index';
 
 const IconHelper = () => (
   <Icon
@@ -57,40 +58,46 @@ export const ItemForm = (props) => {
   return (
     <Row>
       <Col sm='12' md='12' lg='5' xl='3'>
-        <div className='tab-content-card'>
-          {
-            item === 'new' || isRenameFile
-              ? <div>
-                <FieldContainer
-                  type={'text'}
-                  label={'File name'}
-                  name={'file_name'}
-                  onChange={editFileName}
-                  iconHelper={IconHelper}
-                  value={handleFileNameChange(activeItem['name'])}
-                  errorMessage={fileNameError}
-                  onBlur={(val) => !isNewItem && openModal(val)}
-                />
-              </div>
-              : <div className={'flex-row align-center'}>
-                <Title title={activeItem['name']} className='break-word m-1' />
-                <Icon title='Edit name' iconName={'pencil-alt'} onClick={() => setRenameFile(true)} />
-                <Icon title='Duplicate' iconName={'copy'} onClick={duplicateItem} />
-              </div>
-          }
+        <Resizable
+          enable={{ top: false, right: true, bottom: false, left: false, topRight: false, bottomRight: false, bottomLeft: false, topLeft: false }}
+          minWidth={200}
+          maxWidth={400}
+        >
+          <div className='tab-content-card'>
+            {
+              item === 'new' || isRenameFile
+                ? <div>
+                  <FieldContainer
+                    type={'text'}
+                    label={'File name'}
+                    name={'file_name'}
+                    onChange={editFileName}
+                    iconHelper={IconHelper}
+                    value={handleFileNameChange(activeItem['name'])}
+                    errorMessage={fileNameError}
+                    onBlur={(val) => !isNewItem && openModal(val)}
+                  />
+                </div>
+                : <div className={'flex-row align-center'}>
+                  <Title title={activeItem['name']} className='break-word m-1' />
+                  <Icon title='Edit name' iconName={'pencil-alt'} onClick={() => setRenameFile(true)} />
+                  <Icon title='Duplicate' iconName={'copy'} onClick={duplicateItem} />
+                </div>
+            }
 
-          <RecursiveFields
-            fields={activeItem['fields']}
-            match={match}
-            onSubmit={handleFormSubmit}
-            deleteItem={deleteItem}
-            fileUploads={fileUploads}
-            stagedFileUploads={stagedFileUploads}
-            setStagedFileUploads={setStagedFileUploads}
-            disabled={!permissions['push']}
-            {...rest}
-          />
-        </div>
+            <RecursiveFields
+              fields={activeItem['fields']}
+              match={match}
+              onSubmit={handleFormSubmit}
+              deleteItem={deleteItem}
+              fileUploads={fileUploads}
+              stagedFileUploads={stagedFileUploads}
+              setStagedFileUploads={setStagedFileUploads}
+              disabled={!permissions['push']}
+              {...rest}
+            />
+          </div>
+        </Resizable>
       </Col>
       <Col sm='12' md='12' lg='7' xl='9'>
         <div className='tab-content-card'>

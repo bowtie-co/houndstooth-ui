@@ -11,7 +11,7 @@ export default compose(
   }, {
     toggleActive: ({ isActive }) => () => ({ isActive: !isActive })
   }),
-  withProps(({checkBrowserCSSSupport}) => () => ({
+  withProps(({ checkBrowserCSSSupport }) => () => ({
     isSupported: checkBrowserCSSSupport('filter', 'invert(100%)')
   })),
   withPropsOnChange([ 'isActive' ], ({ isActive }) => {
