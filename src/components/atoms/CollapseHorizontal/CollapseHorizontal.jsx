@@ -15,7 +15,8 @@ const Col = ({ children, isCollapsed, toggleIsCollapsed, ...rest }) => {
         enable={{ top: false, right: true, bottom: false, left: false, topRight: false, bottomRight: false, bottomLeft: false, topLeft: false }}
         minWidth={222}
         maxWidth={450}
-        className={'side-menu-flex'}
+        bounds='window'
+        className='side-menu-flex'
       >
         <div className={classnames({ isCollapsed })} {...rest}>
 

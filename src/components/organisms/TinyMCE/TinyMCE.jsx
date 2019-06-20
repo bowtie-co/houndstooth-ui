@@ -21,7 +21,8 @@ const TinyMCE = (props) => {
           relative_url: false,
           convert_urls: false,
           // file_picker_types: 'file image media',
-          images_upload_handler: onUpload
+          images_upload_handler: onUpload,
+          resize: false
         }}
         disabled={disabled}
         apiKey={'kpkfdogbexo2stz9zphjxq28zit6i9tch0ox4vlu1meo75hn'}

@@ -18,11 +18,7 @@
 /*Editing area*/
 .mce-container-body .mce-edit-area {
     border: none;
-    position: absolute;
-    top: 71px;
-    bottom: 37px;
-    left: 0;
-    right: 0;
+    min-height: 300px;
     @media(max-width: 1199px) {
         top: 139px;
     }

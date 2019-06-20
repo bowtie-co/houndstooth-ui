@@ -25,6 +25,7 @@ const ItemList = ({ itemsTabs = [], activeTab, handleClick, children, vertical =
             enable={{ top: false, right: true, bottom: false, left: false, topRight: false, bottomRight: false, bottomLeft: false, topLeft: false }}
             minWidth={150}
             maxWidth={275}
+            bounds='window'
           >
             <Col className='tabs-vertical'>
               {
