@@ -23,14 +23,14 @@ import TextArea from './TextArea'
 // const nullConditionFn = ({ name }) => !name;
 
 const isFileConditionFn = ({ type, name }) => endsWith(name, '_path') || type === 'file'
-const isColorConditionFn = ({ type, name }) => endsWith(name, '_color') || type === 'color'
+const isColorConditionFn = ({ type, name }) => [ 'color' ].includes(name) || endsWith(name, '_color') || type === 'color'
 const checkboxCondition = ({ type, name, value }) => typeof value === 'boolean' || endsWith(name, '_boolean') || type === 'checkbox'
 const radioCondition = ({ type }) => type === 'radio'
 const selectCondition = ({ type }) => type === 'select'
 const multiSelectCondition = ({ type, value }) => (Array.isArray(value) && (value.length === 0 || typeof value[0] === 'string')) || type === 'multiselect'
 const phoneCondition = ({ type }) => type === 'phone'
-const datePickerCondition = ({ type, name }) => endsWith(name, ['_date', '_on']) || type === 'datepicker' || type === 'date'
-const timePickerCondition = ({ type, name }) => endsWith(name, ['_time', '_at']) || type === 'timepicker' || type === 'time'
+const datePickerCondition = ({ type, name }) => [ 'date' ].includes(name) || endsWith(name, ['_date', '_on']) || type === 'datepicker' || type === 'date'
+const timePickerCondition = ({ type, name }) => [ 'time' ].includes(name) || endsWith(name, ['_time', '_at']) || type === 'timepicker' || type === 'time'
 const imageUploadCondition = ({ type }) => type === 'image'
 const textAreaCondition = ({ type, name }) => [ 'text', 'content', 'body' ].includes(name) || endsWith(name, ['_body', '_textarea']) || type === 'text' || type === 'textarea'
 
