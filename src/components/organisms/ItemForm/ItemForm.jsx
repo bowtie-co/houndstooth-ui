@@ -60,7 +60,7 @@ export const ItemForm = (props) => {
       <Resizable
         enable={{ top: false, right: true, bottom: false, left: false, topRight: false, bottomRight: false, bottomLeft: false, topLeft: false }}
         minWidth={250}
-        maxWidth={400}
+        maxWidth={450}
         bounds='window'
         defaultSize={{ width: 200 }}
         id='fields-card'
@@ -103,11 +103,10 @@ export const ItemForm = (props) => {
         enable={{ top: false, right: true, bottom: true, left: false, topRight: false, bottomRight: true, bottomLeft: false, topLeft: false }}
         minWidth={321}
         maxWidth={1000}
-        minHeight={440}
+        minHeight={480}
         bounds='window'
         id='mce-card'
-        className='tab-content-card'
-      >
+        className='tab-content-card'      >
         <TinyMCE
           item={item}
           content={activeItem['body']}
