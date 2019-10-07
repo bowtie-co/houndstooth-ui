@@ -11,9 +11,10 @@ import {
   Row,
   CollapseHorizontal
 } from 'atoms'
+import RecursiveDataMenu from './RecursiveDataMenu'
 
 const SideMenu = (props) => {
-  const { baseRoute, queryParams, activeTab, setActiveTab, match, collections } = props
+  const { baseRoute, queryParams, activeTab, setActiveTab, match, collections, data } = props
   const { collection, repo, username } = match.params
   return (
     <CollapseHorizontal>
@@ -67,6 +68,50 @@ const SideMenu = (props) => {
                         <Col sm='9'>
                           <div className='nav-link-title'>
                             {titleize(col, '_')}
+                          </div>
+                        </Col>
+                      </Row>
+
+                    </NavLink>
+                  )
+                })
+              }
+            </div>
+          </Collapse>
+        </div>
+
+        <div
+          className={classnames('nav-link', { 'disabled': !data || data.length < 1, 'active': activeTab === 'data' && data && data.length >= 1 })}
+        >
+
+          <Row className='flex-center' onClick={() => data && data.length > 0 && setActiveTab('data')}>
+            <Col sm='3'>
+              <Icon size='sm' iconName='database' />
+            </Col>
+            <Col sm='9'>
+              <div className='nav-link-title'>
+              Data
+              </div>
+            </Col>
+          </Row>
+          <Collapse isOpen={['data'].includes(activeTab)}>
+            <div className='collapsable-content'>
+              {
+                data && data.map((item, i) => {
+                  return (
+                    <NavLink
+                      key={i}
+                      active={queryParams['path'] === item.path}
+                      className='nested'
+                      path={`/${baseRoute}/data?${qs.stringify(Object.assign({}, queryParams, { path: item.path }))}`}
+                    >
+                      <Row className='flex-center'>
+                        <Col sm='3'>
+                          <Icon size='sm' iconName='database' />
+                        </Col>
+                        <Col sm='9'>
+                          <div className='nav-link-title'>
+                            {titleize(item.path.replace('_data/', ''), '_')}
                           </div>
                         </Col>
                       </Row>

@@ -67,6 +67,19 @@ export const enhance = compose(
         setBranchList(cachedBranchesList)
       }
     },
+    getData: ({ buildSdkParams, setRepoLoading, setCollections, setData, baseApiRoute, match, branch }) => () => {
+      setRepoLoading(true)
+      const params = buildSdkParams({ ref: branch, recursive: true, flatten: true }, false)
+      const jekyll = github.jekyll(params)
+
+      jekyll.data(params).then(data => {
+        setData(Object.values(data).filter(item => item.type === 'file'))
+        setRepoLoading(false)
+      }).catch(() => {
+        setRepoLoading(false)
+        setData([])
+      })
+    },
     getCollections: ({ buildSdkParams, setRepoLoading, setCollections, setConfig, baseApiRoute, match, branch }) => () => {
       setRepoLoading(true)
       const params = buildSdkParams({ ref: branch }, false)
@@ -118,9 +131,10 @@ export const enhance = compose(
       }
     }
   }),
-  withPropsOnChange(['baseApiRoute'], ({ getCollections, getRepo, getBranchList }) => {
+  withPropsOnChange(['baseApiRoute'], ({ getData, getCollections, getRepo, getBranchList }) => {
     getRepo()
     getBranchList()
+    getData()
     getCollections()
   }),
   withPropsOnChange(['location'], ({ queryParams, branch, setBranch }) => {
@@ -130,12 +144,14 @@ export const enhance = compose(
     const { username, repo } = match['params']
     notifier.userChange({ channels: { ro: [ `repos.${username}-${repo}` ] } })
   }),
-  withPropsOnChange(['branch'], ({ getCollections }) => {
+  withPropsOnChange(['branch'], ({ getData, getCollections }) => {
+    getData()
     getCollections()
   }),
   lifecycle({
     componentWillUnmount () {
       this.props.setCollections(null)
+      this.props.setData(null)
     }
   }),
   withEither(conditionLoadingFn, Loading)

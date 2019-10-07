@@ -14,6 +14,7 @@ import { CommitChanges } from 'organisms'
 import {
   FileTree,
   Collections,
+  Data,
   Users
 } from '..'
 
@@ -51,6 +52,11 @@ const Repo = (props) => {
               props={props}
               path={`/:username/:repo/:type(collections)/:collection?/:item?`}
               component={Collections}
+            />
+            <PrivateRoute
+              props={props}
+              path={`/:username/:repo/:type(data)`}
+              component={Data}
             />
             <PrivateRoute
               props={props}
