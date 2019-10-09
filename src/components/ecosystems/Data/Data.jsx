@@ -13,12 +13,12 @@ import {
 } from 'organisms'
 
 export const Data = (props) => {
-  const { items, selectItem, addNewItem, dataFields, handleFormSubmit, permissions, ...rest } = props
+  const { items, selectItem, addNewItem, activeData, handleFormSubmit, permissions, ...rest } = props
   return (
     <section>
       <div className='data-section'>
         <RecursiveFields
-          fields={dataFields || {}}
+          fields={activeData && activeData['fields'] ? activeData['fields'] : {}}
           onSubmit={handleFormSubmit}
           disabled={!permissions['push']}
           {...rest}
