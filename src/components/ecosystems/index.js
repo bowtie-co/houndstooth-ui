@@ -11,6 +11,7 @@
 
 import Repo from './Repo'
 import Collections from './Collections'
+import Data from './Data'
 import Users from './Users'
 import FileTree from './FileTree'
 import Notifications from './Notifications'
@@ -19,6 +20,7 @@ import ErrorBoundary from './ErrorBoundary'
 export {
   Repo,
   Collections,
+  Data,
   FileTree,
   Users,
   Notifications,

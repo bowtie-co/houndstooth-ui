@@ -17,6 +17,7 @@ export const enhance = compose(
   withQueryParams,
   withBaseRoutes,
   withStateHandlers(() => ({
+    data: null,
     collections: null,
     orgList: [],
     repoList: [],
@@ -25,6 +26,7 @@ export const enhance = compose(
     pageNumber: 1,
     currentUser: {}
   }), {
+    setData: ({ data }) => (payload) => ({ data: payload }),
     setCollections: ({ collections }) => (payload) => ({ collections: payload }),
     setOrgList: ({ orgList }) => (payload) => ({ orgList: payload }),
     setRepoList: ({ repoList }) => (payload) => ({ repoList: payload }),
