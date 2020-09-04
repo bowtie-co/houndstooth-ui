@@ -24,7 +24,7 @@
     "libphonenumber-js": "^1.2.15",
     "moment": "^2.22.2",
     "node-pre-gyp": "^0.12.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.1",
     "parse-link-header": "^1.0.1",
     "prop-types": "^15.6.2",
     "pubnub": "^4.21.0",
