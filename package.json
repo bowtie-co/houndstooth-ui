@@ -27,7 +27,7 @@
     "node-sass": "^4.11.0",
     "parse-link-header": "^1.0.1",
     "prop-types": "^15.6.2",
-    "pubnub": "^4.21.0",
+    "pubnub": "^4.37.0",
     "qs": "^6.5.2",
     "rc-time-picker": "^3.3.1",
     "react": "^16.8.6",
