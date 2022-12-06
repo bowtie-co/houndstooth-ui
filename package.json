@@ -28,7 +28,7 @@
     "parse-link-header": "^1.0.1",
     "prop-types": "^15.6.2",
     "pubnub": "^4.21.0",
-    "qs": "^6.5.2",
+    "qs": "^6.7.3",
     "rc-time-picker": "^3.3.1",
     "react": "^16.8.6",
     "react-ace": "^6.1.3",
